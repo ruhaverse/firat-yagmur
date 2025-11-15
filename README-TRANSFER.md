@@ -11,7 +11,7 @@ This repository contains the **complete website application** for ShareUpTime so
 ### ✅ Transfer Completed Successfully
 
 **Transfer Date:** November 12, 2025  
-**Source:** https://github.com/shareup-dev/shareup-frontend  
+**Source:** <https://github.com/shareup-dev/shareup-frontend>  
 **Status:** ✅ Complete - Website Only (Mobile App Unaffected)
 
 ### What Was Transferred
@@ -63,7 +63,7 @@ This repository contains the **complete website application** for ShareUpTime so
 
 ## 🏗️ Repository Structure
 
-```
+```text
 firat-yagmur/
 ├── Shareup-frontend/          # Website Application
 │   ├── public/                # Static files
@@ -134,6 +134,7 @@ firat-yagmur/
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js 18+
 - npm 8+
 - PostgreSQL 14+ (optional, for backend)
@@ -157,6 +158,7 @@ npm install
 ### Development
 
 **Frontend Development Server:**
+
 ```bash
 cd Shareup-frontend
 npm start
@@ -164,6 +166,7 @@ npm start
 ```
 
 **Backend Development Server (Optional):**
+
 ```bash
 cd backend
 cp .env.example .env
@@ -185,6 +188,7 @@ npm run build
 ## 🌐 Technology Stack
 
 ### Frontend
+
 - **React** 17.0.2
 - **Redux Toolkit** 1.6.2 (State Management)
 - **React Router** v6 (Navigation)
@@ -193,6 +197,7 @@ npm run build
 - **Bootstrap** 4.6.0
 
 ### Backend
+
 - **Node.js** + **Express**
 - **PostgreSQL** Database
 - **JWT** Authentication
@@ -200,6 +205,7 @@ npm run build
 - **Socket.io** (WebSocket)
 
 ### Deployment
+
 - **Frontend:** Hostinger (Static Build)
 - **Backend:** Centralized API (shareuptime.com)
 - **Domain:** shareuptime.com
@@ -208,7 +214,7 @@ npm run build
 
 ## 📚 Component Catalog
 
-### 84 React Components in 16 Categories:
+### 84 React Components in 16 Categories
 
 1. **Dashboard & Navigation** (6 components)
    - DashboardComponent, HeaderComponent, FooterComponent, etc.
@@ -282,6 +288,7 @@ const settings = {
 ### Mobile App Separation
 
 ✅ **Complete Separation Verified:**
+
 - Mobile app code is NOT in this repository
 - This repository contains ONLY website code
 - No React Native components included
@@ -291,6 +298,7 @@ const settings = {
 ### Code Integrity
 
 ✅ **3-4 Years of Work Preserved:**
+
 - All 84 components verified intact
 - Complete CSS styling preserved (22 files)
 - All services and utilities included
@@ -307,6 +315,7 @@ const settings = {
 The website is deployed as a static React build:
 
 1. **Build the application:**
+
    ```bash
    cd Shareup-frontend
    npm run build
@@ -320,6 +329,7 @@ The website is deployed as a static React build:
 ### Backend (API)
 
 The backend uses **centralized API** at `www.shareuptime.com`:
+
 - Shared between website and mobile app
 - Already deployed and running
 - No separate deployment needed
@@ -388,10 +398,10 @@ For detailed information, refer to:
 
 ## 🔗 Links & Resources
 
-- **Production Website:** https://shareuptime.com
-- **API Endpoint:** https://www.shareuptime.com/api
-- **Source Repository:** https://github.com/shareup-dev/shareup-frontend
-- **This Repository:** https://github.com/ruhaverse/firat-yagmur
+- **Production Website:** <https://shareuptime.com>
+- **API Endpoint:** <https://www.shareuptime.com/api>
+- **Source Repository:** <https://github.com/shareup-dev/shareup-frontend>
+- **This Repository:** <https://github.com/ruhaverse/firat-yagmur>
 - **Mobile App:** Separate repository (not included)
 
 ---

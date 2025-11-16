@@ -20,7 +20,7 @@
 
 ### Görev 1: Backend Kod Analizi ✅ TAMAMLANDI
 
-**Durum:** Tüm backend controller'ları ve middleware'leri incelendi  
+**Durum:** Tüm backend controller'ları ve middleware'leri incelendi
 **Bulgular:** Temiz kod tabanı, uygun kalıplar
 
 #### ✅ Reviewed Files

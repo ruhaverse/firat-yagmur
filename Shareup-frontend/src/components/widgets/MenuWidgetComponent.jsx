@@ -10,7 +10,7 @@ import ShareupInsideHeaderComponent from '../dashboard/ShareupInsideHeaderCompon
 import PostService from '../../services/PostService';
 
 function MenuWidgetComponent() {
-    let history = useHistory();
+    const history = useHistory();
 
     const { user } = useContext(UserContext)
 

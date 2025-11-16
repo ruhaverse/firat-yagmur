@@ -13,7 +13,7 @@ import settings from '../../services/Settings';
 import fileStorage from '../../config/fileStorage';
 
 function FriendProfWidgtComponent() {
-    let history = useHistory();
+    const history = useHistory();
 
     const { user } = useContext(UserContext)
 

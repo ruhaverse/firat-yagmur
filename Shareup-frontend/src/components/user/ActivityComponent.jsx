@@ -15,7 +15,7 @@ import Layout from '../LayoutComponent';
 
 
 export default function ActivityComponent() {
-  let history = useHistory();
+  const history = useHistory();
   const [refresh, setRefresh] = useState([]);
   const { user } = useContext(UserContext)
 
@@ -23,7 +23,7 @@ export default function ActivityComponent() {
 		if (event.target.value === "") {
 			setSearchedFollowers(followers)
 		} else {
-			let temp = []
+			const temp = []
 			following.map(u => {
 				if (u.email.includes(event.target.value)) {
 					temp.push(u)
@@ -36,7 +36,7 @@ export default function ActivityComponent() {
 		if (event.target.value === "") {
 			setSearchedFollowing(following)
 		} else {
-			let temp = []
+			const temp = []
 			following.map(u => {
 				if (u.email.includes(event.target.value)) {
 					temp.push(u)

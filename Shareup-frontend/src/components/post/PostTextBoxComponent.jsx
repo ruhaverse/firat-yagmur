@@ -25,7 +25,7 @@ import LocSearchComponent from '../AccountSettings/LocSearchComponent';
 function PostTextBoxComponent() {
   const [isLoading, setIsLoading] = useState(true);
 
-  let history = useHistory();
+  const history = useHistory();
 
   const { user } = useContext(UserContext);
 
@@ -355,7 +355,7 @@ function PostTextBoxComponent() {
     if (event.target.value === "") {
       setSearchedUser(allUser);
     } else {
-      let temp = [];
+      const temp = [];
       allUser.map((u) => {
         const email = u.email.toLowerCase();
         const firstname = u.firstName.toLowerCase();
@@ -426,7 +426,7 @@ function PostTextBoxComponent() {
 
         <div className="add-smilespopup">
           <label className="fileContainer">
-            <i class="lar la-file-image"></i>{" "}
+            <i className="lar la-file-image"></i>{" "}
             <input
               type="file"
               name="post_image"
@@ -439,7 +439,7 @@ function PostTextBoxComponent() {
           <Popup
             trigger={
               <a href="#!">
-                <i class="las la-user-tag"></i>
+                <i className="las la-user-tag"></i>
               </a>
             }
             modal
@@ -447,8 +447,8 @@ function PostTextBoxComponent() {
           >
             {(close) => (
               <Form style={{ margin: "5px" }} className="popwidth">
-                <div class="search-container">
-                  <i class="las la-search"></i>
+                <div className="search-container">
+                  <i className="las la-search"></i>
                   <input
                     className="friend-search"
                     type="text"
@@ -477,7 +477,7 @@ function PostTextBoxComponent() {
                                 {" "}
                                 <div className="grid-container">
                                   {/* <figure> */}
-                                  <div class="item1">
+                                  <div className="item1">
                                     <a
                                       href={`/profile/${userM.email}`}
                                       title={`${userM.email}`}
@@ -493,7 +493,7 @@ function PostTextBoxComponent() {
                                     </a>
                                     {/* </figure> */}
                                   </div>
-                                  <div class="item2">
+                                  <div className="item2">
                                     <p className="nameTagMsg">{`${userM.firstName} ${userM.lastName}`}</p>
                                   </div>
                                   {/* <div className="  "> */}
@@ -516,7 +516,7 @@ function PostTextBoxComponent() {
         </div>
         <div className="campopup">
           <label className="fileContainer">
-            <i class="las la-map-marker-alt"></i>
+            <i className="las la-map-marker-alt"></i>
             <input
               type="file"
               name="post_image"
@@ -528,7 +528,7 @@ function PostTextBoxComponent() {
 
         {/* <ul style={{marginLeft:'10px'}}>
         <li style={{fontSize:'12px'}}>What's in hang?</li>
-        <li><label className="fileContainer"><i class="lar la-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
+        <li><label className="fileContainer"><i className="lar la-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
       </label></li></ul>*/}
       </div>
     );
@@ -553,14 +553,14 @@ function PostTextBoxComponent() {
               accept="image/*"
               onChange={handleFile}
             ></input>
-            <i class="lar la-file-image"></i>
+            <i className="lar la-file-image"></i>
           </label>
         </div>
         <div className="gifpopup">
           <Popup
             trigger={
               <a href="#!">
-                <i class="las la-user-tag"></i>
+                <i className="las la-user-tag"></i>
               </a>
             }
             nested
@@ -568,8 +568,8 @@ function PostTextBoxComponent() {
           >
             {(close) => (
               <Form style={{ margin: "5px" }} className="popwidth">
-                <div class="search-container">
-                  <i class="las la-search"></i>
+                <div className="search-container">
+                  <i className="las la-search"></i>
                   <input
                     className="friend-search"
                     type="text"
@@ -598,7 +598,7 @@ function PostTextBoxComponent() {
                                 {" "}
                                 <div className="grid-container">
                                   {/* <figure> */}
-                                  <div class="item1">
+                                  <div className="item1">
                                     <a
                                       href={`/profile/${userM.email}`}
                                       title={`${userM.email}`}
@@ -614,7 +614,7 @@ function PostTextBoxComponent() {
                                     </a>
                                     {/* </figure> */}
                                   </div>
-                                  <div class="item2">
+                                  <div className="item2">
                                     <p className="nameTagMsg">{`${userM.firstName} ${userM.lastName}`}</p>
                                   </div>
                                   {/* <div className="  "> */}
@@ -643,13 +643,13 @@ function PostTextBoxComponent() {
               accept="image/*"
               onChange={handleFile}
             ></input>
-            <i class="las la-map-marker-alt"></i>
+            <i className="las la-map-marker-alt"></i>
           </label>
         </div>
 
         {/* <ul style={{marginLeft:'10px'}}>
           <li style={{fontSize:'12px'}}>What's in hang?</li>
-          <li><label className="fileContainer"><i class="lar la-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
+          <li><label className="fileContainer"><i className="lar la-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
         </label></li></ul>*/}
       </div>
     );
@@ -683,7 +683,7 @@ function PostTextBoxComponent() {
                     style={{ padding: "10px 80px 10px 0" }}
                     onClick={close}
                   >
-                    <i class="las la-times"></i>
+                    <i className="las la-times"></i>
                   </a>
                 </div>
                 <div
@@ -717,7 +717,7 @@ function PostTextBoxComponent() {
                   alt=""
                 />
               </div>
-              <div class="popupuser-name">
+              <div className="popupuser-name">
                 <div style={{ float: "left", display: "inline" }}>
                   <span>
                     {`${user.firstName} ${user.lastName}`}
@@ -771,7 +771,7 @@ function PostTextBoxComponent() {
                         padding: "10px 10px",
                       }}
                     >
-                      <i class="las la-times"></i>
+                      <i className="las la-times"></i>
                     </button>
                   </>
                 ) : null}
@@ -821,7 +821,7 @@ function PostTextBoxComponent() {
               <div className="row">
                 <div style={{ width: "5%" }}>
                   <a href="#!" onClick={close}>
-                    <i class="las la-times"></i>
+                    <i className="las la-times"></i>
                   </a>
                 </div>
                 <div
@@ -861,7 +861,7 @@ function PostTextBoxComponent() {
                   alt=""
                 />
               </div>
-              <div class="popupuser-name">
+              <div className="popupuser-name">
                 <div style={{ float: "left", display: "inline" }}>
                   <span
                     style={{ textTransform: "capitalize", fontWeight: "bold" }}
@@ -917,7 +917,7 @@ function PostTextBoxComponent() {
                         padding: "10px 10px",
                       }}
                     >
-                      <i class="las la-times"></i>
+                      <i className="las la-times"></i>
                     </button>
                   </>
                 ) : null}
@@ -957,7 +957,7 @@ function PostTextBoxComponent() {
                     style={{ padding: "10px 150px 10px 0" }}
                     onClick={close}
                   >
-                    <i class="las la-times"></i>
+                    <i className="las la-times"></i>
                   </a>
                 </div>
                 <div
@@ -998,7 +998,7 @@ function PostTextBoxComponent() {
                   alt=""
                 />
               </div>
-              <div class="popupuser-name">
+              <div className="popupuser-name">
                 <div style={{ float: "left", display: "inline" }}>
                   <span
                     style={{ textTransform: "capitalize", fontWeight: "bold" }}
@@ -1054,7 +1054,7 @@ function PostTextBoxComponent() {
                         padding: "10px 10px",
                       }}
                     >
-                      <i class="las la-times"></i>
+                      <i className="las la-times"></i>
                     </button>
                   </>
                 ) : null}
@@ -1089,7 +1089,7 @@ function PostTextBoxComponent() {
                 <div className="row">
                   <div style={{ width: "5%" }}>
                     <a href="#!" onClick={close}>
-                      <i class="las la-times"></i>
+                      <i className="las la-times"></i>
                     </a>
                   </div>
                   <div
@@ -1129,7 +1129,7 @@ function PostTextBoxComponent() {
                     alt=""
                   />
                 </div>
-                <div class="popupuser-name">
+                <div className="popupuser-name">
                   <div style={{ float: "left", display: "inline" }}>
                     <span
                       style={{
@@ -1188,7 +1188,7 @@ function PostTextBoxComponent() {
                           padding: "10px 10px",
                         }}
                       >
-                        <i class="las la-times"></i>
+                        <i className="las la-times"></i>
                       </button>
                     </>
                   ) : null}
@@ -1248,7 +1248,7 @@ function PostTextBoxComponent() {
                     onClick={close}
                   >
                     <i
-                      class="las la-times"
+                      className="las la-times"
                       style={{
                         fontSize: "20px",
                         background: "#C4C4C4",
@@ -1290,7 +1290,7 @@ function PostTextBoxComponent() {
                     <ul className="nearby-contct">
                       <yi>
                         <div className="grid-containeraudience">
-                          <div class="item11">
+                          <div className="item11">
                             <img
                               src="assets/images/publicicon.svg"
                               style={{ width: "49%" }}
@@ -1298,7 +1298,7 @@ function PostTextBoxComponent() {
                             {/* <img src={fileStorage.baseUrl +profilePicturePath} alt="" /> */}
                             {/* <span className="status f-online" /> */}
                           </div>
-                          <div class="item22">
+                          <div className="item22">
                             <p
                               style={{
                                 fontSize: "17px",
@@ -1317,7 +1317,7 @@ function PostTextBoxComponent() {
 
                           <input
                             type="radio"
-                            Value="Public"
+                            value="Public"
                             name="privacy"
                             onChange={handleChange}
                             style={{ height: "60%", width: "100%" }}
@@ -1329,7 +1329,7 @@ function PostTextBoxComponent() {
 
                       <yi>
                         <div className="grid-containeraudience">
-                          <div class="item11">
+                          <div className="item11">
                             <img
                               src="assets/images/friendsicon.svg"
                               style={{ width: "46%" }}
@@ -1337,7 +1337,7 @@ function PostTextBoxComponent() {
                             {/* <img src={fileStorage.baseUrl +profilePicturePath} alt="" /> */}
                             {/* <span className="status f-online" /> */}
                           </div>
-                          <div class="item22">
+                          <div className="item22">
                             <p
                               style={{
                                 fontSize: "17px",
@@ -1362,7 +1362,7 @@ function PostTextBoxComponent() {
 
                           <input
                             type="radio"
-                            Value="Friends"
+                            value="Friends"
                             name="privacy"
                             onChange={handleChange}
                             style={{ height: "60%", width: "100%" }}
@@ -1374,7 +1374,7 @@ function PostTextBoxComponent() {
 
                       <yi>
                         <div className="grid-containeraudience">
-                          <div class="item11">
+                          <div className="item11">
                             <img
                               src="assets/images/friendexcepticon.svg"
                               style={{ width: "46%" }}
@@ -1382,7 +1382,7 @@ function PostTextBoxComponent() {
                             {/* <img src={fileStorage.baseUrl +profilePicturePath} alt="" /> */}
                             {/* <span className="status f-online" /> */}
                           </div>
-                          <div class="item22">
+                          <div className="item22">
                             <p
                               style={{
                                 fontSize: "17px",
@@ -1406,7 +1406,7 @@ function PostTextBoxComponent() {
 
                           <input
                             type="radio"
-                            Value="Friends except"
+                            value="Friends except"
                             name="privacy"
                             onChange={handleChange}
                             style={{ height: "60%", width: "100%" }}
@@ -1418,7 +1418,7 @@ function PostTextBoxComponent() {
 
                       <yi>
                         <div className="grid-containeraudience">
-                          <div class="item11">
+                          <div className="item11">
                             <img
                               src="assets/images/groupicon.svg"
                               style={{ width: "46%" }}
@@ -1426,7 +1426,7 @@ function PostTextBoxComponent() {
                             {/* <img src={fileStorage.baseUrl +profilePicturePath} alt="" /> */}
                             {/* <span className="status f-online" /> */}
                           </div>
-                          <div class="item22">
+                          <div className="item22">
                             <p
                               style={{
                                 fontSize: "17px",
@@ -1450,7 +1450,7 @@ function PostTextBoxComponent() {
 
                           <input
                             type="radio"
-                            Value="Group"
+                            value="Group"
                             name="privacy"
                             onChange={handleChange}
                             style={{ height: "60%", width: "100%" }}
@@ -1462,7 +1462,7 @@ function PostTextBoxComponent() {
 
                       <yi>
                         <div className="grid-containeraudience">
-                          <div class="item11">
+                          <div className="item11">
                             <img
                               src="assets/images/onlymeicon.svg"
                               style={{ width: "39%" }}
@@ -1470,7 +1470,7 @@ function PostTextBoxComponent() {
                             {/* <img src={fileStorage.baseUrl +profilePicturePath} alt="" /> */}
                             {/* <span className="status f-online" /> */}
                           </div>
-                          <div class="item22">
+                          <div className="item22">
                             <p
                               style={{
                                 fontSize: "17px",
@@ -1494,7 +1494,7 @@ function PostTextBoxComponent() {
 
                           <input
                             type="radio"
-                            Value="Only Me"
+                            value="Only Me"
                             name="privacy"
                             style={{ height: "60%", width: "100%" }}
                           />
@@ -1532,7 +1532,7 @@ function PostTextBoxComponent() {
               accept="image/*"
               onChange={handleFileSwap}
             ></input>
-            <i class="lar la-file-image"></i>
+            <i className="lar la-file-image"></i>
           </label>
         </div>
         <div
@@ -1542,7 +1542,7 @@ function PostTextBoxComponent() {
           <Popup
             trigger={
               <a href="#!">
-                <i class="las la-user-tag"></i>
+                <i className="las la-user-tag"></i>
               </a>
             }
             modal
@@ -1550,8 +1550,8 @@ function PostTextBoxComponent() {
           >
             {(close) => (
               <Form style={{ margin: "5px" }} className="popwidth">
-                <div class="search-container">
-                  <i class="las la-search"></i>
+                <div className="search-container">
+                  <i className="las la-search"></i>
                   <input
                     className="friend-search"
                     type="text"
@@ -1580,7 +1580,7 @@ function PostTextBoxComponent() {
                                 {" "}
                                 <div className="grid-container">
                                   {/* <figure> */}
-                                  <div class="item1">
+                                  <div className="item1">
                                     <a
                                       href={`/profile/${userM.email}`}
                                       title={`${userM.email}`}
@@ -1593,7 +1593,7 @@ function PostTextBoxComponent() {
                                     </a>
                                     {/* </figure> */}
                                   </div>
-                                  <div class="item2">
+                                  <div className="item2">
                                     <p className="nameTagMsg">{`${userM.firstName} ${userM.lastName}`}</p>
                                   </div>
                                   {/* <div className="  "> */}
@@ -1618,7 +1618,7 @@ function PostTextBoxComponent() {
           <Popup
             trigger={
               <a href="#!">
-                <i class="las la-map-marker-alt"></i>
+                <i className="las la-map-marker-alt"></i>
               </a>
             }
             nested
@@ -1634,7 +1634,7 @@ function PostTextBoxComponent() {
 
         {/* <ul style={{marginLeft:'10px'}}>
                                                           <li style={{fontSize:'12px'}}>What's in hang?</li>
-                                                          <li><label className="fileContainer"><i class="lar la-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
+                                                          <li><label className="fileContainer"><i className="lar la-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
                                                         </label></li></ul>*/}
       </div>
     );
@@ -1675,7 +1675,7 @@ function PostTextBoxComponent() {
                     style={{ padding: "10px 80px 10px 0" }}
                     onClick={close}
                   >
-                    <i class="las la-times"></i>
+                    <i className="las la-times"></i>
                   </a>
                 </div>
                 <div
@@ -1712,7 +1712,7 @@ function PostTextBoxComponent() {
                   alt=""
                 />
               </div>
-              <div class="popupuser-name">
+              <div className="popupuser-name">
                 <div style={{ display: "inline" }}>
                   <span>
                     {`${user.firstName} ${user.lastName}`}
@@ -1788,7 +1788,7 @@ function PostTextBoxComponent() {
                           padding: "10px 10px",
                         }}
                       >
-                        <i class="las la-times"></i>
+                        <i className="las la-times"></i>
                       </button>
                     </div>
                   </>
@@ -1872,14 +1872,14 @@ function PostTextBoxComponent() {
 
                     <div className="attachments">
                       <ul>
-                        <li><i class="las la-music"></i> <label className="fileContainer"> <input type="file" name="post_music" />
+                        <li><i className="las la-music"></i> <label className="fileContainer"> <input type="file" name="post_music" />
                         </label></li>
 
-                        <li><i class="lar la-image"></i><label className="fileContainer"> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
+                        <li><i className="lar la-image"></i><label className="fileContainer"> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
                         </label></li>
-                        <li><i class="las la-video"></i> <label className="fileContainer"> <input type="file" name="post_video" />
+                        <li><i className="las la-video"></i> <label className="fileContainer"> <input type="file" name="post_video" />
                         </label></li>
-                        <li><i class="las la-camera"></i> <label className="fileContainer"> <input type="file" />
+                        <li><i className="las la-camera"></i> <label className="fileContainer"> <input type="file" />
                         </label></li>
                         <li>
                           <button type="submit" onClick={uploadPost}>Post</button>
@@ -1921,7 +1921,7 @@ function PostTextBoxComponent() {
                 <li>{shareUp()}</li>
                 <li>{photos()}</li>
                 <li>{popSwap()}</li>
-                {/* <li><i class="las la-camera"></i> <label className="fileContainer"> <input type="file" />
+                {/* <li><i className="las la-camera"></i> <label className="fileContainer"> <input type="file" />
                         </label></li> */}
               </ul>
             </div>

@@ -15,7 +15,7 @@ import Modal from "react-modal";
 import Popup from "reactjs-popup";
 import fileStorage from "../../config/fileStorage";
 function StoriesComponent({ story, setRefresh }) {
-  let history = useHistory();
+  const history = useHistory();
   const { user } = useContext(UserContext);
   // const []
   // const inputRef = createRef();
@@ -31,7 +31,7 @@ function StoriesComponent({ story, setRefresh }) {
       AuthService.getCurrentUser().username
     ).then((res) => {
       const sorting = res.data.sort(function (a, b) {
-        let dateA = new Date(a.date),
+        const dateA = new Date(a.date),
           dateB = new Date(b.date);
         return dateB - dateA;
       });
@@ -75,7 +75,6 @@ const checkPop=()=>{
         style={{
           marginLeft: "4rem",
           marginTop: "0.7rem",
-          borderRadius: "none !important",
           background: "#03b2cb",
           borderRadius: "0.1rem",
           boxShadow: " 0 3px 6px rgb(84 84 84 / 41%)",

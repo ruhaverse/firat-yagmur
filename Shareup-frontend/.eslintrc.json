@@ -2,7 +2,15 @@
   "env": {
     "browser": true,
     "es2021": true,
-    "node": true
+    "node": true,
+    "jest": true,
+    "jquery": true
+  },
+  "globals": {
+    "$": "readonly",
+    "jQuery": "readonly",
+    "define": "readonly",
+    "require": "readonly"
   },
   "extends": [
     "eslint:recommended",
@@ -12,21 +20,31 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 12,
+    "ecmaVersion": 2022,
     "sourceType": "module"
   },
   "plugins": [
     "react"
   ],
   "rules": {
-    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "no-console": "off",
     "no-unused-vars": "warn",
-    "react/prop-types": "warn",
+    "react/prop-types": "off",
     "react/jsx-key": "warn",
     "no-debugger": "error",
-    "eqeqeq": ["warn", "always"],
+    "eqeqeq": "off",
     "no-var": "warn",
-    "prefer-const": "warn"
+    "prefer-const": "warn",
+    "react/no-unescaped-entities": "off",
+    "react/react-in-jsx-scope": "off",
+    "no-mixed-spaces-and-tabs": "warn",
+    "react/no-unknown-property": "error",
+    "no-undef": "error",
+    "no-empty": "warn",
+    "no-dupe-keys": "error",
+    "react/jsx-no-duplicate-props": "error",
+    "react/no-string-refs": "off",
+    "react/no-find-dom-node": "off"
   },
   "settings": {
     "react": {

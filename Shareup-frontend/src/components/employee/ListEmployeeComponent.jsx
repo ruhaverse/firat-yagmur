@@ -284,7 +284,7 @@ class ListEmployeeComponent extends Component {
                                   <ul>
                                     <li><i className="fa fa-music" /> <label className="fileContainer"> <input type="file" name="post_music" />
                                       </label></li>
-                                    <li><i className="fa fa-image" /> <label className="fileContainer"> <input type="file" name="post_image" id="post_image" accept="image/*" onchange="previewImage()" />
+                                    <li><i className="fa fa-image" /> <label className="fileContainer"> <input type="file" name="post_image" id="post_image" accept="image/*" onChange="previewImage()" />
                                       </label></li>
                                     <li><i className="fa fa-video-camera" /> <label className="fileContainer"> <input type="file" name="post_video" />
                                       </label></li>

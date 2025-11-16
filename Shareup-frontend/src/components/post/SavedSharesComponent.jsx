@@ -28,7 +28,7 @@ import fileStorage from '../../config/fileStorage';
 function SavedSharesComponent() {
   const [isLoading, setIsLoading] = useState(true);
 
-  let history = useHistory();
+  const history = useHistory();
 
   const { user } = useContext(UserContext)
 
@@ -116,7 +116,7 @@ const[showCompont,setShowCompont]= useState();
   const getStoriesForUser = async () => {
     await StoriesService.getStoriesForUser(AuthService.getCurrentUser().username).then(res => {
       const sorting = res.data.sort(function(a, b) {
-        let dateA = new Date(a.date), dateB = new Date(b.date);
+        const dateA = new Date(a.date), dateB = new Date(b.date);
         return dateB - dateA;
     });
       const uniqueStories = Array.from(new Set(sorting.map(a => a.id)))
@@ -129,7 +129,7 @@ const[showCompont,setShowCompont]= useState();
   const getPostForUser = async () => {
     await PostService.getPostForUser(AuthService.getCurrentUser().username).then(res => {
       const sorting = res.data.sort(function(a, b) {
-        let dateA = new Date(a.published), dateB = new Date(b.published);
+        const dateA = new Date(a.published), dateB = new Date(b.published);
         return dateB - dateA;
     });
       const uniquePost = Array.from(new Set(sorting.map(a => a.id)))
@@ -224,7 +224,7 @@ const[showCompont,setShowCompont]= useState();
   }
   const handleCount=(opertator) => {
     if(opertator === "+"){
-      let counting = count + 1
+      const counting = count + 1
       setCount(counting)
     
     }
@@ -408,17 +408,17 @@ const handleRemoveImageSwap = () => {
     <div style={{margin:'0 11px', padding:'15px',boxShadow: '0 0 3px rgb(0 0 0 / 16%)',borderRadius:'5px'}}> 
     <div style={{display:'inline'}}>What's in hang?</div>
  
-     <div className="add-smilespopup"><label className="fileContainer"><i class="lar la-file-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
+     <div className="add-smilespopup"><label className="fileContainer"><i className="lar la-file-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
     </label></div>
-    <div className="gifpopup"><label className="fileContainer"><i class="las la-user-tag"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
+    <div className="gifpopup"><label className="fileContainer"><i className="las la-user-tag"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
     </label></div>
-    <div className="campopup"><label className="fileContainer"><i class="las la-map-marker-alt"></i><input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
+    <div className="campopup"><label className="fileContainer"><i className="las la-map-marker-alt"></i><input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
     </label></div>
       
    
     {/* <ul style={{marginLeft:'10px'}}>
       <li style={{fontSize:'12px'}}>What's in hang?</li>
-      <li><label className="fileContainer"><i class="lar la-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
+      <li><label className="fileContainer"><i className="lar la-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
     </label></li></ul>*/}</div> 
   )
     
@@ -430,17 +430,17 @@ const handleRemoveImageSwap = () => {
       <div style={{margin:'0 11px', padding:'15px',boxShadow: '0 0 3px rgb(0 0 0 / 16%)',borderRadius:'5px'}}> 
       <div style={{display:'inline'}}>Add More</div>
    
-       <div className="add-smilespopup"><label className="fileContainer"><i class="lar la-file-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
+       <div className="add-smilespopup"><label className="fileContainer"><i className="lar la-file-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
       </label></div>
-      <div className="gifpopup"><label className="fileContainer"><i class="las la-user-tag"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
+      <div className="gifpopup"><label className="fileContainer"><i className="las la-user-tag"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
       </label></div>
-      <div className="campopup"><label className="fileContainer"><i class="las la-map-marker-alt"></i><input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
+      <div className="campopup"><label className="fileContainer"><i className="las la-map-marker-alt"></i><input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
       </label></div>
         
      
       {/* <ul style={{marginLeft:'10px'}}>
         <li style={{fontSize:'12px'}}>What's in hang?</li>
-        <li><label className="fileContainer"><i class="lar la-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
+        <li><label className="fileContainer"><i className="lar la-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
       </label></li></ul>*/}</div> 
     )
       
@@ -456,14 +456,14 @@ const handleRemoveImageSwap = () => {
                     
     <div className="headpop">
       
-    <div className="row"><div style={{width:'5%'}}><a href="#!" style={{padding:'10px 80px 10px 0'}} onClick={close}><i class="las la-times"></i></a></div>
+    <div className="row"><div style={{width:'5%'}}><a href="#!" style={{padding:'10px 80px 10px 0'}} onClick={close}><i className="las la-times"></i></a></div>
     <div style={{ color:'#000000',fontSize:'14px',fontWeight:'bold',width:'70%',textAlign: 'center'}}> <span>Today to me, Tomorrow to you</span></div>
     <div style={{width:'25%',textAlign:'right'}}><a className="popup-btn" href="/HangGift" >Keep Hang</a></div>
     </div></div>
 
     <div style={{padding:'0 11px 11px 11px'}}><div className="popupimg"> 
     <img src={user ? fileStorage.baseUrl+user.profilePicturePath : fileStorage.baseUrl+userR.profilePicturePath} alt="" /></div>
-       <div class="popupuser-name"><div style={{float:'left', display: 'inline'}}><span>{`${user.firstName} ${user.lastName}`}</span>
+       <div className="popupuser-name"><div style={{float:'left', display: 'inline'}}><span>{`${user.firstName} ${user.lastName}`}</span>
        <span style={{display: 'block', fontSize: '12px'}}><div className="dropdown">
   <select name="privacy" id="privacy" value={Privacy} onChange={handlePrivacy} >
     <option value="Friends">Friends</option>
@@ -474,7 +474,7 @@ const handleRemoveImageSwap = () => {
                     {showPostImage ?
                       <>
                         <img id="preview" src={postImage} style={{ width: "30%",objectFit:'cover' }} />
-                                                        <button onClick={handleRemoveImage} style={{ right: '25px',position: 'absolute',borderRadius:'100%',background:'#b7b7b738',padding:'10px 10px'}}><i class="las la-times"></i></button>
+                                                        <button onClick={handleRemoveImage} style={{ right: '25px',position: 'absolute',borderRadius:'100%',background:'#b7b7b738',padding:'10px 10px'}}><i className="las la-times"></i></button>
                       </>
                       :
                       null
@@ -501,14 +501,14 @@ const handleRemoveImageSwap = () => {
                                        {close => (<Form>
                                     
                     <div className="headpop">
-                    <div className="row"><div style={{width:'5%'}}><a href="#!"  onClick={close}><i class="las la-times"></i></a></div>
+                    <div className="row"><div style={{width:'5%'}}><a href="#!"  onClick={close}><i className="las la-times"></i></a></div>
                     <div style={{ color:'#000000',fontSize:'14px',fontWeight:'bold',width:'95%',textAlign: 'center'}}><span>We share, do you?</span></div>
                     
                     </div></div>
                 
                     <div style={{padding:'0 11px 11px 11px'}}><div className="popupimg"> 
                     <img src={user ? fileStorage.baseUrl+user.profilePicturePath : fileStorage.baseUrl+userR.profilePicturePath} alt="" /></div>
-                       <div class="popupuser-name"><div style={{float:'left', display: 'inline'}}><span style={{textTransform: 'capitalize', fontWeight: 'bold'}}>{`${user.firstName} ${user.lastName}`}</span>
+                       <div className="popupuser-name"><div style={{float:'left', display: 'inline'}}><span style={{textTransform: 'capitalize', fontWeight: 'bold'}}>{`${user.firstName} ${user.lastName}`}</span>
                        <span style={{display: 'block', fontSize: '12px'}}><div className="dropdown">
                   <select name="privacy" id="privacy" value={Privacy} onChange={handlePrivacy} >
                     <option value="Friends">Friends</option>
@@ -519,7 +519,7 @@ const handleRemoveImageSwap = () => {
                                     {showPostImage ?
                                       <>
                                         <img id="preview" src={postImage} style={{ width: "30%" }} />
-                                                        <button onClick={handleRemoveImage} style={{ right: '20px',position: 'absolute',borderRadius:'100%',background:'#b7b7b738',padding:'10px 10px'}}><i class="las la-times"></i></button>
+                                                        <button onClick={handleRemoveImage} style={{ right: '20px',position: 'absolute',borderRadius:'100%',background:'#b7b7b738',padding:'10px 10px'}}><i className="las la-times"></i></button>
                                       </>
                                       :
                                       null
@@ -544,14 +544,14 @@ const handleRemoveImageSwap = () => {
                                        {close =>( <Form>
                                     
                     <div className="headpop">
-                    <div style={{padding:'10px'}}><span><a href="#!" style={{padding:'10px 150px 10px 0'}} onClick={close} ><i class="las la-times"></i></a></span>
+                    <div style={{padding:'10px'}}><span><a href="#!" style={{padding:'10px 150px 10px 0'}} onClick={close} ><i className="las la-times"></i></a></span>
                     <span style={{ color:'#000000',fontSize:'14px',fontWeight:'bold'}}>Share up</span>
                     <span style={{float:'right'}}>  <button style={{float: 'right', borderRadius:'20px'}} type="submit" onClick={uploadPost}>Post</button></span>
                     </div></div>
                 
                     <div style={{padding:'0 11px 11px 11px'}}>  <div className="popupimg"> 
                     <img src={user ? fileStorage.baseUrl+user.profilePicturePath : fileStorage.baseUrl+userR.profilePicturePath} alt="" /></div>
-                       <div class="popupuser-name"><div style={{float:'left', display: 'inline'}}><span style={{textTransform: 'capitalize', fontWeight: 'bold'}}>{`${user.firstName} ${user.lastName}`}</span>
+                       <div className="popupuser-name"><div style={{float:'left', display: 'inline'}}><span style={{textTransform: 'capitalize', fontWeight: 'bold'}}>{`${user.firstName} ${user.lastName}`}</span>
                        <span style={{display: 'block', fontSize: '12px'}}><div className="dropdown">
                   <select name="privacy" id="privacy" value={Privacy} onChange={handlePrivacy} >
                     <option value="Friends">Friends</option>
@@ -562,7 +562,7 @@ const handleRemoveImageSwap = () => {
                                     {showPostImage ?
                                       <>
                                         <img id="preview" src={postImage} style={{ width: "30%" }} />
-                                                        <button onClick={handleRemoveImage} style={{ right: '20px',position: 'absolute',borderRadius:'100%',background:'#b7b7b738',padding:'10px 10px'}}><i class="las la-times"></i></button>
+                                                        <button onClick={handleRemoveImage} style={{ right: '20px',position: 'absolute',borderRadius:'100%',background:'#b7b7b738',padding:'10px 10px'}}><i className="las la-times"></i></button>
                                       </>
                                       :
                                       null
@@ -581,18 +581,18 @@ const handleRemoveImageSwap = () => {
                                   }
       const swapUp = () => {
                                     return(
-                                <Popup trigger={<span style={{cursor: "pointer"}}><i class="las la-sync"></i><span>Swap</span></span>} modal>
+                                <Popup trigger={<span style={{cursor: "pointer"}}><i className="las la-sync"></i><span>Swap</span></span>} modal>
                                                    {close =>(     <Form>
                                                     
                                     <div className="headpop">
                                       
-                                    <div style={{padding:'10px'}}><span><a href="#!" style={{padding:'10px 150px 10px 0'}}  onClick={close}  ><i class="las la-times"></i></a></span>
+                                    <div style={{padding:'10px'}}><span><a href="#!" style={{padding:'10px 150px 10px 0'}}  onClick={close}  ><i className="las la-times"></i></a></span>
                                     <span style={{ color:'#000000',fontSize:'14px',fontWeight:'bold'}}>Let's swap</span>
                                     <span style={{float:'right'}}>  <button style={{float: 'right', borderRadius:'20px'}} type="submit" onClick={uploadPost}>Post</button></span>
                                     </div></div>
                                     <div style={{padding:'0 11px 11px 11px'}}>  <div className="popupimg"> 
                     <img src={user ? fileStorage.baseUrl+user.profilePicturePath : fileStorage.baseUrl+userR.profilePicturePath} alt="" /></div>
-                       <div class="popupuser-name"><div style={{float:'left', display: 'inline'}}><span style={{textTransform: 'capitalize', fontWeight: 'bold'}}>{`${user.firstName} ${user.lastName}`}</span>
+                       <div className="popupuser-name"><div style={{float:'left', display: 'inline'}}><span style={{textTransform: 'capitalize', fontWeight: 'bold'}}>{`${user.firstName} ${user.lastName}`}</span>
                        <span style={{display: 'block', fontSize: '12px'}}><div className="dropdown">
                   <select name="privacy" id="privacy" value={Privacy} onChange={handlePrivacy} >
                     <option value="Friends">Friends</option>
@@ -608,7 +608,7 @@ const handleRemoveImageSwap = () => {
                                                                     </div>
                                     {/* <div className="popupimg"> 
                                     <img src={user ? user.profilePicturePath : userR.profilePicturePath} alt="" /></div>
-                                       <div class="popupuser-name"><div style={{float:'left', display: 'inline'}}><span style={{textTransform: 'capitalize', fontWeight: 'bold'}}>{`${user.firstName} ${user.lastName}`}</span>
+                                       <div className="popupuser-name"><div style={{float:'left', display: 'inline'}}><span style={{textTransform: 'capitalize', fontWeight: 'bold'}}>{`${user.firstName} ${user.lastName}`}</span>
                                        <span style={{display: 'block', fontSize: '12px'}}><div className="dropdown">
                                   <select name="privacy" id="privacy" value={Privacy} onChange={handlePrivacy} >
                                     <option value="Friends">Friends</option>
@@ -620,7 +620,7 @@ const handleRemoveImageSwap = () => {
                                   {showPostImage ?
                                                       <>
                                                         <img id="preview" src={postImage}  />
-                                                        <button onClick={handleRemoveImage} className="buttonClosePrvw lftbtn"><i class="las la-times"></i></button>
+                                                        <button onClick={handleRemoveImage} className="buttonClosePrvw lftbtn"><i className="las la-times"></i></button>
                                                       </>
                                                       :
                                                       null
@@ -637,7 +637,7 @@ const handleRemoveImageSwap = () => {
                                   {showSwapImage ?
                                                       <>
                                                         <img id="preview" src={swapImage}  />
-                                                        <button onClick={handleRemoveImageSwap} className="buttonClosePrvw rtbtn"><i class="las la-times"></i></button>
+                                                        <button onClick={handleRemoveImageSwap} className="buttonClosePrvw rtbtn"><i className="las la-times"></i></button>
                                                       </>
                                                       :
                                                       null
@@ -727,13 +727,13 @@ const handleRemoveImageSwap = () => {
           <div className="frnds">
 					<div style={{paddingBottom:'20px'}}>
 						<p className="Friends-Title">Saved Shares</p>
-						<i style={{ float: "right", fontSize: 20 }} class="fas fa-ellipsis-v"></i>
+						<i style={{ float: "right", fontSize: 20 }} className="fas fa-ellipsis-v"></i>
 					</div>
-						<div class="navContent">
+						<div className="navContent">
 
 						
 						</div>
-    				<div class="friends-search-container" style={{display:'flex' ,alignItems:'center' ,justifyContent:'center'}}>
+    				<div className="friends-search-container" style={{display:'flex' ,alignItems:'center' ,justifyContent:'center'}}>
               <input className="friend-search" type="text" placeholder="Search ..." name="s" style={{width:"100%"}}/>
             </div>
 

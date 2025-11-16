@@ -12,7 +12,7 @@ import settings from '../../services/Settings';
 import fileStorage from '../../config/fileStorage';
 
 function FriendProfileComponent() {
-    let history = useHistory();
+    const history = useHistory();
 
     const { user } = useContext(UserContext)
 
@@ -43,19 +43,19 @@ function FriendProfileComponent() {
                                 <div className="grid-container">
                                     {/* <div className="nearly-pepls"> */}
                                     {/* <figure> */}
-                                    <div class="item1">
+                                    <div className="item1">
                                         <a href={`/profile/${friend.email}`} title={`${friend.email}`}><img src={fileStorage.baseUrl+friend.profilePicturePath} alt="" /></a>
                                         {/* </figure> */}
                                     </div>
                                     {/* <div className="  "> */}
-                                    <div class="item2">
+                                    <div className="item2">
                                         <p className="nameTag"><a href={`/profile/${friend.email}`} title={`${friend.email}`}>{`${friend.firstName} ${friend.lastName}`}</a></p>
 										
                                     </div>
                                     
-                                    {/* <div class="item6">
+                                    {/* <div className="item6">
                                         {/* <span>Engr</span> 
-                                        <i style={{ float: "right", fontSize: 35 }} class="las la-ellipsis-v"></i>
+                                        <i style={{ float: "right", fontSize: 35 }} className="las la-ellipsis-v"></i>
                                     </div> */}
                                     {/* <div className="pepl-info">
                                             <h4><a href={`/profile/${userM.email}`} title={`${userM.email}`}>{`${userM.firstName} ${userM.lastName}`}</a></h4>

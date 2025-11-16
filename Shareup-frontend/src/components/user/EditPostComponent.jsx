@@ -12,7 +12,7 @@ import settings from '../../services/Settings';
 import fileStorage from '../../config/fileStorage';
 
 function EditPostComponent({ post, set }) {
-    let history = useHistory();
+    const history = useHistory();
 
     const [editContent, setEditContent] = useState([]);
 

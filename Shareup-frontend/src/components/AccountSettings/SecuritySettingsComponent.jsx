@@ -67,7 +67,7 @@ export default function SecuritySettingsComponent() {
 
     
     const updateProfile = async () => {
-      let updateduser = {
+      const updateduser = {
         id:id,
         firstName: firstName,
         lastName: lastName,
@@ -143,11 +143,11 @@ const HandleCurrentPass=async()=>{
     document.getElementById('message').style.color='red';
   })
 }
-var check = function() {
+const check = function() {
   if (document.getElementById('password').value ==
     document.getElementById('confirm_password').value) {
     // document.getElementById('message').style.color = 'green';
-    let msg = document.getElementById('message');
+    const msg = document.getElementById('message');
     if(document.getElementById('password').value &&
     document.getElementById('confirm_password').value == "") {
       msg.style.display = 'none';
@@ -264,7 +264,7 @@ const hideFunction=()=>{
       if (event.target.value === "") {
         setSearchedUser(allUser)
       } else {
-        let temp = []
+        const temp = []
         allUser.map(u => {
           const email = u.email.toLowerCase()
           const firstname = u.firstName.toLowerCase()
@@ -398,8 +398,8 @@ const hideFunction=()=>{
         return (<>
                   
                   <li className="bckgrnd"> <div className="buttnScrty">Choose the friend you trust to help you when you have trouble in logging</div></li>
-                  <li className="bckgrnd">  <div className="buttnScrty"><div class="friends-search-container-Scrty">
-            <i class="las la-search"></i><input className="friend-search" type="text" id="header-search" placeholder="Search Users" name="s" onChange={handleSearchedUser} />
+                  <li className="bckgrnd">  <div className="buttnScrty"><div className="friends-search-container-Scrty">
+            <i className="las la-search"></i><input className="friend-search" type="text" id="header-search" placeholder="Search Users" name="s" onChange={handleSearchedUser} />
         </div></div></li>
                  
 

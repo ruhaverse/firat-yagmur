@@ -30,7 +30,7 @@ export class CurrentLocation extends React.Component {
     const maps = google.maps;
 
     if (map) {
-      let center = new maps.LatLng(current.lat, current.lng);
+      const center = new maps.LatLng(current.lat, current.lng);
       map.panTo(center);
     }
   }
@@ -45,7 +45,7 @@ export class CurrentLocation extends React.Component {
       // reference to the actual DOM element
       const node = ReactDOM.findDOMNode(mapRef);
 
-      let { zoom } = this.props;
+      const { zoom } = this.props;
       const { lat, lng } = this.state.currentLocation;
       const center = new maps.LatLng(lat, lng);
 

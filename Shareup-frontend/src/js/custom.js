@@ -11,11 +11,11 @@
 (function($,sr){
     // debouncing function from John Hann
     // http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
-    var debounce = function (func, threshold, execAsap) {
-      var timeout;
+    const debounce = function (func, threshold, execAsap) {
+      let timeout;
 
         return function debounced () {
-            var obj = this, args = arguments;
+            const obj = this, args = arguments;
             function delayed () {
                 if (!execAsap)
                     func.apply(obj, args); 
@@ -41,7 +41,7 @@
  * and open the template in the editor.
  */
 
-var CURRENT_URL = window.location.href.split('#')[0].split('?')[0],
+const CURRENT_URL = window.location.href.split('#')[0].split('?')[0],
     $BODY = $('body'),
     $MENU_TOGGLE = $('#menu_toggle'),
     $SIDEBAR_MENU = $('#sidebar-menu'),
@@ -56,11 +56,11 @@ var CURRENT_URL = window.location.href.split('#')[0].split('?')[0],
 // Sidebar
 function init_sidebar() {
 // TODO: This is some kind of easy fix, maybe we can improve this
-var setContentHeight = function () {
+const setContentHeight = function () {
 	// reset height
 	$RIGHT_COL.css('min-height', $(window).height());
 
-	var bodyHeight = $BODY.outerHeight(),
+	let bodyHeight = $BODY.outerHeight(),
 		footerHeight = $BODY.hasClass('footer_fixed') ? -10 : $FOOTER.height(),
 		leftColHeight = $LEFT_COL.eq(1).height() + $SIDEBAR_FOOTER.height(),
 		contentHeight = bodyHeight < leftColHeight ? leftColHeight : bodyHeight;
@@ -72,7 +72,7 @@ var setContentHeight = function () {
 };
 
   $SIDEBAR_MENU.find('a').on('click', function(ev) {
-        var $li = $(this).parent();
+        const $li = $(this).parent();
 
         if ($li.is('.active')) {
             $li.removeClass('active active-sm');
@@ -140,10 +140,10 @@ $MENU_TOGGLE.on('click', function() {
 			mouseWheel:{ preventDefault: true }
 		});
 	}
-};
+}
 // /Sidebar
 
-	var randNum = function() {
+	const randNum = function() {
 	  return (Math.floor(Math.random() * (1 + 40 - 20))) + 20;
 	};
 
@@ -151,7 +151,7 @@ $MENU_TOGGLE.on('click', function() {
 // Panel toolbox
 $(document).ready(function() {
     $('.collapse-link').on('click', function() {
-        var $BOX_PANEL = $(this).closest('.x_panel'),
+        const $BOX_PANEL = $(this).closest('.x_panel'),
             $ICON = $(this).find('i'),
             $BOX_CONTENT = $BOX_PANEL.find('.x_content');
         
@@ -169,7 +169,7 @@ $(document).ready(function() {
     });
 
     $('.close-link').click(function () {
-        var $BOX_PANEL = $(this).closest('.x_panel');
+        const $BOX_PANEL = $(this).closest('.x_panel');
 
         $BOX_PANEL.remove();
     });
@@ -193,9 +193,9 @@ if ($(".progress .progress-bar")[0]) {
 // Switchery
 $(document).ready(function() {
     if ($(".js-switch")[0]) {
-        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+        const elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
         elems.forEach(function (html) {
-            var switchery = new Switchery(html, {
+            const switchery = new Switchery(html, {
                 color: '#26B99A'
             });
         });
@@ -258,7 +258,7 @@ function countChecked() {
         $(".bulk_action input[name='table_records']").iCheck('uncheck');
     }
 
-    var checkCount = $(".bulk_action input[name='table_records']:checked").length;
+    const checkCount = $(".bulk_action input[name='table_records']:checked").length;
 
     if (checkCount) {
         $('.column-title').hide();
@@ -287,7 +287,7 @@ $(document).ready(function() {
 });
 
 // NProgress
-if (typeof NProgress != 'undefined') {
+if (typeof NProgress !== 'undefined') {
     $(document).ready(function () {
         NProgress.start();
     });
@@ -299,11 +299,11 @@ if (typeof NProgress != 'undefined') {
 
 	
 	  //hover and retain popover when on popover content
-        var originalLeave = $.fn.popover.Constructor.prototype.leave;
+        const originalLeave = $.fn.popover.Constructor.prototype.leave;
         $.fn.popover.Constructor.prototype.leave = function(obj) {
-          var self = obj instanceof this.constructor ?
+          const self = obj instanceof this.constructor ?
             obj : $(obj.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type);
-          var container, timeout;
+          let container, timeout;
 
           originalLeave.call(this, obj);
 
@@ -341,7 +341,7 @@ if (typeof NProgress != 'undefined') {
 		if( typeof ($.plot) === 'undefined'){ return; }
 		
 		
-		var arr_data1 = [
+		const arr_data1 = [
 			[gd(2012, 1, 1), 17],
 			[gd(2012, 1, 2), 74],
 			[gd(2012, 1, 3), 6],
@@ -351,7 +351,7 @@ if (typeof NProgress != 'undefined') {
 			[gd(2012, 1, 7), 7]
 		];
 
-		var arr_data2 = [
+		const arr_data2 = [
 		  [gd(2012, 1, 1), 82],
 		  [gd(2012, 1, 2), 23],
 		  [gd(2012, 1, 3), 66],
@@ -361,7 +361,7 @@ if (typeof NProgress != 'undefined') {
 		  [gd(2012, 1, 7), 9]
 		];
 		
-		var arr_data3 = [
+		const arr_data3 = [
 			[0, 1],
 			[1, 9],
 			[2, 6],
@@ -381,9 +381,9 @@ if (typeof NProgress != 'undefined') {
 			[16, 9]
 		];
 		
-		var chart_plot_02_data = [];
+		const chart_plot_02_data = [];
 		
-		var chart_plot_03_data = [
+		const chart_plot_03_data = [
 			[0, 1],
 			[1, 9],
 			[2, 6],
@@ -404,12 +404,12 @@ if (typeof NProgress != 'undefined') {
 		];
 		
 		
-		for (var i = 0; i < 30; i++) {
+		for (let i = 0; i < 30; i++) {
 		  chart_plot_02_data.push([new Date(Date.today().add(i).days()).getTime(), randNum() + i + i + 10]);
 		}
 		
 		
-		var chart_plot_01_settings = {
+		const chart_plot_01_settings = {
           series: {
             lines: {
               show: false,
@@ -454,7 +454,7 @@ if (typeof NProgress != 'undefined') {
           tooltip: false
         }
 		
-		var chart_plot_02_settings = {
+		const chart_plot_02_settings = {
 			grid: {
 				show: true,
 				aboveData: true,
@@ -518,7 +518,7 @@ if (typeof NProgress != 'undefined') {
 			}
 		};	
 	
-		var chart_plot_03_settings = {
+		const chart_plot_03_settings = {
 			series: {
 				curvedLines: {
 					apply: true,
@@ -577,7 +577,7 @@ if (typeof NProgress != 'undefined') {
 				}
 			}], chart_plot_03_settings);
 			
-		};
+		}
 	  
 	} 
 	
@@ -602,7 +602,7 @@ if (typeof NProgress != 'undefined') {
 		  $('.stars-count-existing').html(value);
 		});
 		
-	  };
+	  }
 	
 	
 	function init_JQVmap(){
@@ -645,14 +645,14 @@ if (typeof NProgress != 'undefined') {
 			
 			}
 			
-	};
+	}
 			
 	    
 	function init_skycons(){
 				
 			if( typeof (Skycons) === 'undefined'){ return; }
 		
-			var icons = new Skycons({
+			let icons = new Skycons({
 				"color": "#73879C"
 			  }),
 			  list = [
@@ -677,7 +677,7 @@ if (typeof NProgress != 'undefined') {
 	 
 		if ($('.canvasDoughnut').length){
 			
-		var chart_doughnut_settings = {
+		const chart_doughnut_settings = {
 				type: 'doughnut',
 				tooltipFillColor: "rgba(51, 51, 51, 0.55)",
 				data: {
@@ -714,8 +714,8 @@ if (typeof NProgress != 'undefined') {
 		
 			$('.canvasDoughnut').each(function(){
 				
-				var chart_element = $(this);
-				var chart_doughnut = new Chart( chart_element, chart_doughnut_settings);
+				const chart_element = $(this);
+				const chart_doughnut = new Chart( chart_element, chart_doughnut_settings);
 				
 			});			
 		
@@ -730,7 +730,7 @@ if (typeof NProgress != 'undefined') {
 		
 		
 
-		  var chart_gauge_settings = {
+		  const chart_gauge_settings = {
 		  lines: 12,
 		  angle: 0,
 		  lineWidth: 0.4,
@@ -749,7 +749,7 @@ if (typeof NProgress != 'undefined') {
 		
 		if ($('#chart_gauge_01').length){ 
 		
-			var chart_gauge_01_elem = document.getElementById('chart_gauge_01');
+			const chart_gauge_01_elem = document.getElementById('chart_gauge_01');
 			var chart_gauge_01 = new Gauge(chart_gauge_01_elem).setOptions(chart_gauge_settings);
 			
 		}	
@@ -766,7 +766,7 @@ if (typeof NProgress != 'undefined') {
 		
 		if ($('#chart_gauge_02').length){
 		
-			var chart_gauge_02_elem = document.getElementById('chart_gauge_02');
+			const chart_gauge_02_elem = document.getElementById('chart_gauge_02');
 			var chart_gauge_02 = new Gauge(chart_gauge_02_elem).setOptions(chart_gauge_settings);
 			
 		}
@@ -898,7 +898,7 @@ if (typeof NProgress != 'undefined') {
 			});
 
 			
-		};   
+		}   
 	   
 	   
 	   /* AUTOCOMPLETE */
@@ -907,9 +907,9 @@ if (typeof NProgress != 'undefined') {
 			
 			if( typeof (autocomplete) === 'undefined'){ return; }
 			
-			var countries = { AD:"Andorra",A2:"Andorra Test",AE:"United Arab Emirates",AF:"Afghanistan",AG:"Antigua and Barbuda",AI:"Anguilla",AL:"Albania",AM:"Armenia",AN:"Netherlands Antilles",AO:"Angola",AQ:"Antarctica",AR:"Argentina",AS:"American Samoa",AT:"Austria",AU:"Australia",AW:"Aruba",AX:"Åland Islands",AZ:"Azerbaijan",BA:"Bosnia and Herzegovina",BB:"Barbados",BD:"Bangladesh",BE:"Belgium",BF:"Burkina Faso",BG:"Bulgaria",BH:"Bahrain",BI:"Burundi",BJ:"Benin",BL:"Saint Barthélemy",BM:"Bermuda",BN:"Brunei",BO:"Bolivia",BQ:"British Antarctic Territory",BR:"Brazil",BS:"Bahamas",BT:"Bhutan",BV:"Bouvet Island",BW:"Botswana",BY:"Belarus",BZ:"Belize",CA:"Canada",CC:"Cocos [Keeling] Islands",CD:"Congo - Kinshasa",CF:"Central African Republic",CG:"Congo - Brazzaville",CH:"Switzerland",CI:"Côte d’Ivoire",CK:"Cook Islands",CL:"Chile",CM:"Cameroon",CN:"China",CO:"Colombia",CR:"Costa Rica",CS:"Serbia and Montenegro",CT:"Canton and Enderbury Islands",CU:"Cuba",CV:"Cape Verde",CX:"Christmas Island",CY:"Cyprus",CZ:"Czech Republic",DD:"East Germany",DE:"Germany",DJ:"Djibouti",DK:"Denmark",DM:"Dominica",DO:"Dominican Republic",DZ:"Algeria",EC:"Ecuador",EE:"Estonia",EG:"Egypt",EH:"Western Sahara",ER:"Eritrea",ES:"Spain",ET:"Ethiopia",FI:"Finland",FJ:"Fiji",FK:"Falkland Islands",FM:"Micronesia",FO:"Faroe Islands",FQ:"French Southern and Antarctic Territories",FR:"France",FX:"Metropolitan France",GA:"Gabon",GB:"United Kingdom",GD:"Grenada",GE:"Georgia",GF:"French Guiana",GG:"Guernsey",GH:"Ghana",GI:"Gibraltar",GL:"Greenland",GM:"Gambia",GN:"Guinea",GP:"Guadeloupe",GQ:"Equatorial Guinea",GR:"Greece",GS:"South Georgia and the South Sandwich Islands",GT:"Guatemala",GU:"Guam",GW:"Guinea-Bissau",GY:"Guyana",HK:"Hong Kong SAR China",HM:"Heard Island and McDonald Islands",HN:"Honduras",HR:"Croatia",HT:"Haiti",HU:"Hungary",ID:"Indonesia",IE:"Ireland",IL:"Israel",IM:"Isle of Man",IN:"India",IO:"British Indian Ocean Territory",IQ:"Iraq",IR:"Iran",IS:"Iceland",IT:"Italy",JE:"Jersey",JM:"Jamaica",JO:"Jordan",JP:"Japan",JT:"Johnston Island",KE:"Kenya",KG:"Kyrgyzstan",KH:"Cambodia",KI:"Kiribati",KM:"Comoros",KN:"Saint Kitts and Nevis",KP:"North Korea",KR:"South Korea",KW:"Kuwait",KY:"Cayman Islands",KZ:"Kazakhstan",LA:"Laos",LB:"Lebanon",LC:"Saint Lucia",LI:"Liechtenstein",LK:"Sri Lanka",LR:"Liberia",LS:"Lesotho",LT:"Lithuania",LU:"Luxembourg",LV:"Latvia",LY:"Libya",MA:"Morocco",MC:"Monaco",MD:"Moldova",ME:"Montenegro",MF:"Saint Martin",MG:"Madagascar",MH:"Marshall Islands",MI:"Midway Islands",MK:"Macedonia",ML:"Mali",MM:"Myanmar [Burma]",MN:"Mongolia",MO:"Macau SAR China",MP:"Northern Mariana Islands",MQ:"Martinique",MR:"Mauritania",MS:"Montserrat",MT:"Malta",MU:"Mauritius",MV:"Maldives",MW:"Malawi",MX:"Mexico",MY:"Malaysia",MZ:"Mozambique",NA:"Namibia",NC:"New Caledonia",NE:"Niger",NF:"Norfolk Island",NG:"Nigeria",NI:"Nicaragua",NL:"Netherlands",NO:"Norway",NP:"Nepal",NQ:"Dronning Maud Land",NR:"Nauru",NT:"Neutral Zone",NU:"Niue",NZ:"New Zealand",OM:"Oman",PA:"Panama",PC:"Pacific Islands Trust Territory",PE:"Peru",PF:"French Polynesia",PG:"Papua New Guinea",PH:"Philippines",PK:"Pakistan",PL:"Poland",PM:"Saint Pierre and Miquelon",PN:"Pitcairn Islands",PR:"Puerto Rico",PS:"Palestinian Territories",PT:"Portugal",PU:"U.S. Miscellaneous Pacific Islands",PW:"Palau",PY:"Paraguay",PZ:"Panama Canal Zone",QA:"Qatar",RE:"Réunion",RO:"Romania",RS:"Serbia",RU:"Russia",RW:"Rwanda",SA:"Saudi Arabia",SB:"Solomon Islands",SC:"Seychelles",SD:"Sudan",SE:"Sweden",SG:"Singapore",SH:"Saint Helena",SI:"Slovenia",SJ:"Svalbard and Jan Mayen",SK:"Slovakia",SL:"Sierra Leone",SM:"San Marino",SN:"Senegal",SO:"Somalia",SR:"Suriname",ST:"São Tomé and Príncipe",SU:"Union of Soviet Socialist Republics",SV:"El Salvador",SY:"Syria",SZ:"Swaziland",TC:"Turks and Caicos Islands",TD:"Chad",TF:"French Southern Territories",TG:"Togo",TH:"Thailand",TJ:"Tajikistan",TK:"Tokelau",TL:"Timor-Leste",TM:"Turkmenistan",TN:"Tunisia",TO:"Tonga",TR:"Turkey",TT:"Trinidad and Tobago",TV:"Tuvalu",TW:"Taiwan",TZ:"Tanzania",UA:"Ukraine",UG:"Uganda",UM:"U.S. Minor Outlying Islands",US:"United States",UY:"Uruguay",UZ:"Uzbekistan",VA:"Vatican City",VC:"Saint Vincent and the Grenadines",VD:"North Vietnam",VE:"Venezuela",VG:"British Virgin Islands",VI:"U.S. Virgin Islands",VN:"Vietnam",VU:"Vanuatu",WF:"Wallis and Futuna",WK:"Wake Island",WS:"Samoa",YD:"People's Democratic Republic of Yemen",YE:"Yemen",YT:"Mayotte",ZA:"South Africa",ZM:"Zambia",ZW:"Zimbabwe",ZZ:"Unknown or Invalid Region" };
+			const countries = { AD:"Andorra",A2:"Andorra Test",AE:"United Arab Emirates",AF:"Afghanistan",AG:"Antigua and Barbuda",AI:"Anguilla",AL:"Albania",AM:"Armenia",AN:"Netherlands Antilles",AO:"Angola",AQ:"Antarctica",AR:"Argentina",AS:"American Samoa",AT:"Austria",AU:"Australia",AW:"Aruba",AX:"Åland Islands",AZ:"Azerbaijan",BA:"Bosnia and Herzegovina",BB:"Barbados",BD:"Bangladesh",BE:"Belgium",BF:"Burkina Faso",BG:"Bulgaria",BH:"Bahrain",BI:"Burundi",BJ:"Benin",BL:"Saint Barthélemy",BM:"Bermuda",BN:"Brunei",BO:"Bolivia",BQ:"British Antarctic Territory",BR:"Brazil",BS:"Bahamas",BT:"Bhutan",BV:"Bouvet Island",BW:"Botswana",BY:"Belarus",BZ:"Belize",CA:"Canada",CC:"Cocos [Keeling] Islands",CD:"Congo - Kinshasa",CF:"Central African Republic",CG:"Congo - Brazzaville",CH:"Switzerland",CI:"Côte d’Ivoire",CK:"Cook Islands",CL:"Chile",CM:"Cameroon",CN:"China",CO:"Colombia",CR:"Costa Rica",CS:"Serbia and Montenegro",CT:"Canton and Enderbury Islands",CU:"Cuba",CV:"Cape Verde",CX:"Christmas Island",CY:"Cyprus",CZ:"Czech Republic",DD:"East Germany",DE:"Germany",DJ:"Djibouti",DK:"Denmark",DM:"Dominica",DO:"Dominican Republic",DZ:"Algeria",EC:"Ecuador",EE:"Estonia",EG:"Egypt",EH:"Western Sahara",ER:"Eritrea",ES:"Spain",ET:"Ethiopia",FI:"Finland",FJ:"Fiji",FK:"Falkland Islands",FM:"Micronesia",FO:"Faroe Islands",FQ:"French Southern and Antarctic Territories",FR:"France",FX:"Metropolitan France",GA:"Gabon",GB:"United Kingdom",GD:"Grenada",GE:"Georgia",GF:"French Guiana",GG:"Guernsey",GH:"Ghana",GI:"Gibraltar",GL:"Greenland",GM:"Gambia",GN:"Guinea",GP:"Guadeloupe",GQ:"Equatorial Guinea",GR:"Greece",GS:"South Georgia and the South Sandwich Islands",GT:"Guatemala",GU:"Guam",GW:"Guinea-Bissau",GY:"Guyana",HK:"Hong Kong SAR China",HM:"Heard Island and McDonald Islands",HN:"Honduras",HR:"Croatia",HT:"Haiti",HU:"Hungary",ID:"Indonesia",IE:"Ireland",IL:"Israel",IM:"Isle of Man",IN:"India",IO:"British Indian Ocean Territory",IQ:"Iraq",IR:"Iran",IS:"Iceland",IT:"Italy",JE:"Jersey",JM:"Jamaica",JO:"Jordan",JP:"Japan",JT:"Johnston Island",KE:"Kenya",KG:"Kyrgyzstan",KH:"Cambodia",KI:"Kiribati",KM:"Comoros",KN:"Saint Kitts and Nevis",KP:"North Korea",KR:"South Korea",KW:"Kuwait",KY:"Cayman Islands",KZ:"Kazakhstan",LA:"Laos",LB:"Lebanon",LC:"Saint Lucia",LI:"Liechtenstein",LK:"Sri Lanka",LR:"Liberia",LS:"Lesotho",LT:"Lithuania",LU:"Luxembourg",LV:"Latvia",LY:"Libya",MA:"Morocco",MC:"Monaco",MD:"Moldova",ME:"Montenegro",MF:"Saint Martin",MG:"Madagascar",MH:"Marshall Islands",MI:"Midway Islands",MK:"Macedonia",ML:"Mali",MM:"Myanmar [Burma]",MN:"Mongolia",MO:"Macau SAR China",MP:"Northern Mariana Islands",MQ:"Martinique",MR:"Mauritania",MS:"Montserrat",MT:"Malta",MU:"Mauritius",MV:"Maldives",MW:"Malawi",MX:"Mexico",MY:"Malaysia",MZ:"Mozambique",NA:"Namibia",NC:"New Caledonia",NE:"Niger",NF:"Norfolk Island",NG:"Nigeria",NI:"Nicaragua",NL:"Netherlands",NO:"Norway",NP:"Nepal",NQ:"Dronning Maud Land",NR:"Nauru",NT:"Neutral Zone",NU:"Niue",NZ:"New Zealand",OM:"Oman",PA:"Panama",PC:"Pacific Islands Trust Territory",PE:"Peru",PF:"French Polynesia",PG:"Papua New Guinea",PH:"Philippines",PK:"Pakistan",PL:"Poland",PM:"Saint Pierre and Miquelon",PN:"Pitcairn Islands",PR:"Puerto Rico",PS:"Palestinian Territories",PT:"Portugal",PU:"U.S. Miscellaneous Pacific Islands",PW:"Palau",PY:"Paraguay",PZ:"Panama Canal Zone",QA:"Qatar",RE:"Réunion",RO:"Romania",RS:"Serbia",RU:"Russia",RW:"Rwanda",SA:"Saudi Arabia",SB:"Solomon Islands",SC:"Seychelles",SD:"Sudan",SE:"Sweden",SG:"Singapore",SH:"Saint Helena",SI:"Slovenia",SJ:"Svalbard and Jan Mayen",SK:"Slovakia",SL:"Sierra Leone",SM:"San Marino",SN:"Senegal",SO:"Somalia",SR:"Suriname",ST:"São Tomé and Príncipe",SU:"Union of Soviet Socialist Republics",SV:"El Salvador",SY:"Syria",SZ:"Swaziland",TC:"Turks and Caicos Islands",TD:"Chad",TF:"French Southern Territories",TG:"Togo",TH:"Thailand",TJ:"Tajikistan",TK:"Tokelau",TL:"Timor-Leste",TM:"Turkmenistan",TN:"Tunisia",TO:"Tonga",TR:"Turkey",TT:"Trinidad and Tobago",TV:"Tuvalu",TW:"Taiwan",TZ:"Tanzania",UA:"Ukraine",UG:"Uganda",UM:"U.S. Minor Outlying Islands",US:"United States",UY:"Uruguay",UZ:"Uzbekistan",VA:"Vatican City",VC:"Saint Vincent and the Grenadines",VD:"North Vietnam",VE:"Venezuela",VG:"British Virgin Islands",VI:"U.S. Virgin Islands",VN:"Vietnam",VU:"Vanuatu",WF:"Wallis and Futuna",WK:"Wake Island",WS:"Samoa",YD:"People's Democratic Republic of Yemen",YE:"Yemen",YT:"Mayotte",ZA:"South Africa",ZM:"Zambia",ZW:"Zimbabwe",ZZ:"Unknown or Invalid Region" };
 
-			var countriesArray = $.map(countries, function(value, key) {
+			const countriesArray = $.map(countries, function(value, key) {
 			  return {
 				value: value,
 				data: key
@@ -921,7 +921,7 @@ if (typeof NProgress != 'undefined') {
 			  lookup: countriesArray
 			});
 			
-		};
+		}
 	   
 	 /* AUTOSIZE */
 			
@@ -933,7 +933,7 @@ if (typeof NProgress != 'undefined') {
 			
 			}
 			
-		};  
+		}  
 	   
 	   /* PARSLEY */
 			
@@ -979,7 +979,7 @@ if (typeof NProgress != 'undefined') {
 				hljs.initHighlightingOnLoad();
 			  } catch (err) {}
 			
-		};
+		}
 	   
 		
 		  /* INPUTS */
@@ -1007,7 +1007,7 @@ if (typeof NProgress != 'undefined') {
 				
 				}
 				
-		    };
+		    }
 	   
 		/* SELECT2 */
 	  
@@ -1026,7 +1026,7 @@ if (typeof NProgress != 'undefined') {
 			  allowClear: true
 			});
 			
-		};
+		}
 	   
 	   /* WYSIWYG EDITOR */
 
@@ -1035,7 +1035,7 @@ if (typeof NProgress != 'undefined') {
 		if( typeof ($.fn.wysiwyg) === 'undefined'){ return; }
 			
         function init_ToolbarBootstrapBindings() {
-          var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier',
+          const fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier',
               'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
               'Times New Roman', 'Verdana'
             ],
@@ -1058,13 +1058,13 @@ if (typeof NProgress != 'undefined') {
             });
 
           $('[data-role=magic-overlay]').each(function() {
-            var overlay = $(this),
+            const overlay = $(this),
               target = $(overlay.data('target'));
             overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
           });
 
           if ("onwebkitspeechchange" in document.createElement("input")) {
-            var editorOffset = $('#editor').offset();
+            const editorOffset = $('#editor').offset();
 
             $('.voiceBtn').css('position', 'absolute').offset({
               top: editorOffset.top,
@@ -1076,17 +1076,17 @@ if (typeof NProgress != 'undefined') {
         }
 
         function showErrorAlert(reason, detail) {
-          var msg = '';
+          let msg = '';
           if (reason === 'unsupported-file-type') {
             msg = "Unsupported format " + detail;
           } else {
           }
-          $('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>' +
+          $('<div className="alert"> <button type="button" className="close" data-dismiss="alert">&times;</button>' +
             '<strong>File upload error</strong> ' + msg + ' </div>').prependTo('#alerts');
         }
 
        $('.editor-wrapper').each(function(){
-			var id = $(this).attr('id');	//editor-one
+			const id = $(this).attr('id');	//editor-one
 			
 			$(this).wysiwyg({
 				toolbarSelector: '[data-target="#' + id + '"]',
@@ -1098,7 +1098,7 @@ if (typeof NProgress != 'undefined') {
         window.prettyPrint;
         prettyPrint();
 	
-    };
+    }
 	  
 	/* CROPPER */
 		
@@ -1107,16 +1107,16 @@ if (typeof NProgress != 'undefined') {
 			
 			if( typeof ($.fn.cropper) === 'undefined'){ return; }
 			
-			var $image = $('#image');
-			var $download = $('#download');
-			var $dataX = $('#dataX');
-			var $dataY = $('#dataY');
-			var $dataHeight = $('#dataHeight');
-			var $dataWidth = $('#dataWidth');
-			var $dataRotate = $('#dataRotate');
-			var $dataScaleX = $('#dataScaleX');
-			var $dataScaleY = $('#dataScaleY');
-			var options = {
+			const $image = $('#image');
+			const $download = $('#download');
+			const $dataX = $('#dataX');
+			const $dataY = $('#dataY');
+			const $dataHeight = $('#dataHeight');
+			const $dataWidth = $('#dataWidth');
+			const $dataRotate = $('#dataRotate');
+			const $dataScaleX = $('#dataScaleX');
+			const $dataScaleY = $('#dataScaleY');
+			const options = {
 				  aspectRatio: 16 / 9,
 				  preview: '.img-preview',
 				  crop: function (e) {
@@ -1173,11 +1173,11 @@ if (typeof NProgress != 'undefined') {
 
 			// Options
 			$('.docs-toggles').on('change', 'input', function () {
-			  var $this = $(this);
-			  var name = $this.attr('name');
-			  var type = $this.prop('type');
-			  var cropBoxData;
-			  var canvasData;
+			  const $this = $(this);
+			  const name = $this.attr('name');
+			  const type = $this.prop('type');
+			  let cropBoxData;
+			  let canvasData;
 
 			  if (!$image.data('cropper')) {
 				return;
@@ -1202,10 +1202,10 @@ if (typeof NProgress != 'undefined') {
 
 			// Methods
 			$('.docs-buttons').on('click', '[data-method]', function () {
-			  var $this = $(this);
-			  var data = $this.data();
-			  var $target;
-			  var result;
+			  const $this = $(this);
+			  let data = $this.data();
+			  let $target;
+			  let result;
 
 			  if ($this.prop('disabled') || $this.hasClass('disabled')) {
 				return;
@@ -1287,14 +1287,14 @@ if (typeof NProgress != 'undefined') {
 			});
 
 			// Import image
-			var $inputImage = $('#inputImage');
-			var URL = window.URL || window.webkitURL;
-			var blobURL;
+			const $inputImage = $('#inputImage');
+			const URL = window.URL || window.webkitURL;
+			let blobURL;
 
 			if (URL) {
 			  $inputImage.change(function () {
-				var files = this.files;
-				var file;
+				const files = this.files;
+				let file;
 
 				if (!$image.data('cropper')) {
 				  return;
@@ -1321,7 +1321,7 @@ if (typeof NProgress != 'undefined') {
 			}
 			
 			
-		};
+		}
 		
 		/* CROPPER --- end */  
 	  
@@ -1348,7 +1348,7 @@ if (typeof NProgress != 'undefined') {
 
 					  this.cursorExt = 0.3;
 
-					  var a = this.arc(this.cv) // Arc
+					  let a = this.arc(this.cv) // Arc
 						,
 						pa // Previous arc
 						, r = 1;
@@ -1381,7 +1381,7 @@ if (typeof NProgress != 'undefined') {
 				});
 
 				// Example of infinite knob, iPod click wheel
-				var v, up = 0,
+				let v, up = 0,
 				  down = 0,
 				  i = 0,
 				  $idir = $("div.idir"),
@@ -1424,7 +1424,7 @@ if (typeof NProgress != 'undefined') {
 				  }
 				});
 				
-		};
+		}
 	 
 		/* INPUT MASK */
 			
@@ -1434,7 +1434,7 @@ if (typeof NProgress != 'undefined') {
 			
 				$(":input").inputmask();
 				
-		};
+		}
 	  
 		/* COLOR PICKER */
 			 
@@ -1456,7 +1456,7 @@ if (typeof NProgress != 'undefined') {
 
 				$('.demo-auto').colorpicker();
 			
-		}; 
+		} 
 	   
 	   
 		/* ION RANGE SLIDER */
@@ -1521,12 +1521,12 @@ if (typeof NProgress != 'undefined') {
 			  grid: true,
 			  force_edges: true,
 			  prettify: function(num) {
-				var m = moment(num, "X");
+				const m = moment(num, "X");
 				return m.format("Do MMMM, HH:mm");
 			  }
 			});
 			
-		};
+		}
 	   
 	   
 	   /* DATERANGEPICKER */
@@ -1535,11 +1535,11 @@ if (typeof NProgress != 'undefined') {
 
 			if( typeof ($.fn.daterangepicker) === 'undefined'){ return; }
 		
-			var cb = function(start, end, label) {
+			const cb = function(start, end, label) {
 			  $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
 			};
 
-			var optionSet1 = {
+			const optionSet1 = {
 			  startDate: moment().subtract(29, 'days'),
 			  endDate: moment(),
 			  minDate: '01/01/2012',
@@ -1604,11 +1604,11 @@ if (typeof NProgress != 'undefined') {
 	      
 				if( typeof ($.fn.daterangepicker) === 'undefined'){ return; }
 		  
-				var cb = function(start, end, label) {
+				const cb = function(start, end, label) {
 				  $('#reportrange_right span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
 				};
 
-				var optionSet1 = {
+				const optionSet1 = {
 				  startDate: moment().subtract(29, 'days'),
 				  endDate: moment(),
 				  minDate: '01/01/2012',
@@ -1736,7 +1736,7 @@ if (typeof NProgress != 'undefined') {
 			$('.buttonPrevious').addClass('btn btn-primary');
 			$('.buttonFinish').addClass('btn btn-default');
 			
-		};
+		}
 	   
 	   
 	  /* VALIDATOR */
@@ -1760,7 +1760,7 @@ if (typeof NProgress != 'undefined') {
 
       $('form').submit(function(e) {
         e.preventDefault();
-        var submit = true;
+        let submit = true;
 
         // evaluate the form using generic validaing
         if (!validator.checkAll($(this))) {
@@ -1773,7 +1773,7 @@ if (typeof NProgress != 'undefined') {
         return false;
 		});
 	  
-	  };
+	  }
 	   
 	  	/* PNotify */
 			
@@ -1803,7 +1803,7 @@ if (typeof NProgress != 'undefined') {
 			  }
 			});
 
-		}; 
+		} 
 	   
 	   
 	   /* CUSTOM NOTIFICATION */
@@ -1813,16 +1813,16 @@ if (typeof NProgress != 'undefined') {
 			
 			if( typeof (CustomTabs) === 'undefined'){ return; }
 			
-			var cnt = 10;
+			let cnt = 10;
 
 			TabbedNotification = function(options) {
-			  var message = "<div id='ntf" + cnt + "' class='text alert-" + options.type + "' style='display:none'><h2><i class='fa fa-bell'></i> " + options.title +
-				"</h2><div class='close'><a href='javascript:;' class='notification_close'><i class='fa fa-close'></i></a></div><p>" + options.text + "</p></div>";
+			  const message = "<div id='ntf" + cnt + "' className='text alert-" + options.type + "' style='display:none'><h2><i className='fa fa-bell'></i> " + options.title +
+				"</h2><div className='close'><a href='javascript:;' className='notification_close'><i className='fa fa-close'></i></a></div><p>" + options.text + "</p></div>";
 
 			  if (!document.getElementById('custom_notifications')) {
 				alert('doesnt exists');
 			  } else {
-				$('#custom_notifications ul.notifications').append("<li><a id='ntlink" + cnt + "' class='alert-" + options.type + "' href='#ntf" + cnt + "'><i class='fa fa-bell animated shake'></i></a></li>");
+				$('#custom_notifications ul.notifications').append("<li><a id='ntlink" + cnt + "' className='alert-" + options.type + "' href='#ntf" + cnt + "'><i className='fa fa-bell animated shake'></i></a></li>");
 				$('#custom_notifications #notif-group').append(message);
 				cnt++;
 				CustomTabs(options);
@@ -1835,7 +1835,7 @@ if (typeof NProgress != 'undefined') {
 			  $('#custom_notifications').removeClass('dsp_none');
 			  $('.notifications a').click(function(e) {
 				e.preventDefault();
-				var $this = $(this),
+				const $this = $(this),
 				  tabbed_notifications = '#' + $this.parents('.notifications').data('tabbed_notifications'),
 				  others = $this.closest('li').siblings().children('a'),
 				  target = $this.attr('href');
@@ -1848,7 +1848,7 @@ if (typeof NProgress != 'undefined') {
 
 			CustomTabs();
 
-			var tabid = idname = '';
+			let tabid = idname = '';
 
 			$(document).on('click', '.notification_close', function(e) {
 			  idname = $(this).parent().parent().attr("id");
@@ -1859,7 +1859,7 @@ if (typeof NProgress != 'undefined') {
 			  $('#notif-group div').first().css('display', 'block');
 			});
 			
-		};
+		}
 		
 			/* EASYPIECHART */
 			
@@ -1880,17 +1880,17 @@ if (typeof NProgress != 'undefined') {
 					$(this.el).find('.percent').text(Math.round(percent));
 				  }
 				});
-				var chart = window.chart = $('.chart').data('easyPieChart');
+				const chart = window.chart = $('.chart').data('easyPieChart');
 				$('.js_update').on('click', function() {
 				  chart.update(Math.random() * 200 - 100);
 				});
 
 				//hover and retain popover when on popover content
-				var originalLeave = $.fn.popover.Constructor.prototype.leave;
+				const originalLeave = $.fn.popover.Constructor.prototype.leave;
 				$.fn.popover.Constructor.prototype.leave = function(obj) {
-				  var self = obj instanceof this.constructor ?
+				  const self = obj instanceof this.constructor ?
 					obj : $(obj.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type);
-				  var container, timeout;
+				  let container, timeout;
 
 				  originalLeave.call(this, obj);
 
@@ -1917,7 +1917,7 @@ if (typeof NProgress != 'undefined') {
 				  }
 				});
 				
-			};
+			}
 	   
 		
 		function init_charts() {
@@ -1935,7 +1935,7 @@ if (typeof NProgress != 'undefined') {
 
 			if ($('#canvas_line').length ){
 				
-				var canvas_line_00 = new Chart(document.getElementById("canvas_line"), {
+				const canvas_line_00 = new Chart(document.getElementById("canvas_line"), {
 				  type: 'line',
 				  data: {
 					labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -1968,7 +1968,7 @@ if (typeof NProgress != 'undefined') {
 			
 			if ($('#canvas_line1').length ){
 			
-				var canvas_line_01 = new Chart(document.getElementById("canvas_line1"), {
+				const canvas_line_01 = new Chart(document.getElementById("canvas_line1"), {
 				  type: 'line',
 				  data: {
 					labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -2001,7 +2001,7 @@ if (typeof NProgress != 'undefined') {
 				
 			if ($('#canvas_line2').length ){		
 			
-				var canvas_line_02 = new Chart(document.getElementById("canvas_line2"), {
+				const canvas_line_02 = new Chart(document.getElementById("canvas_line2"), {
 				  type: 'line',
 				  data: {
 					labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -2034,7 +2034,7 @@ if (typeof NProgress != 'undefined') {
 			
 			if ($('#canvas_line3').length ){
 			
-				var canvas_line_03 = new Chart(document.getElementById("canvas_line3"), {
+				const canvas_line_03 = new Chart(document.getElementById("canvas_line3"), {
 				  type: 'line',
 				  data: {
 					labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -2067,7 +2067,7 @@ if (typeof NProgress != 'undefined') {
 			
 			if ($('#canvas_line4').length ){
 				
-				var canvas_line_04 = new Chart(document.getElementById("canvas_line4"), {
+				const canvas_line_04 = new Chart(document.getElementById("canvas_line4"), {
 				  type: 'line',
 				  data: {
 					labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -2103,7 +2103,7 @@ if (typeof NProgress != 'undefined') {
 			if ($('#lineChart').length ){	
 			
 			  var ctx = document.getElementById("lineChart");
-			  var lineChart = new Chart(ctx, {
+			  const lineChart = new Chart(ctx, {
 				type: 'line',
 				data: {
 				  labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -2138,7 +2138,7 @@ if (typeof NProgress != 'undefined') {
 			if ($('#mybarChart').length ){ 
 			  
 			  var ctx = document.getElementById("mybarChart");
-			  var mybarChart = new Chart(ctx, {
+			  const mybarChart = new Chart(ctx, {
 				type: 'bar',
 				data: {
 				  labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -2200,7 +2200,7 @@ if (typeof NProgress != 'undefined') {
 				}]
 			  };
 
-			  var canvasDoughnut = new Chart(ctx, {
+			  const canvasDoughnut = new Chart(ctx, {
 				type: 'doughnut',
 				tooltipFillColor: "rgba(51, 51, 51, 0.55)",
 				data: data
@@ -2236,7 +2236,7 @@ if (typeof NProgress != 'undefined') {
 				}]
 			  };
 
-			  var canvasRadar = new Chart(ctx, {
+			  const canvasRadar = new Chart(ctx, {
 				type: 'radar',
 				data: data,
 			  });
@@ -2269,7 +2269,7 @@ if (typeof NProgress != 'undefined') {
 					]
 				  };
 
-				  var pieChart = new Chart(ctx, {
+				  const pieChart = new Chart(ctx, {
 					data: data,
 					type: 'pie',
 					otpions: {
@@ -2306,7 +2306,7 @@ if (typeof NProgress != 'undefined') {
 				]
 				};
 
-				var polarArea = new Chart(ctx, {
+				const polarArea = new Chart(ctx, {
 				data: data,
 				type: 'polarArea',
 				options: {
@@ -2331,7 +2331,7 @@ if (typeof NProgress != 'undefined') {
 				$('.compose').slideToggle();
 			});
 		
-		};
+		}
 	   
 	   	/* CALENDAR */
 		  
@@ -2339,7 +2339,7 @@ if (typeof NProgress != 'undefined') {
 					
 				if( typeof ($.fn.fullCalendar) === 'undefined'){ return; }
 					
-				var date = new Date(),
+				let date = new Date(),
 					d = date.getDate(),
 					m = date.getMonth(),
 					y = date.getFullYear(),
@@ -2361,7 +2361,7 @@ if (typeof NProgress != 'undefined') {
 					ended = end;
 
 					$(".antosubmit").on("click", function() {
-					  var title = $("#title").val();
+					  const title = $("#title").val();
 					  if (end) {
 						ended = end;
 					  }
@@ -2433,7 +2433,7 @@ if (typeof NProgress != 'undefined') {
 				  }]
 				});
 				
-			};
+			}
 	   
 		/* DATA TABLES */
 			
@@ -2442,7 +2442,7 @@ if (typeof NProgress != 'undefined') {
 				
 				if( typeof ($.fn.DataTable) === 'undefined'){ return; }
 				
-				var handleDataTableButtons = function() {
+				const handleDataTableButtons = function() {
 				  if ($("#datatable-buttons").length) {
 					$("#datatable-buttons").DataTable({
 					  dom: "Bfrtip",
@@ -2502,7 +2502,7 @@ if (typeof NProgress != 'undefined') {
 				  fixedHeader: true
 				});
 
-				var $datatable = $('#datatable-checkbox');
+				const $datatable = $('#datatable-checkbox');
 
 				$datatable.dataTable({
 				  'order': [[ 1, 'asc' ]],
@@ -2518,7 +2518,7 @@ if (typeof NProgress != 'undefined') {
 
 				TableManageButtons.init();
 				
-			};
+			}
 	   
 			/* CHART - MORRIS  */
 		
@@ -2673,7 +2673,7 @@ if (typeof NProgress != 'undefined') {
 			
 			}
 			
-		};
+		}
 	   
 		
 		
@@ -2685,7 +2685,7 @@ if (typeof NProgress != 'undefined') {
 				if( typeof (echarts) === 'undefined'){ return; }
 			
 		
-				  var theme = {
+				  const theme = {
 				  color: [
 					  '#26B99A', '#34495E', '#BDC3C7', '#3498DB',
 					  '#9B59B6', '#8abb6f', '#759c6a', '#bfd3b7'
@@ -2980,7 +2980,7 @@ if (typeof NProgress != 'undefined') {
 			  
 			if ($('#echart_sonar').length ){ 
 			  
-			  var echartRadar = echarts.init(document.getElementById('echart_sonar'), theme);
+			  const echartRadar = echarts.init(document.getElementById('echart_sonar'), theme);
 
 			  echartRadar.setOption({
 				title: {
@@ -3050,7 +3050,7 @@ if (typeof NProgress != 'undefined') {
 			  
 			if ($('#echart_pyramid').length ){ 
 			  
-			  var echartFunnel = echarts.init(document.getElementById('echart_pyramid'), theme);
+			  const echartFunnel = echarts.init(document.getElementById('echart_pyramid'), theme);
 
 			  echartFunnel.setOption({
 				title: {
@@ -3110,7 +3110,7 @@ if (typeof NProgress != 'undefined') {
 			  
 			if ($('#echart_gauge').length ){ 
 			  
-			  var echartGauge = echarts.init(document.getElementById('echart_gauge'), theme);
+			  const echartGauge = echarts.init(document.getElementById('echart_gauge'), theme);
 
 			  echartGauge.setOption({
 				tooltip: {
@@ -3230,7 +3230,7 @@ if (typeof NProgress != 'undefined') {
 			  
 			if ($('#echart_line').length ){ 
 			  
-			  var echartLine = echarts.init(document.getElementById('echart_line'), theme);
+			  const echartLine = echarts.init(document.getElementById('echart_line'), theme);
 
 			  echartLine.setOption({
 				title: {
@@ -3322,7 +3322,7 @@ if (typeof NProgress != 'undefined') {
 			  
 			if ($('#echart_scatter').length ){ 
 			  
-			  var echartScatter = echarts.init(document.getElementById('echart_scatter'), theme);
+			  const echartScatter = echarts.init(document.getElementById('echart_scatter'), theme);
 
 			  echartScatter.setOption({
 				title: {
@@ -3991,7 +3991,7 @@ if (typeof NProgress != 'undefined') {
 			  
 			if ($('#echart_pie2').length ){ 
 			  
-			  var echartPieCollapse = echarts.init(document.getElementById('echart_pie2'), theme);
+			  const echartPieCollapse = echarts.init(document.getElementById('echart_pie2'), theme);
 			  
 			  echartPieCollapse.setOption({
 				tooltip: {
@@ -4058,7 +4058,7 @@ if (typeof NProgress != 'undefined') {
 			  
 			if ($('#echart_donut').length ){  
 			  
-			  var echartDonut = echarts.init(document.getElementById('echart_donut'), theme);
+			  const echartDonut = echarts.init(document.getElementById('echart_donut'), theme);
 			  
 			  echartDonut.setOption({
 				tooltip: {
@@ -4145,7 +4145,7 @@ if (typeof NProgress != 'undefined') {
 			  
 			if ($('#echart_pie').length ){  
 			  
-			  var echartPie = echarts.init(document.getElementById('echart_pie'), theme);
+			  const echartPie = echarts.init(document.getElementById('echart_pie'), theme);
 
 			  echartPie.setOption({
 				tooltip: {
@@ -4239,7 +4239,7 @@ if (typeof NProgress != 'undefined') {
 			  
 			if ($('#echart_mini_pie').length ){ 
 			  
-			  var echartMiniPie = echarts.init(document.getElementById('echart_mini_pie'), theme);
+			  const echartMiniPie = echarts.init(document.getElementById('echart_mini_pie'), theme);
 
 			  echartMiniPie .setOption({
 				title: {
@@ -4344,7 +4344,7 @@ if (typeof NProgress != 'undefined') {
 			  
 			if ($('#echart_world_map').length ){ 
 			  
-				  var echartMap = echarts.init(document.getElementById('echart_world_map'), theme);
+				  const echartMap = echarts.init(document.getElementById('echart_world_map'), theme);
 				  
 				   
 				  echartMap.setOption({
@@ -4357,7 +4357,7 @@ if (typeof NProgress != 'undefined') {
 					tooltip: {
 					  trigger: 'item',
 					  formatter: function(params) {
-						var value = (params.value + '').split('.');
+						let value = (params.value + '').split('.');
 						value = value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,') + '.' + value[1];
 						return params.seriesName + '<br/>' + params.name + ' : ' + value;
 					  }
@@ -4954,10 +4954,10 @@ if (typeof NProgress != 'undefined') {
 		}  
 
 	     // based ready dom, initialize echarts instance 
-		var myChart = echarts.init(document.getElementById('main'));
+		const myChart = echarts.init(document.getElementById('main'));
 
         // Specify configurations and data graphs 
-        var option = {
+        const option = {
 		    title : {
 		        text: '',
 		        subtext: ''

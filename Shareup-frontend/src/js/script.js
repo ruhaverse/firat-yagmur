@@ -135,13 +135,13 @@ function testScript(){
 		};
 	
 		function listFilter(searchDir, list) { 
-		  var form = $("<form>").attr({"class":"filterform","action":"#"}),
+		  const form = $("<form>").attr({"class":"filterform","action":"#"}),
 		  input = $("<input>").attr({"class":"filterinput","type":"text","placeholder":"Search Contacts..."});
 		  $(form).append(input).appendTo(searchDir);
 	
 		  $(input)
 		  .change( function () {
-			var filter = $(this).val();
+			const filter = $(this).val();
 			if(filter) {
 			  $(list).find("li:not(:Contains(" + filter + "))").slideUp();
 			  $(list).find("li:Contains(" + filter + ")").slideDown();
@@ -388,9 +388,9 @@ function testScript(){
 	jQuery(".post-comt-box textarea").on("keydown", function(event) {
 	
 		if (event.keyCode == 13) {
-			var comment = jQuery(this).val();
-			var parent = jQuery(".showmore").parent("li");
-			var comment_HTML = '<li><div class="comet-avatar"><img src="images/resources/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">You</a></h5><span>1 year ago</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+comment+'</p></div></li>';
+			const comment = jQuery(this).val();
+			const parent = jQuery(".showmore").parent("li");
+			const comment_HTML = '<li><div className="comet-avatar"><img src="images/resources/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png" alt=""></div><div className="we-comment"><div className="coment-head"><h5><a href="time-line.html" title="">You</a></h5><span>1 year ago</span><a className="we-reply" href="#" title="Reply"><i className="fa fa-reply"></i></a></div><p>'+comment+'</p></div></li>';
 			$(comment_HTML).insertBefore(parent);
 			jQuery(this).val('');
 		}
@@ -469,38 +469,38 @@ function testScript(){
 			return false;
 		});	
 		
-		var scrollDuration = 300;
+		const scrollDuration = 300;
 		// paddles
-		var leftPaddle = document.getElementsByClassName('left-paddle');
-		var rightPaddle = document.getElementsByClassName('right-paddle');
+		const leftPaddle = document.getElementsByClassName('left-paddle');
+		const rightPaddle = document.getElementsByClassName('right-paddle');
 		// get items dimensions
-		var itemsLength = $('.slideitem').length;
-		var itemSize = $('.slideitem').outerWidth(true);
+		const itemsLength = $('.slideitem').length;
+		const itemSize = $('.slideitem').outerWidth(true);
 		// get some relevant size for the paddle triggering point
-		var paddleMargin = 20;
+		const paddleMargin = 20;
 		
 		// get wrapper width
-		var getslideWrapperSize = function() {
+		const getslideWrapperSize = function() {
 			return $('.slide-wrapper').outerWidth();
 		}
-		var slideWrapperSize = getslideWrapperSize();
+		let slideWrapperSize = getslideWrapperSize();
 		// the wrapper is responsive
 		$(window).on('resize', function() {
 			slideWrapperSize = getslideWrapperSize();
 		});
 		// size of the visible part of the menu is equal as the wrapper size 
-		var slideVisibleSize = slideWrapperSize;
+		const slideVisibleSize = slideWrapperSize;
 		
 		// get total width of all menu items
-		var getslideSize = function() {
+		const getslideSize = function() {
 			return itemsLength * itemSize;
 		};
-		var slideSize = getslideSize();
+		const slideSize = getslideSize();
 		// get how much of menu is invisible
-		var slideInvisibleSize = slideSize - slideWrapperSize;
+		let slideInvisibleSize = slideSize - slideWrapperSize;
 		
 		// get how much have we scrolled to the left
-		var getslidePosition = function() {
+		const getslidePosition = function() {
 			return $('.slide').scrollLeft();
 		};
 		
@@ -510,9 +510,9 @@ function testScript(){
 			// get how much of menu is invisible
 			slideInvisibleSize = slideSize - slideWrapperSize;
 			// get how much have we scrolled so far
-			var slidePosition = getslidePosition();
+			const slidePosition = getslidePosition();
 		
-			var slideEndOffset = slideInvisibleSize - paddleMargin;
+			const slideEndOffset = slideInvisibleSize - paddleMargin;
 		
 			// show & hide the paddles 
 			// depending on scroll position
@@ -548,38 +548,38 @@ function testScript(){
 
 //story scroll
 
-		var scrollDurationstry = 300;
+		const scrollDurationstry = 300;
 		// paddles
-		var leftPaddlestry = document.getElementsByClassName('left-paddlestry');
-		var rightPaddlestry = document.getElementsByClassName('right-paddlestry');
+		const leftPaddlestry = document.getElementsByClassName('left-paddlestry');
+		const rightPaddlestry = document.getElementsByClassName('right-paddlestry');
 		// get items dimensions
-		var itemsLengthstry = $('.slideitemstry').length;
-		var itemSizestry = $('.slideitemstry').outerWidth(true);
+		const itemsLengthstry = $('.slideitemstry').length;
+		const itemSizestry = $('.slideitemstry').outerWidth(true);
 		// get some relevant size for the paddle triggering point
-		var paddleMarginstry = 30;
+		const paddleMarginstry = 30;
 		
 		// get wrapper width
-		var getslideWrapperSizestry = function() {
+		const getslideWrapperSizestry = function() {
 			return $('.slide-wrapperstry').outerWidth();
 		}
-		var slideWrapperSizestry = getslideWrapperSizestry();
+		let slideWrapperSizestry = getslideWrapperSizestry();
 		// the wrapper is responsive
 		$(window).on('resize', function() {
 			slideWrapperSizestry = getslideWrapperSizestry();
 		});
 		// size of the visible part of the menu is equal as the wrapper size 
-		var slideVisibleSizestry = slideWrapperSizestry;
+		const slideVisibleSizestry = slideWrapperSizestry;
 		
 		// get total width of all menu items
-		var getslideSizestry = function() {
+		const getslideSizestry = function() {
 			return itemsLengthstry * itemSizestry;
 		};
-		var slideSizestry = getslideSizestry();
+		const slideSizestry = getslideSizestry();
 		// get how much of menu is invisible
-		var slideInvisibleSizestry = slideSizestry - slideWrapperSizestry;
+		let slideInvisibleSizestry = slideSizestry - slideWrapperSizestry;
 		
 		// get how much have we scrolled to the left
-		var getslidePositionstry = function() {
+		const getslidePositionstry = function() {
 			return $('.slidestry').scrollLeft();
 		};
 		
@@ -589,9 +589,9 @@ function testScript(){
 			// get how much of menu is invisible
 			slideInvisibleSizestry = slideSizestry - slideWrapperSizestry;
 			// get how much have we scrolled so far
-			var slidePositionstry = getslidePositionstry();
+			const slidePositionstry = getslidePositionstry();
 		
-			var slideEndOffsetstry = slideInvisibleSizestry - paddleMarginstry;
+			const slideEndOffsetstry = slideInvisibleSizestry - paddleMarginstry;
 		
 			// show & hide the paddles 
 			// depending on scroll position

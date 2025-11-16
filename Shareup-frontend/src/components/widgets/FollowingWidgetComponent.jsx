@@ -11,7 +11,7 @@ import PostService from '../../services/PostService';
 import fileStorage from '../../config/fileStorage';
 
 function FollowingWidgetComponent() {
-    let history = useHistory();
+    const history = useHistory();
 
     const { user } = useContext(UserContext)
 

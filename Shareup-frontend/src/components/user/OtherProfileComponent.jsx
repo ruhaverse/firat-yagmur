@@ -17,7 +17,7 @@ import fileStorage from '../../config/fileStorage';
 
 function OtherProfileComponent() {
     const { email: user_email } = useParams();
-    let history = useHistory();
+    const history = useHistory();
 
     const { user } = useContext(UserContext)
 
@@ -83,7 +83,7 @@ function OtherProfileComponent() {
           .map(id => {
             return res.data.find(a => a.id === id)
           })
-          let mypost = []
+          const mypost = []
           uniquePost.map(post => {
             if(post.user.email === user_email) {
               mypost.push(post)
@@ -96,7 +96,7 @@ function OtherProfileComponent() {
     }
 
     const handleProfileImage = (event) => {
-        let validated = false
+        const validated = false
         setProfilePicture(event.target.files[0])
         const reader = new FileReader();
         reader.onload = () => {
@@ -209,7 +209,7 @@ function OtherProfileComponent() {
 		if (event.target.value === "") {
 			setSearchedUser(allUser)
 		} else {
-			let temp = []
+			const temp = []
 			allUser.map(u => {
 				const email = u.email.toLowerCase()
 				const firstname = u.firstName.toLowerCase()
@@ -260,7 +260,7 @@ function OtherProfileComponent() {
 
 
     const updateProfile = async () => {
-      let updateduser = {
+      const updateduser = {
         firstName: firstName,
         lastName: lastName,
         email: user.email,
@@ -285,7 +285,7 @@ function OtherProfileComponent() {
           <div className="row">
                 <div className="col-lg-4">
                   <div style={{background: 'white', border: '1px solid #ececec', borderRadius: '10px', boxShadow: '0 1px 3px rgb(0 0 0 / 20%)', margin: '0 20px 20px 0' }}>
-                    <div><span style={{ float: 'right' }}><i class="las la-ellipsis-v"></i></span></div>
+                    <div><span style={{ float: 'right' }}><i className="las la-ellipsis-v"></i></span></div>
                     
                     <div className="admin-name">
                       <h5>{`${userProfile.firstName} ${userProfile.lastName}`}</h5>
@@ -587,9 +587,9 @@ function OtherProfileComponent() {
                   <div className="row">
 
                     <div className="col">
-                    <a className={(show === "timeline" ? "active button" : "button")} style={{}} title="" data-ripple="" onClick={() => setShow("timeline")}><i class="las la-rss"></i></a></div>
-                    <div className="col brdrmid"><a className={(show === "photos" ? "active button" : "button")} title="" data-ripple="" onClick={() => setShow("photos")}><i class="las la-icons"></i></a></div>
-                    <div className="col"><a className={(show === "friends" ? "active button" : "button")} title="" data-ripple="" onClick={() => setShow("friends")}><i class="las la-user-tag"></i></a></div>
+                    <a className={(show === "timeline" ? "active button" : "button")} style={{}} title="" data-ripple="" onClick={() => setShow("timeline")}><i className="las la-rss"></i></a></div>
+                    <div className="col brdrmid"><a className={(show === "photos" ? "active button" : "button")} title="" data-ripple="" onClick={() => setShow("photos")}><i className="las la-icons"></i></a></div>
+                    <div className="col"><a className={(show === "friends" ? "active button" : "button")} title="" data-ripple="" onClick={() => setShow("friends")}><i className="las la-user-tag"></i></a></div>
                       {/* <a className={(show === "timeline" ? "active" : "")} title="" data-ripple="" onClick={() => setShow("timeline")}>time line</a>
                       <a className={(show === "photos" ? "active" : "")} title="" data-ripple="" onClick={() => setShow("photos")}>Photos</a>
                       <a className={(show === "videos" ? "active" : "")} title="" data-ripple="" onClick={() => setShow("videos")}>Videos</a>
@@ -663,7 +663,7 @@ function OtherProfileComponent() {
                     </label>
                   </form>
                   <div className="align-avatar">
-            <div class="user-avatar">{
+            <div className="user-avatar">{
                         showProfilePicture ?
                           <img  id="preview" src={profileRender} /> :
                           userProfile.profilePicturePath ? <img className="border-gradient" src={userProfile.profilePicturePath}></img> : <p>	Edit Display Photo</p>

@@ -9,7 +9,7 @@ import fileStorage from '../../config/fileStorage';
 
 
 function GroupsWidgetComponent() {
-    let history = useHistory();
+    const history = useHistory();
 
     const { user } = useContext(UserContext)
 

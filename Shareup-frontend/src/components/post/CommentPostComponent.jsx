@@ -21,7 +21,7 @@ export default function CommentPostComponent({post, setRefresh}) {
     const sortComment = () => {
       const comments = [...post.comments]
       comments.sort(function(a, b) {
-        var dateA = new Date(a.published), dateB = new Date(b.published);
+        const dateA = new Date(a.published), dateB = new Date(b.published);
         return dateA - dateB;
     });
 
@@ -33,12 +33,12 @@ export default function CommentPostComponent({post, setRefresh}) {
     }, [post])
 
     const date1 = (comment) =>{
-      let date = new Date(comment.published);
-      let today = new Date();
-      var Difference_In_Time = today.getTime() - date.getTime();
-      var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+      const date = new Date(comment.published);
+      const today = new Date();
+      const Difference_In_Time = today.getTime() - date.getTime();
+      const Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
       if((Difference_In_Days%1)>0.5){
-        let d=(Difference_In_Days%1)>0.5
+        const d=(Difference_In_Days%1)>0.5
 
       }
       // const month = date.toLocaleString('default', { month: 'long' })
@@ -49,7 +49,7 @@ export default function CommentPostComponent({post, setRefresh}) {
         (showComment && 
           <>
           {comments.map(comment =>{
-            let time=moment(comment.published, "DD MMMM YYYY hh:mm:ss").fromNow()
+            const time=moment(comment.published, "DD MMMM YYYY hh:mm:ss").fromNow()
               // let date = new Date(comment.published);
               // let today = new Date();
               // let time = null

@@ -31,7 +31,7 @@ import LocSearchComponent from '../AccountSettings/LocSearchComponent';
 function ReelFeedComponent() {
   const [isLoading, setIsLoading] = useState(true);
 
-  let history = useHistory();
+  const history = useHistory();
 
   const { user } = useContext(UserContext)
 
@@ -162,7 +162,7 @@ function ReelFeedComponent() {
   const getStoriesForUser = async () => {
     await StoriesService.getStoriesForUser(AuthService.getCurrentUser().username).then(res => {
       const sorting = res.data.sort(function (a, b) {
-        let dateA = new Date(a.date), dateB = new Date(b.date);
+        const dateA = new Date(a.date), dateB = new Date(b.date);
         return dateB - dateA;
       });
       const uniqueStories = Array.from(new Set(sorting.map(a => a.id)))
@@ -178,7 +178,7 @@ function ReelFeedComponent() {
 
     await ReelsServices.getReelForUser(AuthService.getCurrentUser().username).then(res => {
       const sorting = res.data.sort(function (a, b) {
-        let dateA = new Date(a.published), dateB = new Date(b.published);
+        const dateA = new Date(a.published), dateB = new Date(b.published);
         return dateB - dateA;
       });
       const uniquePost = Array.from(new Set(sorting.map(a => a.id)))
@@ -194,7 +194,7 @@ function ReelFeedComponent() {
 
     await ReelsServices.getAllReels(AuthService.getCurrentUser().username).then(res => {
       const sorting = res.data.sort(function (a, b) {
-        let dateA = new Date(a.published), dateB = new Date(b.published);
+        const dateA = new Date(a.published), dateB = new Date(b.published);
         return dateB - dateA;
       });
       const uniquePost = Array.from(new Set(sorting.map(a => a.id)))
@@ -217,7 +217,7 @@ function ReelFeedComponent() {
       return;
     }
 
-    var video = document.getElementById("video");
+    const video = document.getElementById("video");
     const canvas = document.createElement("canvas");
     // scale the canvas accordingly
     canvas.width = video.videoWidth / 10;
@@ -226,12 +226,12 @@ function ReelFeedComponent() {
     canvas.getContext('2d').drawImage(video, 10, 10);
     // convert it to a usable data URL
     const dataURL = canvas.toDataURL();
-    var img = document.createElement("img");
+    const img = document.createElement("img");
     img.src = fileStorage.baseUrl + "/user-stories/1643529794109/Picture.jpg";
 
 
     const formData = new FormData();
-    var content = "test";
+    const content = "test";
 
 
     formData.append(`content`, content);
@@ -369,7 +369,7 @@ function ReelFeedComponent() {
   }
   const handleCount = (opertator) => {
     if (opertator === "+") {
-      let counting = count + 1
+      const counting = count + 1
       setCount(counting)
 
     }
@@ -500,9 +500,9 @@ function ReelFeedComponent() {
   }
   const handleFileSwap = (event) => {
     setSwapfiles(event.target.files);
-    let filesAmount = event.target.files.length;
+    const filesAmount = event.target.files.length;
     if (filesAmount < 6) {
-      let tempImage = [];
+      const tempImage = [];
       for (let i = 0; i < filesAmount; i++) {
         //tempImage=[...tempImage,URL.createObjectURL(event.target.files[i])]
         tempImage.push(URL.createObjectURL(event.target.files[i]));
@@ -546,14 +546,14 @@ function ReelFeedComponent() {
         <div className='add-smilespopup'>
           <label className='fileContainer'>
             <input type='file' name='swap_image' accept='image/*' onChange={handleFileSwap}></input>
-            <i class='lar la-file-image'></i>
+            <i className='lar la-file-image'></i>
           </label>
         </div>
         <div className='gifpopup' style={{ fontSize: '28px', paddingBottom: '14px' }}>
           <Popup
             trigger={
               <a href='#!'>
-                <i class='las la-user-tag' ></i>
+                <i className='las la-user-tag' ></i>
               </a>
             }
             modal
@@ -561,8 +561,8 @@ function ReelFeedComponent() {
           >
             {(close) => (
               <Form style={{ margin: '5px' }} className='popwidth'>
-                <div class='search-container'>
-                  <i class='las la-search'></i>
+                <div className='search-container'>
+                  <i className='las la-search'></i>
                   <input
                     className='friend-search'
                     type='text'
@@ -589,13 +589,13 @@ function ReelFeedComponent() {
                                 {' '}
                                 <div className='grid-container'>
                                   {/* <figure> */}
-                                  <div class='item1'>
+                                  <div className='item1'>
                                     <a href={`/profile/${userM.email}`} title={`${userM.email}`}>
                                       <img style={{ objectFit: 'cover' }} src={userM.profilePicturePath} alt='' />
                                     </a>
                                     {/* </figure> */}
                                   </div>
-                                  <div class='item2'>
+                                  <div className='item2'>
                                     <p className='nameTagMsg'>{`${userM.firstName} ${userM.lastName}`}</p>
                                   </div>
                                   {/* <div className="  "> */}
@@ -618,7 +618,7 @@ function ReelFeedComponent() {
           <Popup
             trigger={
               <a href='#!'>
-                <i class='las la-map-marker-alt'></i>
+                <i className='las la-map-marker-alt'></i>
               </a>
             }
             nested
@@ -634,7 +634,7 @@ function ReelFeedComponent() {
 
         {/* <ul style={{marginLeft:'10px'}}>
       <li style={{fontSize:'12px'}}>What's in hang?</li>
-      <li><label className="fileContainer"><i class="lar la-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
+      <li><label className="fileContainer"><i className="lar la-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
     </label></li></ul>*/}
       </div>
     );
@@ -695,12 +695,12 @@ function ReelFeedComponent() {
       <div style={{ margin: '0 11px', padding: '15px', boxShadow: '0 0 3px rgb(0 0 0 / 16%)', borderRadius: '5px' }}>
         <div style={{ display: 'inline' }}>What's in hang?</div>
 
-        <div className="add-smilespopup"><label className="fileContainer"><i class="lar la-file-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
+        <div className="add-smilespopup"><label className="fileContainer"><i className="lar la-file-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
         </label></div>
-        <div className="gifpopup"><Popup trigger={<a href="#!"><i class="las la-user-tag"></i></a>} nested modal>
+        <div className="gifpopup"><Popup trigger={<a href="#!"><i className="las la-user-tag"></i></a>} nested modal>
           {close => (<Form style={{ margin: '5px' }} className="popwidth">
-            <div class="search-container">
-              <i class="las la-search"></i><input className="friend-search" type="text" id="header-search" placeholder="Search Friends" name="s" onChange={handleSearchedUser} /><span onClick={close}>Done</span>
+            <div className="search-container">
+              <i className="las la-search"></i><input className="friend-search" type="text" id="header-search" placeholder="Search Friends" name="s" onChange={handleSearchedUser} /><span onClick={close}>Done</span>
             </div>
             {(userF) ? <><div className="Tag">Tagged:{`${userF.firstName} ${userF.lastName}`}</div></> : null}
             <div>
@@ -712,12 +712,12 @@ function ReelFeedComponent() {
                         <li key={userM.id} className="friends-card">
                           <a href="#!" onClick={() => handleTag(userM)}> <div className="grid-container">
                             {/* <figure> */}
-                            <div class="item1">
+                            <div className="item1">
                               <a href={`/profile/${userM.email}`} title={`${userM.email}`}><img style={{ objectFit: 'cover' }} src={fileStorage.baseUrl + userM.profilePicturePath} alt="" /></a>
                               {/* </figure> */}
 
                             </div>
-                            <div class="item2"><p className="nameTagMsg">{`${userM.firstName} ${userM.lastName}`}</p>
+                            <div className="item2"><p className="nameTagMsg">{`${userM.firstName} ${userM.lastName}`}</p>
                             </div>
                             {/* <div className="  "> */}
                           </div></a>
@@ -728,13 +728,13 @@ function ReelFeedComponent() {
           </Form>
           )}
         </Popup></div>
-        <div className="campopup"><label className="fileContainer"><i class="las la-map-marker-alt"></i><input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
+        <div className="campopup"><label className="fileContainer"><i className="las la-map-marker-alt"></i><input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
         </label></div>
 
 
         {/* <ul style={{marginLeft:'10px'}}>
       <li style={{fontSize:'12px'}}>What's in hang?</li>
-      <li><label className="fileContainer"><i class="lar la-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
+      <li><label className="fileContainer"><i className="lar la-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
     </label></li></ul>*/}</div>
     )
 
@@ -746,12 +746,12 @@ function ReelFeedComponent() {
       <div style={{ margin: '0 11px', padding: '15px', boxShadow: '0 0 3px rgb(0 0 0 / 16%)', borderRadius: '5px' }}>
         <div style={{ display: 'inline' }}>Add More</div>
 
-        <div className="add-smilespopup"><label className="fileContainer"><i class="lar la-file-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
+        <div className="add-smilespopup"><label className="fileContainer"><i className="lar la-file-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
         </label></div>
-        <div className="gifpopup"><Popup trigger={<a href="#!"><i class="las la-user-tag"></i></a>} nested modal>
+        <div className="gifpopup"><Popup trigger={<a href="#!"><i className="las la-user-tag"></i></a>} nested modal>
           {close => (<Form style={{ margin: '5px' }} className="popwidth">
-            <div class="search-container">
-              <i class="las la-search"></i><input className="friend-search" type="text" id="header-search" placeholder="Search Friends" name="s" onChange={handleSearchedUser} /><span onClick={close}>Done</span>
+            <div className="search-container">
+              <i className="las la-search"></i><input className="friend-search" type="text" id="header-search" placeholder="Search Friends" name="s" onChange={handleSearchedUser} /><span onClick={close}>Done</span>
             </div>
             {(userF) ? <><div className="Tag">Tagged:{`${userF.firstName} ${userF.lastName}`}</div></> : null}
             <div>
@@ -763,12 +763,12 @@ function ReelFeedComponent() {
                         <li key={userM.id} className="friends-card">
                           <a href="#!" onClick={() => handleTag(userM)}> <div className="grid-container">
                             {/* <figure> */}
-                            <div class="item1">
+                            <div className="item1">
                               <a href={`/profile/${userM.email}`} title={`${userM.email}`}><img style={{ objectFit: 'cover' }} src={fileStorage.baseUrl + userM.profilePicturePath} alt="" /></a>
                               {/* </figure> */}
 
                             </div>
-                            <div class="item2"><p className="nameTagMsg">{`${userM.firstName} ${userM.lastName}`}</p>
+                            <div className="item2"><p className="nameTagMsg">{`${userM.firstName} ${userM.lastName}`}</p>
                             </div>
                             {/* <div className="  "> */}
                           </div></a>
@@ -779,13 +779,13 @@ function ReelFeedComponent() {
           </Form>
           )}
         </Popup></div>
-        <div className="campopup"><label className="fileContainer"><i class="las la-map-marker-alt"></i><input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
+        <div className="campopup"><label className="fileContainer"><i className="las la-map-marker-alt"></i><input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
         </label></div>
 
 
         {/* <ul style={{marginLeft:'10px'}}>
         <li style={{fontSize:'12px'}}>What's in hang?</li>
-        <li><label className="fileContainer"><i class="lar la-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
+        <li><label className="fileContainer"><i className="lar la-image"></i> <input type="file" name="post_image" accept="image/*" onChange={handleFile}></input>
       </label></li></ul>*/}</div>
     )
 
@@ -800,14 +800,14 @@ function ReelFeedComponent() {
         {close => (<Form className="popwidth" style={{ margin: '5px' }}>
 
           <div className="headpop">
-            <div className="row"><div style={{ width: '5%' }}><a href="#!" style={{ padding: '10px 80px 10px 0' }} onClick={close}><i class="las la-times"></i></a></div>
+            <div className="row"><div style={{ width: '5%' }}><a href="#!" style={{ padding: '10px 80px 10px 0' }} onClick={close}><i className="las la-times"></i></a></div>
               <div style={{ color: '#000000', fontSize: '14px', fontWeight: 'bold', width: '70%', textAlign: 'center' }}> <span>Today to me, Tomorrow to you</span></div>
               <div style={{ width: '25%', textAlign: 'right' }}><a className="popup-btn" href="/HangGift" >Keep Hang</a></div>
             </div></div>
 
           <div style={{ padding: '0 11px 11px 11px' }}><div className="popupimg">
             <img src={user ? fileStorage.baseUrl + user.profilePicturePath : fileStorage.baseUrl + userR.profilePicturePath} alt="" /></div>
-            <div class="popupuser-name"><div style={{ float: 'left', display: 'inline' }}><span>{`${user.firstName} ${user.lastName}`}{(userF) ? <> with {`${userF.firstName} ${userF.lastName}`}</> : null}</span>
+            <div className="popupuser-name"><div style={{ float: 'left', display: 'inline' }}><span>{`${user.firstName} ${user.lastName}`}{(userF) ? <> with {`${userF.firstName} ${userF.lastName}`}</> : null}</span>
               <span style={{ display: 'block', fontSize: '12px' }}><div className="dropdown">
                 <select name="privacy" id="privacy" value={Privacy} onChange={handlePrivacy} >
                   <option value="Friends">Friends</option>
@@ -818,7 +818,7 @@ function ReelFeedComponent() {
             {showPostImage ?
               <>
                 <img id="preview" src={postImage} style={{ width: "100%", objectFit: 'cover' }} />
-                <button onClick={handleRemoveImage} style={{ right: '25px', position: 'absolute', borderRadius: '100%', background: '#b7b7b738', padding: '10px 10px' }}><i class="las la-times"></i></button>
+                <button onClick={handleRemoveImage} style={{ right: '25px', position: 'absolute', borderRadius: '100%', background: '#b7b7b738', padding: '10px 10px' }}><i className="las la-times"></i></button>
               </>
               :
               null
@@ -857,7 +857,7 @@ function ReelFeedComponent() {
               <div className='row' style={{ paddingBottom: '10px', paddingtop: '10px' }}>
                 <div style={{ width: '5%', paddingBottom: '10px' }}>
                   <a href='#!' style={{ padding: '10px 80px 10px 0' }} onClick={close}>
-                    <i class='las la-times' style={{ fontSize: '20px', background: '#C4C4C4', borderRadius: '50%' }}></i>
+                    <i className='las la-times' style={{ fontSize: '20px', background: '#C4C4C4', borderRadius: '50%' }}></i>
                   </a>
                 </div>
 
@@ -890,13 +890,13 @@ function ReelFeedComponent() {
 
                       <yi >
                         <div className="grid-containeraudience">
-                          <div class="item11">
+                          <div className="item11">
 
                             <img src="assets/images/publicicon.svg" style={{ width: '49%' }} />
                             {/* <img src={fileStorage.baseUrl +profilePicturePath} alt="" /> */}
                             {/* <span className="status f-online" /> */}
                           </div>
-                          <div class="item22">
+                          <div className="item22">
 
                             <p style={{ fontSize: '17px', fontWeight: 'bold', color: 'black' }}>
                               Public
@@ -909,7 +909,7 @@ function ReelFeedComponent() {
 
                           </div>
 
-                          <input type="radio" Value="Public" name="privacy" onChange={handleChange} style={{ height: '60%', width: '100%' }} />
+                          <input type="radio" value="Public" name="privacy" onChange={handleChange} style={{ height: '60%', width: '100%' }} />
 
                           {/* <a href="#!" className="button" style={{ color: "#000000", background: '#EAEAEA', fontSize: '12px' }} href="#!" onClick={("")} ></a> */}
 
@@ -918,13 +918,13 @@ function ReelFeedComponent() {
 
                       <yi>
                         <div className="grid-containeraudience">
-                          <div class="item11">
+                          <div className="item11">
 
                             <img src="assets/images/friendsicon.svg" style={{ width: '46%' }} />
                             {/* <img src={fileStorage.baseUrl +profilePicturePath} alt="" /> */}
                             {/* <span className="status f-online" /> */}
                           </div>
-                          <div class="item22">
+                          <div className="item22">
 
                             <p style={{ fontSize: '17px', fontWeight: 'bold', color: 'black' }}>
                               Friends
@@ -937,7 +937,7 @@ function ReelFeedComponent() {
 
                           </div>
 
-                          <input type="radio" Value="Friends" name="privacy" onChange={handleChange} style={{ height: '60%', width: '100%' }} />
+                          <input type="radio" value="Friends" name="privacy" onChange={handleChange} style={{ height: '60%', width: '100%' }} />
 
                           {/* <a href="#!" className="button" style={{ color: "#000000", background: '#EAEAEA', fontSize: '12px' }} href="#!" onClick={("")} ></a> */}
 
@@ -946,13 +946,13 @@ function ReelFeedComponent() {
 
                       <yi >
                         <div className="grid-containeraudience">
-                          <div class="item11">
+                          <div className="item11">
 
                             <img src="assets/images/friendexcepticon.svg" style={{ width: '46%' }} />
                             {/* <img src={fileStorage.baseUrl +profilePicturePath} alt="" /> */}
                             {/* <span className="status f-online" /> */}
                           </div>
-                          <div class="item22">
+                          <div className="item22">
 
                             <p style={{ fontSize: '17px', fontWeight: 'bold', color: 'black' }}>
                               Friends except
@@ -963,7 +963,7 @@ function ReelFeedComponent() {
 
                           </div>
 
-                          <input type="radio" Value="Friends except" name="privacy" onChange={handleChange} style={{ height: '60%', width: '100%' }} />
+                          <input type="radio" value="Friends except" name="privacy" onChange={handleChange} style={{ height: '60%', width: '100%' }} />
 
                           {/* <a href="#!" className="button" style={{ color: "#000000", background: '#EAEAEA', fontSize: '12px' }} href="#!" onClick={("")} ></a> */}
 
@@ -972,13 +972,13 @@ function ReelFeedComponent() {
 
                       <yi  >
                         <div className="grid-containeraudience">
-                          <div class="item11">
+                          <div className="item11">
 
                             <img src="assets/images/groupicon.svg" style={{ width: '46%' }} />
                             {/* <img src={fileStorage.baseUrl +profilePicturePath} alt="" /> */}
                             {/* <span className="status f-online" /> */}
                           </div>
-                          <div class="item22">
+                          <div className="item22">
 
                             <p style={{ fontSize: '17px', fontWeight: 'bold', color: 'black' }}>
                               Group
@@ -988,7 +988,7 @@ function ReelFeedComponent() {
                             </p>
                           </div>
 
-                          <input type="radio" Value="Group" name="privacy" onChange={handleChange} style={{ height: '60%', width: '100%' }} />
+                          <input type="radio" value="Group" name="privacy" onChange={handleChange} style={{ height: '60%', width: '100%' }} />
 
                           {/* <a href="#!" className="button" style={{ color: "#000000", background: '#EAEAEA', fontSize: '12px' }} href="#!" onClick={("")} ></a> */}
 
@@ -997,13 +997,13 @@ function ReelFeedComponent() {
 
                       <yi  >
                         <div className="grid-containeraudience">
-                          <div class="item11">
+                          <div className="item11">
 
                             <img src="assets/images/onlymeicon.svg" style={{ width: '39%' }} />
                             {/* <img src={fileStorage.baseUrl +profilePicturePath} alt="" /> */}
                             {/* <span className="status f-online" /> */}
                           </div>
-                          <div class="item22">
+                          <div className="item22">
                             <p style={{ fontSize: '17px', fontWeight: 'bold', color: 'black' }}>
                               Only Me
                             </p>
@@ -1012,7 +1012,7 @@ function ReelFeedComponent() {
                             </p>
                           </div>
 
-                          <input type="radio" Value="Only Me" name="privacy" style={{ height: '60%', width: '100%' }} />
+                          <input type="radio" value="Only Me" name="privacy" style={{ height: '60%', width: '100%' }} />
 
                           {/* <a href="#!" className="button" style={{ color: "#000000", background: '#EAEAEA', fontSize: '12px' }} href="#!" onClick={("")} ></a> */}
 
@@ -1044,7 +1044,7 @@ function ReelFeedComponent() {
       <Popup trigger={<div className='my'>
           <span style={{ cursor: 'pointer' }}>
                       <span style={{ marginRight: '5px', padding: '5px' }}>
-                        <i class="ti-control-shuffle" style={{ fontSize: '20px' }}></i>
+                        <i className="ti-control-shuffle" style={{ fontSize: '20px' }}></i>
                         {/* <span>{`${following.length}`}</span> */}
                       </span>
                       Add Reels
@@ -1057,7 +1057,7 @@ function ReelFeedComponent() {
             <div style={{ padding: '10px' }}>
               <span>
                 <a href='#!' style={{ padding: '10px 150px 10px 0' }} onClick={close}>
-                  <i class='las la-times'></i>
+                  <i className='las la-times'></i>
                 </a>
               </span>
               <span style={{ color: '#000000', fontSize: '14px', fontWeight: 'bold' }}>
@@ -1098,7 +1098,7 @@ function ReelFeedComponent() {
                       padding: '10px 10px',
                     }}
                   >
-                    <i class='las la-times'></i>
+                    <i className='las la-times'></i>
                   </button>
                 </>
               ) : (
@@ -1169,7 +1169,7 @@ function ReelFeedComponent() {
     if (event.target.value === "") {
       setSearchedUser(allUser)
     } else {
-      let temp = []
+      const temp = []
       allUser.map(u => {
         const email = u.email.toLowerCase()
         const searchedvalue = event.target.value.toLowerCase()
@@ -1186,7 +1186,7 @@ function ReelFeedComponent() {
     if (event.target.value === "") {
       setSearchedReelforUser(swapsForUser)
     } else {
-      let temp = []
+      const temp = []
       swapsForUser.map(u => {
         const content = u.content.toLowerCase()
       
@@ -1205,7 +1205,7 @@ function ReelFeedComponent() {
     if (event.target.value === "") {
       setSearchedReelforUser(swapsForUserFriends)
     } else {
-      let temp = []
+      const temp = []
       swapsForUserFriends.map(u => {
         const content = u.content.toLowerCase()
       
@@ -1239,7 +1239,7 @@ function ReelFeedComponent() {
 const AllReelscomponentFunction = () => {
     return (
       <div className="loadMore">
-         <div class="friends-search-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+         <div className="friends-search-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <input className="friend-search" type="text" placeholder="Search Swap" name="s" onChange={handleSearchedSwapFriend} style={{ width: "100%" }} />
             </div>
         {searchedReel && searchedReel.length > 0
@@ -1266,7 +1266,7 @@ const AllReelscomponentFunction = () => {
   const MyReelsComponentFunction = () => {
     return (
       <div className="loadMore">
-         <div class="friends-search-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+         <div className="friends-search-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <input className="friend-search" type="text" placeholder="Search Swap" name="s" onChange={handleSearchedSwap} style={{ width: "100%" }} />
             </div>
         {searchedReelforUser && searchedReelforUser.length > 0
@@ -1317,43 +1317,43 @@ const AllReelscomponentFunction = () => {
           <div className="frnds">   
             <div>
               <p className="Friends-Title">Reels</p>
-              <i style={{ float: "right", fontSize: 20 }} class="fas fa-ellipsis-v"></i>
+              <i style={{ float: "right", fontSize: 20 }} className="fas fa-ellipsis-v"></i>
             </div>
-            <div class="navContent">
+            <div className="navContent">
 
-              <ul class="nav nav-pills swap-page-nav" role="tablist">
-                <li class="nav-item" style={{ justifyContent: 'flex-start' }}>
+              <ul className="nav nav-pills swap-page-nav" role="tablist">
+                <li className="nav-item" style={{ justifyContent: 'flex-start' }}>
                   <div className="all" onClick={() => setShowComp("AllReels")}>
                     <span style={{ cursor: 'pointer' }}>
                       <span style={{ marginRight: '5px', padding: '5px' }}>
-                        <i class="fas fa-retweet" style={{ fontSize: '20px' }}></i>
+                        <i className="fas fa-retweet" style={{ fontSize: '20px' }}></i>
                         {/* <span>{`${following.length}`}</span> */}
                       </span>
                       All Reels
                     </span>
                   </div>
                 </li>
-                <li class="nav-item" style={{ justifyContent: 'center' }}>
+                <li className="nav-item" style={{ justifyContent: 'center' }}>
                   <div className="my" onClick={() => setShowComp("MyReels")}>
                     <span style={{ cursor: 'pointer' }}>
                       <span style={{ marginRight: '5px', padding: '5px' }}>
-                        <i class="ti-control-shuffle" style={{ fontSize: '20px' }}></i>
+                        <i className="ti-control-shuffle" style={{ fontSize: '20px' }}></i>
                         {/* <span>{`${following.length}`}</span> */}
                       </span>
                       My Reels
                     </span>
                   </div>
                 </li>
-                <li class="nav-item" style={{ justifyContent: 'flex-end' }}>
+                <li className="nav-item" style={{ justifyContent: 'flex-end' }}>
                  
                    
 
                     {addReel()}
                 </li>
-                {/* <li class="nav-item">
+                {/* <li className="nav-item">
                   <span style={{ cursor: 'pointer' }}>
                     <span style={{ marginRight: '5px', padding: '5px' }}>
-                      <i class="fas fa-bell" style={{fontSize:'25px'}}></i>
+                      <i className="fas fa-bell" style={{fontSize:'25px'}}></i>
                     </span>
                     Notifications
                   </span>

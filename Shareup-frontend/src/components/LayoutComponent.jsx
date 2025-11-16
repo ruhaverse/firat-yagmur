@@ -21,7 +21,7 @@ export default function Layout(props) {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  let history = useHistory();
+  const history = useHistory();
 
   useEffect(() => {
     if (props.user) {
@@ -61,7 +61,7 @@ export default function Layout(props) {
       return;
     }
 
-    var video = document.getElementById("video");
+    const video = document.getElementById("video");
     const canvas = document.createElement("canvas");
     // scale the canvas accordingly
     canvas.width = video.videoWidth / 10;
@@ -70,12 +70,12 @@ export default function Layout(props) {
     canvas.getContext('2d').drawImage(video, 10, 10);
     // convert it to a usable data URL
     const dataURL = canvas.toDataURL();
-    var img = document.createElement("img");
+    const img = document.createElement("img");
     img.src = fileStorage.baseUrl + "/user-stories/1643529794109/Picture.jpg";
 
 
     const formData = new FormData();
-    var content = "test";
+    const content = "test";
 
 
     formData.append(`content`, content);
@@ -141,10 +141,10 @@ export default function Layout(props) {
     return null
   }
   const curdate = () => {
-    let date = new Date()
-    let dd = date.getDate()
-    let mm = date.getMonth()
-    let yy = date.getFullYear()
+    const date = new Date()
+    const dd = date.getDate()
+    const mm = date.getMonth()
+    const yy = date.getFullYear()
     return `${dd}/ ${mm}/ ${yy}`
   }
   return (
@@ -245,7 +245,7 @@ export default function Layout(props) {
                           // borderBottom: '1px solid #75757530'
                         }} >
                           <div className="sidebar-news">
-                            <div class="media-date">What's trending</div>
+                            <div className="media-date">What's trending</div>
                             <div style={{}}>
                               <ul>
                                 <li>
@@ -301,7 +301,7 @@ export default function Layout(props) {
 
 
                         <div className="sidebar-news" style={{}}>
-                          <div class="media-date">REELS</div>
+                          <div className="media-date">REELS</div>
                           <div style={{}}>
                             <ul>
                               <li>
@@ -347,7 +347,7 @@ export default function Layout(props) {
                                       <div style={{ padding: '10px' }}>
                                         <span>
                                           <a href='#!' style={{ padding: '10px 150px 10px 0' }} onClick={close}>
-                                            <i class='las la-times'></i>
+                                            <i className='las la-times'></i>
                                           </a>
                                         </span>
                                         <span style={{ color: '#000000', fontSize: '14px', fontWeight: 'bold' }}>
@@ -388,7 +388,7 @@ export default function Layout(props) {
                                                 padding: '10px 10px',
                                               }}
                                             >
-                                              <i class='las la-times'></i>
+                                              <i className='las la-times'></i>
                                             </button>
                                           </>
                                         ) : (

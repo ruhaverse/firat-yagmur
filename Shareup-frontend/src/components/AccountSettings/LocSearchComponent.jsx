@@ -17,7 +17,9 @@ class LocSearchComponent extends React.Component {
   handleSelect = address => {
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
-      .then(latLng => )
+      .then(latLng => {
+        // Handle location selection
+      })
       .catch(error => console.error('Error', error));
   };
  

@@ -50,13 +50,13 @@ function Index({ set, setUser }) {
 
 
 
-  let history = useHistory();
+  const history = useHistory();
 
   const [showComponent, setShowComponent] = useState('register');
 
   const [showModal, setShowModal] = useState(false)
 
-  var subtitle;
+  let subtitle;
   const [modalIsOpen,setIsOpen] = React.useState(false);
   function openModal() {
     setIsOpen(true);
@@ -202,7 +202,7 @@ const onSubmit = (data) => {
 //najam form register / login end
 
   const handleRegister = async() => {
-    let user = { email, password,confirmPassword, firstName, lastName , p_no}
+    const user = { email, password,confirmPassword, firstName, lastName , p_no}
 
     await UserService.createUser(user).then(res => {
       history.push('/');
@@ -314,7 +314,7 @@ const onSubmit = (data) => {
                 
                 <small className="">
                 {errors.firstName.message}
-                <i class="fas fa-exclamation-circle input-error-icon"></i>
+                <i className="fas fa-exclamation-circle input-error-icon"></i>
 
               </small>
               )}
@@ -333,7 +333,7 @@ const onSubmit = (data) => {
               />
               {errors.lastName && (
                 <small className="">{errors.lastName.message}
-                <i class="fas fa-exclamation-circle input-error-icon"></i>
+                <i className="fas fa-exclamation-circle input-error-icon"></i>
                 </small>
               )}
             </div>
@@ -356,7 +356,7 @@ const onSubmit = (data) => {
               />
               {errors.email && (
                 <small className="">{errors.email.message}
-                <i class="fas fa-exclamation-circle input-error-icon"></i>
+                <i className="fas fa-exclamation-circle input-error-icon"></i>
                 
                 </small>
               )}
@@ -391,7 +391,7 @@ const onSubmit = (data) => {
               />
               {errors.password && (
                 <small className="">{errors.password.message}
-                <i class="fas fa-exclamation-circle input-error-icon"></i>
+                <i className="fas fa-exclamation-circle input-error-icon"></i>
 
                 </small>
               )}
@@ -412,7 +412,7 @@ const onSubmit = (data) => {
               />
               {errors.confirmPassword && (
                 <small className="">{errors.confirmPassword.message}
-                <i class="fas fa-exclamation-circle input-error-icon"></i>
+                <i className="fas fa-exclamation-circle input-error-icon"></i>
                 
                 </small>
               )} 
@@ -468,7 +468,7 @@ const onSubmit = (data) => {
               {/* <label className="form-label pb-1">Email:</label> */}
               <input
                  placeholder='Enter email' id='loginemail' type="text" name="email" value={email} onChange={handleEmail} required="required" className='form-control m-0 border-radius'/>
-                 <i class="fas fa-exclamation-circle input-error-icon"></i>
+                 <i className="fas fa-exclamation-circle input-error-icon"></i>
                   <small id='email-empty'></small>
             </div>
 
@@ -476,7 +476,7 @@ const onSubmit = (data) => {
               {/* <label className="form-label pb-1">Password:</label> */}
               <input
                 id='loginpassword'  type="password" name="password" value={password} onChange={handlePassword} required="required" placeholder='Enter password' className='form-control m-0 border-radius'/>
-                 <i class="fas fa-exclamation-circle  input-error-icon2"></i>
+                 <i className="fas fa-exclamation-circle  input-error-icon2"></i>
                   
                   <small  id='password-empty'></small>
             

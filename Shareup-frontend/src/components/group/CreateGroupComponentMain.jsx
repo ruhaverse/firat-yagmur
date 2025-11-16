@@ -7,7 +7,7 @@ import settings from '../../services/Settings';
 
 
 function CreateGroupComponentMain() {
-    let history = useHistory();
+    const history = useHistory();
 
     const { user } = useContext(UserContext)
 
@@ -56,7 +56,7 @@ function CreateGroupComponentMain() {
     }
 
     const handleGroupImage = (event) => {
-        let validated = false
+        const validated = false
         setGroupPicture(event.target.files[0])
         const reader = new FileReader();
         reader.onload = () => {
@@ -69,7 +69,7 @@ function CreateGroupComponentMain() {
     }
 
     const handleGroupCover = (event) => {
-        let validated = false
+        const validated = false
         setGroupCover(event.target.files[0])
         const reader = new FileReader();
         reader.onload = () => {
@@ -90,7 +90,7 @@ function CreateGroupComponentMain() {
     }
 
     const handleCreateGroup = async () => {
-        let group = {
+        const group = {
             name: groupName,
             description: groupDesc,
             privacySetting: groupPrivacySetting,
@@ -180,8 +180,8 @@ function CreateGroupComponentMain() {
 
                         <div className="" style={{ textAlign: "center" }}>
                             <legend>Group Image</legend>
-                            <div class="image-upload">
-                                <label for="file-input">
+                            <div className="image-upload">
+                                <label htmlFor="file-input">
                                     {
                                         showProfilePicture ?
                                             <img id="preview" src={profileRender} /> :
@@ -194,8 +194,8 @@ function CreateGroupComponentMain() {
                         </div>
                         <div className="" style={{ textAlign: "center" }}>
                             <legend>Group Cover Image</legend>
-                            <div class="image-upload">
-                                <label for="file-input-cover">
+                            <div className="image-upload">
+                                <label htmlFor="file-input-cover">
                                     {
                                         showCoverPicture ?
                                             <img id="preview" src={coverRender} /> :

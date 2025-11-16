@@ -50,8 +50,8 @@ function PrivacyPolicyComponent() {
   <br/>
   <br/>
 
-          <p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} class="text-justify">  
-          Thank you for choosing to be part of our community at <b  class="font-weight-bold"> Shareup</b>. We are committed to protecting your personal information 
+          <p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className="text-justify">  
+          Thank you for choosing to be part of our community at <b  className="font-weight-bold"> Shareup</b>. We are committed to protecting your personal information 
           and your right to privacy. If you have any questions or concerns about our policy, or our practices with regards to your
            personal information, please send a mail to <a  href="mailto:info@shareuptime.com" style={{color:"#a7dee5", fontSize:"20px",  textDecoration:"none" , textDecorationLine: 'underline' }}>info@shareuptime.com</a>.
            {/* Updated contact: info@shareuptime.com */}
@@ -75,7 +75,7 @@ function PrivacyPolicyComponent() {
 <br/>
 <br/>
 
-<p style={{fontFamily: 'Helvetica, Arial, sans-serif', letterSpacing:'normal'}} class="font-weight-bold text-justify">
+<p style={{fontFamily: 'Helvetica, Arial, sans-serif', letterSpacing:'normal'}} className="font-weight-bold text-justify">
           
           Please read this privacy policy carefully as it will help you make informed decisions about sharing your personal information with us
           </p>
@@ -85,11 +85,11 @@ function PrivacyPolicyComponent() {
              <br/>
              <br/>
 
-             <b class="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> WHAT INFORMATION DO WE COLLECT?  </b>
+             <b className="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> WHAT INFORMATION DO WE COLLECT?  </b>
 
              <br/>
              <br/>
-             <p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} class="text-justify">
+             <p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className="text-justify">
 
              We collect personal information that you voluntarily provide to us when registering at 
              <a href="https://www.shareuptime.com"  style={{color:"#a7dee5", fontSize:"20px", fontWeight:"bold", textDecoration:"none" }}> Shareup </a> 
@@ -102,14 +102,14 @@ function PrivacyPolicyComponent() {
      
 </p>
 <ul className="unorderedlist">
-                 <li class="font-weight-bold">Name and Contact Data</li>
+                 <li className="font-weight-bold">Name and Contact Data</li>
                  <br/>
                  
                  We collect your first and last name, email address, phone number, national ID number and other similar contact data.
                  <br/>
                  <br/>
                  <br/>
-                 <li class="font-weight-bold">Credentials</li>
+                 <li className="font-weight-bold">Credentials</li>
                  
                  <br/>
                  We collect passwords, password hints, and similar security information used for authentication and account access.
@@ -117,7 +117,7 @@ function PrivacyPolicyComponent() {
                  <br/>
                  <br/>
                  
-                 <li class="font-weight-bold">Social Media Login Data</li>
+                 <li className="font-weight-bold">Social Media Login Data</li>
                  <br/>
                  
                  We provide you with the option to register using social media account details, like your Facebook, Twitter or other social media account.
@@ -139,8 +139,8 @@ All personal information that you provide to us must be true,
  <br/>
                  <br/>
                  <br/>
-                 <p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} class=" text-justify">
- <b class="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> HOW DO WE USE YOUR INFORMATION?  </b>
+                 <p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className=" text-justify">
+ <b className="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> HOW DO WE USE YOUR INFORMATION?  </b>
  <br/>
              <br/>
 
@@ -148,16 +148,16 @@ All personal information that you provide to us must be true,
 <br/>
 <br/>
  <ul className="unorderedlist">
-                 <li class="font-weight-bold">To facilitate account creation and logon process</li>
-                 <li class="font-weight-bold">To send you marketing and promotional communications</li>
-                 <li class="font-weight-bold">To send administrative information to you</li>
-                 <li class="font-weight-bold">Fulfill and manage your orders.</li>
-                 <li class="font-weight-bold">To post testimonials</li>
-                 <li class="font-weight-bold">Request Feedback</li>
-                 <li class="font-weight-bold">To protect our Services</li>
-                 <li class="font-weight-bold">To enable user-to-user communications</li>
-                 <li class="font-weight-bold">To deliver services to the user. </li>
-                 <li class="font-weight-bold">For other Business Purposes</li>
+                 <li className="font-weight-bold">To facilitate account creation and logon process</li>
+                 <li className="font-weight-bold">To send you marketing and promotional communications</li>
+                 <li className="font-weight-bold">To send administrative information to you</li>
+                 <li className="font-weight-bold">Fulfill and manage your orders.</li>
+                 <li className="font-weight-bold">To post testimonials</li>
+                 <li className="font-weight-bold">Request Feedback</li>
+                 <li className="font-weight-bold">To protect our Services</li>
+                 <li className="font-weight-bold">To enable user-to-user communications</li>
+                 <li className="font-weight-bold">To deliver services to the user. </li>
+                 <li className="font-weight-bold">For other Business Purposes</li>
                  <br/>
                  
                  
@@ -167,8 +167,8 @@ All personal information that you provide to us must be true,
 
 </p>
 <br/><br/>
-<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} class=" text-justify">
- <b class="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> 
+<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className=" text-justify">
+ <b className="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> 
 TRACKING AND COOKIES DATA  </b>
 <br/>
 <br/>
@@ -184,18 +184,18 @@ if you do not accept cookies, you may not be able to use some portions of our Se
 <br/>
 <br/>
 <br/>
-<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} class=" text-justify">
- <b class="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> 
+<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className=" text-justify">
+ <b className="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> 
 DATA BREACH</b>
 <br/>
 <br/>
 A privacy breach occurs when there is unauthorized access to or collection, use, disclosure, or disposal of personal information. 
-You will be notified about data breaches when <b class="font-weight-bold">“Shareup”</b> believes you are likely to be at risk of serious harm. For example, a data breach may be
+You will be notified about data breaches when <b className="font-weight-bold">“Shareup”</b> believes you are likely to be at risk of serious harm. For example, a data breach may be
  likely to result in serious financial harm or harm to your mental or physical well-being. 
 <br/>
 <br/>
-In the event that <b class="font-weight-bold">“Shareup”</b>becomes aware of a security breach which has resulted or may result in unauthorized access, use or disclosure of 
-personal information. <b class="font-weight-bold">“Shareup”</b>will promptly investigate the matter and notify the applicable Supervisory Authority not later than 72 hours after
+In the event that <b className="font-weight-bold">“Shareup”</b>becomes aware of a security breach which has resulted or may result in unauthorized access, use or disclosure of 
+personal information. <b className="font-weight-bold">“Shareup”</b>will promptly investigate the matter and notify the applicable Supervisory Authority not later than 72 hours after
  having become aware of it unless the personal data breach is unlikely to result in a risk to the rights and freedoms of natural persons.  
 
 
@@ -204,8 +204,8 @@ personal information. <b class="font-weight-bold">“Shareup”</b>will promptly
 <br/>
 <br/>
 <br/>
-<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} class=" text-justify">
- <b class="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> 
+<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className=" text-justify">
+ <b className="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> 
  CONTROL FOR-DO-NOT-TRACK FEATURES</b>
 <br/>
 <br/>
@@ -219,8 +219,8 @@ signals or any other mechanism that automatically communicates your choice not t
 <br/>
 <br/>
 <br/>
-<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} class=" text-justify">
- <b class="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> 
+<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className=" text-justify">
+ <b className="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> 
  HOW DO WE HANDLE YOUR SOCIAL LOGINS</b>
 <br/>
 <br/>
@@ -242,8 +242,8 @@ We will use the information we receive only for the purposes that are described 
 <br/>
 <br/>
 <br/>
-<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} class=" text-justify">
- <b class="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> 
+<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className=" text-justify">
+ <b className="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> 
  CHILDREN’S INFORMATION</b>
 <br/>
 <br/>
@@ -261,8 +261,8 @@ children without verification of parental consent, we take steps to remove that 
 <br/>
 <br/>
 <br/>
-<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} class=" text-justify">
- <b class="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> 
+<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className=" text-justify">
+ <b className="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> 
  DO WE MAKE UPDATES TO THIS POLICY</b>
  <br/>
 <br/>
@@ -275,8 +275,8 @@ We may update this privacy policy from time to time. The updated version will be
  <br/>
 <br/>
 <br/>
-<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} class=" text-justify">
- <b class="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> 
+<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className=" text-justify">
+ <b className="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> 
  HOW CAN YOU CONTACT US ABOUT THIS POLICY</b>
  <br/>
 <br/>
@@ -288,8 +288,8 @@ If you have questions or comments about this policy, you may email us at: info@s
 <br/>
 <br/>
 <br/>
-<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} class=" text-justify">
- <b class="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> 
+<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className=" text-justify">
+ <b className="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> 
  GDPR POLICY</b>
  <br/>
 <br/>
@@ -325,8 +325,8 @@ If you are a resident of the European Economic Area (EEA), you have certain data
 <br/>
 <br/>
 <br/>
-<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} class=" text-justify">
-<b class="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> Privacy Bill of Rights</b>
+<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className=" text-justify">
+<b className="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> Privacy Bill of Rights</b>
 <br/>
 <br/>
 
@@ -352,7 +352,7 @@ In certain circumstances, you have the following data protection rights:
 <br/>
 <br/>
 <br/>
-<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} class=" text-justify">
+<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className=" text-justify">
 For more information, please contact your local data protection authority in the ‘European Economic Area’ (EEA).
 <br/>
 <br/>
@@ -402,7 +402,7 @@ For more information, please contact your local data protection authority in the
     <br/>
 <br/>
     While using our Service, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you
-    <b class="font-weight-bold text-justify" style={{fontSize:'12'}}> (“Personal Data”). </b>
+    <b className="font-weight-bold text-justify" style={{fontSize:'12'}}> (“Personal Data”). </b>
 Personally identifiable information may include, but is not limited to:
 <ul className="unorderedlist">
 <li>Email address</li>
@@ -421,7 +421,7 @@ Whilst one of these signs on its own might not give cause for concern, two or mo
  report any suspicious signs to the local authorities if you suspect sex/human trafficking.
  <br/>
  <br/>
- <b class="font-weight-bold text-justify" style={{fontSize:'12'}}> Note:</b> Please report any suspected sexual exploitation of minors and/or human trafficking to the appropriate authorities.
+ <b className="font-weight-bold text-justify" style={{fontSize:'12'}}> Note:</b> Please report any suspected sexual exploitation of minors and/or human trafficking to the appropriate authorities.
 
 </ol>
 
@@ -431,9 +431,9 @@ Whilst one of these signs on its own might not give cause for concern, two or mo
 <br/>
  <br/>
  <br/>
-<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} class=" text-justify">
+<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className=" text-justify">
 
-<b class="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> Data Protection Rights under the California Privacy Protection Act (CalOPPA)</b>
+<b className="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> Data Protection Rights under the California Privacy Protection Act (CalOPPA)</b>
 <br/>
  <br/>
  CalOPPA is the first state law in the nation to require commercial websites and online services to post a privacy policy. The law’s reach stretches
@@ -462,19 +462,19 @@ visiting the Preferences or Settings page of your web browser.
 <br/>
  <br/>
  <br/>
- <p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} class=" text-justify">
- <b class="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> Data Protection Rights under the California Consumer Privacy Act (CCPA)</b>
+ <p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className=" text-justify">
+ <b className="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}> Data Protection Rights under the California Consumer Privacy Act (CCPA)</b>
  <br/>
  <br/>
  If you are a California resident, you are entitled to learn what data we collect about you, ask to delete your data and not to sell (share) it. To exercise your data protection rights, 
  you can make certain requests and ask us anytime.
 </p>
 
-<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} class=" text-justify">
+<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className=" text-justify">
 <br/>
  <br/>
  <br/>
- <b class="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}>Qatar Data Protection Law</b>
+ <b className="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}>Qatar Data Protection Law</b>
  <br/>
  <br/>
  The Qatari Law No. 13 of 2016 ("the Personal Data Privacy Protection Law") took effect in 2017, with the aim of protecting and providing
@@ -493,11 +493,11 @@ The law has a large focus on organizations ensuring that the personal data they 
  <br/>
  <br/>
  <br/>
- <p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} class=" text-justify">
+ <p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className=" text-justify">
 <br/>
  <br/>
  <br/>
- <b class="font-weight-bold text-justify" style={{fontSize:'16'}}>Rights of Individuals</b>
+ <b className="font-weight-bold text-justify" style={{fontSize:'16'}}>Rights of Individuals</b>
  <br/>
  <br/>
  Each Individual has the right to the protection of the Personal Data there of that shall be processed only within the framework of transparency, 
@@ -532,8 +532,8 @@ An Individual may, at any time, access the Personal Data thereof and apply to re
 <br/>
 <br/>
 <br/>
-<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} class=" text-justify">
-<b class="font-weight-bold text-justify" style={{fontSize:'16'}}>Consequences of non-compliance</b>
+<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className=" text-justify">
+<b className="font-weight-bold text-justify" style={{fontSize:'16'}}>Consequences of non-compliance</b>
 <br/>
 <br/>
 If your organization fails to protect personal data and comply with Law No. 13 then you are exposed to not only high financial penalties (ranging from 
@@ -545,8 +545,8 @@ consumer trust.
  <br/>
 <br/>
 <br/>
-<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} class=" text-justify">
-<b class="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}>Bahrain Personal Data Protection Law</b>
+<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className=" text-justify">
+<b className="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}>Bahrain Personal Data Protection Law</b>
 <br/>
 <br/>
 On 1 August 2019, Bahrain Law No. 30 of 2018 promulgating the Personal Data Protection Law (PDPL) came into force in the Kingdom. Modelled on 
@@ -555,7 +555,7 @@ European Union data protection laws, the PDPL is the second national law in the 
  <br/>
 <br/>
 <i style={{fontStyle:'italic'}}>Penalties go further than the GDPR by including provisions for
-<b class="font-weight-bold text-justify" style={{fontSize:'12'}}> prison sentences of up to 1 year.</b></i>
+<b className="font-weight-bold text-justify" style={{fontSize:'12'}}> prison sentences of up to 1 year.</b></i>
 <br/>
 <br/>
 The law includes additional requirements for organizations to submit their data processing registers monthly to the Authority and has shorter timelines
@@ -567,8 +567,8 @@ The law includes additional requirements for organizations to submit their data 
  <br/>
 <br/>
 <br/>
-<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} class=" text-justify">
-<b class="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}>Egypt Personal Data Protection Law</b>
+<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className=" text-justify">
+<b className="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}>Egypt Personal Data Protection Law</b>
 <br/>
 <br/>
 Egypt published a Personal Data Protection Law in July 2020 that addresses the right to personal data protection and gives multiple rights to 
@@ -578,15 +578,15 @@ Organizations may need to acquire a license to process both personal and sensiti
 of personal information are expected to appoint an authorized Data Protection Officer (DPO) who will be responsible for the application of this law
  within the organization. 
 The Personal Data Protection Law has provisions for administrative fines and criminal penalties for non-compliance which could be up to a maximum of
-<b class="font-weight-bold text-justify" style={{fontSize:'12'}}> EGP 5m</b> or a potential sentence of
- <b class="font-weight-bold text-justify" style={{fontSize:'16'}}> imprisonment of more than six months.</b> 
+<b className="font-weight-bold text-justify" style={{fontSize:'12'}}> EGP 5m</b> or a potential sentence of
+ <b className="font-weight-bold text-justify" style={{fontSize:'16'}}> imprisonment of more than six months.</b> 
 </p>
 
 <br/>
 <br/>
 <br/>
-<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} class=" text-justify">
-<b class="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}>DIFC Data Protection Law</b>
+<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className=" text-justify">
+<b className="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}>DIFC Data Protection Law</b>
 <br/>
 <br/>
 The DIFC Data Protection Law (DIFC Law No. 5 of 2020) has been effective since 1 July 2020 and enforceable as of 1 October 2020. The DIFC law aims 
@@ -602,8 +602,8 @@ Some of the key features of the new law include the clarification of data subjec
 <br/>
 <br/>
 <br/>
-<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} class=" text-justify">
-<b class="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}>FREQUENTLY ASKED QUESTIONS (FAQs)</b>
+<p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className=" text-justify">
+<b className="font-weight-bold text-justify" style={{fontSize:'16',textDecorationLine:'underline'}}>FREQUENTLY ASKED QUESTIONS (FAQs)</b>
 <br/>
 <br/>
 <ol className="orderedlist-faq">

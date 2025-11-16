@@ -5,7 +5,7 @@ import axios from 'axios';
 // this function returns UUID
 function uuidv4() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     });
   }
@@ -36,7 +36,7 @@ function ForgotPasswordComponent(props){
     const sendResetPasswordMailFunc = () => {
         if(email){
             verCode = uuidv4()
-            let bundle = {
+            const bundle = {
                 mail: email,
                 verifiyCode:verCode,
             }
@@ -61,7 +61,7 @@ function ForgotPasswordComponent(props){
     // this function sends a bundle which includes new password and mail to the api for reseting password
     const resetPasswordFunction = () => {
         if(verifiyCode = verifiyCodeInput){
-            let bundle = {
+            const bundle = {
                 newPass: newPass,
                 mail: email
             }
@@ -75,12 +75,12 @@ function ForgotPasswordComponent(props){
                 <div className="frgtPwd">
                     <h2>Forgot Your Password?</h2>
                     <div className="optionText">Please enter your email and get your account right back</div>
-                    <div class="form-group">
+                    <div className="form-group">
                        
                         <input className="form-input" type="text" placeholder="Enter your email" onChange= {emailInputListener}/>
                     </div>
                     <div className="optionText" onClick={props.stateChanger}>Remembered your password?</div>
-                    <div class="submit-btns-log"><button class="mtr-btn" onClick={sendResetPasswordMailFunc}><span>Send mail</span></button></div>
+                    <div className="submit-btns-log"><button className="mtr-btn" onClick={sendResetPasswordMailFunc}><span>Send mail</span></button></div>
                    
                 </div>
             )
@@ -89,11 +89,11 @@ function ForgotPasswordComponent(props){
                 <div>
                     <h2>Please enter the code to reset your password.</h2>
                     <div className="inputWrapperDiv">
-                        <i class="fas fa-lock" style={{color:"#4fb5ff", marginTop:"6px", marginLeft:"8px"}}></i>
+                        <i className="fas fa-lock" style={{color:"#4fb5ff", marginTop:"6px", marginLeft:"8px"}}></i>
                         <input className="inputClass" type="text" placeholder="Enter your new password" onChange= {newPassInputListener}/>
                     </div>
                     <div className="inputWrapperDiv">
-                        <i class="fas fa-lock" style={{color:"#4fb5ff", marginTop:"6px", marginLeft:"8px"}}></i>
+                        <i className="fas fa-lock" style={{color:"#4fb5ff", marginTop:"6px", marginLeft:"8px"}}></i>
                         <input className="inputClass" type="text" placeholder="Enter the code" onChange= {verifiyCodeInputListener}/>
                     </div>
                     <button className="loginButton" onClick={null} style={{width:"160px"}} >Send password reset mail</button>

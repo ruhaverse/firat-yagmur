@@ -69,7 +69,7 @@ import Giphy from './components/Giphy';
 // import StoriesComponentMain from './components/Stories/StoriesComponent';
 function App() {
   testScript()
-  let history = useHistory();
+  const history = useHistory();
 
   const [jwtUser, setJwtUser] = useState(AuthService.getCurrentUser())
   const [user, setUser] = useState([])

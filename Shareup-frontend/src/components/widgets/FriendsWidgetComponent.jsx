@@ -13,7 +13,7 @@ import Frndimg from '../../images/frndimg.png'
 
 
 function FriendsWidgetComponent() {
-    let history = useHistory();
+    const history = useHistory();
 
     const { user } = useContext(UserContext)
 

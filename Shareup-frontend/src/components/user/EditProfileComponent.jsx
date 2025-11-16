@@ -19,7 +19,7 @@ import HobiesModal from './HobiesModal';
 import "./Modal.css";
 import "./NaajApp.css";
 export default function EditProfileComponent() {
-  let history = useHistory();
+  const history = useHistory();
   const [DescribeYourself, setDescribeYourself] = useState("")
   const { user } = useContext(UserContext)
   const handleDescribeYourself = (event) => { setDescribeYourself(event.target.value) }
@@ -51,7 +51,7 @@ export default function EditProfileComponent() {
 
   const [show, setShow] = useState('overview')
   const handleProfileImage = (event) => {
-    let validated = false
+    const validated = false
     setProfilePicture(event.target.files[0])
     const reader = new FileReader();
     reader.onload = () => {
@@ -83,7 +83,7 @@ export default function EditProfileComponent() {
     })
   }
   const updateProfile = async () => {
-    let updateduser = {
+    const updateduser = {
       firstName: firstName,
       lastName: lastName,
       email: user.email,
@@ -271,9 +271,9 @@ else
                 <li><p><i className="las la-home" aria-hidden="true" style={{fontSize:'1.8rem'}} /> {currentTown ? currentTown : 'Add current country'}</p></li>
                   {/* <input type="text" className="inpt" id="Current town/city" placeholder="Current town/city" */}
                   {/* <span className="text-color-2">Home town</span> */}
-                  <li><p><i class="las la-map-marker" style={{fontSize:'1.8rem'}}></i>{homeTown ? homeTown : 'Add current city'}</p></li>
+                  <li><p><i className="las la-map-marker" style={{fontSize:'1.8rem'}}></i>{homeTown ? homeTown : 'Add current city'}</p></li>
                   {/* <span className="text-color-2">Relationship status</span> */}
-                  <li><p><i class="lab la-gratipay"style={{fontSize:'1.8rem'}} ></i>{relationshipStatus ? relationshipStatus : 'Add Relationship status'}</p></li>
+                  <li><p><i className="lab la-gratipay"style={{fontSize:'1.8rem'}} ></i>{relationshipStatus ? relationshipStatus : 'Add Relationship status'}</p></li>
                 </ul>
               </div>
             </div>
@@ -381,11 +381,11 @@ else
                   <div className="right-edit-details-input"><input type="text" value={currentTown} onChange={handleCurrentTown}/></div>
                 </li>
                 <li className='d-flex align-items-center border-bottom'>
-                  <div style={{flex:1, textAlign: 'left'}}><p><i class="las la-map-marker"></i><span className="text-color-2">Home town</span></p></div>
+                  <div style={{flex:1, textAlign: 'left'}}><p><i className="las la-map-marker"></i><span className="text-color-2">Home town</span></p></div>
                   <div className="right-edit-details-input"><input type="text"  value={homeTown} onChange={handleHomeTown}/></div>
                 </li>
                 <li className='d-flex align-items-center border-bottom'>
-                <div style={{flex:1, textAlign: 'left'}}><p><i class="lab la-gratipay"></i><span className="text-color-2">Relationship status</span></p></div>
+                <div style={{flex:1, textAlign: 'left'}}><p><i className="lab la-gratipay"></i><span className="text-color-2">Relationship status</span></p></div>
                 <div className="right-edit-details-input"><input type="text" value={relationshipStatus} onChange={handleRelationshipStatus}/></div>
                 </li>
               </ul>

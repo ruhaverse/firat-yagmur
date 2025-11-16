@@ -4,14 +4,14 @@
 	options=$.extend({},$.fn.userincr.defaults,options ||{});
 	// ??? optins is shared between all invocations of a function?
 	return this.each(function(){
-	var edit=$(this);
-	var oldvalue=edit.val();
-	var op=OPS.add;
-	var delta=1;
+	const edit=$(this);
+	let oldvalue=edit.val();
+	let op=OPS.add;
+	let delta=1;
 	edit.attr('title',(options.title) || edit.attr('title') || 'Enter "+x" or "+x%" or "*x" \nto change increment');
 	edit.on('change',function(e){
 	// console.log('change-handler-enter');
-	var v=edit.val();
+	let v=edit.val();
 	if(0) {
 	} else if( '%'==v.substr(-1) ) {
 	v=parseFloat(v.substr(0,v.length-1))
@@ -39,7 +39,7 @@
 	// console.log('change-handler-exit');
 	});
 	var limit_val=function(){
-	var t=edit.data('min')
+	let t=edit.data('min')
 	if( parseFloat(edit.val())<t ) edit.val(t);
 	t=edit.data('max')
 	if( parseFloat(edit.val())>t ) edit.val(t);
@@ -68,7 +68,7 @@
 	btn[0].attr({title:op.decfmt(delta)});
 	};
 	update_tooltip();
-	if( 1!=edit.parent().children().length ) edit.wrap('<span class="userincr-container">');
+	if( 1!=edit.parent().children().length ) edit.wrap('<span className="userincr-container">');
 	edit.parent().append(btn);
 	});
 	};

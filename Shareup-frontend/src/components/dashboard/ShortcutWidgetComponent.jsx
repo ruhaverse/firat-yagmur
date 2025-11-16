@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 
 
 function ShortcutWidgetComponent() {
-    let history = useHistory();
+    const history = useHistory();
     return (
         <div className="widget">
             <h4 className="widget-title">Shortcuts</h4>

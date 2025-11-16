@@ -12,7 +12,7 @@ import fileStorage from '../../config/fileStorage';
 
 function MessagesComponent() {
 
-    let history = useHistory();
+    const history = useHistory();
     const { user } = useContext(UserContext)
 
     // const []
@@ -35,7 +35,7 @@ function MessagesComponent() {
         if (event.target.value === "") {
             setSearchedUser(allUser)
         } else {
-            let temp = []
+            const temp = []
             allUser.map(u => {
                 const email = u.email.toLowerCase()
                 const firstname = u.firstName.toLowerCase()
@@ -77,12 +77,12 @@ function MessagesComponent() {
                         <img className="msgprof" style={{ objectFit: 'cover' }} src={fileStorage.baseUrl + user.profilePicturePath} alt="" /><span style={{ paddingLeft: '10px', fontWeight: 'bold', fontSize: '15px' }}>{`${user.firstName} ${user.lastName}`}</span>
                         <span style={{ paddingLeft: '20px', fontWeight: '900' }}><img src="/assets/images/msgarrw.svg" /></span></a>
                 </div>
-                <div class="search-container" style={{ paddingBottom: '16px', borderBottom: '1px solid #cecece' }} >
-                    {/* <i class="las la-search"></i> */}
+                <div className="search-container" style={{ paddingBottom: '16px', borderBottom: '1px solid #cecece' }} >
+                    {/* <i className="las la-search"></i> */}
                     <input className="friend-search"  style={{ width: '95%', marginTop: '21px' }}
                      type="text" id="header-search" placeholder="Search Users" name="s" onChange={handleSearchedUser} />
                 </div>
-                <div class="cntnrScrll">
+                <div className="cntnrScrll">
                     <ul className="nearby-contct" style={{padding:'10px'}}>
 
                         {searchedUser.map(
@@ -92,18 +92,18 @@ function MessagesComponent() {
                                         <a  href="#!" onClick={() => handleChat(userM)} > 
                                         <div className="grid-container" style={{height: '75px !important' }}>
                                             {/* <figure> */}
-                                            <div class="item1">
+                                            <div className="item1">
                                                 <a href={`/profile/${userM.email}`} title={`${userM.email}`}>
                                                     <img style={{ objectFit: 'cover' }} src={fileStorage.baseUrl + userM.profilePicturePath} alt="" /></a>
                                                 {/* </figure> */}
 
                                             </div>
-                                            <div class="item2" style={{width:'65%', padding:'10px', paddingLeft:'20px'}}>
+                                            <div className="item2" style={{width:'65%', padding:'10px', paddingLeft:'20px'}}>
                                                 <p className="nameTagMsg" style={{lineHeight:'16px', fontSize: '15px'}}>
                                                     {`${userM.firstName} ${userM.lastName}`}
                                                     
                                                     </p>
-                                                <div class="item5 actv"  style={{width: 'fit-Content', alignItems:'unset', paddingTop:'6px'}}>Active 2 mints ago</div>
+                                                <div className="item5 actv"  style={{width: 'fit-Content', alignItems:'unset', paddingTop:'6px'}}>Active 2 mints ago</div>
                                             </div>
                                             {/* <div className="  "> */}
                                         </div></a>

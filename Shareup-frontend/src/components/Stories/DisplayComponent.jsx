@@ -12,7 +12,7 @@ import fileStorage from "../../config/fileStorage";
 // import '../../css/SliderJava';
 
 function DisplayComponent() {
-  let history = useHistory();
+  const history = useHistory();
 
   const { user } = useContext(UserContext);
 
@@ -41,7 +41,7 @@ function DisplayComponent() {
       AuthService.getCurrentUser().username
     ).then((res) => {
       const sorting = res.data.sort(function (a, b) {
-        let dateA = new Date(a.date),
+        const dateA = new Date(a.date),
           dateB = new Date(b.date);
         return dateB - dateA;
       });
@@ -144,7 +144,7 @@ function DisplayComponent() {
                 </div>
               </div>
             </div>
-            <div class="slide-buttons">
+            <div className="slide-buttons">
             {index+1 < storiesForUser.length ? (
             <span
                     id="getnext"
@@ -152,7 +152,7 @@ function DisplayComponent() {
                       setIndex(index + 1);
                     }}
                   >
-                    <i class="fas fa-arrow-right"></i>
+                    <i className="fas fa-arrow-right"></i>
                     
                   </span> 
               ) :''}
@@ -165,7 +165,7 @@ function DisplayComponent() {
 
                   }}
                 >
-                  <i class="fas fa-arrow-left"></i>
+                  <i className="fas fa-arrow-left"></i>
                 </span>
               ) : null}
             </div>

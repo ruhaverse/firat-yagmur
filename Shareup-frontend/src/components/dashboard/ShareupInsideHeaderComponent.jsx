@@ -14,7 +14,7 @@ import {store} from "../../app/store";
 import { setSearchTerm } from "../../app/searchSlice";
 
 function ShareupInsideHeaderComponent() {
-  let history = useHistory();
+  const history = useHistory();
 
   const [user, setUser] = useState([]);
   const [friendsList, setFriendsList] = useState([]);
@@ -51,7 +51,7 @@ function ShareupInsideHeaderComponent() {
     if (event.target.value === "") {
       setSearchedFriendsList([])
     } else {
-      let temp = []
+      const temp = []
       friendsList.map(u => {
         const email = u.email.toLowerCase()
         const firstname = u.firstName.toLowerCase()

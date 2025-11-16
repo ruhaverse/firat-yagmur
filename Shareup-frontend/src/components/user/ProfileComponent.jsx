@@ -15,7 +15,7 @@ import settings from "../../services/Settings";
 import fileStorage from "../../config/fileStorage";
 
 function ProfileComponent() {
-  let history = useHistory();
+  const history = useHistory();
 
   const { user } = useContext(UserContext);
 
@@ -105,7 +105,7 @@ function ProfileComponent() {
           return res.data.find((a) => a.id === id);
         }
       );
-      let mypost = [];
+      const mypost = [];
       uniquePost.map((post) => {
         if (post.user.email === AuthService.getCurrentUser().username) {
           mypost.push(post);
@@ -168,7 +168,7 @@ function ProfileComponent() {
   };
 
   const handleProfileImage = (event) => {
-    let validated = false;
+    const validated = false;
     setProfilePicture(event.target.files[0]);
     const reader = new FileReader();
     reader.onload = () => {
@@ -232,7 +232,7 @@ function ProfileComponent() {
   };
 
   const updateProfile = async () => {
-    let updateduser = {
+    const updateduser = {
       firstName: firstName,
       lastName: lastName,
       email: user.email,
@@ -317,7 +317,7 @@ function ProfileComponent() {
     if (event.target.value === "") {
       setSearchedUser(allUser);
     } else {
-      let temp = [];
+      const temp = [];
       allUser.map((u) => {
         const email = u.email.toLowerCase();
         const firstname = u.firstName.toLowerCase();
@@ -380,14 +380,14 @@ function ProfileComponent() {
                 {/* <span className="text-color-2">Home town</span> */}
                 <li>
                   <p>
-                    <i class="las la-map-marker"></i>
+                    <i className="las la-map-marker"></i>
                     <span className="bio">{homeTown}</span>
                   </p>
                 </li>
                 {/* <span className="text-color-2">Relationship status</span> */}
                 <li>
                   <p>
-                    <i class="lab la-gratipay"></i>{" "}
+                    <i className="lab la-gratipay"></i>{" "}
                     <span className="bio">{relationshipStatus}</span>
                   </p>
                 </li>
@@ -489,7 +489,7 @@ function ProfileComponent() {
               <p>{`${userProfile.firstName} ${userProfile.lastName}`}</p>
               {/* <a href="/editprofile" title="Update you details">Add Bio</a> */}
             </div>
-            <hr class="new1"></hr>
+            <hr className="new1"></hr>
             <div
               className="row pdng1 person-details"
               style={{
@@ -549,9 +549,6 @@ function ProfileComponent() {
                   <a
                     href="#"
                     style={{
-                      color: "#000000",
-                      fontWeight: "bold",
-                      background: "#D6D6D6",
                       color: "#ffffff",
                       fontWeight: "bold",
                       background: "#044f66",
@@ -704,7 +701,7 @@ function ProfileComponent() {
                       data-ripple=""
                       onClick={() => setShow("timeline")}
                     >
-                      <i class="las la-rss"></i>
+                      <i className="las la-rss"></i>
                     </a>
                   </div>
                   <div className="col brdrmid">
@@ -726,7 +723,7 @@ function ProfileComponent() {
                       data-ripple=""
                       onClick={() => setShow("friends")}
                     >
-                      <i class="las la-user-friends"></i>
+                      <i className="las la-user-friends"></i>
                     </a>
                   </div>
                 

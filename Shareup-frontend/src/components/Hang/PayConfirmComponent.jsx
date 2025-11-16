@@ -15,7 +15,7 @@ import ShareupInsideHeaderComponent from '../dashboard/ShareupInsideHeaderCompon
 import Layout from '../LayoutComponent';
 
 export default function PayConfirmComponent() {
-  let history = useHistory();
+  const history = useHistory();
 
     const { user } = useContext(UserContext)
    
@@ -38,7 +38,7 @@ export default function PayConfirmComponent() {
   <h1 style={{fontWeight:'bold',marginTop:'20px'}}>Congratulations</h1>
 <p style={{fontSize:'14px',margin:'20px 0 40px 0',lineHeight:'2'}}>Payment is the transfer of money <br/>
 services in exchange product or Payments </p>
-<div style={{margin:'0 0 40px 0'}}><a className="Hangin-btn" href="/share" onclick={() => setGift("Gift")}>Keep Hang</a></div>
+<div style={{margin:'0 0 40px 0'}}><a className="Hangin-btn" href="/share" onClick={() => setGift("Gift")}>Keep Hang</a></div>
    </div></div>
   
   

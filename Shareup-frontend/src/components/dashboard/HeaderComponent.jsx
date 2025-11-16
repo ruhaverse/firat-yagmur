@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import AuthService from '../../services/auth.services';
 
 function HeaderComponent() {
-  let history = useHistory();
+  const history = useHistory();
 
   const handleLogout = () => {
     AuthService.logout()

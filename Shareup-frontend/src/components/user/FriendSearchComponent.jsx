@@ -10,7 +10,7 @@ import fileStorage from '../../config/fileStorage';
 
 
 function FriendSearchComponent() {
-    let history = useHistory();
+    const history = useHistory();
     const { user } = useContext(UserContext)
     const [friendsList, setFriendsList] = useState([]);
     const [allUser, setAllUser] = useState([]);
@@ -27,7 +27,7 @@ function FriendSearchComponent() {
         if (event.target.value === "") {
             setSearchedUser(allUser)
         } else {
-            let temp = []
+            const temp = []
             allUser.map(u => {
                 const email = u.email.toLowerCase()
                 const firstname = u.firstName.toLowerCase()
@@ -59,10 +59,10 @@ function FriendSearchComponent() {
     },[])
         return (
             <div>
-                  <div class="search-container">
-            <i class="las la-search"></i><input className="friend-search" type="text" id="header-search" placeholder="Search Users" name="s" onChange={handleSearchedUser} />
+                  <div className="search-container">
+            <i className="las la-search"></i><input className="friend-search" type="text" id="header-search" placeholder="Search Users" name="s" onChange={handleSearchedUser} />
         </div>
-        <div class="cntnrScrll">
+        <div className="cntnrScrll">
         <ul>
         
                 {searchedUser.map(
@@ -71,12 +71,12 @@ function FriendSearchComponent() {
                         <li key={userM.id} className="friends-card">
                         <a href="#!" onClick={() => handleTag(userM)}> <div className="grid-container">
                                 {/* <figure> */}
-                                <div class="item1">
+                                <div className="item1">
                                     <a href={`/profile/${userM.email}`} title={`${userM.email}`}><img style={{objectFit:'cover'}} src={fileStorage.baseUrl+userM.profilePicturePath} alt="" /></a>
                                     {/* </figure> */}
                                     
                                 </div>
-                                <div class="item2"><p className="nameTagMsg">{`${userM.firstName} ${userM.lastName}`}</p>
+                                <div className="item2"><p className="nameTagMsg">{`${userM.firstName} ${userM.lastName}`}</p>
                                 </div>
                                 {/* <div className="  "> */}
                               </div></a>

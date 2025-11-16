@@ -11,7 +11,7 @@ import "./chat.js";
 import { useJwt } from "react-jwt";
 
 function ChatComponent() {
-  let history = useHistory();
+  const history = useHistory();
 
   const { user } = useContext(UserContext)
 
@@ -59,7 +59,7 @@ function ChatComponent() {
     if(event.target.value === ""){
       setSearchedUser(allUser) 
     }else{
-      let temp = []
+      const temp = []
       allUser.map(u => {
         if(u.email.includes(event.target.value)){
           temp.push(u)
@@ -80,8 +80,8 @@ function ChatComponent() {
     <div className="people-list" id="people-list">
       <div className="search">
         <input id="userName" placeholder="search" type="text" />
-        <button onclick="registration()">Enter the chat</button>
-        <button onclick="fetchAll()">Refresh</button>
+        <button onClick="registration()">Enter the chat</button>
+        <button onClick="fetchAll()">Refresh</button>
       </div>
       <ul className="list" id="usersList">
       </ul>
@@ -100,7 +100,7 @@ function ChatComponent() {
         </ul>
       </div> {/* end chat-history */}
       <div className="chat-message clearfix">
-        <textarea id="message-to-send" name="message-to-send" placeholder="Type your message here" onEnter={sendMessges} rows={3} defaultValue={""} />
+        <textarea id="message-to-send" name="message-to-send" placeholder="Type your message here" onKeyPress={(e) => { if (e.key === 'Enter') sendMessges(); }} rows={3} defaultValue={""} />
         <i className="fa fa-file-o" /> &nbsp;&nbsp;&nbsp;
         <i className="fa fa-file-image-o" />
         <button id="sendBtn">Send</button>

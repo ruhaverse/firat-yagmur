@@ -28,14 +28,12 @@ function ChatComponent() {
 
   }
   const addFriendsId = (uid,fid) => {
-    console.log("uid: " + uid + " fid: " + fid)
     FriendsService.addFriends(uid,fid).then(res => {
       window.location.reload();
     })
   }
 
   const removeFriend = (uid,fid) => {
-    console.log("uid: " + uid + " fid: " + fid)
     FriendsService.removeFriends(uid,fid).then(res => {
       window.location.reload();
     })
@@ -46,7 +44,6 @@ function ChatComponent() {
       setAllUser(res.data)
       setSearchedUser(res.data)
     })
-    console.log(user.email + " This is the users")
   }
 
   const getFriendsList = async () => {
@@ -56,7 +53,6 @@ function ChatComponent() {
   }
 
   const getsadasd = (event) => {
-    console.log(event.target.value)
   }
 
   const handleSearchedUser = (event) => {
@@ -70,7 +66,6 @@ function ChatComponent() {
         }
       })
       setSearchedUser(temp)
-      console.log(temp)
     }
     
   }
@@ -78,8 +73,6 @@ function ChatComponent() {
   useEffect(() => {
     getAllUser()
     getFriendsList()
-    console.log("Users = " + allUser)
-    console.log("Friends = " + friendsList)
   }, [])
 
   return (

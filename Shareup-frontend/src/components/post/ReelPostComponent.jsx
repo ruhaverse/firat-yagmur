@@ -70,7 +70,6 @@ export default function ReelPostComponent({ post, setRefresh }) {
 
     const something = (event) => {
         if (event.key === "Enter") {
-            console.log('enter')
         }
     }
     const handleEditPost = (id) => {
@@ -105,7 +104,6 @@ export default function ReelPostComponent({ post, setRefresh }) {
 
 
     const handleSwapContent = (event) => {
-        console.log(event.target.value);
         setShareContent(event.target.value);
     };
     const checkIfLiked = (post) => {
@@ -119,7 +117,6 @@ export default function ReelPostComponent({ post, setRefresh }) {
     }
     const handleFileSwap = (event) => {
         setSwapfiles(event.target.files);
-        console.log(swapfiles);
         let filesAmount = event.target.files.length;
         if (filesAmount < 6) {
             let tempImage = [];
@@ -129,7 +126,6 @@ export default function ReelPostComponent({ post, setRefresh }) {
             }
 
             setSwapImage(tempImage);
-            console.log('url ' + swapImage[1]);
 
             setShowSwapImage(true);
         } else {
@@ -141,10 +137,8 @@ export default function ReelPostComponent({ post, setRefresh }) {
         if (post.savedByUsers) {
             const result = post.savedByUsers.filter(userz => userz.id == user.id)
             if (result.length > 0) {
-                console.log(" FOUND")
                 return true
             }
-            console.log(" Not found")
             return false
         }
 
@@ -164,15 +158,12 @@ export default function ReelPostComponent({ post, setRefresh }) {
     }
 
     const handleDeletePost = (post) => {
-        console.log(post.media ? 'hi' : 'no')
         if (post.media) {
             SwapService.deleteSwap(post.id).then(res => {
-                console.log(res.status)
                 setRefresh(res.data)
             })
         } else
             PostService.deletePost(post.id).then(res => {
-                console.log(res.status)
                 setRefresh(res.data)
             })
     }
@@ -236,7 +227,6 @@ export default function ReelPostComponent({ post, setRefresh }) {
             let temps = [];
             for (let i = 0; i < str.length; i++)
                 temps = [...temps, `/user-post/${post.id}/${str[i]}`]
-            console.log("img string" + imgString)
         }
     };
     const toggleShowMoreOptions = (e) => {
@@ -260,7 +250,6 @@ export default function ReelPostComponent({ post, setRefresh }) {
     const openLightbox = (index) => {
         setIsopen(true);
         setPhotoindex(index)
-        console.log(index, 'indexxxxxxxxx')
     }
 
 
@@ -273,20 +262,15 @@ export default function ReelPostComponent({ post, setRefresh }) {
 
     const uploadShare = async (event) => {
         await event.preventDefault();
-        console.log('uploading share working');
 
 
         const formData = new FormData();
 
         await formData.append('content', shareContent);
 
-        console.log(' this is the sharecontentssssssss' + shareContent);
 
         if (userF === null) {
             await ShareService.createShare(user.id, post.id, formData, null).then((res) => {
-                console.log(' jsonnnn' + JSON.stringify(res));
-                console.log(' res.data' + res.data);
-                console.log(' user.id ' + user.id);
                 // setCloseModal(false)
                 // window.location.reload();
 
@@ -297,7 +281,6 @@ export default function ReelPostComponent({ post, setRefresh }) {
             });
         } else
             await ShareService.createShare(user.id, post.id).then((res) => {
-                console.log(JSON.stringify(res));
                 setShareContent('');
 
                 setRefresh(res.data);
@@ -415,7 +398,6 @@ export default function ReelPostComponent({ post, setRefresh }) {
 
 
     useEffect(() => {
-        console.log("postsssss ", post.userTag)
     }, []);
 
 

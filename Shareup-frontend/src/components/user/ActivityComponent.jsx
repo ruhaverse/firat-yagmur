@@ -30,7 +30,6 @@ export default function ActivityComponent() {
 				}
 			})
 			setSearchedFollowers(temp)
-			console.log(temp)
 		}
 	}
   const handleSearchedFollowing = (event) => {
@@ -44,7 +43,6 @@ export default function ActivityComponent() {
 				}
 			})
 			setSearchedFollowing(temp)
-			console.log(temp)
 		}
 
 	}

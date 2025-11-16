@@ -43,14 +43,12 @@ function FriendsTestComponent() {
 
 
     const addFriendsId = (uid, fid) => {
-        console.log("uid: " + uid + " fid: " + fid)
         FriendsService.addFriends(uid, fid).then(res => {
             window.location.reload();
         })
     }
 
     const removeFriend = (uid, fid) => {
-        console.log("uid: " + uid + " fid: " + fid)
         FriendsService.removeFriends(uid, fid).then(res => {
             setRefresh(res.data)
         })
@@ -67,7 +65,6 @@ function FriendsTestComponent() {
                 }
             })
             setSearchedFollowing(temp)
-            console.log(temp)
         }
 
     }
@@ -83,7 +80,6 @@ function FriendsTestComponent() {
                 }
             })
             setSearchedFollowers(temp)
-            console.log(temp)
         }
     }
 
@@ -271,7 +267,7 @@ function FriendsTestComponent() {
                                             <h4><a href={`/profile/${userM.email}`} title={`${userM.email}`}>{`${userM.firstName} ${userM.lastName}`}</a></h4>
                                             <p><a href={`/profile/${userM.email}`} title={`${userM.email}`}>{`${userM.email}`}</a></p>
                                             <span>Engr</span>
-                                            <a href="#" title="#" className="add-butn more-action" data-ripple onClick={() => console.log("temp")}>unfriend</a>
+                                            <a href="#" title="#" className="add-butn more-action" data-ripple onClick={() => }>unfriend</a>
 
                                         </div>
                                     </div>
@@ -301,7 +297,7 @@ function FriendsTestComponent() {
                                             <h4><a href={`/profile/${userM.email}`} title={`${userM.email}`}>{`${userM.firstName} ${userM.lastName}`}</a></h4>
                                             <p><a href={`/profile/${userM.email}`} title={`${userM.email}`}>{`${userM.email}`}</a></p>
                                             <span>Engr</span>
-                                            <a href="#" title="#" className="add-butn more-action" data-ripple onClick={() => console.log("temp")}>unfriend</a>
+                                            <a href="#" title="#" className="add-butn more-action" data-ripple onClick={() => }>unfriend</a>
 
                                         </div>
                                     </div>
@@ -331,7 +327,7 @@ function FriendsTestComponent() {
                                             <h4><a href={`/profile/${userM.email}`} title={`${userM.email}`}>{`${userM.firstName} ${userM.lastName}`}</a></h4>
                                             <p><a href={`/profile/${userM.email}`} title={`${userM.email}`}>{`${userM.email}`}</a></p>
                                             <span>Engr</span>
-                                            <a href="#" title="#" className="add-butn more-action" data-ripple onClick={() => console.log("temp")}>unfriend</a>
+                                            <a href="#" title="#" className="add-butn more-action" data-ripple onClick={() => }>unfriend</a>
 
                                         </div>
                                     </div>
@@ -349,8 +345,6 @@ function FriendsTestComponent() {
             setAllUser(res.data)
             setSearchedUser(res.data)
         })
-        console.log(user.email + " This is the users")
-        // console.log(JSON.stringify(allUser[0]) + " This is the object")
     }
 
     const getFriendsList = async () => {
@@ -394,7 +388,6 @@ function FriendsTestComponent() {
                 }
             })
             setSearchedUser(temp)
-            console.log(temp)
         }
 
     }
@@ -407,8 +400,6 @@ function FriendsTestComponent() {
         getAllFriendRequestSent()
         getAllFriendRequestRecieved()
 
-        console.log("Users = " + allUser)
-        console.log("Friends = " + friendsList)
     }, [showComp, refresh])
 
     useEffect(() => {

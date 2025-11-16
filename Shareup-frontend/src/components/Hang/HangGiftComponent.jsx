@@ -29,7 +29,6 @@ export default function HangGiftComponent() {
     
     
     const handlePrivacy=(event)=>{
-      console.log(event.target.value)
         setPrivacy(event.target.value)
     }
    

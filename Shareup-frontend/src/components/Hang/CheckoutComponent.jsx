@@ -115,20 +115,17 @@ function CheckoutComponent({ data }) {
   }
 
   const handlePostContent = (event) => {
-    console.log(event.target.value)
     setPostContent(event.target.value)
   }
 
   const handleDeletePost = (postid) => {
     PostService.deletePost(postid).then(res => {
-      console.log(res.status)
       setRefresh(res.data)
       // window.location.reload();
     })
   }
 
   const handleCommentContent = (event) => {
-    console.log(event.target.value)
     setCommentContent(event.target.value)
   }
 
@@ -138,7 +135,6 @@ function CheckoutComponent({ data }) {
     }
     const comment = { content: commentContent }
     PostService.addComment(user.id, postid, comment).then(res => {
-      console.log(res.status)
       setRefresh(res.data)
       setCommentContent("")
     })
@@ -149,7 +145,6 @@ function CheckoutComponent({ data }) {
   }
 
   const handleFile = (event) => {
-    console.log(event.target.files[0])
     setFiles(event.target.files[0])
     const reader = new FileReader();
     reader.onload = () => {
@@ -157,7 +152,6 @@ function CheckoutComponent({ data }) {
         setPostImage(reader.result)
       }
     }
-    console.log(event.target.files[0])
     // if(event.target.files[0].type === blob){
     reader.readAsDataURL(event.target.files[0])
     // }
@@ -171,14 +165,12 @@ function CheckoutComponent({ data }) {
 
   const handleEditingSave = (value) => {
     setEditPostId(value)
-    // console.log(res.status)
     // window.location.reload();
   }
 
   const checkIfLiked = (post) => {
     // maybe this is more effecient
     // post.reactions.map(r => {
-    //   console.log(JSON.stringify(r.user))
     //   if(r.user.id === user.id){
     //     return true
     //   }else{
@@ -193,30 +185,23 @@ function CheckoutComponent({ data }) {
   }
 
   const checkIfSaved = (post) => {
-    console.log(post.savedByUsers)
     // maybe this is more effecient
     // post.savedByUsers.map(r => {
-    //   console.log("runninggg")
-    //   console.log(JSON.stringify(r.user) + " i p pp p p")
     // if(r.user.id === user.id){
     //   return true
     // }else{
     //   return false
     // }
     // })
-    console.log(post.savedByUsers.length + " yaa")
     const result = post.savedByUsers.filter(userz => userz.id == user.id)
     if (result.length > 0) {
-      console.log(" FOUND")
       return true
     }
-    console.log(" Not found")
     return false
   }
 
   const handleDeleteComment = (commentid) => {
     PostService.deleteComment(commentid).then(res => {
-      console.log(res.status)
       setRefresh(res.data)
     })
   }
@@ -232,19 +217,15 @@ function CheckoutComponent({ data }) {
   const uploadPost = (event) => {
     event.preventDefault();
     setUploadError("")
-    console.log("uploading post working")
     if (postContent === "" && (Object.keys(files).length === 0 && files.constructor === Object)) {
-      console.log("cant be null")
       setUploadError("Please Insert A Text or an Image")
       return
     }
 
     const formData = new FormData();
     formData.append('content', postContent)
-    console.log(" this is the files" + files)
     formData.append(`files`, files)
     PostService.createPost(user.id, formData).then(res => {
-      console.log(JSON.stringify(res))
       setPostContent("")
       handleRemoveImage()
       setRefresh(res.data)
@@ -257,7 +238,6 @@ function CheckoutComponent({ data }) {
     })
   }
   const handlePrivacy = (event) => {
-    console.log(event.target.value)
     setPrivacy(event.target.value)
   }
   const handleSavePost = async (post_id) => {
@@ -268,12 +248,10 @@ function CheckoutComponent({ data }) {
 
   const getUser = async () => {
     if (user === null) {
-      console.log("RUNNING")
       await UserService.getUserByEmail(AuthService.getCurrentUser().username).then(res => {
         setUserR(res.data);
       })
     } else {
-      console.log("WALKING" + JSON.stringify(user))
       setUserR(user)
     }
   }

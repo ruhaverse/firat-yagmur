@@ -105,7 +105,6 @@ function Index({ set, setUser }) {
 
   const handlePhone = (a) => {
     setPhone(a);
-    console.log("HANDLE PHONE TRIGGER", p_no)
     document.querySelector('.yahoobaba').style.display="none";
   }
 
@@ -119,11 +118,9 @@ function Index({ set, setUser }) {
 
   function formValidation(){
 
-    console.log('after submit', document.querySelector('.PhoneInputInput').value);
    const val= document.querySelector('.PhoneInputInput').value;
    if(val == ""){
      document.querySelector('.yahoobaba').style.display="block";
-     console.log('yes it worked')
    }
 }
 
@@ -157,18 +154,15 @@ function Index({ set, setUser }) {
     let validated = true
 
     if (email == '' || password == '' || confirmPassword == '' || firstName == '' || lastName == '' || p_no == '') {
-      console.log("Please Fill Out Every Field")
       setAllFieldFillError("Please Fill Out Every Field")
       validated = false;
     }
     if (!email.includes('@')) {
-      console.log("Please ensure your email contains @")
       setEmailError("Please ensure your email contains @")
 
       validated = false;
     }
     if (password != confirmPassword) {
-      console.log("Make sure your password match")
       setPasswordError("Make sure your password match")
       // alert("Make sure your password match")
       validated = false;
@@ -188,7 +182,6 @@ const {
 } = useForm();
 
 const onSubmit = (data) => {
-  console.log('legth is' + data.length)
 
 
   if(data.password == data.confirmPassword)
@@ -210,9 +203,7 @@ const onSubmit = (data) => {
 
   const handleRegister = async() => {
     let user = { email, password,confirmPassword, firstName, lastName , p_no}
-    console.log("register " + user.email + " " + user.password + " " + user.confirmPassword + " " + user.firstName + " " + user.lastName)
 
-    console.log(JSON.stringify(user))
     await UserService.createUser(user).then(res => {
       history.push('/');
       setRegisterSuccessful(<h1 className='successfull-msg' style={{fontSize: '30px', color: 'green', textAlign: 'center'}}>Your Account Is Successfully Registered</h1>)
@@ -250,7 +241,6 @@ const onSubmit = (data) => {
       validated = false;
     }
     if (password == '') {
-      console.log("Please Fill Out Every Field")
     document.getElementById('password-empty').innerHTML="Please enter password";
     // document.getElementById('loginpassword').style.border="2px solid red";
     document.querySelector('.input-error-icon2').style.visibility="visible";
@@ -262,7 +252,6 @@ const onSubmit = (data) => {
 
     if(email){
       if (!email.includes('@')) {
-        console.log("Please ensure your email contains @")
       document.getElementById('email-empty').innerHTML="Please include @";
   
         validated = false;
@@ -277,10 +266,8 @@ const onSubmit = (data) => {
 
 
   const handleLogin = async () => {
-    console.log("working")
 
     await AuthService.login(email, password).then(res => {
-      console.log(res.data + " THIS IS THE DATA")
       set(res.data)
       getUser(res.data.username)
       history.push("/newsfeed")
@@ -293,10 +280,8 @@ const onSubmit = (data) => {
   }
 
   const handleLoginAutomatically = async () => {
-    console.log("working auto")
 
     await AuthService.login(email, password).then(res => {
-      console.log(res.data + " THIS IS THE DATA")
       set(res.data)
       getUser(res.data.username)
     },

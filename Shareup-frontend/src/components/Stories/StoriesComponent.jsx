@@ -45,20 +45,17 @@ function StoriesComponent({ story, setRefresh }) {
   };
   const getUser = async () => {
     if (user === null) {
-      console.log("RUNNING");
       await UserService.getUserByEmail(
         AuthService.getCurrentUser().username
       ).then((res) => {
         setUserR(res.data);
       });
     } else {
-      console.log("WALKING" + JSON.stringify(user));
       setUserR(user);
     }
   };
 
 const checkPop=()=>{
-  console.log('popup working');
 }
 
   useEffect(() => {

@@ -22,7 +22,6 @@ function FriendSearchComponent() {
 
     const handleTag = (userM)=>{
         setUserF(userM)
-        console.log(userM) 
        }
     const handleSearchedUser = (event) => {
         if (event.target.value === "") {
@@ -39,7 +38,6 @@ function FriendSearchComponent() {
                 }
             })
             setSearchedUser(temp)
-            console.log(temp)
         }
     }
     const getAllUser = async () => {
@@ -47,7 +45,6 @@ function FriendSearchComponent() {
             setAllUser(res.data)
             setSearchedUser(res.data)
         })
-        console.log(user.email + " This is the users")
     }
     const getFriendsList = async () => {
         await FriendsService.getFriends(AuthService.getCurrentUser().username).then(res => {

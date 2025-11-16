@@ -112,20 +112,17 @@ function PostTextBoxComponent() {
   };
 
   const handlePostContent = (event) => {
-    console.log(event.target.value);
     setPostContent(event.target.value);
   };
 
   const handleDeletePost = (postid) => {
     PostService.deletePost(postid).then((res) => {
-      console.log(res.status);
       setRefresh(res.data);
       // window.location.reload();
     });
   };
 
   const handleCommentContent = (event) => {
-    console.log(event.target.value);
     setCommentContent(event.target.value);
   };
 
@@ -135,7 +132,6 @@ function PostTextBoxComponent() {
     }
     const comment = { content: commentContent };
     PostService.addComment(user.id, postid, comment).then((res) => {
-      console.log(res.status);
       setRefresh(res.data);
       setCommentContent("");
     });
@@ -146,7 +142,6 @@ function PostTextBoxComponent() {
   };
 
   const handleFile = (event) => {
-    console.log(event.target.files[0]);
     setFiles(event.target.files[0]);
     const reader = new FileReader();
     reader.onload = () => {
@@ -154,7 +149,6 @@ function PostTextBoxComponent() {
         setPostImage(reader.result);
       }
     };
-    console.log(event.target.files[0]);
     // if(event.target.files[0].type === blob){
     reader.readAsDataURL(event.target.files[0]);
     // }
@@ -168,14 +162,12 @@ function PostTextBoxComponent() {
 
   const handleEditingSave = (value) => {
     setEditPostId(value);
-    // console.log(res.status)
     // window.location.reload();
   };
 
   const checkIfLiked = (post) => {
     // maybe this is more effecient
     // post.reactions.map(r => {
-    //   console.log(JSON.stringify(r.user))
     //   if(r.user.id === user.id){
     //     return true
     //   }else{
@@ -192,30 +184,23 @@ function PostTextBoxComponent() {
   };
 
   const checkIfSaved = (post) => {
-    console.log(post.savedByUsers);
     // maybe this is more effecient
     // post.savedByUsers.map(r => {
-    //   console.log("runninggg")
-    //   console.log(JSON.stringify(r.user) + " i p pp p p")
     // if(r.user.id === user.id){
     //   return true
     // }else{
     //   return false
     // }
     // })
-    console.log(post.savedByUsers.length + " yaa");
     const result = post.savedByUsers.filter((userz) => userz.id == user.id);
     if (result.length > 0) {
-      console.log(" FOUND");
       return true;
     }
-    console.log(" Not found");
     return false;
   };
 
   const handleDeleteComment = (commentid) => {
     PostService.deleteComment(commentid).then((res) => {
-      console.log(res.status);
       setRefresh(res.data);
     });
   };
@@ -231,31 +216,26 @@ function PostTextBoxComponent() {
   const uploadPost = (event) => {
     event.preventDefault();
     setUploadError("");
-    console.log("uploading post working");
     if (
       postContent === "" &&
       Object.keys(files).length === 0 &&
       files.constructor === Object
     ) {
-      console.log("cant be null");
       setUploadError("Please Insert A Text or an Image");
       return;
     }
 
     const formData = new FormData();
     formData.append("content", postContent);
-    console.log(" this is the files" + files);
     formData.append(`files`, files);
     if (userF === null) {
       PostService.createPost(user.id, formData, null).then((res) => {
-        console.log(JSON.stringify(res));
         setPostContent("");
         handleRemoveImage();
         setRefresh(res.data);
       });
     } else
       PostService.createPost(user.id, formData, userF.id).then((res) => {
-        console.log(JSON.stringify(res));
         setPostContent("");
         handleRemoveImage();
         setRefresh(res.data);
@@ -276,29 +256,24 @@ function PostTextBoxComponent() {
 
   const getUser = async () => {
     if (user === null) {
-      console.log("RUNNING");
       await UserService.getUserByEmail(
         AuthService.getCurrentUser().username
       ).then((res) => {
         setUserR(res.data);
       });
     } else {
-      console.log("WALKING" + JSON.stringify(user));
       setUserR(user);
     }
   };
   const handlePrivacy = (event) => {
-    console.log(event.target.value);
     setPrivacy(event.target.value);
   };
   //Swap functions
 
   const handleSwapContent = (event) => {
-    console.log(event.target.value);
     setSwapContent(event.target.value);
   };
   const handleFileSwap = (event) => {
-    console.log(event.target.files[0]);
     setFiles(event.target.files[0]);
     const reader = new FileReader();
     reader.onload = () => {
@@ -306,7 +281,6 @@ function PostTextBoxComponent() {
         setSwapImage(reader.result);
       }
     };
-    console.log(event.target.files[0]);
     // if(event.target.files[0].type === blob){
     reader.readAsDataURL(event.target.files[0]);
     // }
@@ -319,19 +293,15 @@ function PostTextBoxComponent() {
   // const uploadSwap = (event) => {
   //   event.preventDefault();
   //   setUploadError("")
-  //   console.log("uploading post working")
   //   if (swapContent === "" && (Object.keys(files).length === 0 && files.constructor === Object)) {
-  //     console.log("cant be null")
   //     setUploadError("Please Insert A Text or an Image")
   //     return
   //   }
 
   //   const formData = new FormData();
   //   formData.append('content', swapContent)
-  //   console.log(" this is the files" + files)
   //   formData.append(`files`, files)
   //   SwapService.createSwap(user.id, formData).then(res => {
-  //     console.log(JSON.stringify(res))
   //     setSwapContent("")
   //     handleRemoveImage()
   //     setRefresh(res.data)
@@ -380,7 +350,6 @@ function PostTextBoxComponent() {
   };
   const handleTag = (userM) => {
     setUserF(userM);
-    console.log(userM);
   };
   const handleSearchedUser = (event) => {
     if (event.target.value === "") {
@@ -401,7 +370,6 @@ function PostTextBoxComponent() {
         }
       });
       setSearchedUser(temp);
-      console.log(temp);
     }
   };
   const getAllUser = async () => {
@@ -409,7 +377,6 @@ function PostTextBoxComponent() {
       setAllUser(res.data);
       setSearchedUser(res.data);
     });
-    console.log(user.email + " This is the users");
   };
   const getFriendsList = async () => {
     await FriendsService.getFriends(AuthService.getCurrentUser().username).then(
@@ -1848,13 +1815,11 @@ function PostTextBoxComponent() {
   const uploadSwap = async (event) => {
     await event.preventDefault();
     await setUploadError("");
-    console.log("uploading swap working");
     if (
       swapContent === "" &&
       Object.keys(swapfiles).length === 0 &&
       swapfiles.constructor === Object
     ) {
-      console.log("cant be null");
       await setUploadError("Please Insert A Text or an Image");
       return;
     }
@@ -1865,19 +1830,12 @@ function PostTextBoxComponent() {
     for (let i = 0; i < swapfiles.length; i++) {
       await formData.append(`files`, swapfiles[i]);
     }
-    console.log(formData.getAll(`files`));
-    console.log(" this is the files" + files[0]);
-    console.log(" this is the swapfiles" + swapfiles);
     for (let i = 0; i < `swapfiles`.length; i++) {
-      console.log(swapfiles);
     }
     await formData.append(`swapfiles`, swapfiles);
     await formData.append(`privacy`, Privacy);
     if (userF === null) {
       await SwapService.createSwap(user.id, formData, null).then((res) => {
-        console.log(JSON.stringify(res));
-        console.log(res.data);
-        console.log(user.id);
         // setCloseModal(false)
         // window.location.reload();
 
@@ -1885,11 +1843,9 @@ function PostTextBoxComponent() {
         handleRemoveImageSwap();
         setRefresh(res.data);
         // window.location.reload();
-        console.log("ssssssssssrefersh", refresh);
       });
     } else
       await SwapService.createSwap(user.id, formData, userF.id).then((res) => {
-        console.log(JSON.stringify(res));
         setSwapContent("");
         handleRemoveImageSwap();
         setRefresh(res.data);

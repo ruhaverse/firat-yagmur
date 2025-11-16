@@ -23,7 +23,6 @@ export default function SwapPostComponent({ post, setRefresh }) {
 
     const something=(event)=> {
         if (event.key === "Enter") {
-            console.log('enter')
         }
     }
     const handleEditPost = (id) => {
@@ -50,10 +49,8 @@ export default function SwapPostComponent({ post, setRefresh }) {
     const checkIfSaved = (post) => {
         const result = post.savedByUsers.filter(userz => userz.id == user.id)
         if (result.length > 0) {
-            console.log(" FOUND")
             return true
         }
-        console.log(" Not found")
         return false
     }
 
@@ -72,7 +69,6 @@ export default function SwapPostComponent({ post, setRefresh }) {
 
     const handleDeletePost = (postid) => {
         PostService.deletePost(postid).then(res => {
-            console.log(res.status)
             setRefresh(res.data)
         })
     }

@@ -45,7 +45,6 @@ export default function SecuritySettingsComponent() {
   const [curPass,setcurPass] = useState("")
     const currentUserGet = async () => {
     await UserService.getUserByEmail(AuthService.getCurrentUser().username).then(res => {
-      console.log(JSON.stringify(res.data))
       setUserProfile(res.data)
       //
       setFirstName(res.data.firstName)
@@ -89,7 +88,6 @@ export default function SecuritySettingsComponent() {
     const handleFirstname = (event) => { setFirstName(event.target.value) }
 
     const [u, setU]=useState('username')
-    console.log("get u value", u)
     const myid=id;
 
     const handleU = (event) => {setU(event.target.value)}
@@ -101,7 +99,6 @@ export default function SecuritySettingsComponent() {
     }
 const callTask=()=>{
   const getTasks = JSON.parse(localStorage.getItem("naaaz"));
-  console.log('getatsk baba', getTasks[0].u)
   setU(getTasks[0].u)
 
 }
@@ -117,22 +114,17 @@ const callTask=()=>{
  const handleCurrPass=(evt)=>{
    setcurPass(evt.target.value)
  }
-  // console.log(curPass)
   const passres="";
 const HandleCurrentPass=async()=>{
   // let blank={ "":""}
   // var password= {password:NewPwd}
-  // console.log(curPass)
   const alertmsg=  document.getElementById('alertMessage');
   alertmsg.style.display = 'none';
   alertmsg.style.margin='0px';
   await PostService.CheckOldPass(AuthService.getCurrentUser().username,curPass).then(
     res=>{
-      // console.log('get saved post' + res);
-      console.log(res.data)
       if(res.data=="password match"){
         document.getElementById('curPass').style.borderBottom="1px solid green";
-        console.log(password)
          if(password.password==conPass){
           HandleupdatePass();
          }
@@ -142,7 +134,6 @@ const HandleCurrentPass=async()=>{
       return res;
     }
   ).catch(err=>{
-    console.log("There is an error " +err)
     alertmsg.style.display = 'block';
     alertmsg.style.marginRight='10px';
     document.getElementById('curPass').style.borderBottom="1px solid red"
@@ -187,20 +178,16 @@ const password= {password:NewPwd}
     await PostService.updateuserPassword(AuthService.getCurrentUser().username,conPass,password).then(
       res=>{
         set(`${res.password} saved`)
-        console.log("Password chnaged "+res.password)
-      console.log("Changed");
       document.getElementById('message').style.display="block";
       document.getElementById('message').innerHTML="Password Changed";
         document.getElementById('message').style.color="green";
       }
     ).catch(err=>{
-      console.log(err)
       document.getElementById('message').style.display="block";
       document.getElementById('message').innerHTML="Password Not Changed";
     })
     
   
-  // console.log(updateddata)
   
    
   
@@ -222,7 +209,6 @@ const addP=()=>{
 }
 const callPhone=()=>{
 const getPhone1 = JSON.parse(localStorage.getItem("phone"));
-console.log('getatsk baba', getPhone1[0].p_no)
 setPhone(getPhone1[0].p_no)
 
 }
@@ -236,7 +222,6 @@ const handlePhone = (event) => {setPhone(event.target.value)}
 const phoneBaba=()=>{
   if(fetchPhone===null){
     // setPhone('phone')
-    console.log('fetch phone baba', p_no)
   }
   else{
     setPhone(fetchPhone[0].p_no)
@@ -247,7 +232,6 @@ const phoneBaba=()=>{
 
 
     const [tasks, setTasks] = useState(getTasks); // Task State
-    console.log('checking localstorage data', tasks)
 
     useEffect(() => {
       currentUserGet()
@@ -291,7 +275,6 @@ const hideFunction=()=>{
           }
         })
         setSearchedUser(temp)
-        console.log(temp)
       }
     
     }

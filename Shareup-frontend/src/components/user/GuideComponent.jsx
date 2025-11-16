@@ -24,7 +24,6 @@ function GuideComponent() {
             setAllUser(res.data)
             // setSearchedUser(res.data)
         })
-        console.log(user.email + " This is the users")
     }
 
     const [friendsList, setFriendsList] = useState([]);
@@ -100,7 +99,6 @@ function GuideComponent() {
     }
 
     const removeFriend = (uid, fid) => {
-        console.log("uid: " + uid + " fid: " + fid)
         FriendsService.removeFriends(uid, fid).then(res => {
             setRefresh(res.data)
         })

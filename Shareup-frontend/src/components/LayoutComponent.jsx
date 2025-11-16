@@ -55,12 +55,9 @@ export default function Layout(props) {
   const uploadReels = (event) => {
     event.preventDefault();
     setUploadErrorReel('');
-    console.log('uploading reels working');
 
     if (Object.keys(filesReel).length === 0 && filesReel.constructor === Object) {
-      console.log('cant be null');
       setUploadErrorReel('Please Add reel video');
-      console.log(uploadErrorReel);
       return;
     }
 
@@ -80,21 +77,16 @@ export default function Layout(props) {
     const formData = new FormData();
     var content = "test";
 
-    console.log("dataaaaaaaaaa", formData);
-    // console.log("thumbnails", thumbnails);
-    // console.log("content", content);
 
     formData.append(`content`, content);
     formData.append(`reelfiles`, filesReel);
 
 
     ReelsServices.createReels(user.id, formData).then((res) => {
-      console.log("jsonnn", JSON.stringify(res));
       handleRemoveReelVideo();
       setReels(res.data);
       setRefresh(res.data);
 
-      console.log("response", reels);
 
     });
 
@@ -110,13 +102,10 @@ export default function Layout(props) {
   const getPreviewReel = async () => {
 
     await ReelsServices.getPreviewReel(AuthService.getCurrentUser().username).then(res => {
-      console.log("jsonnn", JSON.stringify(res));
-      console.log(" This is the response", res.data.media[0])
       setReelPreviewPath(res.data.media[0])
 
 
     })
-    console.log(user.id + " This is the users Iddddddddd")
   }
 
 
@@ -131,7 +120,6 @@ export default function Layout(props) {
         setReelVideo(reader.result);
       }
     };
-    console.log(event.target.files[0]);
     // if(event.target.files[0].type === blob){
     reader.readAsDataURL(event.target.files[0]);
     // }
@@ -159,7 +147,6 @@ export default function Layout(props) {
     let yy = date.getFullYear()
     return `${dd}/ ${mm}/ ${yy}`
   }
-  console.log("User: ", user);
   return (
     props.user &&
     <>

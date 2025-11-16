@@ -58,7 +58,6 @@ export default function PostComponentBoxComponent({ post, setRefresh }) {
 
 
   const handleCommentContent = (event) => {
-    console.log(event.target.value)
     setCommentContent(event.target.value)
   }
 
@@ -68,7 +67,6 @@ export default function PostComponentBoxComponent({ post, setRefresh }) {
     }
     const comment = { content: commentContent }
     PostService.addComment(user.id, postid, comment).then(res => {
-      console.log(res.status)
       setRefresh(res.data)
       setCommentContent("")
     })
@@ -193,4 +191,4 @@ export default function PostComponentBoxComponent({ post, setRefresh }) {
 
 
 
-const handle = () => console.log('Enter pressed');
+const handle = () => 

@@ -119,7 +119,6 @@ function SearchFeedComponent() {
 
         } else if (event.key === 'Enter' && event.target.value !== '' && Sortsearch === "SearchByPeople") {
 
-            console.log("SearchByPosts")
             SearchByPeople()
 
 
@@ -127,7 +126,6 @@ function SearchFeedComponent() {
 
 
             SearchByPosts()
-            console.log("SearchByPeople")
         }
 
     }
@@ -135,7 +133,6 @@ function SearchFeedComponent() {
 
 
     useEffect(() => {
-        console.log("searchhhhh ", searchTerm)
     }, [searchTerm]);
 
 
@@ -183,14 +180,11 @@ function SearchFeedComponent() {
     const uploadStories = (event) => {
         event.preventDefault();
         setUploadError("")
-        console.log("uploading stories working")
 
 
         const formData = new FormData();
-        console.log(" this is the files" + filesStry)
         formData.append(`stryfiles`, filesStry)
         StoriesService.createStories(user.id, formData).then(res => {
-            console.log(JSON.stringify(res))
             handleRemoveImageStry()
             setStories(res.data)
             setRefresh(res.data)
@@ -257,7 +251,6 @@ function SearchFeedComponent() {
 
 
     const handleFileStry = (event) => {
-        console.log(event.target.files[0])
         setFilesStry(event.target.files[0])
         const reader = new FileReader();
         reader.onload = () => {
@@ -265,7 +258,6 @@ function SearchFeedComponent() {
                 setStoriesImage(reader.result)
             }
         }
-        console.log(event.target.files[0])
         // if(event.target.files[0].type === blob){
         reader.readAsDataURL(event.target.files[0])
         // }
@@ -276,7 +268,6 @@ function SearchFeedComponent() {
         setShowstoriesImage(false)
     }
     const handleLeaveGroup = (group_id) => {
-        console.log(group_id)
         GroupService.leaveGroup(user.id, group_id).then(res => {
             setRefresh(res.data)
             setGroup(res.data)
@@ -291,7 +282,6 @@ function SearchFeedComponent() {
 
 
     const handleJoinGroup = (group_id) => {
-        console.log(group_id)
         GroupService.joinGroup(user.id, group_id).then(res => {
             setRefresh(res.data)
             setGroup(res.data)
@@ -326,20 +316,17 @@ function SearchFeedComponent() {
     }
 
     const handlePostContent = (event) => {
-        console.log(event.target.value)
         setPostContent(event.target.value)
     }
 
     const handleDeletePost = (postid) => {
         PostService.deletePost(postid).then(res => {
-            console.log(res.status)
             setRefresh(res.data)
             // window.location.reload();
         })
     }
 
     const handleCommentContent = (event) => {
-        console.log(event.target.value)
         setCommentContent(event.target.value)
     }
 
@@ -349,7 +336,6 @@ function SearchFeedComponent() {
         }
         const comment = { content: commentContent }
         PostService.addComment(user.id, postid, comment).then(res => {
-            console.log(res.status)
             setRefresh(res.data)
             setCommentContent("")
         })
@@ -357,7 +343,6 @@ function SearchFeedComponent() {
     const handleCount = (opertator) => {
         if (opertator === "+") {
             let counting = count + 1
-            console.log(counting + "hi count")
             setCount(counting)
 
         }
@@ -367,7 +352,6 @@ function SearchFeedComponent() {
     }
 
     const handleFile = (event) => {
-        console.log(event.target.files[0])
         setFiles(event.target.files[0])
         const reader = new FileReader();
         reader.onload = () => {
@@ -375,7 +359,6 @@ function SearchFeedComponent() {
                 setPostImage(reader.result)
             }
         }
-        console.log(event.target.files[0])
         // if(event.target.files[0].type === blob){
         reader.readAsDataURL(event.target.files[0])
         // }
@@ -390,14 +373,12 @@ function SearchFeedComponent() {
 
     const handleEditingSave = (value) => {
         setEditPostId(value)
-        // console.log(res.status)
         // window.location.reload();
     }
 
     const checkIfLiked = (post) => {
         // maybe this is more effecient
         // post.reactions.map(r => {
-        //   console.log(JSON.stringify(r.user))
         //   if(r.user.id === user.id){
         //     return true
         //   }else{
@@ -413,30 +394,23 @@ function SearchFeedComponent() {
     }
 
     const checkIfSaved = (post) => {
-        console.log(post.savedByUsers)
         // maybe this is more effecient
         // post.savedByUsers.map(r => {
-        //   console.log("runninggg")
-        //   console.log(JSON.stringify(r.user) + " i p pp p p")
         // if(r.user.id === user.id){
         //   return true
         // }else{
         //   return false
         // }
         // })
-        console.log(post.savedByUsers.length + " yaa")
         const result = post.savedByUsers.filter(userz => userz.id == user.id)
         if (result.length > 0) {
-            console.log(" FOUND")
             return true
         }
-        console.log(" Not found")
         return false
     }
 
     const handleDeleteComment = (commentid) => {
         PostService.deleteComment(commentid).then(res => {
-            console.log(res.status)
             setRefresh(res.data)
         })
     }
@@ -449,36 +423,29 @@ function SearchFeedComponent() {
         return counter
     }
     const handlePrivacy = (event) => {
-        console.log(event.target.value)
         setPrivacy(event.target.value)
     }
     const uploadPost = (event) => {
         event.preventDefault();
         setUploadError("")
-        console.log("uploading post working")
         if (postContent === "" && (Object.keys(files).length === 0 && files.constructor === Object)) {
-            console.log("cant be null")
             setUploadError("Please Insert A Text or an Image")
             return
         }
 
         const formData = new FormData();
         formData.append('content', postContent)
-        console.log(" this is the files" + files)
-        console.log(" this is the swapfiles" + swapfiles)
         formData.append(`files`, files)
         formData.append(`swapfiles`, swapfiles)
         formData.append(`privacy`, Privacy)
         if (userF === null) {
             PostService.createPost(user.id, formData, null).then(res => {
-                console.log(JSON.stringify(res))
                 setPostContent("")
                 handleRemoveImage()
                 setRefresh(res.data)
             })
         } else
             PostService.createPost(user.id, formData, userF.id).then(res => {
-                console.log(JSON.stringify(res))
                 setPostContent("")
                 handleRemoveImage()
                 setRefresh(res.data)
@@ -502,12 +469,10 @@ function SearchFeedComponent() {
     }
     //swapcomponents
     const handleSwapContent = (event) => {
-        console.log(event.target.value)
         setSwapContent(event.target.value)
     }
     const handleFileSwap = (event) => {
         setSwapfiles(event.target.files);
-        console.log(swapfiles);
         let filesAmount = event.target.files.length;
         if (filesAmount < 6) {
             let tempImage = [];
@@ -517,7 +482,6 @@ function SearchFeedComponent() {
             }
 
             setSwapImage(tempImage);
-            console.log('url ' + swapImage[1]);
 
             setShowSwapImage(true);
         } else {
@@ -531,7 +495,6 @@ function SearchFeedComponent() {
     }
     const handleTag = (userM) => {
         setUserF(userM)
-        console.log(userM)
     }
     const imageshowSwap = () => {
         return (
@@ -646,12 +609,10 @@ function SearchFeedComponent() {
     }
     const getUser = async () => {
         if (user === null) {
-            console.log("RUNNING")
             await UserService.getUserByEmail(AuthService.getCurrentUser().username).then(res => {
                 setUserR(res.data);
             })
         } else {
-            console.log("WALKING" + JSON.stringify(user))
             setUserR(user)
         }
     }
@@ -806,7 +767,6 @@ function SearchFeedComponent() {
     }
 
     const removeFriend = (uid, fid) => {
-        console.log("uid: " + uid + " fid: " + fid)
         FriendsService.removeFriends(uid, fid).then(res => {
             setRefresh(res.data)
         })
@@ -1132,7 +1092,6 @@ function SearchFeedComponent() {
                 }
             })
             setSearchedUser(temp)
-            console.log(temp)
         }
     }
     const getAllUser = async () => {
@@ -1140,7 +1099,6 @@ function SearchFeedComponent() {
             setAllUser(res.data)
             setSearchedUser(res.data)
         })
-        console.log(user.email + " This is the users")
     }
     const getFriendsList = async () => {
         await FriendsService.getFriends(AuthService.getCurrentUser().username).then(res => {

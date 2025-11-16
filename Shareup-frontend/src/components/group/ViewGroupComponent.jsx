@@ -60,7 +60,6 @@ function ViewGroupComponent({post}) {
 
 	const [img, setImage] = useState("");
 	const handlePrivacy=(event)=>{
-		console.log(event.target.value)
 		  setPrivacy(event.target.value)
 	  }
 
@@ -75,8 +74,6 @@ function ViewGroupComponent({post}) {
 		await GroupService.getGroupById(groupid).then(res => {
 			setGroup(res.data)
 			setMembers(res.data.members)
-			console.log("YOIASOIODA")
-			console.log(JSON.stringify(res.data) + " helooo");
 		})
 	}
 
@@ -88,27 +85,23 @@ function ViewGroupComponent({post}) {
 
 	//
 	const handlePostContent = (event) => {
-		console.log(event.target.value)
 		setPostContent(event.target.value)
 	}
 
 	const handleDeletePost = (postid) => {
 		PostService.deletePost(postid).then(res => {
-			console.log(res.status)
 			setRefresh(res.data)
 			// window.location.reload();
 		})
 	}
 
 	const handleCommentContent = (event) => {
-		console.log(event.target.value)
 		setCommentContent(event.target.value)
 	}
 
 	const handlePostingComment = (postid) => {
 		const comment = { content: commentContent }
 		PostService.addComment(user.id, postid, comment).then(res => {
-			console.log(res.status)
 			// setRefresh(res.data)
 			window.location.reload();
 		})
@@ -119,7 +112,6 @@ function ViewGroupComponent({post}) {
 	}
 
 	const handleFile = (event) => {
-		console.log(event.target.files[0])
 		setFiles(event.target.files[0])
 		const reader = new FileReader();
 		reader.onload = () => {
@@ -127,7 +119,6 @@ function ViewGroupComponent({post}) {
 				setPostImage(reader.result)
 			}
 		}
-		console.log(event.target.files[0])
 		// if(event.target.files[0].type === blob){
 		reader.readAsDataURL(event.target.files[0])
 		// }
@@ -141,14 +132,12 @@ function ViewGroupComponent({post}) {
 
 	const handleEditingSave = (value) => {
 		setEditPostId(value)
-		// console.log(res.status)
 		// window.location.reload();
 	}
 
 	const checkIfLiked = (post) => {
 		// maybe this is more effecient
 		// post.reactions.map(r => {
-		//   console.log(JSON.stringify(r.user))
 		//   if(r.user.id === user.id){
 		//     return true
 		//   }else{
@@ -168,15 +157,12 @@ function ViewGroupComponent({post}) {
 	//   for (let i = 0; i < files.length; i++) {
 	//     formData.append(`files`, files[i])
 	//   }
-	//   console.log("formdata: " + formData);
 	//   UserService.uploadFiles(formData).then(res => {
-	//     console.log(res.data)
 	//   })
 	// }
 
 	const handleDeleteComment = (commentid) => {
 		PostService.deleteComment(commentid).then(res => {
-			console.log(res.status)
 			setRefresh(res.data)
 			// window.location.reload();
 		})
@@ -185,9 +171,7 @@ function ViewGroupComponent({post}) {
 	const uploadPost = (event) => {
 		event.preventDefault();
 		setUploadError("")
-		console.log("uploading post working")
 		if (postContent === "" && (Object.keys(files).length === 0 && files.constructor === Object)) {
-			console.log("cant be null")
 			setUploadError("Please Insert A Text or an Image")
 			return
 		}
@@ -198,10 +182,8 @@ function ViewGroupComponent({post}) {
 		// if(files === {}){
 		//   setFiles(null)
 		// }
-		console.log(" this is the files" + files)
 		formData.append(`files`, files)
 		PostService.createPost(user.id, formData).then(res => {
-			console.log(JSON.stringify(res))
 			setPostContent("")
 			handleRemoveImage()
 			setRefresh(res.data)

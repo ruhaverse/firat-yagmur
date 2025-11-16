@@ -26,14 +26,12 @@ function EditPostComponent({ post, set }) {
     }
 
     const handleEditContent = (event) => {
-        console.log(event.target.value)
         setEditContent(event.target.value)
     }
 
     const handleUpdatePost = (event) => {
         event.preventDefault();
         if(editContent === ""){
-            console.log("please enter something")
             return
         }
         const content = {content:editContent}

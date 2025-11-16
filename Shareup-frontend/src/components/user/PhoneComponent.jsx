@@ -14,7 +14,6 @@ function Telephone({setPhone, p_no, handlePhone,trigger}) {
 
 
 
-        console.log('printing p', p_no)
 
      }
 

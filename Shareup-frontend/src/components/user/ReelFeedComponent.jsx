@@ -141,14 +141,11 @@ function ReelFeedComponent() {
   const uploadStories = (event) => {
     event.preventDefault();
     setUploadError("")
-    console.log("uploading stories working")
 
 
     const formData = new FormData();
-    console.log(" this is the files" + filesStry)
     formData.append(`stryfiles`, filesStry)
     StoriesService.createStories(user.id, formData).then(res => {
-      console.log(JSON.stringify(res))
       handleRemoveImageStry()
       setStories(res.data)
       setRefresh(res.data)
@@ -191,7 +188,6 @@ function ReelFeedComponent() {
       setSearchedReelforUser(uniquePost)
     })
 
-    console.log(user.id + " This is the users Iddddddddd" )
   }
 
   const getAllReels = async () => {
@@ -215,12 +211,9 @@ function ReelFeedComponent() {
   const uploadReels = (event) => {
     event.preventDefault();
     setUploadErrorReel('');
-    console.log('uploading reels working');
 
     if (Object.keys(filesReel).length === 0 && filesReel.constructor === Object) {
-      console.log('cant be null');
       setUploadErrorReel('Please Add reel video');
-      console.log(uploadErrorReel);
       return;
     }
 
@@ -240,21 +233,16 @@ function ReelFeedComponent() {
     const formData = new FormData();
     var content = "test";
 
-    console.log("dataaaaaaaaaa", formData);
-    // console.log("thumbnails", thumbnails);
-    // console.log("content", content);
 
     formData.append(`content`, content);
     formData.append(`reelfiles`, filesReel);
 
 
     ReelsServices.createReels(user.id, formData).then((res) => {
-      console.log("jsonnn", JSON.stringify(res));
       handleRemoveReelVideo();
       setReels(res.data);
       setRefresh(res.data);
 
-      console.log("response", reels);
 
     });
 
@@ -277,7 +265,6 @@ function ReelFeedComponent() {
         setReelVideo(reader.result);
       }
     };
-    console.log(event.target.files[0]);
     // if(event.target.files[0].type === blob){
     reader.readAsDataURL(event.target.files[0]);
     // }
@@ -291,7 +278,6 @@ function ReelFeedComponent() {
 
 
   const handleFileStry = (event) => {
-    console.log(event.target.files[0])
     setFilesStry(event.target.files[0])
     const reader = new FileReader();
     reader.onload = () => {
@@ -299,7 +285,6 @@ function ReelFeedComponent() {
         setStoriesImage(reader.result)
       }
     }
-    console.log(event.target.files[0])
     // if(event.target.files[0].type === blob){
     reader.readAsDataURL(event.target.files[0])
     // }
@@ -310,7 +295,6 @@ function ReelFeedComponent() {
     setShowstoriesImage(false)
   }
   const handleLeaveGroup = (group_id) => {
-    console.log(group_id)
     GroupService.leaveGroup(user.id, group_id).then(res => {
       setRefresh(res.data)
       setGroup(res.data)
@@ -325,7 +309,6 @@ function ReelFeedComponent() {
 
 
   const handleJoinGroup = (group_id) => {
-    console.log(group_id)
     GroupService.joinGroup(user.id, group_id).then(res => {
       setRefresh(res.data)
       setGroup(res.data)
@@ -360,20 +343,17 @@ function ReelFeedComponent() {
   }
 
   const handlePostContent = (event) => {
-    console.log(event.target.value)
     setPostContent(event.target.value)
   }
 
   const handleDeletePost = (postid) => {
     PostService.deletePost(postid).then(res => {
-      console.log(res.status)
       setRefresh(res.data)
       // window.location.reload();
     })
   }
 
   const handleCommentContent = (event) => {
-    console.log(event.target.value)
     setCommentContent(event.target.value)
   }
 
@@ -383,7 +363,6 @@ function ReelFeedComponent() {
     }
     const comment = { content: commentContent }
     PostService.addComment(user.id, postid, comment).then(res => {
-      console.log(res.status)
       setRefresh(res.data)
       setCommentContent("")
     })
@@ -391,7 +370,6 @@ function ReelFeedComponent() {
   const handleCount = (opertator) => {
     if (opertator === "+") {
       let counting = count + 1
-      console.log(counting + "hi count")
       setCount(counting)
 
     }
@@ -401,7 +379,6 @@ function ReelFeedComponent() {
   }
 
   const handleFile = (event) => {
-    console.log(event.target.files[0])
     setFiles(event.target.files[0])
     const reader = new FileReader();
     reader.onload = () => {
@@ -409,7 +386,6 @@ function ReelFeedComponent() {
         setPostImage(reader.result)
       }
     }
-    console.log(event.target.files[0])
     // if(event.target.files[0].type === blob){
     reader.readAsDataURL(event.target.files[0])
     // }
@@ -424,14 +400,12 @@ function ReelFeedComponent() {
 
   const handleEditingSave = (value) => {
     setEditPostId(value)
-    // console.log(res.status)
     // window.location.reload();
   }
 
   const checkIfLiked = (post) => {
     // maybe this is more effecient
     // post.reactions.map(r => {
-    //   console.log(JSON.stringify(r.user))
     //   if(r.user.id === user.id){
     //     return true
     //   }else{
@@ -447,30 +421,23 @@ function ReelFeedComponent() {
   }
 
   const checkIfSaved = (post) => {
-    console.log(post.savedByUsers)
     // maybe this is more effecient
     // post.savedByUsers.map(r => {
-    //   console.log("runninggg")
-    //   console.log(JSON.stringify(r.user) + " i p pp p p")
     // if(r.user.id === user.id){
     //   return true
     // }else{
     //   return false
     // }
     // })
-    console.log(post.savedByUsers.length + " yaa")
     const result = post.savedByUsers.filter(userz => userz.id == user.id)
     if (result.length > 0) {
-      console.log(" FOUND")
       return true
     }
-    console.log(" Not found")
     return false
   }
 
   const handleDeleteComment = (commentid) => {
     PostService.deleteComment(commentid).then(res => {
-      console.log(res.status)
       setRefresh(res.data)
     })
   }
@@ -483,36 +450,29 @@ function ReelFeedComponent() {
     return counter
   }
   const handlePrivacy = (event) => {
-    console.log(event.target.value)
     setPrivacy(event.target.value)
   }
   const uploadPost = (event) => {
     event.preventDefault();
     setUploadError("")
-    console.log("uploading post working")
     if (postContent === "" && (Object.keys(files).length === 0 && files.constructor === Object)) {
-      console.log("cant be null")
       setUploadError("Please Insert A Text or an Image")
       return
     }
 
     const formData = new FormData();
     formData.append('content', postContent)
-    console.log(" this is the files" + files)
-    console.log(" this is the swapfiles" + swapfiles)
     formData.append(`files`, files)
     formData.append(`swapfiles`, swapfiles)
     formData.append(`privacy`, Privacy)
     if (userF === null) {
       PostService.createPost(user.id, formData, null).then(res => {
-        console.log(JSON.stringify(res))
         setPostContent("")
         handleRemoveImage()
         setRefresh(res.data)
       })
     } else
       PostService.createPost(user.id, formData, userF.id).then(res => {
-        console.log(JSON.stringify(res))
         setPostContent("")
         handleRemoveImage()
         setRefresh(res.data)
@@ -536,12 +496,10 @@ function ReelFeedComponent() {
   }
   //swapcomponents
   const handleSwapContent = (event) => {
-    console.log(event.target.value)
     setSwapContent(event.target.value)
   }
   const handleFileSwap = (event) => {
     setSwapfiles(event.target.files);
-    console.log(swapfiles);
     let filesAmount = event.target.files.length;
     if (filesAmount < 6) {
       let tempImage = [];
@@ -551,7 +509,6 @@ function ReelFeedComponent() {
       }
 
       setSwapImage(tempImage);
-      console.log('url ' + swapImage[1]);
 
       setShowSwapImage(true);
     } else {
@@ -566,19 +523,15 @@ function ReelFeedComponent() {
   // const uploadSwap = (event) => {
   //   event.preventDefault();
   //   setUploadError("")
-  //   console.log("uploading post working")
   //   if (swapContent === "" && (Object.keys(files).length === 0 && files.constructor === Object)) {
-  //     console.log("cant be null")
   //     setUploadError("Please Insert A Text or an Image")
   //     return
   //   }
 
   //   const formData = new FormData();
   //   formData.append('content', swapContent)
-  //   console.log(" this is the files" + files)
   //   formData.append(`files`, files)
   //   SwapService.createSwap(user.id, formData).then(res => {
-  //     console.log(JSON.stringify(res))
   //     setSwapContent("")
   //     handleRemoveImage()
   //     setRefresh(res.data)
@@ -689,9 +642,7 @@ function ReelFeedComponent() {
   const uploadSwap = (event) => {
     event.preventDefault();
     setUploadError('');
-    console.log('uploading swap working');
     if (swapContent === '' && Object.keys(swapfiles).length === 0 && swapfiles.constructor === Object) {
-      console.log('cant be null');
       setUploadError('Please Insert A Text or an Image');
       return;
     }
@@ -702,28 +653,19 @@ function ReelFeedComponent() {
     for (let i = 0; i < swapfiles.length; i++) {
       formData.append(`files`, swapfiles[i]);
     }
-    console.log(formData.getAll(`files`));
-    console.log(' this is the files' + files[0]);
-    console.log(' this is the swapfiles' + swapfiles);
     for (let i = 0; i < `swapfiles`.length; i++) {
-      console.log(swapfiles);
     }
     formData.append(`swapfiles`, swapfiles);
     formData.append(`privacy`, Privacy);
     if (userF === null) {
       SwapService.createSwap(user.id, formData, null).then((res) => {
-        console.log(JSON.stringify(res));
-        console.log(res.data);
-        console.log(user.id);
         setSwapContent('');
         handleRemoveImageSwap();
         setRefresh(res.data);
-        console.log('ssssssssssrefersh', refresh)
 
       });
     } else
       SwapService.createSwap(user.id, formData, userF.id).then((res) => {
-        console.log(JSON.stringify(res));
         setSwapContent('');
         handleRemoveImageSwap();
         setRefresh(res.data);
@@ -740,12 +682,10 @@ function ReelFeedComponent() {
   }
   const getUser = async () => {
     if (user === null) {
-      console.log("RUNNING")
       await UserService.getUserByEmail(AuthService.getCurrentUser().username).then(res => {
         setUserR(res.data);
       })
     } else {
-      console.log("WALKING" + JSON.stringify(user))
       setUserR(user)
     }
   }
@@ -1224,7 +1164,6 @@ function ReelFeedComponent() {
   
   const handleTag = (userM) => {
     setUserF(userM)
-    console.log(userM)
   }
   const handleSearchedUser = (event) => {
     if (event.target.value === "") {
@@ -1239,7 +1178,6 @@ function ReelFeedComponent() {
         }
       })
       setSearchedUser(temp)
-      console.log(temp)
     }
   }
   
@@ -1258,7 +1196,6 @@ function ReelFeedComponent() {
         }
       })
       setSearchedReelforUser(temp)
-      console.log(temp)
     }
   }
 
@@ -1280,7 +1217,6 @@ function ReelFeedComponent() {
         }
       })
       setSearchedReel(temp)
-      console.log(temp)
     }
   }
  
@@ -1291,7 +1227,6 @@ function ReelFeedComponent() {
       setAllUser(res.data)
       setSearchedUser(res.data)
     })
-    console.log(user.email + " This is the users")
   }
   const getFriendsList = async () => {
     await FriendsService.getFriends(AuthService.getCurrentUser().username).then(res => {

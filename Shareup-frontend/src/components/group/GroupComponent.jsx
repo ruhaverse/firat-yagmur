@@ -70,7 +70,6 @@ function GroupComponent({post}) {
 				
 			})
 			setSearchedGroups(temp)
-			console.log(temp)
 		}
 	}
 
@@ -85,7 +84,6 @@ function GroupComponent({post}) {
 				}
 			})
 			setSearchedMyGroups(temp)
-			console.log(temp)
 		}
 	}
 
@@ -99,7 +97,6 @@ function GroupComponent({post}) {
 	}
 	const handleLeaveGroup = (e,group_id) => {
 		e.preventDefault();
-		console.log(group_id)
 		GroupService.leaveGroup(user.id, group_id).then(res => {
 			setRefresh(res.data)
 			setGroup(res.data)
@@ -108,7 +105,6 @@ function GroupComponent({post}) {
 
 	const handleJoinGroup = (e,group_id) => {
 		e.preventDefault();
-		console.log(group_id)
 		GroupService.joinGroup(user.id, group_id).then(res => {
 			setRefresh(res.data)
 			setGroup(res.data)
@@ -124,7 +120,6 @@ function GroupComponent({post}) {
 
 
 	const showAllGroupsComponent = () => {
-		// console.log(searchedGroups)
 		return (
 			
 			<div className="tab-content">

@@ -12,16 +12,9 @@ class AuthService {
         password,
       })
       .then((response) => {
-        console.log(JSON.stringify(response.data) + "This response");
         if (response.data.jwt) {
           localStorage.setItem("user", JSON.stringify(response.data));
-          console.log(
-            localStorage.getItem("user") + " THIS IS THE LOCAL STORAGE"
-          );
         }
-        console.log(
-          JSON.stringify(response.data) + " THIS BE RESPONSE DATA AUTHSERVICE"
-        );
         return response;
       });
   };

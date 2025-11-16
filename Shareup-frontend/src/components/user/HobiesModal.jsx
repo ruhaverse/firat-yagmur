@@ -33,7 +33,6 @@ function HobiesModal({ setHobiesModalOpen , updateProfile,interests, setInterest
                     <select className=" mb-3 text-dark" style={{width:'90%', height:'40px', borderColor:'#033347'}} aria-label=".form-select-lg example"  onChange={(e) =>
                         {const selectedInterest = e.target.value;
                             setInterest(selectedInterest);
-                            console.log("SET HOME TOWN WORKING", interests)
                         
                         }}>
                             {interests ? 

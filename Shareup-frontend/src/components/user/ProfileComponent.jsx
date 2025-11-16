@@ -80,7 +80,6 @@ function ProfileComponent() {
     });
   };
   const removeFriend = (uid, fid) => {
-    console.log("uid: " + uid + " fid: " + fid);
     FriendsService.removeFriends(uid, fid).then((res) => {
       setRefresh(res.data);
     });
@@ -134,7 +133,6 @@ function ProfileComponent() {
 
   const handleDeletePost = (postid) => {
     PostService.deletePost(postid).then((res) => {
-      console.log(res.status);
       setRefresh(res.data);
     });
   };
@@ -142,10 +140,8 @@ function ProfileComponent() {
   const checkIfSaved = (post) => {
     const result = post.savedByUsers.filter((userz) => userz.id == user.id);
     if (result.length > 0) {
-      console.log(" FOUND");
       return true;
     }
-    console.log(" Not found");
     return false;
   };
 
@@ -155,7 +151,6 @@ function ProfileComponent() {
     await UserService.getUserByEmail(
       AuthService.getCurrentUser().username
     ).then((res) => {
-      console.log(JSON.stringify(res.data));
       setUserProfile(res.data);
       //
       setFirstName(res.data.firstName);
@@ -187,7 +182,6 @@ function ProfileComponent() {
 
   const uploadProfilePicture = async () => {
     if (profilePicture === "") {
-      console.log("cant be null");
       return;
     }
     const formData = new FormData();
@@ -256,7 +250,6 @@ function ProfileComponent() {
   };
 
   const handleOnChange = async () => {
-    console.log("ha");
   };
 
   const handleShow = () => {
@@ -278,7 +271,6 @@ function ProfileComponent() {
       setAllUser(res.data);
       setSearchedUser(res.data);
     });
-    console.log(user.email + " This is the users");
   };
 
   const getFriendsList = async () => {
@@ -340,7 +332,6 @@ function ProfileComponent() {
         }
       });
       setSearchedUser(temp);
-      console.log(temp);
     }
   };
 

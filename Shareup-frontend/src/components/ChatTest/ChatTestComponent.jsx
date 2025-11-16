@@ -85,7 +85,6 @@ export default function ChatTestComponent() {
           }
         })
         setSearchedUser(temp)
-        console.log(temp)
       }
     
     }

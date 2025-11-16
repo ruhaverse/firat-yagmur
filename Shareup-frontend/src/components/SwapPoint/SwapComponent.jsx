@@ -47,7 +47,6 @@ const [postsForUser, setPostsForUser] = useState([]);
   const [img, setImage] = useState("");
   // const [Privacy, setPrivacy] = useState("");
     const handlePrivacy=(event)=>{
-      console.log(event.target.value)
         setPrivacy(event.target.value)
     }
     const getPost = async () => {
@@ -68,9 +67,7 @@ const [postsForUser, setPostsForUser] = useState([]);
     const uploadPost = (event) => {
       event.preventDefault();
       setUploadError("")
-      console.log("uploading post working")
       if (postContent === "" && (Object.keys(files).length === 0 && files.constructor === Object)) {
-        console.log("cant be null")
         setUploadError("Please Insert A Text or an Image")
         return
       }
@@ -81,7 +78,6 @@ const [postsForUser, setPostsForUser] = useState([]);
       })
     }
     const handleFile = (event) => {
-      console.log(event.target.files[0])
       setFiles(event.target.files[0])
       const reader = new FileReader();
       reader.onload = () => {
@@ -89,7 +85,6 @@ const [postsForUser, setPostsForUser] = useState([]);
           setPostImage(reader.result)
         }
       }
-      console.log(event.target.files[0])
     // if(event.target.files[0].type === blob){
     reader.readAsDataURL(event.target.files[0])
     // }
@@ -103,7 +98,6 @@ const [postsForUser, setPostsForUser] = useState([]);
 
   const handleEditingSave = (value) => {
     setEditPostId(value)
-    // console.log(res.status)
     // window.location.reload();
   }
     useEffect(() => {

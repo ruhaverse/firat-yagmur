@@ -62,7 +62,6 @@ function ShareupInsideHeaderComponent() {
         }
       })
       setSearchedFriendsList(temp)
-      console.log(temp)
     }
   }
 
@@ -80,7 +79,6 @@ function ShareupInsideHeaderComponent() {
   }, [])
 
   const onUnfocus = () => {
-    console.log("hello")
     if (showUserSettings === true) {
       setShowUserSettings(false)
     }

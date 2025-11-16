@@ -17,7 +17,6 @@ import fileStorage from '../../config/fileStorage';
 
 function OtherProfileComponent() {
     const { email: user_email } = useParams();
-    console.log(user_email + " HEEHAHEAHEAH")
     let history = useHistory();
 
     const { user } = useContext(UserContext)
@@ -63,7 +62,6 @@ function OtherProfileComponent() {
 
     const currentUserGet = async () => {
         await UserService.getUserByEmail(user_email).then(res => {
-            console.log("WHAT THIS IS IT " + JSON.stringify(res.data))
             setUserProfile(res.data)
             //
             setFirstName(res.data.firstName)
@@ -112,7 +110,6 @@ function OtherProfileComponent() {
 
     const uploadProfilePicture = async () => {
         if (profilePicture === "") {
-            console.log("cant be null")
             return
         }
         const formData = new FormData();
@@ -123,7 +120,6 @@ function OtherProfileComponent() {
     }
 
     const handleOnChange = () => {
-        console.log("HEHE")
     }
 
     
@@ -156,7 +152,6 @@ function OtherProfileComponent() {
 		})
 	}
   const removeFriend = (uid, fid) => {
-		console.log("uid: " + uid + " fid: " + fid)
 		FriendsService.removeFriends(uid, fid).then(res => {
 			setRefresh(res.data)
 		})
@@ -178,7 +173,6 @@ function OtherProfileComponent() {
 			setAllUser(res.data)
 			setSearchedUser(res.data)
 		})
-		console.log(user.email + " This is the users")
 	}
 
 	const getFriendsList = async () => {
@@ -226,7 +220,6 @@ function OtherProfileComponent() {
 				}
 			})
 			setSearchedUser(temp)
-			console.log(temp)
 		}
 
 	}

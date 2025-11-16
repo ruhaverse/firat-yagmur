@@ -29,7 +29,6 @@ function DisplayComponent() {
 
   const [index, setIndex] = useState(0);
   const timeoutRef = useRef(null);
-  console.log("ashiya beti", delay * index);
 
   const resetTimeout = () => {
     if (timeoutRef.current) {
@@ -57,14 +56,12 @@ function DisplayComponent() {
   };
   const getUser = async () => {
     if (user === null) {
-      console.log("RUNNING");
       await UserService.getUserByEmail(
         AuthService.getCurrentUser().username
       ).then((res) => {
         setUserR(res.data);
       });
     } else {
-      console.log("WALKING" + JSON.stringify(user));
       setUserR(user);
     }
   };
@@ -89,7 +86,6 @@ function DisplayComponent() {
   }, [index]);
   const nextSlide = (a) => {
     // a.preventDefault();
-    console.log("check slide check", a);
     // setIndex(a);
   };
 
@@ -154,7 +150,6 @@ function DisplayComponent() {
                     id="getnext"
                     onClick={() => {
                       setIndex(index + 1);
-                      console.log("looking for -1", index);
                     }}
                   >
                     <i class="fas fa-arrow-right"></i>

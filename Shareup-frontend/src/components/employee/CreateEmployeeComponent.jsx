@@ -35,7 +35,6 @@ class CreateEmployeeComponent extends Component {
         e.preventDefault();
 
         let employee = {firstName: this.state.firstName, lastName: this.state.lastName, emailId: this.state.emailId};
-        console.log('employee => ' + JSON.stringify(employee));
 
         if(this.state.id === '_add'){
             EmployeeService.createEmployee(employee).then(res =>{

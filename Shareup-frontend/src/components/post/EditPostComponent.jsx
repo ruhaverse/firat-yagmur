@@ -26,19 +26,15 @@ function EditPostComponent({ post, set }) {
     }
 
     const handleEditContent = (event) => {
-        console.log(event.target.value)
         setEditContent(event.target.value)
     }
 
     const handleUpdatePost = async (event) => {
         event.preventDefault();
-        console.log(editContent + ' HE ' + post.content)
         if(editContent.length <= 0 || editContent === '' || editContent === null){
-            console.log("please make sure you made changes")
             return
         }
         if(post.content === editContent){
-            console.log("please make sure you made changes")
             return
         }
         const content = {content:editContent}

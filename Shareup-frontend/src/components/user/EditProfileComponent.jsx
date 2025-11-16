@@ -64,7 +64,6 @@ export default function EditProfileComponent() {
   }
   const currentUserGet = async () => {
     await UserService.getUserByEmail(AuthService.getCurrentUser().username).then(res => {
-      console.log(JSON.stringify(res.data))
       setUserProfile(res.data)
       setId(res.data.id)
       setFirstName(res.data.firstName)
@@ -131,7 +130,6 @@ const addP=()=>{
 const callPhone=()=>{
 const getPhone1 = JSON.parse(localStorage.getItem("phone"));
 const getDate1 = JSON.parse(localStorage.getItem("Datebaba"));
-console.log('getatsk baba', getPhone1[0].p_no)
 setPhone(getPhone1[0].p_no)
 setDob(getDate1[0].dob)
 
@@ -150,7 +148,6 @@ const clrAboutMe=()=>{
 // By najam end here
   const uploadProfilePicture = async () => {
     if (profilePicture === "") {
-      console.log("cant be null")
       return
     }
     const formData = new FormData();

@@ -83,12 +83,10 @@ function CreateGroupComponentMain() {
 
     const handlePrivacySetting = (event) => {
         setGroupPrivacySetting(event.target.value)
-        console.log(event.target.value)
     }
 
     const handleInviteSetting = (event) => {
         setGroupInvitationSetting(event.target.value)
-        console.log(event.target.value)
     }
 
     const handleCreateGroup = async () => {
@@ -103,7 +101,6 @@ function CreateGroupComponentMain() {
         formData.append('groupPicture', groupPicture)
         formData.append('groupCover', groupCover)
         await GroupService.createGroup(user.id, formData).then(res => {
-            console.log(res.data)
         })
         setTimeout(function () { history.push(`/groups`) }, 2000);
     }

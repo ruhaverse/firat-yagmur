@@ -14,7 +14,6 @@ export default function CommentPostComponent({post, setRefresh}) {
 
     const handleDeleteComment = (commentid) => {
         PostService.deleteComment(commentid).then(res => {
-          console.log(res.status)
           setRefresh(res.data)
         })
       }
@@ -40,7 +39,6 @@ export default function CommentPostComponent({post, setRefresh}) {
       var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
       if((Difference_In_Days%1)>0.5){
         let d=(Difference_In_Days%1)>0.5
-        console.log(Difference_In_Days , d , Math.round(Difference_In_Days-1))
 
       }
       // const month = date.toLocaleString('default', { month: 'long' })
@@ -52,23 +50,19 @@ export default function CommentPostComponent({post, setRefresh}) {
           <>
           {comments.map(comment =>{
             let time=moment(comment.published, "DD MMMM YYYY hh:mm:ss").fromNow()
-              console.log(time)
               // let date = new Date(comment.published);
               // let today = new Date();
               // let time = null
               // var Difference_In_Time = today.getTime() - date.getTime();
-              // console.log(Difference_In_Time)
               // if(Difference_In_Time<60000){
               //   time= Math.round(Difference_In_Time) + 's'
               // }else if((Difference_In_Time/60000)<60){
               //   time= Math.round(Difference_In_Time/60000) + 'm' 
               // }else if(Difference_In_Time/60000>3600){
-              //   console.log('hour')
               //   time = Math.round(Difference_In_Time/3600000) + 'h'
               // }else if(Difference_In_Time/60000>360){
 
               // }
-            // console.log(time)
             //  var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
             //  if((Difference_In_Days%1)>0.5){
             //    let d=(Difference_In_Days%1)>0.5

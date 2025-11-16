@@ -30,7 +30,6 @@ function MessagesComponent() {
 
     const handleChat = (userM) => {
         setUserR(userM)
-        console.log(userM)
     }
     const handleSearchedUser = (event) => {
         if (event.target.value === "") {
@@ -47,7 +46,6 @@ function MessagesComponent() {
                 }
             })
             setSearchedUser(temp)
-            console.log(temp)
         }
     }
     const getAllUser = async () => {
@@ -55,7 +53,6 @@ function MessagesComponent() {
             setAllUser(res.data)
             setSearchedUser(res.data)
         })
-        console.log(user.email + " This is the users")
     }
     const getFriendsList = async () => {
         await FriendsService.getFriends(AuthService.getCurrentUser().username).then(res => {

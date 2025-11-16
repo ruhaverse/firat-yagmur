@@ -32,7 +32,6 @@ function GroupsWidgetComponent() {
     }
 
     const handleSearchGroup = () => {
-        console.log("Waaa")
     }
 
     useEffect(() => {
@@ -56,7 +55,7 @@ function GroupsWidgetComponent() {
                     <li key={group.id}>
                     <div className="nearly-pepls" style={{display:'flex' ,background:'white' ,padding:'10px'}}>
                         <figure>
-                            {console.log(group.groupImagePath)}
+                            {}
                             <a href={`/groups/${group.id}`} title="#"> <img src={group.groupImagePath ? fileStorage.baseUrl+group.groupImagePath : Grpicon} alt="" /></a>
                         </figure>
                         <div className="pepl-info">

@@ -26,6 +26,7 @@
 **Shareup** is a full-stack social networking platform with web and mobile applications.
 
 ### Key Features
+
 - 👤 User authentication and profiles
 - 📝 Posts, feed, and social interactions
 - 💬 Real-time messaging
@@ -55,8 +56,8 @@
 - Rate limiting (DDoS protection)
 
 **Infrastructure:**
-- Production: https://www.shareuptime.com
-- Staging: https://staging.shareuptime.com
+- Production: <https://www.shareuptime.com>
+- Staging: <https://staging.shareuptime.com>
 - Backend API: Port 8080, `/api/v1` base path
 
 ---
@@ -64,6 +65,7 @@
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js 18+ and npm
 - PostgreSQL 12+
 - Git
@@ -73,7 +75,7 @@
 
 ```bash
 # Clone repository
-git clone https://github.com/Shareup-dev/Shareup-frontend.git
+git clone <https://github.com/Shareup-dev/Shareup-frontend.git>
 cd Shareup-frontend
 
 # Install frontend dependencies
@@ -83,31 +85,30 @@ npm install
 # Install backend dependencies
 cd ../backend
 npm install
-```
-
+```text
 ### Start Development Servers
 
 **Terminal 1 - Backend:**
+
 ```bash
 cd backend
 npm run dev
-# Backend runs on http://localhost:8080
-```
-
+# Backend runs on <http://localhost:8080>
+```text
 **Terminal 2 - Frontend:**
+
 ```bash
 cd Shareup-frontend
 npm start
-# Frontend runs on http://localhost:3000
-```
-
+# Frontend runs on <http://localhost:3000>
+```text
 ---
 
 ## 🏗️ Architecture
 
 ### Repository Structure
 
-```
+```text
 Shareup-frontend/
 ├── backend/                    # Node.js Express API
 │   ├── src/
@@ -141,11 +142,10 @@ Shareup-frontend/
     ├── SECURITY.md            # Security guidelines
     ├── DEPLOYMENT.md          # Deployment guide
     └── FINAL_REPO_STATUS.md   # Repository status
-```
-
+```text
 ### System Architecture
 
-```
+```text
 ┌─────────────────┐
 │   Mobile App    │
 │  (iOS/Android)  │
@@ -180,8 +180,7 @@ Shareup-frontend/
 │  • State: Redux Toolkit          │
 │  • Routing: React Router         │
 └──────────────────────────────────┘
-```
-
+```text
 ### API Endpoints Overview
 
 **Authentication:**
@@ -211,6 +210,7 @@ Shareup-frontend/
 ### Environment Variables
 
 **Backend (.env):**
+
 ```bash
 # Database
 DATABASE_URL=postgresql://user:password@localhost:5432/shareup
@@ -230,7 +230,7 @@ NODE_ENV=development
 API_BASE=/api/v1
 
 # CORS
-CORS_ORIGIN=http://localhost:3000
+CORS_ORIGIN=<http://localhost:3000>
 
 # File Upload
 UPLOAD_PATH=./uploads
@@ -239,18 +239,17 @@ MAX_FILE_SIZE=10485760
 # Rate Limiting
 RATE_LIMIT_WINDOW_MS=900000
 RATE_LIMIT_MAX=100
-```
-
+```text
 **Frontend (.env):**
+
 ```bash
 # API Configuration
-REACT_APP_API_URL=http://localhost:8080
-REACT_APP_SOCKET_URL=http://localhost:8080
+REACT_APP_API_URL=<http://localhost:8080>
+REACT_APP_SOCKET_URL=<http://localhost:8080>
 
 # Environment
 REACT_APP_ENV=development
-```
-
+```text
 ### Database Setup
 
 ```bash
@@ -271,8 +270,7 @@ GRANT ALL PRIVILEGES ON DATABASE shareup TO shareup_user;
 # Run migrations
 cd backend
 npm run migrate
-```
-
+```text
 ### IDE Setup (VS Code)
 
 **Recommended Extensions:**
@@ -283,6 +281,7 @@ npm run migrate
 - PostgreSQL (database management)
 
 **Workspace Settings (`.vscode/settings.json`):**
+
 ```json
 {
   "editor.formatOnSave": true,
@@ -293,8 +292,7 @@ npm run migrate
     "build": true
   }
 }
-```
-
+```text
 ---
 
 ## 🔧 Backend API
@@ -321,8 +319,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // File uploads
 app.use('/uploads', express.static('uploads'));
-```
-
+```text
 ### Controllers
 
 **Auth Controller** (`src/controllers/authController.js`):
@@ -345,6 +342,7 @@ app.use('/uploads', express.static('uploads'));
 ### Middleware
 
 **Auth Middleware** (`src/middleware/auth.js`):
+
 ```javascript
 // Protect routes requiring authentication
 const protect = async (req, res, next) => {
@@ -359,11 +357,11 @@ const protect = async (req, res, next) => {
     res.status(401).json({ message: 'Token invalid' });
   }
 };
-```
-
+```text
 ### Database Schema
 
 **Users Table:**
+
 ```sql
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -375,9 +373,9 @@ CREATE TABLE users (
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW()
 );
-```
-
+```text
 **Posts Table:**
+
 ```sql
 CREATE TABLE posts (
   id SERIAL PRIMARY KEY,
@@ -388,8 +386,7 @@ CREATE TABLE posts (
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW()
 );
-```
-
+```text
 ### Running Backend
 
 ```bash
@@ -404,8 +401,7 @@ npm run migrate
 
 # Run tests
 npm test
-```
-
+```text
 ---
 
 ## 🎨 Frontend Application
@@ -418,27 +414,28 @@ npm test
 1. **Dashboard & Navigation** (6 components)
    - Header, Sidebar, MainLayout
    
-2. **User & Authentication** (20 components)
+1. **User & Authentication** (20 components)
    - Login, Register, UserProfile, EditProfile
    
-3. **Posts & Feed** (9 components)
+1. **Posts & Feed** (9 components)
    - CreatePost, PostCard, PostList, Comments
    
-4. **Messages & Chat** (3 components)
+1. **Messages & Chat** (3 components)
    - ChatWindow, MessageList, MessageInput
    
-5. **Stories** (2 components)
+1. **Stories** (2 components)
    - StoryViewer, StoryCreator
    
-6. **Groups** (4 components)
+1. **Groups** (4 components)
    - GroupList, GroupDetail, CreateGroup
    
-7. **Account Settings** (7 components)
+1. **Account Settings** (7 components)
    - SettingsMenu, Privacy, Notifications
 
 ### State Management (Redux)
 
 **Store Configuration** (`src/app/store.js`):
+
 ```javascript
 import { configureStore } from '@reduxjs/toolkit';
 import searchReducer from './searchSlice';
@@ -450,22 +447,22 @@ export const store = configureStore({
     // ... other slices
   },
 });
-```
-
+```text
 ### API Service Layer
 
 **Settings Service** (`src/services/Settings.js`):
+
 ```javascript
 const settings = {
-  dev: { apiUrl: "http://localhost:8080" },
-  staging: { apiUrl: "https://staging.shareuptime.com" },
-  prod: { apiUrl: "https://www.shareuptime.com" }
+  dev: { apiUrl: "<http://localhost:8080"> },
+  staging: { apiUrl: "<https://staging.shareuptime.com"> },
+  prod: { apiUrl: "<https://www.shareuptime.com"> }
 };
 
 export const getCurrentSettings = () => settings.prod;
-```
-
+```text
 **Auth Service** (`src/services/auth.services.js`):
+
 ```javascript
 import axios from 'axios';
 import { getCurrentSettings } from './Settings';
@@ -479,11 +476,11 @@ export const login = async (email, password) => {
   }
   return response.data;
 };
-```
-
+```text
 ### Routing
 
 **Main Routes** (`src/App.js`):
+
 ```javascript
 <Router>
   <Routes>
@@ -496,8 +493,7 @@ export const login = async (email, password) => {
     {/* ... more routes */}
   </Routes>
 </Router>
-```
-
+```text
 ### Styling
 
 **CSS Architecture:**
@@ -511,7 +507,7 @@ export const login = async (email, password) => {
 ```bash
 # Development server
 npm start
-# Opens http://localhost:3000
+# Opens <http://localhost:3000>
 
 # Production build
 npm run build
@@ -522,8 +518,7 @@ npm test
 
 # Lint code
 npm run lint
-```
-
+```text
 ---
 
 ## 🚀 Deployment
@@ -531,12 +526,12 @@ npm run lint
 ### Production Environment
 
 **Frontend:**
-- **URL:** https://shareuptime.com
+- **URL:** <https://shareuptime.com>
 - **Hosting:** Hostinger VPS
 - **Build:** Static files served via nginx
 
 **Backend:**
-- **URL:** https://www.shareuptime.com
+- **URL:** <https://www.shareuptime.com>
 - **Port:** 8080
 - **Base Path:** /api/v1
 - **Hosting:** Docker container on VPS
@@ -544,15 +539,16 @@ npm run lint
 ### Build for Production
 
 **Frontend Build:**
+
 ```bash
 cd Shareup-frontend
 npm run build
 
 # Build output in /build directory
 # Contains optimized JS, CSS, and assets
-```
-
+```text
 **Backend Build:**
+
 ```bash
 cd backend
 
@@ -562,22 +558,24 @@ docker run -d -p 8080:8080 --env-file .env shareup-backend
 
 # Or direct Node.js
 NODE_ENV=production npm start
-```
-
+```text
 ### Deployment Steps
 
 1. **Build frontend:**
+
    ```bash
    cd Shareup-frontend
    npm run build
    ```
 
-2. **Upload to server:**
+1. **Upload to server:**
+
    ```bash
    rsync -avz build/ user@server:/var/www/shareup/
    ```
 
-3. **Configure nginx:**
+1. **Configure nginx:**
+
    ```nginx
    server {
      listen 80;
@@ -590,12 +588,13 @@ NODE_ENV=production npm start
      }
      
      location /api {
-       proxy_pass http://localhost:8080;
+       proxy_pass <http://localhost:8080;>
      }
    }
    ```
 
-4. **Deploy backend:**
+1. **Deploy backend:**
+
    ```bash
    cd backend
    docker-compose up -d --build
@@ -604,16 +603,16 @@ NODE_ENV=production npm start
 ### Environment-Specific Configuration
 
 **Development:**
-- Frontend: http://localhost:3000
-- Backend: http://localhost:8080
+- Frontend: <http://localhost:3000>
+- Backend: <http://localhost:8080>
 
 **Staging:**
-- Frontend: https://staging.shareuptime.com
-- Backend: https://staging.shareuptime.com/api
+- Frontend: <https://staging.shareuptime.com>
+- Backend: <https://staging.shareuptime.com/api>
 
 **Production:**
-- Frontend: https://shareuptime.com
-- Backend: https://www.shareuptime.com/api
+- Frontend: <https://shareuptime.com>
+- Backend: <https://www.shareuptime.com/api>
 
 ---
 
@@ -630,8 +629,7 @@ npm test -- auth.test.js
 
 # Test coverage
 npm run test:coverage
-```
-
+```text
 ### Frontend Tests
 
 ```bash
@@ -643,8 +641,7 @@ npm test -- --watchAll=false
 
 # Test specific component
 npm test -- UserProfile.test.js
-```
-
+```text
 ### Manual Testing Checklist
 
 **Authentication:**
@@ -674,6 +671,7 @@ npm test -- UserProfile.test.js
 ### Add New API Endpoint
 
 1. **Create controller function** (`backend/src/controllers/yourController.js`):
+
    ```javascript
    export const yourFunction = async (req, res) => {
      try {
@@ -685,7 +683,8 @@ npm test -- UserProfile.test.js
    };
    ```
 
-2. **Add route** (`backend/src/routes/yourRoute.js`):
+1. **Add route** (`backend/src/routes/yourRoute.js`):
+
    ```javascript
    import express from 'express';
    import { yourFunction } from '../controllers/yourController.js';
@@ -696,7 +695,8 @@ npm test -- UserProfile.test.js
    export default router;
    ```
 
-3. **Register route** (`backend/src/index.js`):
+1. **Register route** (`backend/src/index.js`):
+
    ```javascript
    import yourRoute from './routes/yourRoute.js';
    app.use('/api/v1/your-resource', yourRoute);
@@ -705,6 +705,7 @@ npm test -- UserProfile.test.js
 ### Add New React Component
 
 1. **Create component file** (`Shareup-frontend/src/components/YourComponent.jsx`):
+
    ```javascript
    import React from 'react';
    
@@ -719,7 +720,8 @@ npm test -- UserProfile.test.js
    export default YourComponent;
    ```
 
-2. **Add to parent component:**
+1. **Add to parent component:**
+
    ```javascript
    import YourComponent from './components/YourComponent';
    
@@ -743,8 +745,7 @@ npm audit
 
 # Fix vulnerabilities automatically
 npm audit fix
-```
-
+```text
 ### Database Migrations
 
 ```bash
@@ -758,8 +759,7 @@ npm run migrate
 
 # Rollback last migration
 npm run migrate:rollback
-```
-
+```text
 ---
 
 ## 🔍 Troubleshooting
@@ -767,6 +767,7 @@ npm run migrate:rollback
 ### Common Issues
 
 **Backend won't start:**
+
 ```bash
 # Check if port 8080 is in use
 lsof -i :8080
@@ -776,9 +777,9 @@ kill -9 <PID>
 
 # Check database connection
 psql -U shareup_user -d shareup -h localhost
-```
-
+```text
 **Frontend build fails:**
+
 ```bash
 # Clear cache and reinstall
 rm -rf node_modules package-lock.json
@@ -786,8 +787,7 @@ npm install
 
 # Check Node version
 node --version  # Should be 18+
-```
-
+```text
 **Authentication errors:**
 - Check JWT_SECRET is set in backend `.env`
 - Verify token is being sent in Authorization header
@@ -808,6 +808,7 @@ node --version  # Should be 18+
 ### Logs and Debugging
 
 **Backend logs:**
+
 ```bash
 # View Docker logs
 docker logs shareup-backend -f
@@ -817,8 +818,7 @@ pm2 logs
 
 # Check error logs
 tail -f backend/logs/error.log
-```
-
+```text
 **Frontend debugging:**
 - Open browser DevTools (F12)
 - Check Console for errors
@@ -839,6 +839,7 @@ tail -f backend/logs/error.log
 - `hotfix/*` - Urgent production fixes
 
 **Creating Feature:**
+
 ```bash
 # Create feature branch
 git checkout -b feature/your-feature-name
@@ -852,8 +853,7 @@ git push origin feature/your-feature-name
 
 # Create pull request on GitHub
 gh pr create --title "feat: your feature" --body "Description"
-```
-
+```text
 **Code Review Process:**
 1. Create PR with descriptive title
 2. Add reviewers from team
@@ -865,7 +865,7 @@ gh pr create --title "feat: your feature" --body "Description"
 
 Follow [Conventional Commits](https://www.conventionalcommits.org/):
 
-```
+```text
 feat: add user profile editing
 fix: resolve login token expiration bug
 docs: update API documentation
@@ -873,8 +873,7 @@ style: format code with prettier
 refactor: restructure auth service
 test: add unit tests for posts controller
 chore: update dependencies
-```
-
+```text
 ### Pull Request Template
 
 ```markdown
@@ -893,8 +892,7 @@ Brief description of changes
 
 ## Screenshots (if applicable)
 Add screenshots here
-```
-
+```text
 ### Code Review Checklist
 
 **Reviewer should check:**
@@ -909,17 +907,19 @@ Add screenshots here
 ### Deployment Process
 
 1. **Test on staging:**
+
    ```bash
    git push origin develop
    # Automated deployment to staging
    ```
 
-2. **Verify staging works:**
+1. **Verify staging works:**
    - Run smoke tests
    - Check critical features
    - Review logs for errors
 
-3. **Merge to main:**
+1. **Merge to main:**
+
    ```bash
    git checkout main
    git merge develop
@@ -927,7 +927,7 @@ Add screenshots here
    # Automated deployment to production
    ```
 
-4. **Monitor production:**
+1. **Monitor production:**
    - Watch server logs
    - Check error tracking (Sentry)
    - Monitor performance metrics
@@ -950,6 +950,7 @@ Add screenshots here
 ## 📞 Support & Resources
 
 ### Documentation Links
+
 - **Main README:** [README.md](README.md)
 - **Backend Analysis:** [BACKEND_COMPARISON.md](BACKEND_COMPARISON.md)
 - **Component Catalog:** [COMPONENT_CATALOG.md](COMPONENT_CATALOG.md)
@@ -957,12 +958,14 @@ Add screenshots here
 - **Deployment Guide:** [DEPLOYMENT.md](DEPLOYMENT.md)
 
 ### External Resources
+
 - [React Documentation](https://react.dev/)
 - [Express.js Guide](https://expressjs.com/)
 - [PostgreSQL Docs](https://www.postgresql.org/docs/)
 - [Redux Toolkit](https://redux-toolkit.js.org/)
 
 ### Team Contacts
+
 - **Project Lead:** [Add name/contact]
 - **Backend Lead:** [Add name/contact]
 - **Frontend Lead:** [Add name/contact]
@@ -973,6 +976,7 @@ Add screenshots here
 ## 📝 Change Log
 
 ### November 2025
+
 - ✅ Backend folder renamed from `backend-legacy` to `backend`
 - ✅ Merged Dependabot PR #24 (ws security update)
 - ✅ Created comprehensive project documentation
@@ -980,6 +984,7 @@ Add screenshots here
 - ✅ Fixed markdown linting issues
 
 ### October 2025
+
 - Initial repository setup
 - Backend API development
 - Frontend React application
@@ -994,3 +999,4 @@ Add screenshots here
 4. Create new GitHub Issue if needed
 
 **Happy coding! 🚀**
+

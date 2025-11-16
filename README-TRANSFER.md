@@ -11,7 +11,7 @@ This repository contains the **complete website application** for ShareUpTime so
 ### ✅ Transfer Completed Successfully
 
 **Transfer Date:** November 12, 2025  
-**Source:** <https://github.com/shareup-dev/shareup-frontend>  
+**Source:** <<https://github.com/shareup-dev/shareup-frontend>>  
 **Status:** ✅ Complete - Website Only (Mobile App Unaffected)
 
 ### What Was Transferred
@@ -127,8 +127,7 @@ firat-yagmur/
 ├── .gitignore
 ├── .env.example
 └── README-TRANSFER.md         # This file
-```
-
+```text
 ---
 
 ## 🚀 Quick Start
@@ -143,7 +142,7 @@ firat-yagmur/
 
 ```bash
 # Clone repository
-git clone https://github.com/ruhaverse/firat-yagmur.git
+git clone <https://github.com/ruhaverse/firat-yagmur.git>
 cd firat-yagmur
 
 # Install frontend dependencies
@@ -153,8 +152,7 @@ npm install
 # Install backend dependencies (optional)
 cd ../backend
 npm install
-```
-
+```text
 ### Development
 
 **Frontend Development Server:**
@@ -162,9 +160,8 @@ npm install
 ```bash
 cd Shareup-frontend
 npm start
-# Opens http://localhost:3000
-```
-
+# Opens <http://localhost:3000>
+```text
 **Backend Development Server (Optional):**
 
 ```bash
@@ -172,17 +169,15 @@ cd backend
 cp .env.example .env
 # Edit .env with your settings
 npm run dev
-# Runs on http://localhost:8080
-```
-
+# Runs on <http://localhost:8080>
+```text
 ### Production Build
 
 ```bash
 cd Shareup-frontend
 npm run build
 # Output: build/ folder (~5MB)
-```
-
+```text
 ---
 
 ## 🌐 Technology Stack
@@ -219,49 +214,49 @@ npm run build
 1. **Dashboard & Navigation** (6 components)
    - DashboardComponent, HeaderComponent, FooterComponent, etc.
 
-2. **User & Authentication** (20 components)
+1. **User & Authentication** (20 components)
    - NewsfeedComponent, ProfileComponent, LoginComponent, etc.
 
-3. **Posts & Feed** (9 components)
+1. **Posts & Feed** (9 components)
    - PostComponent, CommentComponent, ReelPostComponent, etc.
 
-4. **Messages & Chat** (3 components)
+1. **Messages & Chat** (3 components)
    - MessagesComponent, ChatComponent, chat.js
 
-5. **Stories** (2 components)
+1. **Stories** (2 components)
    - StoriesComponent, DisplayComponent
 
-6. **Groups** (4 components)
+1. **Groups** (4 components)
    - GroupComponent, CreateGroupComponent, ViewGroupComponent
 
-7. **Sidebar Widgets** (4 components)
+1. **Sidebar Widgets** (4 components)
    - MenuWidget, FriendsWidget, FollowingWidget, GroupsWidget
 
-8. **Employee Management** (3 components)
+1. **Employee Management** (3 components)
    - CreateEmployee, ListEmployee, ViewEmployee
 
-9. **SwapPoint Trading** (2 components)
+1. **SwapPoint Trading** (2 components)
    - SwapComponent, SwapComponents
 
-10. **Hang Features** (5 components)
+1. **Hang Features** (5 components)
     - HangGiftComponent, CheckoutComponent, ShippingComponent, etc.
 
-11. **Profile Views** (3 components)
+1. **Profile Views** (3 components)
     - ProfileComponent, FriendProfileWidget, ProfileWidget
 
-12. **Share Features** (1 component)
+1. **Share Features** (1 component)
     - ShareItemComponent
 
-13. **Account Settings** (7 components)
+1. **Account Settings** (7 components)
     - SecuritySettings, LocationComponent, PrivacySettings, etc.
 
-14. **Root Components** (5 components)
+1. **Root Components** (5 components)
     - LayoutComponent, ProtectedRoute, Giphy, Stickers
 
-15. **Chat Testing** (1 component)
+1. **Chat Testing** (1 component)
     - ChatTestComponent
 
-16. **Parent Hang** (1 component)
+1. **Parent Hang** (1 component)
     - ParentGiftsComponent
 
 **See [COMPONENT_CATALOG.md](COMPONENT_CATALOG.md) for complete details**
@@ -275,12 +270,11 @@ The website connects to the ShareUpTime centralized API:
 ```javascript
 // File: Shareup-frontend/src/services/Settings.js
 const settings = {
-  dev: { apiUrl: "http://localhost:8080" },
-  staging: { apiUrl: "https://staging.shareuptime.com" },
-  prod: { apiUrl: "https://www.shareuptime.com" }  // Currently used
+  dev: { apiUrl: "<http://localhost:8080"> },
+  staging: { apiUrl: "<https://staging.shareuptime.com"> },
+  prod: { apiUrl: "<https://www.shareuptime.com"> }  // Currently used
 };
-```
-
+```text
 ---
 
 ## ⚠️ Important Notes
@@ -321,7 +315,7 @@ The website is deployed as a static React build:
    npm run build
    ```
 
-2. **Deploy to Hostinger:**
+1. **Deploy to Hostinger:**
    - See [HOSTINGER-DEPLOY.md](HOSTINGER-DEPLOY.md) for complete guide
    - Upload `build/` folder contents
    - Configure `.htaccess` for React Router
@@ -398,10 +392,10 @@ For detailed information, refer to:
 
 ## 🔗 Links & Resources
 
-- **Production Website:** <https://shareuptime.com>
-- **API Endpoint:** <https://www.shareuptime.com/api>
-- **Source Repository:** <https://github.com/shareup-dev/shareup-frontend>
-- **This Repository:** <https://github.com/ruhaverse/firat-yagmur>
+- **Production Website:** <<https://shareuptime.com>>
+- **API Endpoint:** <<https://www.shareuptime.com/api>>
+- **Source Repository:** <<https://github.com/shareup-dev/shareup-frontend>>
+- **This Repository:** <<https://github.com/ruhaverse/firat-yagmur>>
 - **Mobile App:** Separate repository (not included)
 
 ---
@@ -462,3 +456,4 @@ Proprietary. All rights reserved.
 ## 🙏 Acknowledgments
 
 Original development by ShareUp team over 3-4 years. This transfer preserves all work and ensures continuity for the website while keeping the mobile app completely separate and operational.
+

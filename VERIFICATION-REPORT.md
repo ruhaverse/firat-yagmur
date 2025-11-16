@@ -12,10 +12,9 @@
 ```javascript
 // Shareup-frontend/src/services/Settings.js
 prod: {
-  apiUrl: "https://www.shareuptime.com"  // ✅ MOBİL APP İLE AYNI BACKEND!
+  apiUrl: "<https://www.shareuptime.com">  // ✅ MOBİL APP İLE AYNI BACKEND!
 }
-```
-
+```text
 **Sonuç:** ✅ Website ve mobil app aynı backend API'yi kullanıyor (www.shareuptime.com)
 
 ---
@@ -23,11 +22,11 @@ prod: {
 ### ✅ 2. Mobil App Kodu YOK - Tamamen Ayrı
 
 **React Native İmport Kontrolü:**
+
 ```bash
 grep -r "react-native" Shareup-frontend/src/components
 # Sonuç: 0 eşleşme ✅
-```
-
+```text
 **Sonuç:** ✅ Hiç React Native kodu yok, sadece React web kodu var
 
 ---
@@ -42,7 +41,8 @@ grep -r "react-native" Shareup-frontend/src/components
 - ✅ **Toplam:** 82 komponent dosyası
 
 **Komponent Dağılımı:**
-```
+
+```text
 AccountSettings/: 7 dosya    ✅
 ChatTest/: 1 dosya           ✅
 Hang/: 5 dosya               ✅
@@ -59,8 +59,7 @@ post/: 9 dosya               ✅
 share/: 1 dosya              ✅
 user/: 26 dosya              ✅ (Testsnippets.jsx kaldırıldı, 19→26 diğer dosyalar)
 widgets/: 4 dosya            ✅
-```
-
+```text
 **Sonuç:** ✅ Tüm orijinal kod korundu, sadece 1 test dosyası (React Native içeren) kaldırıldı
 
 ---
@@ -78,7 +77,8 @@ widgets/: 4 dosya            ✅
 ### ✅ 5. Backend Yapısı
 
 **Backend Klasörü:**
-```
+
+```text
 backend/src/
 ├── config/         ✅
 ├── controllers/    ✅
@@ -87,16 +87,15 @@ backend/src/
 ├── services/       ✅
 ├── index.js        ✅
 └── migrate.js      ✅
-```
-
+```text
 **Backend Package.json:**
+
 ```json
 {
   "name": "shareup-backend",
   "version": "0.1.0"
 }
-```
-
+```text
 **Sonuç:** ✅ Orijinal backend kodu eksiksiz aktarıldı
 
 ---
@@ -118,12 +117,14 @@ backend/src/
 ## ✅ Kritik Onaylar
 
 ### 1. Backend Ayırımı
+
 - ✅ **Website:** Kendi repository'de (`firat-yagmur`)
 - ✅ **Mobil App:** Ayrı repository'de (etkilenmedi)
 - ✅ **Backend API:** Her ikisi de `www.shareuptime.com` kullanıyor
 - ✅ **Veritabanı:** Aynı PostgreSQL database (paylaşımlı)
 
 ### 2. Kod Bütünlüğü
+
 - ✅ 3-4 yıllık çalışma korundu
 - ✅ Tüm komponentler çalışır durumda
 - ✅ CSS stilleri değişmedi
@@ -132,6 +133,7 @@ backend/src/
 - ✅ Hiçbir kırık import yok
 
 ### 3. Mobil App Ayrımı
+
 - ✅ React Native kodu transfer edilmedi
 - ✅ Mobil-spesifik dosyalar yok
 - ✅ Sadece React web kodu var
@@ -155,7 +157,8 @@ backend/src/
 ## 📝 Detaylar
 
 ### Repository Yapısı
-```
+
+```text
 firat-yagmur/                    ← YENİ REPO (WEBSITE)
 ├── Shareup-frontend/            ← Website (React 17.0.2)
 ├── backend/                     ← Backend (Mobil ile paylaşımlı kod)
@@ -163,18 +166,17 @@ firat-yagmur/                    ← YENİ REPO (WEBSITE)
 
 [Ayrı Repo]                      ← ESKİ REPO (MOBİL APP)
 └── Mobile App                   ← React Native (ETKİLENMEDİ)
-```
-
+```text
 ### Backend API Paylaşımı
-```
+
+```text
 www.shareuptime.com
         ↓
     ┌───────┴────────┐
     ↓                ↓
 Website          Mobile App
 (Bu Repo)     (Ayrı Repo)
-```
-
+```text
 **Her ikisi de aynı API'yi kullanıyor, ama kod tabanları tamamen ayrı!**
 
 ---

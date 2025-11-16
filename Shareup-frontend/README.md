@@ -14,12 +14,11 @@ npm install
 
 # Start development server
 npm start
-# Opens http://localhost:3000
+# Opens <http://localhost:3000>
 
 # Build for production
 npm run build
-```
-
+```text
 ---
 
 ## Technology Stack
@@ -36,7 +35,7 @@ npm run build
 
 ### `npm start`
 
-Runs the app in development mode at http://localhost:3000
+Runs the app in development mode at <http://localhost:3000>
 
 The page will reload if you make edits. Lint errors will appear in the console.
 
@@ -64,7 +63,7 @@ If you are not satisfied with the build tool and configuration choices, you can 
 
 ## Project Structure
 
-```
+```text
 src/
 ├── components/      # 84 React components
 ├── services/        # API service layer (16 services)
@@ -74,8 +73,7 @@ src/
 ├── images/         # Assets (362 files)
 ├── App.js          # Main app component
 └── index.js        # Entry point
-```
-
+```text
 ---
 
 ## API Configuration
@@ -84,12 +82,11 @@ API endpoints are configured in `src/services/Settings.js`:
 
 ```javascript
 const settings = {
-  dev: { apiUrl: "http://localhost:8080" },
-  staging: { apiUrl: "https://staging.shareuptime.com" },
-  prod: { apiUrl: "https://www.shareuptime.com" }
+  dev: { apiUrl: "<http://localhost:8080"> },
+  staging: { apiUrl: "<https://staging.shareuptime.com"> },
+  prod: { apiUrl: "<https://www.shareuptime.com"> }
 };
-```
-
+```text
 Currently using: **Production** (settings.prod)
 
 ---
@@ -112,9 +109,10 @@ Currently using: **Production** (settings.prod)
 
 - **Project Documentation:** [PROJECT_DOCS.md](../PROJECT_DOCS.md)
 - **Component Catalog:** [COMPONENT_CATALOG.md](../COMPONENT_CATALOG.md)
-- **Create React App docs:** https://facebook.github.io/create-react-app/docs/getting-started
-- **React docs:** https://reactjs.org/
+- **Create React App docs:** <https://facebook.github.io/create-react-app/docs/getting-started>
+- **React docs:** <https://reactjs.org/>
 
 ---
 
 **For team onboarding, architecture details, and deployment guides, see [PROJECT_DOCS.md](../PROJECT_DOCS.md)**
+

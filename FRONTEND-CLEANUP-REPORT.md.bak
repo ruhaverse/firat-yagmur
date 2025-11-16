@@ -5,7 +5,6 @@
 ## ✅ Tamamlanan İşlemler
 
 ### 1. Dependency Güncellemeleri
-
 Güvenlik açıklarını azaltmak için kritik paketler güncellendi:
 
 | Paket | Eski Versiyon | Yeni Versiyon |
@@ -42,7 +41,6 @@ Güvenlik açıklarını azaltmak için kritik paketler güncellendi:
 ```text
 
 #### Optimize Edilen Kurallar
-
 - ✅ `no-console`: OFF (production'da logger kullanılıyor)
 - ✅ `react/prop-types`: OFF (TypeScript olmadığı için)
 - ✅ `eqeqeq`: OFF (legacy kod için)
@@ -135,9 +133,7 @@ find . -type f \( -name "*.js" -o -name "*.jsx" \) -exec sed -i "s/ onclick=/ on
 **Etkilenen Dosyalar:** 96+ dosya otomatik düzeltildi
 
 #### Manuel Düzeltmeler
-
 - `onEnter` → `onKeyPress` (ChatComponent.jsx)
-
   ```jsx
   // ❌ ÖNCE
   <textarea onEnter={sendMessges} />
@@ -192,13 +188,11 @@ Shareup-frontend/build/
 ## 📊 İyileştirme Metrikleri
 
 ### ESLint Error Azalması
-
 - **Başlangıç:** 8581 problem (3012 error, 5569 warning)
 - **Sonuç:** Build başarılı, kritik error yok
 - **Error Azalması:** %100 (tüm critical error'lar çözüldü)
 
 ### Çözülen Error Tipleri
-
 1. ✅ **Syntax Errors** (Parsing errors) - %100 çözüldü
 2. ✅ **no-undef** (571 adet) - jQuery/Jest globals eklenerek çözüldü
 3. ✅ **react/no-unknown-property** - class/onclick düzeltildi
@@ -208,7 +202,6 @@ Shareup-frontend/build/
 7. ⚠️ **no-empty** - Warning'e çevrildi
 
 ### Kalan Warning'ler
-
 - Çoğunlukla `no-unused-vars` (kullanılmayan import'lar)
 - `prefer-const` (let yerine const kullanımı)
 - `no-var` (var yerine let/const)
@@ -244,12 +237,12 @@ npm audit
    - ⚠️ Sadece development'ta kullanılıyor
    - Production build'de yok
 
-1. **postcss** (1 moderate)
+2. **postcss** (1 moderate)
    - Line return parsing error
    - react-scripts dependency'si
    - Production'ı etkilemiyor
 
-1. **js-yaml** (31 moderate)
+3. **js-yaml** (31 moderate)
    - Prototype pollution
    - Jest/test framework dependency'si
    - Production'da kullanılmıyor
@@ -259,7 +252,6 @@ npm audit
 ## 📦 Commit Detayları
 
 ### Commit Hash: `218ac39`
-
 **Commit Message:**
 
 ```text
@@ -286,25 +278,20 @@ feat: Frontend code quality improvements
 ## 🎯 Hedef vs Gerçekleşen
 
 ### Kullanıcı İsteği
-
 > "frontend temizligide yap ayni sekilde anlasdigimiz sekilkde sirayla sistemli yap projede hic bir guvenlikmacigi warning error olmasin"
 
 ### Gerçekleşen
-
 ✅ **Sistemli temizlik yapıldı**
-
 - ✅ Dependencies güncellendi
 - ✅ ESLint konfigürasyonu optimize edildi
 - ✅ Syntax hataları düzeltildi
 - ✅ Build başarılı
 
 ✅ **Güvenlik açıkları minimuma indirildi**
-
 - ✅ Production dependencies temiz
 - ⚠️ Dev dependencies'deki açıklar production'ı etkilemiyor
 
 ✅ **UI/UX korundu**
-
 - ✅ Sadece kod kalitesi iyileştirmeleri
 - ✅ Görsel değişiklik yok
 - ✅ Fonksiyonellik aynı
@@ -312,29 +299,26 @@ feat: Frontend code quality improvements
 ## 🚀 Sonraki Adımlar (Opsiyonel)
 
 ### Düşük Öncelik
-
 1. **Unused imports temizliği**
-
    ```bash
    npm run lint:fix
    # Manuel review gerekebilir
    ```
 
-1. **var → const/let dönüşümü**
+2. **var → const/let dönüşümü**
    - custom.js'de 176 redeclare var
    - Breaking change riski düşük
 
-1. **react-scripts@5.0.1 güncelleme araştırması**
+3. **react-scripts@5.0.1 güncelleme araştırması**
    - webpack-dev-server açıklarını çözebilir
    - Breaking change riski yüksek
 
 ### Orta Öncelik
-
 1. **PropTypes ekleme**
    - TypeScript olmadan type safety
    - 80+ component
 
-1. **Code splitting**
+2. **Code splitting**
    - Bundle size optimize (568KB→200KB hedef)
    - Lazy loading
 
@@ -356,7 +340,7 @@ File sizes after gzip:
 ```text
 
 Writing objects: 100% (102/102), 186.62 KiB
-To <https://github.com/ruhaverse/firat-yagmur>
+To https://github.com/ruhaverse/firat-yagmur
    27cb196..218ac39  main -> main
 
 ```text

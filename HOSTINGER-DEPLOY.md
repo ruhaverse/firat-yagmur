@@ -2,7 +2,7 @@
 
 ## 📋 Overview
 
-**Important:** This deployment is for **FRONTEND ONLY**. The backend is centralized and already deployed at `https://www.shareuptime.com/api` (shared with mobile app).
+**Important:** This deployment is for **FRONTEND ONLY**. The backend is centralized and already deployed at `<https://www.shareuptime.com/api`> (shared with mobile app).
 
 ### Architecture
 
@@ -17,14 +17,13 @@
               ▼
 ┌─────────────────────────────────┐
 │   ShareUpTime.com Backend        │
-│   https://www.shareuptime.com/api│
+│   <https://www.shareuptime.com/api│>
 │   ├── 60+ API Endpoints          │
 │   ├── PostgreSQL Database        │
 │   ├── WebSocket Support          │
 │   └── Mobile App Compatible      │
 └─────────────────────────────────┘
-```
-
+```text
 ---
 
 ## 🔧 Prerequisites
@@ -47,8 +46,7 @@ npm install
 
 # Build for production
 GENERATE_SOURCEMAP=false NODE_OPTIONS="--max-old-space-size=6144" npm run build
-```
-
+```text
 **Output:** `build/` folder (~5MB total)
 
 - `build/static/css/` - Stylesheets
@@ -81,8 +79,7 @@ rm ~/build.tar.gz
 # Set permissions
 find . -type d -exec chmod 755 {} \;
 find . -type f -exec chmod 644 {} \;
-```
-
+```text
 ### Option B: File Manager (Hostinger cPanel)
 
 1. Build locally: `npm run build`
@@ -153,8 +150,7 @@ Options -Indexes
   Order allow,deny
   Deny from all
 </FilesMatch>
-```
-
+```text
 ---
 
 ## 🔐 Step 4: SSL Certificate
@@ -177,23 +173,22 @@ Options -Indexes
 ### Frontend
 
 ```bash
-curl https://shareuptime.com
+curl <https://shareuptime.com>
 # Should return HTML with React app
-```
-
+```text
 ### Backend API (External)
 
 ```bash
-curl https://www.shareuptime.com/api/auth/verify
+curl <https://www.shareuptime.com/api/auth/verify>
 # Should return JSON (401 if no token provided)
-```
-
+```text
 ### Routing Test
 
 Visit:
-- `https://shareuptime.com/` - Home
-- `https://shareuptime.com/profile` - Profile page
-- `https://shareuptime.com/messages` - Messages
+
+- `<https://shareuptime.com/`> - Home
+- `<https://shareuptime.com/profile`> - Profile page
+- `<https://shareuptime.com/messages`> - Messages
 
 All should load without 404 errors (React Router handles routing).
 
@@ -225,8 +220,7 @@ tar -czf ~/backup-$(date +%Y%m%d-%H%M%S).tar.gz .
 rm -rf static/ index.html manifest.json robots.txt asset-manifest.json
 tar -xzf ~/build.tar.gz --strip-components=1
 rm ~/build.tar.gz
-```
-
+```text
 ---
 
 ## 📊 Monitoring
@@ -234,22 +228,21 @@ rm ~/build.tar.gz
 ### Check Site Status
 
 ```bash
-curl -I https://shareuptime.com
+curl -I <https://shareuptime.com>
 # HTTP/2 200 OK
-```
-
+```text
 ### Check API Connectivity
 
 ```bash
-curl https://www.shareuptime.com/api/posts
+curl <https://www.shareuptime.com/api/posts>
 # Should return JSON (posts data)
-```
-
+```text
 ### Error Logs
 
 Hostinger cPanel → **Error Logs** section
 
 Common issues:
+
 - `404` → Check `.htaccess` rewrite rules
 - `500` → Check file permissions (755 for dirs, 644 for files)
 - API errors → Backend issue (contact backend team)
@@ -261,19 +254,20 @@ Common issues:
 ### Issue: Blank page after deployment
 
 **Solution:**
+
 ```bash
 # Check if index.html exists
 ls -la ~/public_html/index.html
 
 # Check homepage field in package.json (should be "/")
-# Rebuild with correct homepage:
+# Rebuild with correct homepage
 cd Shareup-frontend
 npm run build
-```
-
+```text
 ### Issue: CSS/JS not loading
 
 **Solution:**
+
 ```bash
 # Check MIME types in .htaccess
 # Verify static/ folder exists
@@ -281,28 +275,27 @@ ls -la ~/public_html/static/
 
 # Check file permissions
 find ~/public_html -type f -exec chmod 644 {} \;
-```
-
+```text
 ### Issue: React Router 404 errors
 
 **Solution:**
 - Verify `.htaccess` exists in `public_html/`
 - Check Apache `mod_rewrite` is enabled (Hostinger default: ON)
-- Test: `curl https://shareuptime.com/profile` (should return HTML, not 404)
+- Test: `curl <https://shareuptime.com/profile`> (should return HTML, not 404)
 
 ### Issue: API calls failing
 
 **Solution:**
+
 ```bash
 # Check frontend Settings.js
-# Should be: apiUrl: "https://www.shareuptime.com"
+# Should be: apiUrl: "<https://www.shareuptime.com">
 
 # Test API directly
-curl https://www.shareuptime.com/api/posts
+curl <https://www.shareuptime.com/api/posts>
 
 # If API is down, contact backend team
-```
-
+```text
 ---
 
 ## 📝 Checklist
@@ -315,7 +308,7 @@ Before going live:
 - [ ] SSL certificate installed (Let's Encrypt)
 - [ ] Force HTTPS enabled
 - [ ] Domain DNS points to Hostinger
-- [ ] Test: Homepage loads (`https://shareuptime.com`)
+- [ ] Test: Homepage loads (`<https://shareuptime.com>`)
 - [ ] Test: Routing works (`/profile`, `/messages`)
 - [ ] Test: API calls work (login, view posts)
 - [ ] File permissions correct (755/644)
@@ -329,7 +322,7 @@ Before going live:
 
 **What's NOT deployed:** Backend (uses external API)
 
-**Backend:** `https://www.shareuptime.com/api` (already deployed, shared with mobile app)
+**Backend:** `<https://www.shareuptime.com/api`> (already deployed, shared with mobile app)
 
 **Deployment time:** ~10 minutes
 
@@ -342,3 +335,4 @@ Before going live:
 **Last Updated:** November 10, 2025  
 **Frontend:** shareuptime.com (Hostinger)  
 **Backend:** www.shareuptime.com/api (Centralized)
+

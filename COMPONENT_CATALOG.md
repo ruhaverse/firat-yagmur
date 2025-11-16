@@ -430,6 +430,7 @@ This document provides a detailed catalog of all UI/UX components in the ShareUp
 ### Mobile-First Approach
 
 All components are designed mobile-first with progressive enhancement for larger screens:
+
 - Touch-friendly tap targets (min 44px)
 - Collapsible sidebars on mobile
 - Hamburger menu navigation
@@ -451,8 +452,7 @@ import PostTextBoxComponent from './components/post/PostTextBoxComponent';
   userId={currentUser.id}
   allowMedia={true}
 />
-```
-
+```text
 ### Displaying a Feed
 
 ```jsx
@@ -463,16 +463,14 @@ import NewsfeedComponent from './components/user/NewsfeedComponent';
   filter="friends"  // or "public", "groups"
   onLoadMore={handleLoadMore}
 />
-```
-
+```text
 ### Protected Route
 
 ```jsx
 import ProtectedRoute from './components/ProtectedRoute';
 
 <ProtectedRoute path="/dashboard" component={DashboardComponent} />
-```
-
+```text
 ---
 
 ## 📦 Component Dependencies
@@ -567,7 +565,7 @@ For each component category:
 
 All components use the centralized API service layer:
 
-**Base URL:** `https://www.shareuptime.com/api`
+**Base URL:** `<https://www.shareuptime.com/api`>
 
 **Service Modules:**
 - `PostService.js` - Posts, comments, likes
@@ -601,6 +599,7 @@ All components use the centralized API service layer:
 ## 📞 Support
 
 For component usage questions or issues:
+
 - Check this catalog first
 - Review component source code
 - Refer to README.md for architecture
@@ -613,3 +612,4 @@ For component usage questions or issues:
 **Maintained by:** ShareUpTime Development Team  
 **Total Components:** 84  
 **Total Lines:** 31,494
+

@@ -6,8 +6,8 @@ This backend implementation is **NO LONGER USED** in production. It has been rep
 
 ## Production Backend
 
-- **Base URL:** `https://www.shareuptime.com/api`
-- **Repository:** https://github.com/Shareup-dev/shareuptime-social-media
+- **Base URL:** `<https://www.shareuptime.com/api`>
+- **Repository:** <https://github.com/Shareup-dev/shareuptime-social-media>
 - **Branch:** new_dev
 - **Features:** 60+ API endpoints, WebSocket support, real-time notifications
 
@@ -20,7 +20,7 @@ This backend implementation is **NO LONGER USED** in production. It has been rep
    - ✅ `/api/v1/posts/web/:userId`
    - ✅ `/api/v1/reels/web/:userId`
 
-2. **Missing Features:**
+1. **Missing Features:**
    - ❌ Comments system
    - ❌ Friends/Following
    - ❌ Messages/Chat
@@ -29,7 +29,7 @@ This backend implementation is **NO LONGER USED** in production. It has been rep
    - ❌ Stories
    - ❌ Post interactions (like, save, share)
 
-3. **Replaced By:** Centralized ShareUpTime.com backend
+1. **Replaced By:** Centralized ShareUpTime.com backend
    - Used by mobile app (iOS/Android)
    - Full feature parity
    - Production-tested
@@ -52,11 +52,10 @@ The website frontend has been updated to use the ShareUpTime.com backend:
 // Shareup-frontend/src/services/Settings.js
 const settings = {
   prod: {
-    apiUrl: "https://www.shareuptime.com"
+    apiUrl: "<https://www.shareuptime.com">
   }
 };
-```
-
+```text
 ## For Developers
 
 If you need to run this legacy backend locally for testing:
@@ -68,8 +67,7 @@ cp .env.example .env
 npm install
 npm run migrate
 npm start
-```
-
+```text
 **Note:** This is only for local development/testing. Do NOT deploy this backend to production.
 
 ## Files in This Directory
@@ -85,6 +83,7 @@ npm start
 **Website deployment does NOT include this backend.**
 
 The website is deployed as a **static React app** only:
+
 - Frontend build → Hostinger `public_html/`
 - Backend → Centralized ShareUpTime.com API (already deployed)
 
@@ -94,4 +93,5 @@ See `HOSTINGER-DEPLOY.md` for deployment instructions (frontend only).
 
 **Last Updated:** November 10, 2025  
 **Status:** ARCHIVED / LEGACY  
-**Production API:** https://www.shareuptime.com/api
+**Production API:** <https://www.shareuptime.com/api>
+

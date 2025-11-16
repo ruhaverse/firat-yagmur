@@ -1,6 +1,6 @@
 # 🔧 ShareUpTime Backend API
 
-**Production API:** <https://www.shareuptime.com>  
+**Production API:** <<https://www.shareuptime.com>>  
 **Port:** 8080  
 **API Base:** `/api/v1`  
 **Technology:** Node.js + Express 5.0.1 + PostgreSQL
@@ -26,7 +26,7 @@ ShareUpTime backend serves both **web application** and **mobile app** with 60+ 
 
 ## 🏗️ Architecture
 
-```
+```text
 backend/
 ├── src/
 │   ├── index.js              # Express server entry point
@@ -49,8 +49,7 @@ backend/
 ├── package.json
 ├── Dockerfile
 └── docker-compose.yml
-```
-
+```text
 ---
 
 ## 🚀 Quick Start
@@ -67,35 +66,30 @@ backend/
 
 ```bash
 npm install
-```
-
-2. **Configure environment:**
+```text
+1. **Configure environment:**
 
 ```bash
 cp .env.example .env
 # Edit .env with your database credentials
-```
-
-3. **Run database migrations:**
+```text
+1. **Run database migrations:**
 
 ```bash
 npm run migrate
-```
-
-4. **Start development server:**
+```text
+1. **Start development server:**
 
 ```bash
 npm run dev
-```
-
-Server runs on `http://localhost:8080`
+```text
+Server runs on `<http://localhost:8080`>
 
 ### Docker Setup (Recommended)
 
 ```bash
 docker-compose up -d --build
-```
-
+```text
 ---
 
 ## ⚙️ Configuration
@@ -125,8 +119,7 @@ CORS_ORIGIN=*
 # File Upload
 UPLOAD_DIR=./uploads
 MAX_FILE_SIZE=10485760  # 10MB
-```
-
+```text
 ---
 
 ## 📡 API Endpoints
@@ -212,8 +205,7 @@ MAX_FILE_SIZE=10485760  # 10MB
 
 ```bash
 npm run migrate
-```
-
+```text
 ---
 
 ## 🧪 Testing
@@ -222,14 +214,12 @@ npm run migrate
 
 ```bash
 npm test
-```
-
+```text
 ### Test Coverage
 
 ```bash
 npm run test:coverage
-```
-
+```text
 *(Tests to be implemented)*
 
 ---
@@ -240,14 +230,12 @@ npm run test:coverage
 
 ```bash
 npm run build  # If using TypeScript/build step
-```
-
+```text
 ### Start Production Server
 
 ```bash
 npm start
-```
-
+```text
 ### Process Manager (PM2)
 
 ```bash
@@ -255,15 +243,13 @@ npm install -g pm2
 pm2 start src/index.js --name shareup-backend
 pm2 save
 pm2 startup
-```
-
+```text
 ### Docker Production
 
 ```bash
 docker build -t shareup-backend .
 docker run -d -p 8080:8080 --env-file .env shareup-backend
-```
-
+```text
 ---
 
 ## 🔧 Development
@@ -294,8 +280,7 @@ npm run migrate
 
 # Rollback
 npm run migrate:rollback
-```
-
+```text
 ---
 
 ## 📊 Performance
@@ -318,15 +303,13 @@ sudo systemctl status postgresql
 
 # Verify .env credentials
 cat .env | grep DB_
-```
-
+```text
 ### Port Already in Use
 
 ```bash
 # Kill process on port 8080
 lsof -ti:8080 | xargs kill -9
-```
-
+```text
 ### Migration Errors
 
 ```bash
@@ -335,8 +318,7 @@ npm run migrate:reset
 
 # Fresh migrate
 npm run migrate
-```
-
+```text
 ---
 
 ## 📚 Related Documentation
@@ -360,3 +342,4 @@ npm run migrate
 **Last Updated:** November 10, 2025  
 **Status:** ✅ Production Ready  
 **API Version:** v1
+

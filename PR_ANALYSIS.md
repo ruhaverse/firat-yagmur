@@ -105,6 +105,7 @@ These PRs contain MAJOR version changes that WILL break the 3-4 years of UI work
 ### Phase 1: Safe Updates (Immediate)
 
 **Merge these 10 PRs (Low Risk):**
+
 ```bash
 # GitHub Actions (CI/CD - no impact on app)
 gh pr merge 25 --squash  # docker/build-push-action
@@ -121,8 +122,7 @@ gh pr merge 39 --squash  # jquery
 gh pr merge 32 --squash  # multiselect-react-dropdown
 gh pr merge 36 --squash  # react-phone-number-input
 gh pr merge 41 --squash  # emoji-picker-react (test first)
-```
-
+```text
 ### Phase 2: Review & Test (This Week)
 
 **Test these 4 PRs locally before merging:**
@@ -132,14 +132,14 @@ gh pr merge 41 --squash  # emoji-picker-react (test first)
 4. PR #33 - express-rate-limit (test backend rate limiting)
 
 **Test Process:**
+
 ```bash
-# For each PR:
+# For each PR
 gh pr checkout [NUMBER]
 cd Shareup-frontend && npm install && npm start
 # Test affected features
 # If OK: gh pr merge [NUMBER] --squash
-```
-
+```text
 ### Phase 3: DO NOT MERGE (Requires Planning)
 
 **❌ Close or postpone these PRs:**
@@ -191,3 +191,4 @@ cd Shareup-frontend && npm install && npm start
 3. Close/postpone 3 critical PRs (Phase 3)
 
 **This preserves your 3-4 years of UI work while keeping dependencies updated! ✅**
+

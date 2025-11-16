@@ -40,7 +40,8 @@ ShareUpTime, sosyal medya özellikleri sunan tam kapsamlı bir platform. Web sit
 **Bileşen Sayısı:** 84 React component (31,494+ satır kod)
 
 **Key Directories:**
-```
+
+```text
 src/
 ├── components/        # 84 React component
 ├── services/          # 16 API service modülü
@@ -48,8 +49,7 @@ src/
 ├── app/               # Redux store & slices
 ├── css/               # 22 stylesheet dosyası
 └── images/            # 362+ görsel asset
-```
-
+```text
 ### Backend (API)
 
 **Teknolojiler:**
@@ -66,15 +66,15 @@ src/
 **API Base:** `/api/v1`
 
 **Key Directories:**
-```
+
+```text
 src/
 ├── controllers/       # authController, postsController, reelsController
 ├── routes/            # API route tanımları
 ├── middleware/        # auth.js (JWT verification)
 ├── services/          # storage.js (file handling)
 └── config/            # db.js (PostgreSQL connection)
-```
-
+```text
 **Security Features:**
 - Helmet middleware (HTTP headers)
 - Rate limiting: 100 request / 15 dakika
@@ -87,25 +87,25 @@ src/
 
 ### Production
 
-**Website:** <https://shareuptime.com>  
-**API Endpoint:** <https://www.shareuptime.com>  
+**Website:** <<https://shareuptime.com>>  
+**API Endpoint:** <<https://www.shareuptime.com>>  
 **Hosting:** Hostinger (Static Build)
 
 **Frontend Settings** (src/services/Settings.js):
+
 ```javascript
 prod: {
-  apiUrl: "https://www.shareuptime.com"
+  apiUrl: "<https://www.shareuptime.com">
 }
-```
-
+```text
 ### Staging
 
-**API Endpoint:** <https://staging.shareuptime.com>
+**API Endpoint:** <<https://staging.shareuptime.com>>
 
 ### Development
 
-**Backend:** `http://localhost:8080`  
-**Frontend:** `http://localhost:3000`
+**Backend:** `<http://localhost:8080`>  
+**Frontend:** `<http://localhost:3000`>
 
 ---
 
@@ -186,16 +186,16 @@ prod: {
    - Secure token storage
    - Token expiration
 
-2. **Password Security**
+1. **Password Security**
    - bcrypt hashing
    - Minimum complexity requirements
 
-3. **HTTP Security**
+1. **HTTP Security**
    - Helmet middleware
    - CORS configuration
    - Rate limiting
 
-4. **Database Security**
+1. **Database Security**
    - Prepared statements (SQL injection koruması)
    - Environment variables (DB credentials)
 
@@ -213,6 +213,7 @@ prod: {
 **PostgreSQL Database**
 
 ### Users Table
+
 ```sql
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -227,9 +228,9 @@ CREATE TABLE users (
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW()
 );
-```
-
+```text
 ### Posts Table
+
 ```sql
 CREATE TABLE posts (
   id SERIAL PRIMARY KEY,
@@ -241,9 +242,9 @@ CREATE TABLE posts (
   comments_count INTEGER DEFAULT 0,
   created_at TIMESTAMP DEFAULT NOW()
 );
-```
-
+```text
 ### Reels Table
+
 ```sql
 CREATE TABLE reels (
   id SERIAL PRIMARY KEY,
@@ -255,8 +256,7 @@ CREATE TABLE reels (
   views_count INTEGER DEFAULT 0,
   created_at TIMESTAMP DEFAULT NOW()
 );
-```
-
+```text
 *(Daha fazla tablo: messages, notifications, groups, friends, etc.)*
 
 ---
@@ -276,9 +276,8 @@ CREATE TABLE reels (
 cd Shareup-frontend
 npm install
 npm start
-```
-
-**Runs on:** `http://localhost:3000`
+```text
+**Runs on:** `<http://localhost:3000`>
 
 ### Backend Setup
 
@@ -287,17 +286,15 @@ cd backend
 cp .env.example .env  # Configure environment variables
 npm install
 npm run dev
-```
-
-**Runs on:** `http://localhost:8080`
+```text
+**Runs on:** `<http://localhost:8080`>
 
 ### Docker Setup
 
 ```bash
 cd backend
 docker-compose up -d --build
-```
-
+```text
 ---
 
 ## 📦 Build & Deployment
@@ -307,8 +304,7 @@ docker-compose up -d --build
 ```bash
 cd Shareup-frontend
 npm run build
-```
-
+```text
 **Output:** `build/` directory (static files)
 
 **Deploy to Hostinger:**
@@ -335,8 +331,7 @@ npm run build
 ```bash
 cd Shareup-frontend
 npm test
-```
-
+```text
 **Test Framework:** Jest + React Testing Library
 
 ### Backend Tests
@@ -344,8 +339,7 @@ npm test
 ```bash
 cd backend
 npm test
-```
-
+```text
 *(Backend testleri kurulacak)*
 
 ---
@@ -380,13 +374,15 @@ npm test
 ### Yeni Feature Ekleme
 
 1. **Frontend:**
+
    ```bash
    cd Shareup-frontend/src/components
    # Yeni component oluştur
    # Service'e API call ekle (src/services/)
    ```
 
-2. **Backend:**
+1. **Backend:**
+
    ```bash
    cd backend/src
    # Controller oluştur (controllers/)
@@ -407,19 +403,18 @@ npm test
 ```bash
 cd backend
 npm run migrate
-```
-
+```text
 ### Log Görüntüleme
 
 **Backend logs:**
+
 ```bash
 # Production
 tail -f /var/log/shareup-backend.log
 
 # Development
 # Console'da görünür
-```
-
+```text
 ---
 
 ## 🐛 Troubleshooting
@@ -431,12 +426,12 @@ tail -f /var/log/shareup-backend.log
 
 **Problem:** Build fails  
 **Solution:** 
+
 ```bash
 rm -rf node_modules package-lock.json
 npm install
 npm run build
-```
-
+```text
 ### Backend Issues
 
 **Problem:** Database connection error  
@@ -444,11 +439,11 @@ npm run build
 
 **Problem:** Port already in use  
 **Solution:**
+
 ```bash
 lsof -ti:8080 | xargs kill -9
 npm run dev
-```
-
+```text
 ---
 
 ## 👥 Team Workflow
@@ -526,8 +521,8 @@ npm run dev
 
 ### Resources
 
-- **GitHub Repo:** <https://github.com/Shareup-dev/Shareup-frontend>
-- **Production Site:** <https://shareuptime.com>
+- **GitHub Repo:** <<https://github.com/Shareup-dev/Shareup-frontend>>
+- **Production Site:** <<https://shareuptime.com>>
 - **API Docs:** *(To be created)*
 
 ---
@@ -564,3 +559,4 @@ npm run dev
 **Son Güncelleme:** 10 Kasım 2025  
 **Düzenleyen:** AI Assistant (GitHub Copilot)  
 **Review:** Pending team review
+

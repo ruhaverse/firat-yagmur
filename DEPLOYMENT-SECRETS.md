@@ -21,7 +21,9 @@ Recommended secrets (use names your workflows expect):
 - MAIL_API_KEY (SendGrid/Mailgun/etc.)
 
 Notes:
+
 - Use separate secrets for staging and production (e.g. STAGING_DATABASE_URL, PROD_DATABASE_URL).
 - Give minimal scope to service tokens and rotate them regularly.
 
 If you want, I can create a PR that adds a staging deploy workflow which references these secrets (placeholders only).
+

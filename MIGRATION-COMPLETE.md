@@ -9,6 +9,7 @@
 ## 📦 Yapılan Değişiklikler
 
 ### ✅ **1. AWS Bağımlılıkları Kaldırıldı**
+
 - **Önce:** AWS SDK v2 (2.1371.0) — 30 paket, güvenlik uyarıları
 - **Sonra:** Tamamen kaldırıldı — **0 vulnerabilities** 🎉
 - **Değişen dosyalar:**
@@ -18,16 +19,16 @@
   - `backend/src/controllers/reelsController.js`: Direct multer upload
 
 **Kod değişikliği:**
+
 ```diff
 - const AWS = require('aws-sdk');
 - async function uploadToSpaces(localPath, remoteFilename) { ... }
 + // Hostinger için sadece local uploads/ kullan
 + function makeFileUrl(filename) {
-+   const base = process.env.FILE_BASE_URL || `http://localhost:${process.env.PORT || 8080}`;
++   const base = process.env.FILE_BASE_URL || `<http://localhost:${process.env.PORT> || 8080}`;
 +   return `${base}/uploads/${filename}`;
 + }
-```
-
+```text
 ---
 
 ### ✅ **2. Hostinger Deployment Konfigürasyonu**
@@ -35,15 +36,16 @@
 **Oluşturulan dosyalar:**
 
 1. **`.env.example`** — Backend environment variables template
+
    ```env
    DATABASE_URL=postgresql://username:password@localhost:5432/shareup
    JWT_SECRET=your-random-256-bit-key-here
-   FILE_BASE_URL=https://shareuptime.com
+   FILE_BASE_URL=<https://shareuptime.com>
    PORT=8080
-   CORS_ORIGIN=https://shareuptime.com
+   CORS_ORIGIN=<https://shareuptime.com>
    ```
 
-2. **`HOSTINGER-DEPLOY.md`** — Complete deployment guide (291 satır)
+1. **`HOSTINGER-DEPLOY.md`** — Complete deployment guide (291 satır)
    - Backend deployment (SSH, PM2, PostgreSQL migrations)
    - Frontend static file upload (`public_html/`)
    - `.htaccess` config (React Router + API reverse proxy)
@@ -53,6 +55,7 @@
 ---
 
 ### ✅ **3. Branch Temizliği**
+
 - **Önce:** 41+ remote branch (raouf, basma, aseel, merge-Test, dependabot branches...)
 - **Sonra:** Sadece `main` branch (40 branch silindi ✅)
 - **Silinen branch'ler:**
@@ -64,6 +67,7 @@
 ---
 
 ### ✅ **4. UI/UX Korundu**
+
 **Değişmeyen (3-4 yıllık çalışma korundu):**
 - ✅ `Shareup-frontend/src/components/` — Tüm React components
 - ✅ `Shareup-frontend/src/css/` — Tüm styles (emoji path hariç)
@@ -84,6 +88,7 @@
 ## 🚀 Deployment Checklist
 
 ### **Backend (Node.js + PostgreSQL)**
+
 - [ ] Hostinger'da PostgreSQL database oluştur: `shareup`
 - [ ] Backend dosyalarını SSH ile upload et (SCP veya git clone)
 - [ ] `.env` dosyası oluştur (`.env.example` template kullan)
@@ -93,6 +98,7 @@
 - [ ] Auto-restart yapılandır: `pm2 startup && pm2 save`
 
 ### **Frontend (React Static Build)**
+
 - [ ] Lokal'de build al: `npm run build` (4.12 MB CSS + 546.7 kB JS)
 - [ ] `build/` klasörünü `public_html/` altına upload et
 - [ ] `.htaccess` dosyası oluştur (HOSTINGER-DEPLOY.md'den kopyala)
@@ -100,10 +106,11 @@
 - [ ] Backend'in uploads'ını symlink yap: `ln -s ~/public_html/uploads ~/shareup-backend/uploads`
 
 ### **Domain & SSL**
+
 - [ ] DNS A record: `shareuptime.com` → Hostinger IP
 - [ ] Hostinger cPanel → SSL/TLS → Let's Encrypt sertifikası aktifleştir
-- [ ] Test: `curl https://shareuptime.com` (HTML dönmeli)
-- [ ] API test: `curl https://shareuptime.com/api/v1/auth/test`
+- [ ] Test: `curl <https://shareuptime.com`> (HTML dönmeli)
+- [ ] API test: `curl <https://shareuptime.com/api/v1/auth/test`>
 
 ---
 
@@ -134,46 +141,45 @@ DATABASE_URL=postgresql://your_user:your_pass@localhost:5432/shareup
 JWT_SECRET=<256-bit-random-key>
 
 # File Upload Base URL
-FILE_BASE_URL=https://shareuptime.com
+FILE_BASE_URL=<https://shareuptime.com>
 
 # Backend Port (Hostinger default: 3000 veya 8080)
 PORT=8080
 
 # CORS
-CORS_ORIGIN=https://shareuptime.com
-```
-
+CORS_ORIGIN=<https://shareuptime.com>
+```text
 ---
 
 ## ✅ Test Sonuçları
 
 ### **Frontend Build**
+
 ```bash
 $ npm run build
 ✅ Compiled successfully
 ✅ File sizes after gzip:
    - 4.12 MB  build/static/css/main.c99cba64.css
    - 546.7 kB build/static/js/main.2c8321b5.js
-```
-
+```text
 ### **Backend Smoke Test**
+
 ```bash
 $ node src/index.js
 ✅ [dotenv@17.2.3] injecting env (8) from .env
 ✅ Shareup backend running on port 8080 (base: /api/v1)
 
-$ curl http://localhost:8080/api/v1/
+$ curl <http://localhost:8080/api/v1/>
 ✅ Server responding (404 on root path is normal)
-```
-
+```text
 ### **Branch Cleanup**
+
 ```bash
 $ git branch -r
   origin/HEAD -> origin/main
   origin/main
 ✅ 40 eski branch silindi
-```
-
+```text
 ---
 
 ## 📝 Git Commit History
@@ -190,22 +196,23 @@ $ git branch -r
 ## 🆘 Troubleshooting
 
 ### **Backend başlamıyor**
+
 ```bash
 pm2 logs shareup-backend --lines 50
 # .env kontrolü yap
 cat ~/shareup-backend/.env
-```
-
+```text
 ### **Frontend 404 hatası**
+
 - `.htaccess` dosyası var mı kontrol et
 - Apache mod_rewrite aktif mi? (Hostinger'da default aktif)
 
 ### **File upload çalışmıyor**
+
 ```bash
 ls -la ~/public_html/uploads/  # 755 permission olmalı
 ls -la ~/shareup-backend/uploads/  # symlink olmalı
-```
-
+```text
 ---
 
 ## 🎯 Sonuç
@@ -218,3 +225,4 @@ ls -la ~/shareup-backend/uploads/  # symlink olmalı
 ✅ **Deployment rehberi hazır** — HOSTINGER-DEPLOY.md  
 
 **Deployment için `HOSTINGER-DEPLOY.md` dosyasını takip edin. Sorularınız için issue açabilirsiniz.** 🚀
+

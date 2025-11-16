@@ -11,17 +11,17 @@
 ### 1. **Frontend API URL Güncellemesi**
 
 **Önceki Durum:**
+
 ```javascript
 // Shareup-frontend/src/services/Settings.js
-apiUrl: "https://shareup.digital/backend"  // Eski, kullanılmayan backend
-```
-
+apiUrl: "<https://shareup.digital/backend">  // Eski, kullanılmayan backend
+```text
 **Yeni Durum:**
+
 ```javascript
 // Shareup-frontend/src/services/Settings.js
-apiUrl: "https://www.shareuptime.com"  // Mobil app backend (60+ endpoints)
-```
-
+apiUrl: "<https://www.shareuptime.com">  // Mobil app backend (60+ endpoints)
+```text
 **Değişen Dosya:**
 - `Shareup-frontend/src/services/Settings.js`
 
@@ -144,8 +144,7 @@ Hostinger
 │   ├── Database migrations
 │   └── Local uploads/
 └── Frontend (React static files)
-```
-
+```text
 #### Yeni Deployment (Frontend Only)
 
 ```text
@@ -155,8 +154,7 @@ Hostinger                    ShareUpTime.com (External)
 │   ├── .htaccess            ├── PostgreSQL
 │   └── Assets               ├── WebSocket
                              └── Shared with Mobile App
-```
-
+```text
 **Avantajlar:**
 - ✅ Tek backend (website + mobile app)
 - ✅ Kolay deployment (sadece frontend upload)
@@ -185,7 +183,7 @@ Hostinger                    ShareUpTime.com (External)
 ### Manuel Test Checklist
 
 - [ ] **Login Test**
-  - Website'de login yap (`https://shareuptime.com`)
+  - Website'de login yap (`<https://shareuptime.com>`)
   - JWT token storage kontrolü
   - API call: `POST /api/auth/login`
 
@@ -219,23 +217,20 @@ Hostinger                    ShareUpTime.com (External)
 ```bash
 cd Shareup-frontend
 npm run build
-```
-
+```text
 ### 2. Upload to Hostinger
 
 ```bash
 tar -czf build.tar.gz build/
 scp build.tar.gz username@shareuptime.com:~/
-```
-
+```text
 ### 3. Extract
 
 ```bash
 ssh username@shareuptime.com
 cd ~/public_html
 tar -xzf ~/build.tar.gz --strip-components=1
-```
-
+```text
 ### 4. Configure .htaccess
 
 (React Router support - see HOSTINGER-DEPLOY.md)
@@ -243,13 +238,12 @@ tar -xzf ~/build.tar.gz --strip-components=1
 ### 5. Test
 
 ```bash
-curl https://shareuptime.com
+curl <https://shareuptime.com>
 # Should return HTML
 
-curl https://www.shareuptime.com/api/posts
+curl <https://www.shareuptime.com/api/posts>
 # Should return JSON (posts data)
-```
-
+```text
 ---
 
 ## 📊 Metrics
@@ -286,3 +280,4 @@ curl https://www.shareuptime.com/api/posts
 **Branch:** main  
 **Status:** ✅ Pushed to origin  
 **Documentation:** BACKEND_COMPARISON.md, HOSTINGER-DEPLOY.md, backend-legacy/LEGACY_README.md
+

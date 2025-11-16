@@ -15,6 +15,7 @@
 ### ❌ Missing (60+ endpoints required by Mobile App)
 
 #### Authentication (5 endpoints missing)
+
 - `GET /api/auth/verify` - Token verification
 - `POST /api/auth/change-password` - Password change
 - `POST /api/auth/request-password-reset` - Password reset
@@ -22,6 +23,7 @@
 - `POST /api/auth/logout` - Logout
 
 #### Users (6 endpoints missing)
+
 - `GET /api/users/search` - User search
 - `GET /api/users/:userId` - Profile by ID (not email)
 - `PUT /api/users/:userId` - Update profile
@@ -30,6 +32,7 @@
 - `GET /api/users/:userId/posts` - User posts
 
 #### Posts (13 endpoints missing)
+
 - `GET /api/posts` - List all posts (feed)
 - `GET /api/posts/:postId` - Single post
 - `GET /api/posts/user/:userId` - User posts
@@ -45,6 +48,7 @@
 - `POST /api/posts` - Create post (without /web/:userId)
 
 #### Comments (6 endpoints missing)
+
 - `POST /api/posts/:postId/comments` - Add comment
 - `GET /api/posts/:postId/comments` - List comments
 - `PUT /api/comments/:commentId` - Edit comment
@@ -53,6 +57,7 @@
 - `POST /api/comments/:commentId/reply` - Reply to comment
 
 #### Following System (6 endpoints missing)
+
 - `POST /api/follows/:userId` - Follow user
 - `DELETE /api/follows/:userId` - Unfollow user
 - `GET /api/follows/:userId/followers` - Get followers
@@ -61,6 +66,7 @@
 - `GET /api/follows/:userId/mutual` - Mutual follows
 
 #### Friends (6 endpoints missing)
+
 - `GET /api/friends/:userId` - List friends
 - `POST /api/friends/:userId/request` - Send friend request
 - `POST /api/friends/:userId/accept` - Accept request
@@ -69,6 +75,7 @@
 - `GET /api/friends/:userId/requests` - Pending requests
 
 #### Messages (5 endpoints missing)
+
 - `GET /api/messages/conversations` - List conversations
 - `GET /api/messages/conversations/:conversationId` - Conversation messages
 - `POST /api/messages/send` - Send message
@@ -76,12 +83,14 @@
 - `DELETE /api/messages/:messageId` - Delete message
 
 #### Notifications (4 endpoints missing)
+
 - `GET /api/notifications` - List notifications
 - `PUT /api/notifications/:notificationId/read` - Mark as read
 - `PUT /api/notifications/mark-all-read` - Mark all read
 - `DELETE /api/notifications/:notificationId` - Delete notification
 
 #### Groups (8 endpoints missing)
+
 - `POST /api/groups` - Create group
 - `GET /api/groups/:groupId` - Group details
 - `PUT /api/groups/:groupId` - Update group
@@ -92,6 +101,7 @@
 - `GET /api/groups/:groupId/posts` - Group posts
 
 #### Stories (4 endpoints missing)
+
 - `GET /api/stories` - List stories
 - `POST /api/stories/:userId` - Create story
 - `GET /api/stories/:userId` - User stories
@@ -114,7 +124,8 @@
 
 ## 🔗 Mobile App Backend
 
-**Base URL:** `https://www.shareuptime.com/api`  
-**Repo:** https://github.com/Shareup-dev/shareuptime-social-media  
+**Base URL:** `<https://www.shareuptime.com/api`>  
+**Repo:** <https://github.com/Shareup-dev/shareuptime-social-media>  
 **Branch:** new_dev  
 **Status:** ✅ Production ready (60+ endpoints)
+

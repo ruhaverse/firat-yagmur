@@ -1,7 +1,7 @@
 # 🚀 ShareUpTime Website Frontend
 
-**Production URL:** <https://shareuptime.com>  
-**Backend API:** <https://www.shareuptime.com/api> (shared with mobile app)  
+**Production URL:** <<https://shareuptime.com>>  
+**Backend API:** <<https://www.shareuptime.com/api>> (shared with mobile app)  
 **Repository:** Shareup-dev/Shareup-frontend  
 **Branch:** main
 
@@ -12,6 +12,7 @@
 ## 📋 Project Overview
 
 ShareUpTime is a comprehensive social media platform with features including:
+
 - 📝 Posts & Feed
 - 🎥 Reels & Stories
 - 💬 Real-time Messaging
@@ -45,7 +46,7 @@ ShareUpTime is a comprehensive social media platform with features including:
 
 ## 🗂️ Project Structure
 
-```
+```text
 Shareup-frontend/
 ├── public/                    # Static files
 │   ├── index.html
@@ -109,8 +110,7 @@ backend/                       # Node.js/Express API (Production)
 │   └── services/             # External services
 ├── package.json
 └── README.md                 # Backend documentation
-```
-
+```text
 > 📚 See [COMPONENT_CATALOG.md](COMPONENT_CATALOG.md) for complete component list
 
 ---
@@ -118,6 +118,7 @@ backend/                       # Node.js/Express API (Production)
 ## 🧩 Component Catalog
 
 ### 1. **Dashboard & Navigation** (6 components)
+
 | Component | File | Purpose |
 |-----------|------|---------|
 | DashboardComponent | `dashboard/DashboardComponent.jsx` | Main dashboard view |
@@ -128,6 +129,7 @@ backend/                       # Node.js/Express API (Production)
 | Modal | `dashboard/Modal.jsx` | Reusable modal dialog |
 
 ### 2. **User & Authentication** (20 components)
+
 | Component | File | Purpose |
 |-----------|------|---------|
 | Index | `user/Index.jsx` | User root component |
@@ -152,6 +154,7 @@ backend/                       # Node.js/Express API (Production)
 | PrivacyPolicyComponent | `user/PrivacyPolicyComponent.jsx` | Privacy policy |
 
 ### 3. **Posts & Feed** (9 components)
+
 | Component | File | Purpose |
 |-----------|------|---------|
 | PostComponent | `post/PostComponent.jsx` | Single post display |
@@ -165,6 +168,7 @@ backend/                       # Node.js/Express API (Production)
 | SavedSharesComponent | `post/SavedSharesComponent.jsx` | Saved posts list |
 
 ### 4. **Messages & Chat** (3 components)
+
 | Component | File | Purpose |
 |-----------|------|---------|
 | MessagesComponent | `Messages/MessagesComponent.jsx` | Messages list |
@@ -172,12 +176,14 @@ backend/                       # Node.js/Express API (Production)
 | chat | `chat/chat.js` | Chat utilities |
 
 ### 5. **Stories** (2 components)
+
 | Component | File | Purpose |
 |-----------|------|---------|
 | StoriesComponent | `Stories/StoriesComponent.jsx` | Stories feed |
 | DisplayComponent | `Stories/DisplayComponent.jsx` | Story viewer |
 
 ### 6. **Groups** (4 components)
+
 | Component | File | Purpose |
 |-----------|------|---------|
 | GroupComponent | `group/GroupComponent.jsx` | Group display |
@@ -186,6 +192,7 @@ backend/                       # Node.js/Express API (Production)
 | ViewGroupComponent | `group/ViewGroupComponent.jsx` | View group details |
 
 ### 7. **Sidebar Widgets** (4 components)
+
 | Component | File | Purpose |
 |-----------|------|---------|
 | MenuWidgetComponent | `widgets/MenuWidgetComponent.jsx` | Navigation menu |
@@ -194,6 +201,7 @@ backend/                       # Node.js/Express API (Production)
 | GroupsWidgetComponent | `widgets/GroupsWidgetComponent.jsx` | Groups sidebar |
 
 ### 8. **Employee Management** (3 components)
+
 | Component | File | Purpose |
 |-----------|------|---------|
 | CreateEmployeeComponent | `employee/CreateEmployeeComponent.jsx` | Create employee |
@@ -201,12 +209,14 @@ backend/                       # Node.js/Express API (Production)
 | ViewEmployeeComponent | `employee/ViewEmployeeComponent.jsx` | View employee details |
 
 ### 9. **SwapPoint (Trading)** (2 components)
+
 | Component | File | Purpose |
 |-----------|------|---------|
 | SwapComponent | `SwapPoint/SwapComponent.jsx` | Swap item display |
 | SwapComponents | `SwapPoint/SwapComponents.jsx` | Swap utilities |
 
 ### 10. **Hang Features** (5 components)
+
 | Component | File | Purpose |
 |-----------|------|---------|
 | HangGiftComponent | `Hang/HangGiftComponent.jsx` | Gift UI |
@@ -216,6 +226,7 @@ backend/                       # Node.js/Express API (Production)
 | GeoLocator | `Hang/GeoLocator.jsx` | Geolocation |
 
 ### 11. **Profile Views** (3 components)
+
 | Component | File | Purpose |
 |-----------|------|---------|
 | FriendProfileComponent | `Profile/FriendProfileComponent.jsx` | Friend's profile |
@@ -223,11 +234,13 @@ backend/                       # Node.js/Express API (Production)
 | PostProfileComponent | `Profile/PostProfileComponent.jsx` | Profile posts |
 
 ### 12. **Share Features** (1 component)
+
 | Component | File | Purpose |
 |-----------|------|---------|
 | ShareItemComponent | `share/ShareItemComponent.jsx` | Share item UI |
 
 ### 13. **Account Settings** (7 components)
+
 | Component | File | Purpose |
 |-----------|------|---------|
 | SecuritySettingsComponent | `AccountSettings/SecuritySettingsComponent.jsx` | Security settings |
@@ -239,6 +252,7 @@ backend/                       # Node.js/Express API (Production)
 | DropdownLimitsComponent | `AccountSettings/DropdownLimitsComponent.jsx` | Limits dropdown |
 
 ### 14. **Root Components** (5 components)
+
 | Component | File | Purpose |
 |-----------|------|---------|
 | LayoutComponent | `LayoutComponent.jsx` | Main layout wrapper |
@@ -248,11 +262,13 @@ backend/                       # Node.js/Express API (Production)
 | Layout redunndnat | `Layout redunndnat.jsx` | Legacy layout (unused) |
 
 ### 15. **Chat Testing** (1 component)
+
 | Component | File | Purpose |
 |-----------|------|---------|
 | ChatTestComponent | `ChatTest/ChatTestComponent.jsx` | Chat testing UI |
 
 ### 16. **Parent Hang** (1 component)
+
 | Component | File | Purpose |
 |-----------|------|---------|
 | ParentGiftsComponent | `ParentHang/ParentGiftsComponent.jsx` | Parent gifts |
@@ -262,6 +278,7 @@ backend/                       # Node.js/Express API (Production)
 ## 🎨 UI/UX Elements
 
 ### CSS Stylesheets (22 files)
+
 | File | Size | Purpose |
 |------|------|---------|
 | `main.min.css` | 426KB | **Main stylesheet** (minified) |
@@ -281,10 +298,12 @@ backend/                       # Node.js/Express API (Production)
 | `styleguide.css` | 678B | Style guide |
 
 ### FontAwesome Icons
+
 - **Location:** `css/fontawesome/`
 - **Includes:** Full icon library
 
 ### Emoji Support
+
 - **Location:** `css/emoji/`
 - **Count:** 800+ emoji images
 - **Format:** PNG
@@ -313,47 +332,48 @@ backend/                       # Node.js/Express API (Production)
 | **Story** | `services/story.service.js` | Story utilities |
 
 **API Configuration:**
+
 ```javascript
 // services/Settings.js
-apiUrl: "https://www.shareuptime.com"  // Production backend
-```
-
+apiUrl: "<https://www.shareuptime.com">  // Production backend
+```text
 ---
 
 ## 🚀 Development
 
 ### Prerequisites
+
 - Node.js 18+
 - npm 8+
 
 ### Installation
+
 ```bash
 cd Shareup-frontend
 npm install
-```
-
+```text
 ### Development Server
+
 ```bash
 npm start
-# Opens http://localhost:3000
-```
-
+# Opens <http://localhost:3000>
+```text
 ### Build for Production
+
 ```bash
 npm run build
 # Output: build/ folder (~5MB)
-```
-
+```text
 ### Environment
+
 ```javascript
 // API configuration in src/services/Settings.js
 {
-  dev: { apiUrl: "http://localhost:8080" },
-  staging: { apiUrl: "https://staging.shareuptime.com" },
-  prod: { apiUrl: "https://www.shareuptime.com" }  // Current
+  dev: { apiUrl: "<http://localhost:8080"> },
+  staging: { apiUrl: "<https://staging.shareuptime.com"> },
+  prod: { apiUrl: "<https://www.shareuptime.com"> }  // Current
 }
-```
-
+```text
 ---
 
 ## 📦 Deployment
@@ -365,13 +385,13 @@ npm run build
 See **[HOSTINGER-DEPLOY.md](./HOSTINGER-DEPLOY.md)** for complete deployment instructions.
 
 **Quick Deploy:**
+
 ```bash
 npm run build
 tar -czf build.tar.gz build/
 scp build.tar.gz username@shareuptime.com:~/
 ssh username@shareuptime.com "cd ~/public_html && tar -xzf ~/build.tar.gz --strip-components=1"
-```
-
+```text
 ---
 
 ## 📚 Documentation
@@ -388,11 +408,12 @@ ssh username@shareuptime.com "cd ~/public_html && tar -xzf ~/build.tar.gz --stri
 
 ## 🔐 Backend API
 
-**Base URL:** `https://www.shareuptime.com/api`  
+**Base URL:** `<https://www.shareuptime.com/api`>  
 **Shared with:** Mobile App (iOS/Android)  
 **Endpoints:** 60+ API endpoints
 
 ### Key Endpoints
+
 - `POST /api/auth/login` - Authentication
 - `GET /api/posts` - Feed
 - `POST /api/posts` - Create post
@@ -401,13 +422,14 @@ ssh username@shareuptime.com "cd ~/public_html && tar -xzf ~/build.tar.gz --stri
 - `POST /api/groups` - Create group
 - `GET /api/stories` - Stories
 
-See mobile app docs: https://github.com/Shareup-dev/Shareup-Mobile-App-CLI/blob/dev/docs/
+See mobile app docs: <https://github.com/Shareup-dev/Shareup-Mobile-App-CLI/blob/dev/docs/>
 
 ---
 
 ## 🧪 Testing
 
 ### Manual Testing Checklist
+
 - [ ] Login/Registration
 - [ ] Create post (text, image, video)
 - [ ] View feed
@@ -469,6 +491,7 @@ See mobile app docs: https://github.com/Shareup-dev/Shareup-Mobile-App-CLI/blob/
 ## 📞 Support
 
 For backend API issues or deployment help, refer to:
+
 - Backend documentation (mobile app repo)
 - HOSTINGER-DEPLOY.md (deployment guide)
 - BACKEND_ALIGNMENT_COMPLETE.md (integration details)
@@ -478,5 +501,6 @@ For backend API issues or deployment help, refer to:
 **Last Updated:** January 2025  
 **Version:** 1.0.0  
 **Status:** ✅ Production Ready  
-**Frontend:** https://shareuptime.com  
-**Backend API:** https://www.shareuptime.com/api
+**Frontend:** <https://shareuptime.com>  
+**Backend API:** <https://www.shareuptime.com/api>
+

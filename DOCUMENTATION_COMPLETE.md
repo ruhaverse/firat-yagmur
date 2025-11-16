@@ -61,7 +61,7 @@
 
 ### ✅ Güncellenmiş Mimari (Şu Anki)
 
-```
+```text
 ┌─────────────────────────────────────────────┐
 │   ShareUpTime Website (shareuptime.com)    │
 │   React Frontend - Hostinger'da Deploy     │
@@ -97,17 +97,15 @@
 │   ShareUp Mobile App (iOS/Android)         │
 │   Aynı backend'i kullanan mobil uygulama   │
 └─────────────────────────────────────────────┘
-```
-
+```text
 ### ❌ Eski Mimari (Deprecated)
 
-```
+```text
 backend/ klasörü → backend-legacy/ olarak taşındı
 • Sadece 5 endpoint (register, login, user-by-email, post, reel)
 • Eksik: messages, groups, stories, notifications
 • ⚠️ KULLANILMIYOR - Sadece referans için saklandı
-```
-
+```text
 ---
 
 ## 🔄 Yapılan Değişiklikler
@@ -150,7 +148,7 @@ backend/ klasörü → backend-legacy/ olarak taşındı
 
 ## 📝 Git Commit Geçmişi
 
-```
+```text
 * 4aa42f6 (HEAD -> main, origin/main) docs: add comprehensive component catalog
 * 3d6e9c6 docs: comprehensive README update with full component catalog
 * 2a40d47 docs: add backend infrastructure alignment report
@@ -159,8 +157,7 @@ backend/ klasörü → backend-legacy/ olarak taşındı
 * 050f327 feat: remove AWS SDK, configure Hostinger-compatible storage
 * ba85691 feat: configure shareuptime.com domain for deployment
 * 73e344d feat(backend): upgrade to Express v5.1.0
-```
-
+```text
 **Son Commit Tarihleri:**
 - `4aa42f6` - 10 Ocak 2025, 10:37 - Component catalog eklendi
 - `3d6e9c6` - 10 Ocak 2025, 10:34 - README güncellendi
@@ -213,14 +210,14 @@ backend/ klasörü → backend-legacy/ olarak taşındı
 **Bundle Size:** ~5MB (minified)
 
 **Deployment Adımları:**
+
 ```bash
 cd Shareup-frontend
 npm run build
 tar -czf build.tar.gz build/
 scp build.tar.gz username@shareuptime.com:~/
 ssh username@shareuptime.com "cd ~/public_html && tar -xzf ~/build.tar.gz --strip-components=1"
-```
-
+```text
 **Detaylı Rehber:** [HOSTINGER-DEPLOY.md](./HOSTINGER-DEPLOY.md)
 
 ### Backend
@@ -233,7 +230,7 @@ ssh username@shareuptime.com "cd ~/public_html && tar -xzf ~/build.tar.gz --stri
 **Hosting:** Mevcut sunucu
 
 **Backend Erişimi:**
-- Base URL: `https://www.shareuptime.com/api`
+- Base URL: `<https://www.shareuptime.com/api`>
 - Authentication: JWT token
 - WebSocket: `wss://www.shareuptime.com`
 
@@ -256,6 +253,7 @@ ssh username@shareuptime.com "cd ~/public_html && tar -xzf ~/build.tar.gz --stri
 ### Component Kullanımı
 
 **Örnek 1: Post Oluşturma**
+
 ```jsx
 import PostTextBoxComponent from './components/post/PostTextBoxComponent';
 
@@ -264,9 +262,9 @@ import PostTextBoxComponent from './components/post/PostTextBoxComponent';
   userId={currentUser.id}
   allowMedia={true}
 />
-```
-
+```text
 **Örnek 2: Feed Gösterme**
+
 ```jsx
 import NewsfeedComponent from './components/user/NewsfeedComponent';
 
@@ -275,22 +273,21 @@ import NewsfeedComponent from './components/user/NewsfeedComponent';
   filter="friends"
   onLoadMore={handleLoadMore}
 />
-```
-
+```text
 **Örnek 3: Protected Route**
+
 ```jsx
 import ProtectedRoute from './components/ProtectedRoute';
 
 <ProtectedRoute path="/dashboard" component={DashboardComponent} />
-```
-
+```text
 ### API Servisleri
 
 Tüm API çağrıları `services/` katmanından yapılmalı:
 
 ```javascript
 // services/Settings.js
-const apiUrl = "https://www.shareuptime.com";
+const apiUrl = "<https://www.shareuptime.com";>
 
 // services/PostService.js
 import { apiUrl } from './Settings';
@@ -298,8 +295,7 @@ export const createPost = async (postData) => {
   const response = await axios.post(`${apiUrl}/api/posts`, postData);
   return response.data;
 };
-```
-
+```text
 ---
 
 ## ⚠️ Önemli Notlar

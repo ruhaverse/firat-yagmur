@@ -18,7 +18,7 @@ All systems verified, documented, and ready for team development. Mobile app and
 
 ### ✅ Unified Backend Architecture
 
-**Production API:** https://www.shareuptime.com
+**Production API:** <https://www.shareuptime.com>
 
 | Component | Status | Configuration |
 |-----------|--------|---------------|
@@ -36,16 +36,14 @@ API_BASE: /api/v1
 CORS: Configured for shareuptime.com
 Security: Helmet + Rate Limiting (100 req/15min)
 Routes: /users, /posts, /reels
-```
-
+```text
 ### Frontend Configuration (`Shareup-frontend/src/services/Settings.js`)
 
 ```javascript
 getCurrentSettings() returns settings.prod
-Production API: https://www.shareuptime.com
+Production API: <https://www.shareuptime.com>
 All 16 services use Settings.js
-```
-
+```text
 **VERIFIED:** ✅ Mobile and web use identical backend infrastructure
 
 ---
@@ -91,24 +89,22 @@ All 16 services use Settings.js
 
 ### Working Tree
 
-```
+```text
 Status: Clean ✅
 Branch: main
 Tracking: origin/main (up to date)
 Unpushed commits: 0
 Unstaged changes: 0
-```
-
+```text
 ### Recent Commits (Last 5)
 
-```
+```text
 d702eb5 fix: resolve linting issues and duplicates
 bd3cf79 docs: comprehensive documentation update
 046189a chore(deps): bump ws (#24)
 4c9b015 Merge pull request #23 (security updates)
 4a6b943 Merge pull request #22 (backend updates)
-```
-
+```text
 ### Branch Cleanup
 
 **Local branches removed:**
@@ -160,33 +156,33 @@ bd3cf79 docs: comprehensive documentation update
 ### ✅ Easy Feature Addition
 
 **Service Layer Structure:**
-```
+
+```text
 Shareup-frontend/src/services/
 ├── Settings.js          # Centralized API configuration
 ├── PostService.js       # Example: Posts CRUD
 ├── UserService.js       # Example: User management
 ├── ReelsServices.js     # Example: Reels/videos
 └── [13 more services]   # Organized by feature
-```
-
+```text
 **Adding New Feature - Step by Step:**
 
 1. **Create Service** (`src/services/YourService.js`):
+
 ```javascript
 import settings from "./Settings";
 const baseurl = `${settings.apiUrl}/api/v1/your-feature`;
 // Add CRUD methods
-```
+```text
+1. **Create Component** (`src/components/YourComponent.jsx`):
 
-2. **Create Component** (`src/components/YourComponent.jsx`):
 ```javascript
 import YourService from '../services/YourService';
 // Use service methods in component
-```
-
-3. **Add Route** (if needed in `App.js`)
-4. **Backend Route** (`backend/src/routes/yourRoute.js`)
-5. **Backend Controller** (`backend/src/controllers/yourController.js`)
+```text
+1. **Add Route** (if needed in `App.js`)
+2. **Backend Route** (`backend/src/routes/yourRoute.js`)
+3. **Backend Controller** (`backend/src/controllers/yourController.js`)
 
 ### ✅ Easy Feature Removal
 
@@ -198,21 +194,21 @@ import YourService from '../services/YourService';
 ### Development Commands
 
 **Frontend:**
+
 ```bash
 cd Shareup-frontend
 npm start          # Dev server (localhost:3000)
 npm run build      # Production build
 npm test           # Run tests
-```
-
+```text
 **Backend:**
+
 ```bash
 cd backend
 npm run dev        # Dev server with nodemon
 npm start          # Production mode
 npm run migrate    # Run database migrations
-```
-
+```text
 **VERIFIED:** ✅ Clear patterns, documented examples, easy to extend
 
 ---
@@ -228,7 +224,7 @@ npm run migrate    # Run database migrations
 **Status:** ⚠️ Dependabot PRs available for merge
 
 **Action Required:**
-1. Review Dependabot PRs: https://github.com/Shareup-dev/Shareup-frontend/pulls
+1. Review Dependabot PRs: <https://github.com/Shareup-dev/Shareup-frontend/pulls>
 2. Merge security updates
 3. Test build after merge
 
@@ -253,8 +249,7 @@ npm run migrate    # Run database migrations
 "react-router-dom": "5.3.4"          ✅ Stable
 "@reduxjs/toolkit": "1.6.2"          ✅ Stable
 "axios": "^0.21.4"                   ⚠️ Can update to 1.x
-```
-
+```text
 ### Backend Dependencies
 
 ```json
@@ -263,8 +258,7 @@ npm run migrate    # Run database migrations
 "jsonwebtoken": "^9.0.0"             ✅ JWT
 "bcrypt": "^5.1.0"                   ✅ Password hashing
 "multer": "2.0.2"                    ✅ Updated (was 1.4.5)
-```
-
+```text
 **Note:** All critical updates merged, optional upgrades can be done incrementally.
 
 ---
@@ -330,7 +324,7 @@ npm run migrate    # Run database migrations
    - Test after merge
    - Monitor for issues
 
-2. **Review ESLint Branch**
+1. **Review ESLint Branch**
    - `chore/eslint-fix-frontend` on GitHub
    - Decide: merge or close
 
@@ -340,7 +334,7 @@ npm run migrate    # Run database migrations
    - axios 0.21 → 1.x (when ready)
    - Review other minor updates
 
-2. **Add Tests**
+1. **Add Tests**
    - Component unit tests
    - API integration tests
    - E2E tests for critical flows
@@ -352,7 +346,7 @@ npm run migrate    # Run database migrations
    - Test thoroughly
    - Update dependencies
 
-2. **Performance Monitoring**
+1. **Performance Monitoring**
    - Add Sentry/error tracking
    - Monitor API response times
    - Optimize bundle size
@@ -363,10 +357,10 @@ npm run migrate    # Run database migrations
 
 ### Quick Links
 
-- **Production:** https://www.shareuptime.com
+- **Production:** <https://www.shareuptime.com>
 - **API Docs:** See PROJECT_DOCS.md
-- **GitHub Repo:** https://github.com/Shareup-dev/Shareup-frontend
-- **Security Alerts:** https://github.com/Shareup-dev/Shareup-frontend/security
+- **GitHub Repo:** <https://github.com/Shareup-dev/Shareup-frontend>
+- **Security Alerts:** <https://github.com/Shareup-dev/Shareup-frontend/security>
 
 ### Documentation Files
 
@@ -403,3 +397,4 @@ npm run migrate    # Run database migrations
 **Report Generated:** November 11, 2025  
 **Last Verified:** All systems operational  
 **Confidence Level:** 100% ✅
+

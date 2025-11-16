@@ -2,8 +2,8 @@
 
 **Transfer Date:** November 12, 2025  
 **Status:** ✅ **SUCCESS**  
-**Source:** https://github.com/shareup-dev/shareup-frontend  
-**Destination:** https://github.com/ruhaverse/firat-yagmur
+**Source:** <https://github.com/shareup-dev/shareup-frontend>  
+**Destination:** <https://github.com/ruhaverse/firat-yagmur>
 
 ---
 
@@ -34,7 +34,7 @@
 
 ## 📂 Repository Structure
 
-```
+```text
 firat-yagmur/
 ├── Shareup-frontend/              # Website Application
 │   ├── src/
@@ -84,8 +84,7 @@ firat-yagmur/
     ├── SECURITY.md                # Security docs
     ├── TEAM_DOCUMENTATION.md      # Team guide
     └── [Other documentation files]
-```
-
+```text
 ---
 
 ## 🔍 Verification Results
@@ -141,18 +140,20 @@ firat-yagmur/
 ### Immediate Actions
 
 1. **Install Dependencies:**
+
    ```bash
    cd Shareup-frontend
    npm install
    ```
 
-2. **Start Development:**
+1. **Start Development:**
+
    ```bash
    npm start
-   # Opens http://localhost:3000
+   # Opens <http://localhost:3000>
    ```
 
-3. **Review Documentation:**
+1. **Review Documentation:**
    - Read `README-TRANSFER.md` for complete details
    - Check `QUICK-SETUP.md` for setup guide
    - Review `COMPONENT_CATALOG.md` for components
@@ -164,12 +165,12 @@ firat-yagmur/
    - Check `src/App.js` for routing
    - Review `src/services/Settings.js` for API config
 
-2. **Test the application:**
+1. **Test the application:**
    - Run development server
    - Test mobile responsive design
    - Check console for any warnings
 
-3. **Read documentation:**
+1. **Read documentation:**
    - PROJECT_DOCS.md for architecture
    - DEPLOYMENT.md for production deployment
    - SECURITY.md for security practices
@@ -179,6 +180,7 @@ firat-yagmur/
 ## 🔧 Technology Stack
 
 ### Frontend
+
 - React 17.0.2
 - Redux Toolkit 1.6.2
 - React Router v6
@@ -187,6 +189,7 @@ firat-yagmur/
 - Bootstrap 4.6.0
 
 ### Backend
+
 - Node.js + Express
 - PostgreSQL
 - JWT Authentication
@@ -194,6 +197,7 @@ firat-yagmur/
 - Socket.io
 
 ### Deployment
+
 - Frontend: Hostinger (Static Build)
 - Backend: shareuptime.com (Centralized API)
 
@@ -240,8 +244,8 @@ The website includes:
 
 ### Production Environment
 
-- **API Endpoint:** https://www.shareuptime.com/api
-- **Website URL:** https://shareuptime.com
+- **API Endpoint:** <https://www.shareuptime.com/api>
+- **Website URL:** <https://shareuptime.com>
 - **Backend:** Shared with mobile app (no conflict)
 - **Status:** Production-ready, tested, stable
 
@@ -255,6 +259,7 @@ The website includes:
 ### Code Quality
 
 This is **production code** representing 3-4 years of work:
+
 - ✅ Battle-tested in production
 - ✅ Mobile-responsive design
 - ✅ Complete feature set
@@ -266,6 +271,7 @@ This is **production code** representing 3-4 years of work:
 ## 🔒 Security
 
 The application includes:
+
 - JWT authentication
 - Password hashing (bcrypt)
 - API rate limiting
@@ -302,7 +308,7 @@ The application includes:
 
 All website components have been successfully transferred to this repository while keeping the mobile app completely separate and unaffected.
 
-### What You Have Now:
+### What You Have Now
 
 1. ✅ Complete ShareUpTime website frontend
 2. ✅ Complete backend API code
@@ -311,7 +317,7 @@ All website components have been successfully transferred to this repository whi
 5. ✅ Production-ready codebase
 6. ✅ Setup and deployment guides
 
-### Mobile App Status:
+### Mobile App Status
 
 ✅ **Completely unaffected** - No mobile code transferred, mobile app remains in separate repository and continues to work with the shared backend API.
 
@@ -323,7 +329,7 @@ All website components have been successfully transferred to this repository whi
 - **Setup Help:** Check `QUICK-SETUP.md`
 - **Component Guide:** See `COMPONENT_CATALOG.md`
 - **Deployment:** Read `HOSTINGER-DEPLOY.md`
-- **Production Site:** https://shareuptime.com
+- **Production Site:** <https://shareuptime.com>
 
 ---
 

@@ -1,4 +1,5 @@
 const db = require('./config/db');
+const logger = require('./utils/logger');
 
 async function up() {
   try {
@@ -27,10 +28,10 @@ async function up() {
       created_at TIMESTAMP DEFAULT now()
     );`);
 
-    console.log('Migrations applied');
+    logger.info('Migrations applied successfully');
     process.exit(0);
   } catch (err) {
-    console.error('Migration failed', err);
+    logger.error('Migration failed:', err);
     process.exit(1);
   }
 }

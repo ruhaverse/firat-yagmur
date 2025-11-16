@@ -78,12 +78,9 @@ function App() {
     await AuthService.setCurrentUser(jwtUser)
     let user = null
     if (jwtUser) {
-      console.log("AHAAAAAAAAAAAAAAAAAAAHAAA")
       user = await UserService.getUserByEmail(jwtUser.username).then(res => {
-        // console.log
-      return res.data
-     })
-     console.log(JSON.stringify(user) +  ' ah ahah')
+        return res.data
+      })
     }
     setUser(user)
   }
@@ -105,7 +102,6 @@ Giphy();
 
   return (
     <UserContext.Provider value={{ user }}>
-      {console.log("Value of " + JSON.stringify(user))}
       <Router>
         <HeaderComponent />
           <Switch>

@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const logger = require('./utils/logger');
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 const app = express();
@@ -40,10 +41,10 @@ app.use(`${API_BASE}/reels`, require('./routes/reels'));
 
 // centralized error handler minimal
 app.use((err, req, res, next) => {
-	console.error(err);
+	logger.error(err);
 	res.status(err.status || 500).json({ error: err.message || 'Internal Server Error' });
 });
 
 app.listen(PORT, () => {
-	console.log(`Shareup backend running on port ${PORT} (base: ${API_BASE})`);
+	logger.info(`Shareup backend running on port ${PORT} (base: ${API_BASE})`);
 });

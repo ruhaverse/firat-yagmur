@@ -72,7 +72,6 @@ var setContentHeight = function () {
 };
 
   $SIDEBAR_MENU.find('a').on('click', function(ev) {
-	  console.log('clicked - sidebar_menu');
         var $li = $(this).parent();
 
         if ($li.is('.active')) {
@@ -103,7 +102,6 @@ var setContentHeight = function () {
 
 // toggle small or large menu 
 $MENU_TOGGLE.on('click', function() {
-		console.log('clicked - menu toggle');
 		
 		if ($BODY.hasClass('nav-md')) {
 			$SIDEBAR_MENU.find('li.active ul').hide();
@@ -342,9 +340,6 @@ if (typeof NProgress != 'undefined') {
 		
 		if( typeof ($.plot) === 'undefined'){ return; }
 		
-		console.log('init_flot_chart');
-		
-		
 		
 		var arr_data1 = [
 			[gd(2012, 1, 1), 17],
@@ -548,14 +543,12 @@ if (typeof NProgress != 'undefined') {
         
 		
         if ($("#chart_plot_01").length){
-			console.log('Plot1');
 			
 			$.plot( $("#chart_plot_01"), [ arr_data1, arr_data2 ],  chart_plot_01_settings );
 		}
 		
 		
 		if ($("#chart_plot_02").length){
-			console.log('Plot2');
 			
 			$.plot( $("#chart_plot_02"), 
 			[{ 
@@ -571,7 +564,6 @@ if (typeof NProgress != 'undefined') {
 		}
 		
 		if ($("#chart_plot_03").length){
-			console.log('Plot3');
 			
 			
 			$.plot($("#chart_plot_03"), [{

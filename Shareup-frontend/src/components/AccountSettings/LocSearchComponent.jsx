@@ -51,6 +51,7 @@ class LocSearchComponent extends React.Component {
                   : { backgroundColor: '#ffffff', cursor: 'pointer' };
                 return (
                   <div
+                    key={suggestion.placeId}
                     {...getSuggestionItemProps(suggestion, {
                       className,
                       style,

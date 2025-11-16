@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState } from 'react';
 
 
-export default function DropdownComponent() {
-const data = [{id: 0, label: "Friends"}, {id: 1, label: "Public"},{id: 2, label: "Only me"}];
+export default function DropdownPrivacyComponent() {
+    const data = [{id: 0, label: "Public"}, {id: 1, label: "Friends"}, {id: 2, label: "Only Me"}];
 const [isOpen, setOpen] = useState(false);
-  const [items, setItem] = useState(data);
+  const [items] = useState(data);
   const [selectedItem, setSelectedItem] = useState(null);
   const toggleDropdown = () => setOpen(!isOpen);
   const handleItemClick = (id) => {
@@ -18,7 +18,7 @@ return(               <div className='dropdown'>
 </div>
 <div className={`dropdown-body ${isOpen && 'open'}`}>
   {items.map(item => (
-    <div className="dropdown-item" onClick={e => handleItemClick(e.target.id)} id={item.id}>
+    <div key={item.id} className="dropdown-item" onClick={e => handleItemClick(e.target.id)} id={item.id}>
       
       {item.label}
     </div>

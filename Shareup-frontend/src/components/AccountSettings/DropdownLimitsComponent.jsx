@@ -18,7 +18,7 @@ return(               <div className='dropdown wdthdrpdwn'>
 </div>
 <div className={`dropdown-body ${isOpen && 'open'}`}>
   {items.map(item => (
-    <div className="dropdown-item" onClick={e => handleItemClick(e.target.id)} id={item.id}>
+    <div key={item.id} className="dropdown-item" onClick={e => handleItemClick(e.target.id)} id={item.id}>
       
       {item.label}
     </div>

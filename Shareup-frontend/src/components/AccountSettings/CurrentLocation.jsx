@@ -1,6 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import settings from '../../services/Settings';
 
 const mapStyles = {
   map: {
@@ -22,6 +20,9 @@ export class CurrentLocation extends React.Component {
         lng: lng
       }
     };
+    
+    // Create ref for map container
+    this.mapRef = React.createRef();
   }
   recenterMap() {
     const map = this.map;
@@ -40,10 +41,8 @@ export class CurrentLocation extends React.Component {
       const { google } = this.props;
       const maps = google.maps;
 
-      const mapRef = this.refs.map;
-
-      // reference to the actual DOM element
-      const node = ReactDOM.findDOMNode(mapRef);
+      // reference to the actual DOM element via ref
+      const node = this.mapRef.current;
 
       const { zoom } = this.props;
       const { lat, lng } = this.state.currentLocation;
@@ -105,7 +104,7 @@ export class CurrentLocation extends React.Component {
 
     return (
       <div>
-        <div style={style} ref="map">
+        <div style={style} ref={this.mapRef}>
           Loading map...
         </div>
         {this.renderChildren()}

@@ -24,6 +24,7 @@ authenticate();
 class ReelsServices {
     
     createReels = async (userId, formdata) => {
+        authenticate();
         const result = await authAxios.post(`/reels/web/${userId}`,formdata)
         return result
     }

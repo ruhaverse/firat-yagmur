@@ -30,11 +30,13 @@ class UserService {
     }
 
     createUser = async (user) => {
+        authenticate();
         const result = await axios.post(`${my_api}/api/v1/users/`, user)
         return result;
     }
 
     editProfile = async (email, user) => {
+        authenticate();
         const result = await authAxios.put(`users/${email}/edit_profile`,user)
         return result
     }
@@ -55,6 +57,7 @@ class UserService {
     // }
 
     getFriends = async (email) => {
+        authenticate();
         const result = await authAxios.get('/friends/' + email)
         return result
     }
@@ -80,35 +83,42 @@ class UserService {
     }
 
     follow = async (email,followed_id) => {
+        authenticate();
         const result = await authAxios.post(`${email}/follows/${followed_id}`)
         return result
     }
 
     unfollow = async (email,followed_id) => {
+        authenticate();
         const result = await authAxios.delete(`${email}/unfollow/${followed_id}`)
         return result
     }
 
     uploadProfilePicture = async (email, formdata) => {
+        authenticate();
         const result = await authAxios.post(`users/${email}/upload_profile_picture`,formdata)
         return result
     }
 
     uploadCoverPicture = async (email, formdata) => {
+        authenticate();
         const result = await authAxios.post(`users/${email}/upload_cover_picture`,formdata)
         return result
     }
 
     likePost = async (uid,pid) => {
+        authenticate();
         const result = await authAxios.put(`/posts/${uid}/like-unlike/${pid}`,{emoji:"like"})
         return result
     }
 
     savePost = async (uid,pid) => {
+        authenticate();
         const result = await authAxios.put(`/posts/${uid}/save-unsave/${pid}`)
         return result
     }
     likeSwap = async (uid,sid) => {
+        authenticate();
         const result = await authAxios.put(`/swaps/${uid}/like-unlike/${sid}`,{emoji:"like"})
         return result
     }

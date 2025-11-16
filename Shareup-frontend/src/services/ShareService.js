@@ -49,6 +49,7 @@ class ShareService {
     }
 
     createShare = async (userId,postid, formdata) => {
+        authenticate();
         const result = await authAxios.post(`share/${userId}/${postid}`,formdata)
         return result
     }

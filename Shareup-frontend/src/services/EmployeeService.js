@@ -5,22 +5,26 @@ import settings from "./Settings";
 const EMPLOYEE_API_BASE_URL = `${settings.apiUrl}`;
 let authAxios = null;
 
-if(AuthService.getCurrentUser()){
-    authAxios = axios.create({
-        baseURL: `${EMPLOYEE_API_BASE_URL}/api/v1/employees`,
-        headers: {
-            Authorization: `Bearer ${AuthService.getCurrentUser().jwt}`
-        }
-    })
-}else{
-    authAxios = axios.create({
-        baseURL: `${EMPLOYEE_API_BASE_URL}/api/v1/`
-    })
-}
+const authenticate = () => {
+    if (AuthService.getCurrentUser()) {
+        authAxios = axios.create({
+            baseURL: `${EMPLOYEE_API_BASE_URL}/api/v1/employees`,
+            headers: {
+                Authorization: `Bearer ${AuthService.getCurrentUser().jwt}`
+            }
+        });
+    } else {
+        authAxios = axios.create({
+            baseURL: `${EMPLOYEE_API_BASE_URL}/api/v1/`
+        });
+    }
+};
+authenticate();
 
 class EmployeeService {
     getEmployees = async () => {
-        const result = await authAxios.get('/')
+        authenticate();
+        const result = await authAxios.get('/');
         return result;
         // return axios.get(EMPLOYEE_API_BASE_URL)
     }

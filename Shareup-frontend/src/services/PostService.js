@@ -47,27 +47,32 @@ class PostService {
     }
 
     createPost = async (userId, formdata, userTagId) => {
+        authenticate();
         const result = await authAxios.post(`posts/${userId}`,formdata, { params: { userTagId }}
     )
         return result
     }
 
     updatePost = async (postId, post) => {
+        authenticate();
         const result = await authAxios.put(`posts/${postId}`, post)
         return result;
     }
 
     deletePost = async (postid) => {
+        authenticate();
         const result = await authAxios.delete(`posts/${postid}`)
         return result
     }
 
     addComment = async (userid, postid, comment) => {
+        authenticate();
         const result = await authAxios.post(`comment/${userid}/${postid}`, comment)
         return result
     }
 
     deleteComment = async (commentid) => {
+        authenticate();
         const result = await authAxios.delete(`comment/${commentid}`)
         return result
     }

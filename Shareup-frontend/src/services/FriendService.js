@@ -30,31 +30,37 @@ class FriendService {
     }
 
     addFriends = async (uid, fid) => {
+        authenticate();
         const result = await authAxios.post(`/friends/${uid}/${fid}`)
         return result
     }
 
     removeFriends = async (uid, fid) => {
+        authenticate();
         const result = await authAxios.delete(`/friends/${uid}/${fid}`)
         return result
     }
 
     sendRequest = async (uid,fid) => {
+        authenticate();
         const result = await authAxios.post(`/${uid}/friend_request/${fid}`)
         return result
     }
 
     acceptRequest = async (uid, fid) => {
+        authenticate();
         const result = await authAxios.post(`/${uid}/accept_friend_request/${fid}`)
         return result
     }
 
     declineRequest = async (uid, fid) => {
+        authenticate();
         const result = await authAxios.post(`/${uid}/decline_friend_request/${fid}`)
         return result
     }
 
     unsendRequest = async (uid, fid) => {
+        authenticate();
         const result = await authAxios.post(`/${uid}/decline_friend_request/${fid}`)
         return result
     }

@@ -24,6 +24,7 @@ authenticate();
 
 class GroupService {
     createGroup = async (uid, formdata) => {
+        authenticate();
         const result = await authAxios.post(`/${uid}/create`,formdata)
         return result;
     }
@@ -35,26 +36,31 @@ class GroupService {
     }
 
     getGroupById = async (id) => {
+        authenticate();
         const result = await authAxios.get(`/id/${id}`)
         return result;
     }
 
     getGroupByCurrentUser = async (email) => {
+        authenticate();
         const result = await authAxios.get(`/email/${email}`)
         return result;
     }
 
     getGroupsPostsById = async (id) => {
+        authenticate();
         const result = await authAxios.get(`/posts/${id}`)
         return result;
     }
 
     joinGroup = async (uid, gid) => {
+        authenticate();
         const result = await authAxios.post(`/${uid}/join/${gid}`)
         return result
     }
 
     leaveGroup = async (uid, gid) => {
+        authenticate();
         const result = await authAxios.delete(`/${uid}/leave/${gid}`)
         return result
     }

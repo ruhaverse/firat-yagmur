@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.b5e474c6.css",
-    "main.js": "/static/js/main.d8995ff4.js",
+    "main.js": "/static/js/main.bd0d9519.js",
     "static/media/abstract-technology-big-data-background-concept-motion-digital-data-flow-transferring-big-data-transfer-storage-data-sets-block-chain-server-hi-speed-internet.jpg": "/static/media/abstract-technology-big-data-background-concept-motion-digital-data-flow-transferring-big-data-transfer-storage-data-sets-block-chain-server-hi-speed-internet.2c0932ec7ea85a65a915.jpg",
     "static/media/dark-blue-studio-room-background.jpg": "/static/media/dark-blue-studio-room-background.923211bc56ff844cad0d.jpg",
     "static/media/Blue-Nightmare-Grunge-Background.jpg": "/static/media/Blue-Nightmare-Grunge-Background.41082e9c9a3f0ec12dc3.jpg",
@@ -54,10 +54,10 @@
     "static/media/logo.svg": "/static/media/logo.b2e5a01e505f739f1484b881277d5186.svg",
     "static/media/error.svg": "/static/media/error.7c64e0815b0dfbc661a7.svg",
     "main.b5e474c6.css.map": "/static/css/main.b5e474c6.css.map",
-    "main.d8995ff4.js.map": "/static/js/main.d8995ff4.js.map"
+    "main.bd0d9519.js.map": "/static/js/main.bd0d9519.js.map"
   },
   "entrypoints": [
     "static/css/main.b5e474c6.css",
-    "static/js/main.d8995ff4.js"
+    "static/js/main.bd0d9519.js"
   ]
 }

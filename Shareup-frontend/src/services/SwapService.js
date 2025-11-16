@@ -58,21 +58,25 @@ class SwapService {
     }
 
     createSwap = async (userId, formdata) => {
+        authenticate();
         const result = await authAxios.post(`swaps/${userId}`,formdata)
         return result
     }
 
     updateSwap = async (swapId, swap) => {
+        authenticate();
         const result = await authAxios.put(`swaps/${swapId}`, swap)
         return result;
     }
 
     deleteSwap = async (swapid) => {
+        authenticate();
         const result = await authAxios.delete(`swaps/${swapid}`)
         return result
     }
 
     addComment = async (userid, swapid, comment) => {
+        authenticate();
         const result = await authAxios.post(`comment/${userid}/${swapid}`, comment)
         return result
     }

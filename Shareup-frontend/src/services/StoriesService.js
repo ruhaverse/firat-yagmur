@@ -34,10 +34,12 @@ class StoriesService {
     }
 
     createStories = async (userId, formdata) => {
+        authenticate();
         const result = await authAxios.post(`Stories/${userId}`,formdata)
         return result
     }
     updateStories = async (storiesId, stories) => {
+        authenticate();
         const result = await authAxios.put(`stories/${storiesId}`, stories)
         return result;
     }

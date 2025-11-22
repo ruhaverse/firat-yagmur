@@ -1,36 +1,19 @@
-# Dependencies
 node_modules/
 package-lock.json
 yarn.lock
-
-# Build output
 build/
 dist/
 .next/
 out/
-
-# Coverage
 coverage/
 .nyc_output/
-
-# Cache
 .cache/
 .parcel-cache/
-
-# Logs
 *.log
-
-# OS
 .DS_Store
-
-# IDE
 .vscode/
 .idea/
-
-# Markdown auto-generated
 CHANGELOG.md
-
-# Assets
 *.png
 *.jpg
 *.jpeg
@@ -41,12 +24,8 @@ CHANGELOG.md
 *.woff2
 *.ttf
 *.eot
-
-# Generated files
 *.min.js
 *.min.css
-
-# Config files that should maintain specific formatting
 .gitignore
 .gitattributes
 .editorconfig

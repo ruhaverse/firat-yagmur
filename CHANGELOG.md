@@ -52,5 +52,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Production-ready codebase with 31,494+ lines of React code
 - Full-featured social platform (posts, stories, messaging, groups, etc.)
 - Shared backend API with mobile application at <www.shareuptime.com>
-
-

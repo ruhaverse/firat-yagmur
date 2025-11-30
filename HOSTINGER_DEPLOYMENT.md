@@ -61,7 +61,8 @@ npm run build
 Bu komut `build/` klasörü oluşturur (~112MB).
 
 **Build İçeriği:**
-```
+
+```text
 build/
 ├── asset-manifest.json
 ├── index.html
@@ -91,7 +92,8 @@ build/
 #### 2. Public_html Klasörüne Gidin
 
 Hostinger'da siteniz genellikle şu yolda:
-```
+
+```text
 /public_html/
 ```
 
@@ -99,12 +101,13 @@ Hostinger'da siteniz genellikle şu yolda:
 
 **ÖNEMLİ:** `build/` klasörünün **içindeki** dosyaları upload edin, klasörün kendisini değil!
 
-```
+```text
 Yerel:          /Shareup-frontend/build/*
 Hostinger:      /public_html/
 ```
 
 **Upload edilecek dosyalar:**
+
 - `index.html`
 - `asset-manifest.json`
 - `static/` klasörü (tümüyle)
@@ -216,7 +219,7 @@ https://shareuptime.com
 - [ ] CSS ve JavaScript dosyaları yükleniyor mu?
 - [ ] Resimler görünüyor mu?
 - [ ] React Router çalışıyor mu? (URL değişimlerinde sayfa yenilenmemeli)
-- [ ] API bağlantısı çalışıyor mu? (www.shareuptime.com)
+- [ ] API bağlantısı çalışıyor mu? (<https://www.shareuptime.com>)
 - [ ] HTTPS yönlendirme çalışıyor mu?
 - [ ] Console'da hata var mı? (F12 → Console)
 - [ ] Network tab'da 404 hatası var mı? (F12 → Network)
@@ -224,7 +227,8 @@ https://shareuptime.com
 ### 4.3 Performance Test
 
 Chrome DevTools → Lighthouse ile test:
-```
+
+```text
 - Performance: 70+
 - Accessibility: 80+
 - Best Practices: 80+
@@ -240,6 +244,7 @@ Chrome DevTools → Lighthouse ile test:
 **Sebep:** JavaScript dosyaları yüklenmiyor
 
 **Çözüm:**
+
 1. `.htaccess` dosyasını kontrol et
 2. `index.html` içindeki path'leri kontrol et
 3. Browser cache'i temizle (Ctrl+Shift+Delete)
@@ -256,6 +261,7 @@ chmod 755 public_html/static
 **Sebep:** `.htaccess` RewriteRule çalışmıyor
 
 **Çözüm:**
+
 1. `.htaccess` dosyasının varlığını kontrol et
 2. Apache `mod_rewrite` modülü aktif mi kontrol et
 3. Hostinger desteğinden `AllowOverride All` ayarını kontrol et
@@ -265,6 +271,7 @@ chmod 755 public_html/static
 **Sebep:** CORS veya backend erişim sorunu
 
 **Çözüm:**
+
 1. `.env` dosyasında `REACT_APP_API_URL` doğru mu?
 2. Backend CORS ayarları frontend domain'ini içeriyor mu?
 3. Backend erişilebilir mi? (curl test)
@@ -278,6 +285,7 @@ curl -I https://www.shareuptime.com/api/v1/
 **Sebep:** Dosya izinleri veya path hataları
 
 **Çözüm:**
+
 ```bash
 # SSH ile tüm dosya izinlerini düzelt
 cd ~/public_html
@@ -288,6 +296,7 @@ find . -type d -exec chmod 755 {} \;
 ### Sorun 5: Cache Problemi
 
 **Çözüm:**
+
 ```bash
 # Yeni build'de versiyon değiştir
 # package.json içinde version'u artır
@@ -353,7 +362,7 @@ GitHub Actions ile otomatik deployment için:
 
 ### Deployment Sonrası
 
-- [ ] Site erişim testi (https://shareuptime.com)
+- [ ] Site erişim testi (<https://shareuptime.com>)
 - [ ] React Router testi (URL değişimleri)
 - [ ] API bağlantı testi
 - [ ] Images/Fonts yükleme testi
@@ -379,6 +388,7 @@ mv backup-*.tar.gz ~/backups/
 ### 2. Use Version Control
 
 Build hash'leri ile versiyonlama:
+
 - `main.d877fd53.js` → unique hash her build'de
 - Browser cache problemi olmaz
 
@@ -408,8 +418,8 @@ Build hash'leri ile versiyonlama:
 ### Hostinger Destek
 
 - Live Chat: 7/24 aktif
-- Email: support@hostinger.com
-- Knowledge Base: https://support.hostinger.com
+- Email: <support@hostinger.com>
+- Knowledge Base: <https://support.hostinger.com>
 
 ### Proje Destek
 
@@ -437,6 +447,7 @@ curl https://www.shareuptime.com/api/v1/
 ```
 
 **Expected Results:**
+
 - HTTP 200 OK
 - HTTPS redirect working
 - Static files loading
@@ -444,7 +455,7 @@ curl https://www.shareuptime.com/api/v1/
 
 ---
 
-**Deployment Complete! 🎉**
+## Deployment Complete! 🎉
 
 ShareUpTime website artık Hostinger'da canlı!
 

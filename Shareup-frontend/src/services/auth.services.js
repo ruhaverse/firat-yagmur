@@ -2,7 +2,6 @@ import axios from "axios";
 import settings from "./Settings";
 
 const my_api = `${settings.apiUrl}/api/v1/users`;
-let authAxios = null;
 
 class AuthService {
   /**

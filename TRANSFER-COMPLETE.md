@@ -344,4 +344,6 @@ All website components have been successfully transferred to this repository whi
 
 ---
 
-**Congratulations! The ShareUpTime website has been successfully transferred to your repository. Happy coding! 🚀**
+## Congratulations
+
+The ShareUpTime website has been successfully transferred to your repository. Happy coding! 🚀

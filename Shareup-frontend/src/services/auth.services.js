@@ -11,15 +11,54 @@ class AuthService {
    * @returns {Promise} API response
    */
   login = async (username, password) => {
-    const response = await axios.post(my_api + "/authenticate", {
-      username,
+    const response = await axios.post(my_api + "/login", {
+      email: username,
       password,
     });
     
-    if (response.data.jwt) {
+    if (response.data.data && response.data.data.token) {
       // Store token with metadata for validation
       const tokenData = {
-        ...response.data,
+        jwt: response.data.data.token,
+        username: response.data.data.user.email,
+        user: response.data.data.user,
+        timestamp: Date.now(),
+        expiresIn: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
+      };
+      
+      try {
+        localStorage.setItem("user", JSON.stringify(tokenData));
+      } catch (error) {
+        console.error("Failed to store auth data:", error);
+        throw new Error("Authentication storage failed");
+      }
+    }
+    
+    return response;
+  };
+
+  /**
+   * Register new user
+   * @param {string} email - User email
+   * @param {string} password - User password
+   * @param {string} firstName - User first name
+   * @param {string} lastName - User last name
+   * @returns {Promise} API response
+   */
+  register = async (email, password, firstName = '', lastName = '') => {
+    const response = await axios.post(my_api + "/register", {
+      email,
+      password,
+      firstName,
+      lastName,
+    });
+    
+    if (response.data.data && response.data.data.token) {
+      // Store token with metadata for validation
+      const tokenData = {
+        jwt: response.data.data.token,
+        username: response.data.data.user.email,
+        user: response.data.data.user,
         timestamp: Date.now(),
         expiresIn: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
       };

@@ -64,7 +64,7 @@ class UserService {
     getUserByEmail = async (email) => {
         try {
             authenticate();
-            const result = await authAxios.get(`users/email/${email}`)
+            const result = await authAxios.get(`users/${email}`)
             return result;
         } catch (error) {
             logger.error('UserService.getUserByEmail failed:', error);

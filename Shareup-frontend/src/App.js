@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
 import './App.css';
 import './css/main.min.css';
 import './css/style.css';
@@ -15,11 +13,8 @@ import './css/globals.css';
 import './css/emojionearea.min.css';
 import AuthService from './services/auth.services'
 
-import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
-
-import { BrowserRouter as Router, Route, Switch, useHistory } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import HeaderComponent from './components/dashboard/HeaderComponent';
-import FooterComponent from './components/dashboard/FooterComponent';
 import AddFriendsComponent from './components/user/AddFriendsComponent';
 import FriendsComponent from './components/user/FriendsComponent';
 import NewsfeedComponent from './components/user/NewsfeedComponent';
@@ -34,9 +29,7 @@ import AboutComponent from './components/user/AboutComponent';
 import PrivacyPolicyComponent from './components/user/PrivacyPolicyComponent';
 import { testScript } from './js/script';
 import ProtectedRoute from './components/ProtectedRoute';
-import CreateGroupComponent from './components/group/CreateGroupComponent';
 import OtherProfileComponent from './components/user/OtherProfileComponent';
-import RegisterSuccessfulComponent from './components/user/RegisterSuccessfulComponent';
 import CreateGroupComponentMain from './components/group/CreateGroupComponentMain';
 import GuideComponent from './components/user/GuideComponent';
 import NotificationChatComponent from './components/user/NotificationChatComponent';
@@ -69,7 +62,6 @@ import Giphy from './components/Giphy';
 // import StoriesComponentMain from './components/Stories/StoriesComponent';
 function App() {
   testScript()
-  const history = useHistory();
 
   const [jwtUser, setJwtUser] = useState(AuthService.getCurrentUser())
   const [user, setUser] = useState([])
@@ -92,10 +84,6 @@ function App() {
   // useEffect(() => {
   //   AuthService.setCurrentUser(jwtUser)
   // }, []);
-  
-  const logout = () => {
-    AuthService.logout();
-  }
 
 Giphy();
 
@@ -127,7 +115,6 @@ Giphy();
           <ProtectedRoute path="/chat" component={ChatComponent}></ProtectedRoute>
           <ProtectedRoute path="/messages" component={MessagesComponent}></ProtectedRoute>
           {/* <ProtectedRoute path="/swappoint" component={SwappointComponent}></ProtectedRoute> */}
-		  <ProtectedRoute path="/shareFeed" component={ShareFeedComponent}></ProtectedRoute>
       <ProtectedRoute path="/share" component={ShareItemComponent}></ProtectedRoute>
       <ProtectedRoute path="/Activity" component={ActivityComponent}></ProtectedRoute>
       <ProtectedRoute path="/Security" component={SecuritySettingsComponent}></ProtectedRoute>

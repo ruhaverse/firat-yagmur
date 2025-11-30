@@ -1,20 +1,12 @@
-import React, { Component } from 'react';
-import { useHistory } from "react-router-dom";
-import AuthService from '../../services/auth.services';
+import React from 'react';
 
 function HeaderComponent() {
-  const history = useHistory();
-
-  const handleLogout = () => {
-    AuthService.logout()
-    history.push("/")
-  }
 
     return (
       <div className="responsive-header">
           <div className="mh-head first Sticky">
             <span className="mh-btns-left"> <a className="menu" href="#menu"><i className="fa fa-align-justify" /></a>
-            </span> <span className="mh-text"> <a href="newsfeed.html" title="#"><img src='./assets/images/shareup.png' width={300} alt="" /></a>
+            </span> <span className="mh-text"> <a href="/newsfeed" title="#"><img src='/assets/images/shareup.png' width={300} alt="ShareUp" /></a>
             </span>
           </div>
           <div className="mh-head second">

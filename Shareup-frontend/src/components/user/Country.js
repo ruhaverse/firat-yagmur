@@ -12,13 +12,11 @@ function selectCountry(val){
 
     setCountry(val)
     setCurrentTown(val)
-    console.log("working baaaaaaaaaaaa")
 }
 function selectRegion(val){
 
     setRegion(val)
     setHomeTown(val)
-    console.log("working baaaaaaaaaaaa vvvvvvvvvv")
 
 }
 

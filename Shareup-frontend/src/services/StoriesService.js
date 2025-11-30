@@ -1,6 +1,7 @@
 import axios from 'axios';
 import AuthService from './auth.services';
 import settings from "./Settings";
+import logger from '../utils/logger';
 
 let authAxios = null;
 const baseurl=`${settings.apiUrl}/api/v1/`
@@ -23,28 +24,48 @@ authenticate();
 
 class StoriesService {
     getStories = async () => {
-        authenticate();
-        const result = await authAxios.get('stories/')
-        return result;
+        try {
+            authenticate();
+            const result = await authAxios.get('stories/')
+            return result;
+        } catch (error) {
+            logger.error('StoriesService.getStories failed:', error);
+            throw error;
+        }
     }
+    
     getStoriesForUser = async (email) => {
-        authenticate();
-        const result = await authAxios.get(`stories/${email}`)
-        return result;
+        try {
+            authenticate();
+            const result = await authAxios.get(`stories/${email}`)
+            return result;
+        } catch (error) {
+            logger.error('StoriesService.getStoriesForUser failed:', error);
+            throw error;
+        }
     }
 
     createStories = async (userId, formdata) => {
-        authenticate();
-        const result = await authAxios.post(`Stories/${userId}`,formdata)
-        return result
+        try {
+            authenticate();
+            const result = await authAxios.post(`Stories/${userId}`,formdata)
+            return result
+        } catch (error) {
+            logger.error('StoriesService.createStories failed:', error);
+            throw error;
+        }
     }
-    updateStories = async (storiesId, stories) => {
-        authenticate();
-        const result = await authAxios.put(`stories/${storiesId}`, stories)
-        return result;
-    }
-
     
+    updateStories = async (storiesId, stories) => {
+        try {
+            authenticate();
+            const result = await authAxios.put(`stories/${storiesId}`, stories)
+            return result;
+        } catch (error) {
+            logger.error('StoriesService.updateStories failed:', error);
+            throw error;
+        }
+    }
 }
 
 export default new StoriesService();

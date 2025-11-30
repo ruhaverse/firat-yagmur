@@ -1,6 +1,7 @@
 import axios from 'axios';
 import AuthService from './auth.services';
 import settings from "./Settings";
+import logger from '../utils/logger';
 
 let authAxios = null;
 const baseurl=`${settings.apiUrl}/api/v1/`
@@ -24,33 +25,48 @@ authenticate();
 class ReelsServices {
     
     createReels = async (userId, formdata) => {
-        authenticate();
-        const result = await authAxios.post(`/reels/web/${userId}`,formdata)
-        return result
+        try {
+            authenticate();
+            const result = await authAxios.post(`/reels/web/${userId}`,formdata)
+            return result
+        } catch (error) {
+            logger.error('ReelsServices.createReels failed:', error);
+            throw error;
+        }
     }
 
-
-
     getReelForUser = async (email) => {
-        authenticate();
-        const result = await authAxios.get(`reel/user/${email}`)
-        return result;
+        try {
+            authenticate();
+            const result = await authAxios.get(`reel/user/${email}`)
+            return result;
+        } catch (error) {
+            logger.error('ReelsServices.getReelForUser failed:', error);
+            throw error;
+        }
     }
 
     getPreviewReel = async () => {
-        authenticate();
-        const result = await authAxios.get(`/last/reels`)
-        return result;
+        try {
+            authenticate();
+            const result = await authAxios.get(`/last/reels`)
+            return result;
+        } catch (error) {
+            logger.error('ReelsServices.getPreviewReel failed:', error);
+            throw error;
+        }
     }
 
     getAllReels = async () => {
-        authenticate();
-        const result = await authAxios.get(`reels`)
-        return result;
+        try {
+            authenticate();
+            const result = await authAxios.get(`reels`)
+            return result;
+        } catch (error) {
+            logger.error('ReelsServices.getAllReels failed:', error);
+            throw error;
+        }
     }
-
-
-    
 }
 
 export default new ReelsServices();

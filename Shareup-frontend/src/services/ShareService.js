@@ -1,6 +1,7 @@
 import axios from 'axios';
 import AuthService from './auth.services';
 import settings from "./Settings";
+import logger from '../utils/logger';
 
 let authAxios = null;
 const baseurl=`${settings.apiUrl}/api/v1/`
@@ -25,54 +26,48 @@ authenticate();
 
 class ShareService {
     getShare = async () => {
-        authenticate();
-        const result = await authAxios.get('/share')
-        return result;
+        try {
+            authenticate();
+            const result = await authAxios.get('/share')
+            return result;
+        } catch (error) {
+            logger.error('ShareService.getShare failed:', error);
+            throw error;
+        }
     }
 
-    // getPostForUser = async (id) => {
-    //     authenticate();
-    //     const result = await authAxios.get(`posts/${id}`)
-    //     return result;
-    // }
-
     getShareForUser = async (email) => {
-        authenticate();
-        const result = await authAxios.get(`share/email/${email}`)
-        return result;
+        try {
+            authenticate();
+            const result = await authAxios.get(`share/email/${email}`)
+            return result;
+        } catch (error) {
+            logger.error('ShareService.getShareForUser failed:', error);
+            throw error;
+        }
     }
 
     getSavedShareForUser = async (email) => {
-        authenticate();
-        const result = await authAxios.get(`share/${email}/saved_share`)
-        return result;
+        try {
+            authenticate();
+            const result = await authAxios.get(`share/${email}/saved_share`)
+            return result;
+        } catch (error) {
+            logger.error('ShareService.getSavedShareForUser failed:', error);
+            throw error;
+        }
     }
 
     createShare = async (userId,postid, formdata) => {
-        authenticate();
-        const result = await authAxios.post(`share/${userId}/${postid}`,formdata)
-        return result
+        try {
+            authenticate();
+            const result = await authAxios.post(`share/${userId}/${postid}`,formdata)
+            return result
+        } catch (error) {
+            logger.error('ShareService.createShare failed:', error);
+            throw error;
+        }
     }
-
-    // updateSwap = async (swapId, swap) => {
-    //     const result = await authAxios.put(`swaps/${swapId}`, swap)
-    //     return result;
-    // }
-
-    // deleteSwap = async (swapid) => {
-    //     const result = await authAxios.delete(`swaps/${swapid}`)
-    //     return result
-    // }
-
-    // addComment = async (userid, swapid, comment) => {
-    //     const result = await authAxios.post(`comment/${userid}/${swapid}`, comment)
-    //     return result
-    // }
-
-    // deleteComment = async (commentid) => {
-    //     const result = await authAxios.delete(`comment/${commentid}`)
-    //     return result
-    // }
 }
 
 export default new ShareService();

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import AuthService from './auth.services';
 import settings from "./Settings";
+import logger from '../utils/logger';
 
 const EMPLOYEE_API_BASE_URL = `${settings.apiUrl}`;
 let authAxios = null;
@@ -23,31 +24,54 @@ authenticate();
 
 class EmployeeService {
     getEmployees = async () => {
-        authenticate();
-        const result = await authAxios.get('/');
-        return result;
-        // return axios.get(EMPLOYEE_API_BASE_URL)
+        try {
+            authenticate();
+            const result = await authAxios.get('/');
+            return result;
+        } catch (error) {
+            logger.error('EmployeeService.getEmployees failed:', error);
+            throw error;
+        }
     }
 
     createEmployee = async (employee) => {
-        const result = await authAxios.post('/', employee)
-        return result;
+        try {
+            const result = await authAxios.post('/', employee)
+            return result;
+        } catch (error) {
+            logger.error('EmployeeService.createEmployee failed:', error);
+            throw error;
+        }
     }
 
     getEmployeeById = async (employeeId) => {
-        const result = await authAxios.get('/'+ employeeId)
-        return result;
+        try {
+            const result = await authAxios.get('/'+ employeeId)
+            return result;
+        } catch (error) {
+            logger.error('EmployeeService.getEmployeeById failed:', error);
+            throw error;
+        }
     }
 
     updateEmployee = async (employee, employeeId) => {
-        const result = await authAxios.put(employeeId, employee)
-        return result;
+        try {
+            const result = await authAxios.put(employeeId, employee)
+            return result;
+        } catch (error) {
+            logger.error('EmployeeService.updateEmployee failed:', error);
+            throw error;
+        }
     }
 
     deleteEmployee = async (employeeId) => {
-        const result = await authAxios.delete('/'+ employeeId)
-        return result;
-        // return axios.delete(EMPLOYEE_API_BASE_URL + '/' + employeeId);
+        try {
+            const result = await authAxios.delete('/'+ employeeId)
+            return result;
+        } catch (error) {
+            logger.error('EmployeeService.deleteEmployee failed:', error);
+            throw error;
+        }
     }
 }
 

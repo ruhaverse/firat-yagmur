@@ -1,24 +1,46 @@
 import axios from 'axios';
-import authHeader from '.auth-header';
+import authHeader from './auth-header';
+import settings from './Settings';
+import logger from '../utils/logger';
 
 const USER_API_BASE_URL = `${settings.apiUrl}/api/v1/test`;
 
 class UserService {
     getPublicContent() {
-        return axios.get(USER_API_BASE_URL + 'all')
+        try {
+            return axios.get(USER_API_BASE_URL + 'all')
+        } catch (error) {
+            logger.error('UserService.getPublicContent failed:', error);
+            throw error;
+        }
     }
 
     getUserBoard() {
-        return axios.get(USER_API_BASE_URL + 'user', {headers: authHeader()});
+        try {
+            return axios.get(USER_API_BASE_URL + 'user', {headers: authHeader()});
+        } catch (error) {
+            logger.error('UserService.getUserBoard failed:', error);
+            throw error;
+        }
     }
 
     getModeratorBoard() {
-        return axios.get(USER_API_BASE_URL + 'mod', {headers: authHeader()});
+        try {
+            return axios.get(USER_API_BASE_URL + 'mod', {headers: authHeader()});
+        } catch (error) {
+            logger.error('UserService.getModeratorBoard failed:', error);
+            throw error;
+        }
     }
 
     getAdminBoard() {
-        return axios.get(USER_API_BASE_URL + 'admin', {headers: authHeader()});
+        try {
+            return axios.get(USER_API_BASE_URL + 'admin', {headers: authHeader()});
+        } catch (error) {
+            logger.error('UserService.getAdminBoard failed:', error);
+            throw error;
+        }
     }
 }
 
-export default UserService();
+export default new UserService();

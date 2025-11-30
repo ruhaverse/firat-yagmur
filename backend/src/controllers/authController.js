@@ -1,13 +1,11 @@
 const db = require('../config/db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-const path = require('path');
+const { getConfig } = require('../config/env');
 
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
-
-const JWT_SECRET = process.env.JWT_SECRET || 'secret';
-const SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS || '10', 10);
+const config = getConfig();
+const JWT_SECRET = config.jwtSecret;
+const SALT_ROUNDS = config.saltRounds;
 
 function sanitizeUser(row) {
   if (!row) return null;

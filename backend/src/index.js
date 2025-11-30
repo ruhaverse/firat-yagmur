@@ -1,21 +1,21 @@
 
 const express = require('express');
 const cors = require('cors');
-const dotenv = require('dotenv');
-const path = require('path');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const logger = require('./utils/logger');
+const { getConfig } = require('./config/env');
 
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
+// Validate and load environment configuration
+const config = getConfig();
 const app = express();
 
-const PORT = process.env.PORT || 8080;
-const API_BASE = process.env.API_BASE || '/api/v1';
+const PORT = config.port;
+const API_BASE = config.apiBase;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
+app.use(cors({ origin: config.corsOrigin }));
 
 // Security middlewares
 app.use(helmet());

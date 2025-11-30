@@ -1,6 +1,7 @@
 import axios from 'axios';
 import AuthService from './auth.services';
 import settings from "./Settings";
+import logger from '../utils/logger';
 
 const USER_API_BASE_URL =  `${settings.apiUrl}/api/v1/groups`
 let authAxios = null;
@@ -24,45 +25,80 @@ authenticate();
 
 class GroupService {
     createGroup = async (uid, formdata) => {
-        authenticate();
-        const result = await authAxios.post(`/${uid}/create`,formdata)
-        return result;
+        try {
+            authenticate();
+            const result = await authAxios.post(`/${uid}/create`,formdata)
+            return result;
+        } catch (error) {
+            logger.error('GroupService.createGroup failed:', error);
+            throw error;
+        }
     }
 
     getAllGroups = async () => {
-        authenticate();
-        const result = await authAxios.get('')
-        return result;
+        try {
+            authenticate();
+            const result = await authAxios.get('')
+            return result;
+        } catch (error) {
+            logger.error('GroupService.getAllGroups failed:', error);
+            throw error;
+        }
     }
 
     getGroupById = async (id) => {
-        authenticate();
-        const result = await authAxios.get(`/id/${id}`)
-        return result;
+        try {
+            authenticate();
+            const result = await authAxios.get(`/id/${id}`)
+            return result;
+        } catch (error) {
+            logger.error('GroupService.getGroupById failed:', error);
+            throw error;
+        }
     }
 
     getGroupByCurrentUser = async (email) => {
-        authenticate();
-        const result = await authAxios.get(`/email/${email}`)
-        return result;
+        try {
+            authenticate();
+            const result = await authAxios.get(`/email/${email}`)
+            return result;
+        } catch (error) {
+            logger.error('GroupService.getGroupByCurrentUser failed:', error);
+            throw error;
+        }
     }
 
     getGroupsPostsById = async (id) => {
-        authenticate();
-        const result = await authAxios.get(`/posts/${id}`)
-        return result;
+        try {
+            authenticate();
+            const result = await authAxios.get(`/posts/${id}`)
+            return result;
+        } catch (error) {
+            logger.error('GroupService.getGroupsPostsById failed:', error);
+            throw error;
+        }
     }
 
     joinGroup = async (uid, gid) => {
-        authenticate();
-        const result = await authAxios.post(`/${uid}/join/${gid}`)
-        return result
+        try {
+            authenticate();
+            const result = await authAxios.post(`/${uid}/join/${gid}`)
+            return result
+        } catch (error) {
+            logger.error('GroupService.joinGroup failed:', error);
+            throw error;
+        }
     }
 
     leaveGroup = async (uid, gid) => {
-        authenticate();
-        const result = await authAxios.delete(`/${uid}/leave/${gid}`)
-        return result
+        try {
+            authenticate();
+            const result = await authAxios.delete(`/${uid}/leave/${gid}`)
+            return result
+        } catch (error) {
+            logger.error('GroupService.leaveGroup failed:', error);
+            throw error;
+        }
     }
 }
 

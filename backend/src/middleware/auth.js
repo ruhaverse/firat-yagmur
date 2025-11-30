@@ -1,9 +1,8 @@
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-const path = require('path');
+const { getConfig } = require('../config/env');
 
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
-const JWT_SECRET = process.env.JWT_SECRET || 'secret';
+const config = getConfig();
+const JWT_SECRET = config.jwtSecret;
 
 function requireAuth(req, res, next) {
   const auth = req.headers.authorization;

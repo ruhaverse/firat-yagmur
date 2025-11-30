@@ -5,6 +5,7 @@ Son güncelleme: 2025-11-30
 ## ✅ Backend Hazırlık
 
 ### 1. Kod Kalitesi
+
 - [x] Tüm dosyalar syntax kontrolünden geçti
 - [x] Input validation eklendi (email, password, content)
 - [x] SQL injection koruması (parametreli sorgular)
@@ -15,6 +16,7 @@ Son güncelleme: 2025-11-30
 - [x] CORS yapılandırması tamamlandı
 
 ### 2. Database
+
 - [x] Migration dosyası hazır (`npm run migrate`)
 - [x] Tüm tablolar tanımlandı (users, posts, reels, comments, likes, friendships, followers)
 - [x] Foreign key ilişkileri kuruldu
@@ -22,6 +24,7 @@ Son güncelleme: 2025-11-30
 - [ ] Database backup stratejisi belirlendi
 
 ### 3. Güvenlik
+
 - [x] JWT_SECRET strong bir değer ile değiştirildi
 - [x] BCRYPT_SALT_ROUNDS = 10
 - [x] Password minimum 8 karakter
@@ -30,6 +33,7 @@ Son güncelleme: 2025-11-30
 - [ ] Environment variables güvenli saklanıyor
 
 ### 4. Environment Variables
+
 ```bash
 # .env dosyasında olması gerekenler:
 PORT=8080
@@ -43,6 +47,7 @@ FILE_BASE_URL=https://shareuptime.com
 ```
 
 ### 5. API Endpoints Durumu
+
 - [x] POST /api/v1/users/register - Kayıt
 - [x] POST /api/v1/users/login - Giriş
 - [x] GET /api/v1/users/:email - Kullanıcı bilgisi
@@ -57,7 +62,8 @@ FILE_BASE_URL=https://shareuptime.com
 
 ## ✅ Frontend Hazırlık
 
-### 1. Kod Kalitesi
+### 1. Frontend Kod Kalitesi
+
 - [x] AuthService endpoint'leri güncellendi
 - [x] UserService endpoint düzeltildi
 - [x] Logger utility hazır
@@ -65,19 +71,22 @@ FILE_BASE_URL=https://shareuptime.com
 - [ ] Console.log'lar temizlendi (production için)
 - [ ] Unused imports temizlendi
 
-### 2. Build
+### 2. Build Process
+
 ```bash
 # Production build komutu
 cd Shareup-frontend
 npm run build
 ```
 
-### 3. Environment
+### 3. Frontend Environment
+
 - [x] Settings.js production API kullanıyor
 - [x] CORS origin ayarlandı
 - [ ] .env dosyası production için hazır
 
-### 4. Performance
+### 4. Performance Optimization
+
 - [ ] Image optimization yapıldı
 - [ ] Lazy loading eklendi
 - [ ] Code splitting kontrol edildi
@@ -86,19 +95,22 @@ npm run build
 ## ✅ Docker Deployment
 
 ### 1. Backend Docker
+
 ```bash
 cd backend
 docker build -t shareup-backend:latest .
 docker-compose up -d
 ```
 
-### 2. Database
+### 2. Docker Database
+
 ```bash
 # Migration çalıştır
 docker-compose exec backend npm run migrate
 ```
 
-### 3. Kontroller
+### 3. Docker Kontroller
+
 ```bash
 # Backend çalışıyor mu?
 curl http://localhost:8080
@@ -113,6 +125,7 @@ docker-compose logs backend
 ## ✅ Hostinger Deployment
 
 ### 1. Backend Deployment
+
 - [ ] Dosyaları upload et
 - [ ] npm install çalıştır
 - [ ] .env dosyasını oluştur
@@ -121,17 +134,20 @@ docker-compose logs backend
 - [ ] npm start veya PM2 ile başlat
 
 ### 2. Frontend Deployment
+
 - [ ] npm run build çalıştır
 - [ ] build/ klasörünü public_html'e upload et
 - [ ] .htaccess dosyasını kontrol et (React Router için)
 
-### 3. Database
+### 3. Production Database
+
 - [ ] PostgreSQL database oluştur
 - [ ] Kullanıcı ve şifre belirle
 - [ ] DATABASE_URL'i güncelle
 - [ ] Migration çalıştır
 
-### 4. SSL/HTTPS
+### 4. SSL and HTTPS
+
 - [ ] SSL sertifikası aktif
 - [ ] HTTP → HTTPS yönlendirmesi
 - [ ] Mixed content uyarıları yok
@@ -139,6 +155,7 @@ docker-compose logs backend
 ## ✅ Post-Deployment Tests
 
 ### Backend API Tests
+
 ```bash
 # Health check
 curl https://www.shareuptime.com
@@ -161,6 +178,7 @@ curl https://www.shareuptime.com/api/v1/reels
 ```
 
 ### Frontend Tests
+
 - [ ] Ana sayfa yükleniyor
 - [ ] Login formu çalışıyor
 - [ ] Register formu çalışıyor
@@ -172,23 +190,27 @@ curl https://www.shareuptime.com/api/v1/reels
 
 ## ✅ Monitoring & Maintenance
 
-### 1. Logs
+### 1. Log Management
+
 - [ ] Backend log sistemi aktif
 - [ ] Error tracking (örn: Sentry)
 - [ ] Access logs
 
-### 2. Backup
+### 2. Backup Strategy
+
 - [ ] Database günlük backup
 - [ ] Uploaded files backup
 - [ ] .env dosyası backup
 
-### 3. Performance
+### 3. Performance Monitoring
+
 - [ ] API response times monitör edilecek
 - [ ] Database query performance
 - [ ] Memory usage
 - [ ] Disk space
 
-### 4. Security
+### 4. Security Monitoring
+
 - [ ] Dependency güncellemeleri düzenli kontrol
 - [ ] Security patches
 - [ ] Rate limiting monitör
@@ -196,7 +218,8 @@ curl https://www.shareuptime.com/api/v1/reels
 
 ## 🔧 Bilinen İyileştirmeler
 
-### Backend
+### Backend Improvements
+
 - [ ] Refresh token mekanizması ekle
 - [ ] Email verification sistemi
 - [ ] Password reset özelliği
@@ -209,7 +232,8 @@ curl https://www.shareuptime.com/api/v1/reels
 - [ ] Unit tests
 - [ ] Integration tests
 
-### Frontend
+### Frontend Improvements
+
 - [ ] Progressive Web App (PWA) özelliği
 - [ ] Offline support
 - [ ] Push notifications
@@ -228,10 +252,10 @@ curl https://www.shareuptime.com/api/v1/reels
 
 ## 🔗 Önemli Linkler
 
-- Production: https://www.shareuptime.com
-- Staging: https://staging.shareuptime.com (varsa)
+- Production: <https://www.shareuptime.com>
+- Staging: <https://staging.shareuptime.com> (varsa)
 - API Docs: [Link]
-- GitHub Repo: https://github.com/ruhaverse/firat-yagmur
+- GitHub Repo: <https://github.com/ruhaverse/firat-yagmur>
 - Monitoring Dashboard: [Link]
 
 ---

@@ -8,7 +8,7 @@ function AboutComponent() {
         <div className="container-about pdng0">
           <div className="topbarLand transparent">
             <div className="logo">
-              <a title href="/"><img src="/assets/images/New_Shareup_White.png" alt="" /></a>
+              <a title href="/"><img src="/assets/images/New_Shareup_White.png" alt="ShareUpTime" /></a>
             </div>
             <div className="top-area-land">
               <ul className="setting-area">
@@ -29,7 +29,7 @@ function AboutComponent() {
           <div className="mainContnr">
             <div className="about-area">
               <div className="about-meta">
-                <p>Shareup, a space for you with trust love care and privacy</p>
+                <p>ShareUpTime, a space for you with trust love care and privacy</p>
               </div>
             </div>
 
@@ -42,7 +42,7 @@ function AboutComponent() {
                 <img width="150px" src="/assets/images/cyber-security-illustration-lock-symbol-scatter-blue-light-pixel-data-dark-background-presentation_115968-6.jpg" alt="img" />
               </div>
               <div style={{ textAlign: 'center' }}>
-                <p className="feature">ShareUp never spam you. Provide secure
+                <p className="feature">ShareUpTime never spam you. Provide secure
                   platform for sharing.</p>
               </div>
             </div>
@@ -52,7 +52,7 @@ function AboutComponent() {
               </div>
               <div style={{ textAlign: 'center' }}>
 
-                <p className="feature">No more Prying eyes! SHAREUP will cover
+                <p className="feature">No more Prying eyes! SHAREUPTIME will cover
                   you.</p>
               </div>
             </div>
@@ -77,7 +77,7 @@ function AboutComponent() {
           </div>
         </div>
         <div className="row shareup">
-          <h2 className="heading">ShareUp Story</h2>
+          <h2 className="heading">ShareUpTime Story</h2>
           <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
             <div className="about-img">
               
@@ -88,11 +88,11 @@ function AboutComponent() {
           <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
             <div className="container">
               <div className="about-story">
-                <p className="shareup-text">ShareUp started in Qatar(Middle East) with the aim of being the most private and secure social media in the world. Our founder Mr. Firat Yagmur came up with a wonderful and unique idea of  sharing platform where people can connect from heart to heart.
+                <p className="shareup-text">ShareUpTime started in Qatar(Middle East) with the aim of being the most private and secure social media in the world. Our founder Mr. Firat Yagmur came up with a wonderful and unique idea of  sharing platform where people can connect from heart to heart.
 
                 More than that, it is secure and protects your privacy with the most  trending technology we use.
 
-We provide you most private and secure social media platform. Your data is our concern. You Share, we share and everyone share. Let’s share without fear. You are our concern, not our target.</p>
+We provide you most private and secure social media platform. Your data is our concern. You Share, we share and everyone share. Let's share without fear. You are our concern, not our target.</p>
               </div>
             </div>
 

@@ -284,7 +284,7 @@ export default function ChatTestComponent() {
               showField === "editname" ?<p className="secrtyEdt active" onClick={() => setshowField('notif')}>Edit</p>:
               <p className="secrtyEdt" onClick={() => setshowField('notif')}>Edit</p>}</li>
                   {notif()}
-                  <li><p className="secrtySec">Choose 3 to 5 friends to contact if you get locked out<br/><span className="scnd">Your trusted contacts can send a code and URL from ShareUp to help you log back in</span></p>
+                  <li><p className="secrtySec">Choose 3 to 5 friends to contact if you get locked out<br/><span className="scnd">Your trusted contacts can send a code and URL from ShareUpTime to help you log back in</span></p>
                   {
               showField === "editname" ?<p className="secrtyEdt active" onClick={() => setshowField('frndSrch')}>Edit</p>:
               <p className="secrtyEdt" onClick={() => setshowField('frndSrch')}>Edit</p>}</li>

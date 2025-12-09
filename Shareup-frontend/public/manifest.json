@@ -1,7 +1,7 @@
 {
-  "short_name": "Shareup",
-  "name": "Shareup - Social Media Platform",
-  "description": "Connect, share, and engage with friends on Shareup at www.shareuptime.com",
+  "short_name": "ShareUpTime",
+  "name": "ShareUpTime - Social Media Platform",
+  "description": "Connect, share, and engage with friends on ShareUpTime at www.shareuptime.com",
   "icons": [
     {
       "src": "favicon.ico",

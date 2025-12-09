@@ -1356,7 +1356,7 @@ function PostTextBoxComponent() {
                                 color: "#525050",
                               }}
                             >
-                              your shareup friends
+                              your ShareUpTime friends
                             </p>
                           </div>
 

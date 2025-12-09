@@ -15,7 +15,7 @@ function PrivacyPolicyComponent() {
             <div className="container-privacy pdng0">
               <div className="topbar transparent">
                 <div className="logo">
-                  <a title href="/"><img src="/assets/images/New_Shareup_White.png" alt="" /></a>
+                  <a title href="/"><img src="/assets/images/New_Shareup_White.png" alt="ShareUpTime" /></a>
                 </div>
                 <div className="top-area-land">
                   <ul className="setting-area">
@@ -34,7 +34,7 @@ function PrivacyPolicyComponent() {
                 </div>
               </div>
               <div className="policy">
-              <h2 style={{color:"aquamarine", fontSize:"40px", fontWeight:"bold", textDecoration:"none" , textDecorationLine: 'underline' }} >SHAREUP's Privacy Bill of Rights</h2>
+              <h2 style={{color:"aquamarine", fontSize:"40px", fontWeight:"bold", textDecoration:"none" , textDecorationLine: 'underline' }} >SHAREUPTIME's Privacy Bill of Rights</h2>
               <div className="row">
               
           <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -51,7 +51,7 @@ function PrivacyPolicyComponent() {
   <br/>
 
           <p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className="text-justify">  
-          Thank you for choosing to be part of our community at <b  className="font-weight-bold"> Shareup</b>. We are committed to protecting your personal information 
+          Thank you for choosing to be part of our community at <b  className="font-weight-bold"> ShareUpTime</b>. We are committed to protecting your personal information 
           and your right to privacy. If you have any questions or concerns about our policy, or our practices with regards to your
            personal information, please send a mail to <a  href="mailto:info@shareuptime.com" style={{color:"#a7dee5", fontSize:"20px",  textDecoration:"none" , textDecorationLine: 'underline' }}>info@shareuptime.com</a>.
            {/* Updated contact: info@shareuptime.com */}
@@ -92,7 +92,7 @@ function PrivacyPolicyComponent() {
              <p style={{fontFamily: 'Helvetica, Arial, sans-serif',  fontWeight:'lighter',letterSpacing:'normal'}} className="text-justify">
 
              We collect personal information that you voluntarily provide to us when registering at 
-             <a href="https://www.shareuptime.com"  style={{color:"#a7dee5", fontSize:"20px", fontWeight:"bold", textDecoration:"none" }}> Shareup </a> 
+             <a href="https://www.shareuptime.com"  style={{color:"#a7dee5", fontSize:"20px", fontWeight:"bold", textDecoration:"none" }}> ShareUpTime </a> 
               expressing an
               interest in obtaining information about us or our products and services, when participating in activities on the Services or otherwise 
               contacting us. The personal information that we collect depends on the context of your interactions with us and the Services, the choices

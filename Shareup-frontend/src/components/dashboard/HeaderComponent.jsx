@@ -6,7 +6,7 @@ function HeaderComponent() {
       <div className="responsive-header">
           <div className="mh-head first Sticky">
             <span className="mh-btns-left"> <a className="menu" href="#menu"><i className="fa fa-align-justify" /></a>
-            </span> <span className="mh-text"> <a href="/newsfeed" title="#"><img src='/assets/images/shareup.png' width={300} alt="ShareUp" /></a>
+            </span> <span className="mh-text"> <a href="/newsfeed" title="#"><img src='/assets/images/shareup.png' width={300} alt="ShareUpTime" /></a>
             </span>
           </div>
           <div className="mh-head second">

@@ -1,0 +1,241 @@
+/* 
+ * ShareUpTime - Responsive Design Fixes
+ * Tüm cihazlarda mükemmel görünüm için
+ * Ana stilleri bozmadan sadece responsive düzeltmeler
+ */
+
+/* ===========================================
+   GENEL RESPONSİVE DÜZELTMELER
+   =========================================== */
+
+/* Tüm görsellerin responsive olması */
+img {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+/* Container'ların overflow sorunu */
+.container, .container-fluid {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+}
+
+/* Text wrapping - uzun yazıların taşmasını önler */
+p, span, div, h1, h2, h3, h4, h5, h6 {
+    word-wrap: break-word !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+}
+
+/* ===========================================
+   TABLET DÜZELTMELER (768px - 1024px)
+   =========================================== */
+@media screen and (max-width: 1024px) and (min-width: 768px) {
+    /* Logo boyutu tablet için */
+    .mh-text img {
+        width: 250px !important;
+        max-width: 100% !important;
+    }
+    
+    /* Header responsive */
+    .mh-head {
+        padding: 10px 15px !important;
+    }
+    
+    /* About sayfası */
+    .about-img img {
+        width: 80px !important;
+        max-width: 100% !important;
+    }
+    
+    /* Yazı boyutları */
+    .shareup-text {
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+    }
+    
+    /* Butonlar */
+    .shareIn-btn {
+        padding: 8px 16px !important;
+        font-size: 14px !important;
+    }
+}
+
+/* ===========================================
+   MOBİL DÜZELTMELER (768px ve altı)
+   =========================================== */
+@media screen and (max-width: 768px) {
+    /* Logo boyutu mobil için */
+    .mh-text img {
+        width: 200px !important;
+        max-width: 90% !important;
+    }
+    
+    /* Header mobil */
+    .mh-head {
+        padding: 5px 10px !important;
+        text-align: center !important;
+    }
+    
+    /* About sayfası mobil */
+    .about-img img {
+        width: 60px !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+        display: block !important;
+    }
+    
+    /* Yazı boyutları mobil */
+    .heading {
+        font-size: 24px !important;
+        text-align: center !important;
+    }
+    
+    .shareup-text {
+        font-size: 13px !important;
+        line-height: 1.4 !important;
+        text-align: justify !important;
+        padding: 0 15px !important;
+    }
+    
+    /* Feature box'lar */
+    .feature {
+        font-size: 12px !important;
+        text-align: center !important;
+        padding: 0 10px !important;
+    }
+    
+    /* Butonlar mobil */
+    .shareIn-btn {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+        width: 100% !important;
+        max-width: 200px !important;
+    }
+    
+    /* Row ve column düzeltmeleri */
+    .row {
+        margin: 0 !important;
+    }
+    
+    .col-lg-3, .col-lg-6, .col-md-6 {
+        padding: 10px 5px !important;
+        margin-bottom: 20px !important;
+    }
+    
+    /* Topbar mobil */
+    .topbarLand {
+        padding: 10px 5px !important;
+    }
+    
+    .logo img {
+        width: 150px !important;
+        max-width: 100% !important;
+    }
+}
+
+/* ===========================================
+   KÜÇÜK MOBİL DÜZELTMELER (480px ve altı)  
+   =========================================== */
+@media screen and (max-width: 480px) {
+    /* Logo çok küçük ekranlar için */
+    .mh-text img {
+        width: 150px !important;
+        max-width: 85% !important;
+    }
+    
+    .logo img {
+        width: 120px !important;
+        max-width: 100% !important;
+    }
+    
+    /* Yazı boyutları çok küçük ekran */
+    .heading {
+        font-size: 20px !important;
+    }
+    
+    .shareup-text {
+        font-size: 12px !important;
+        padding: 0 10px !important;
+    }
+    
+    .feature {
+        font-size: 11px !important;
+    }
+    
+    /* Container padding */
+    .container-about {
+        padding: 0 5px !important;
+    }
+    
+    /* About story section */
+    .shareup .col-lg-6 {
+        text-align: center !important;
+        margin-bottom: 30px !important;
+    }
+}
+
+/* ===========================================
+   İPAD ÖZEL DÜZELTMELER 
+   =========================================== */
+@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+    /* iPad dikey */
+    .mh-text img {
+        width: 280px !important;
+    }
+    
+    .about-img img {
+        width: 90px !important;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    /* iPad yatay */
+    .mh-text img {
+        width: 300px !important;
+    }
+    
+    .about-img img {
+        width: 100px !important;
+    }
+}
+
+/* ===========================================
+   FLEXBOX DÜZELTMELER
+   =========================================== */
+.row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+}
+
+.col-lg-3, .col-lg-6, .col-md-6, .col-sm-6 {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+}
+
+@media screen and (max-width: 768px) {
+    .col-lg-3, .col-lg-6, .col-md-6 {
+        flex: 1 1 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+/* ===========================================
+   SCROLL VE OVERFLOW DÜZELTMELER
+   =========================================== */
+body, html {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* Yatay scroll'u önle */
+* {
+    box-sizing: border-box !important;
+}
+
+/* Büyük tablolar için */
+.table-responsive {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+}

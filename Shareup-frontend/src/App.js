@@ -6,6 +6,7 @@ import './css/slider.css';
 
 import './css/color.css';
 import './css/responsive.css';
+import './css/responsive-fix.css';
 import './css/fontawesome/css/all.min.css';
 import './css/styleguide.css';
 import './css/notifications.css';

@@ -137,7 +137,7 @@ function ShareupInsideHeaderComponent() {
 
   
                 <input  type="text" className="searchTerm"
-                 placeholder="Search Shareup Members..." name="search"
+                 placeholder="Search ShareUpTime Members..." name="search"
                 value={searchTerm}
                 onChange={(event) => store.dispatch(setSearchTerm(event.target.value))}
                  onKeyUp={KeyPressHandler}

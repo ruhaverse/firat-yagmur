@@ -141,7 +141,7 @@ export default function ActivityComponent() {
                   <img className="vector-3iiMAm" src="../assets/images/img/vector-3@2x.png" />
                   <div className="earlier-3iiMAm">Earlier</div>
                   <p className="youre-new-to-sh-nds-and-explore-3iiMAm roboto-normal-black-16px">
-                    You’re new to ShareUpTime. Add friends and explore.
+                    You're new to ShareUpTime. Add friends and explore.
                   </p>
                   <div className="a-week-ago-3iiMAm">a week ago.</div>
                 </div>

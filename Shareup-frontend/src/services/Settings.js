@@ -11,16 +11,23 @@ const settings = {
 };
 
 const getCurrentSettings = () => {
-  // Use production (shareuptime.com) - same backend as mobile app
-  // return settings.prod;
-   if (process.env.NODE_ENV === "development") {
+  // Check environment - use REACT_APP_API_URL if available, otherwise detect from hostname
+  if (process.env.REACT_APP_API_URL) {
+    return {
+      apiUrl: process.env.REACT_APP_API_URL
+    };
+  }
+  
+  // Auto-detect environment based on hostname
+  const hostname = window.location.hostname;
+  
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
     return settings.dev;
-  } else if (process.env.NODE_ENV === "staging") {
+  } else if (hostname.includes('staging')) {
     return settings.staging;
   } else {
     return settings.prod;
   }
-
 };
 
 export default getCurrentSettings();

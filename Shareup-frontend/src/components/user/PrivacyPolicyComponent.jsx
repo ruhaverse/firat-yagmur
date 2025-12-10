@@ -15,7 +15,7 @@ function PrivacyPolicyComponent() {
             <div className="container-privacy pdng0">
               <div className="topbar transparent">
                 <div className="logo">
-                  <a title href="/"><img src="/assets/images/shareup_logo.png" alt="" /></a>
+                  <a title href="/"><img src="/assets/images/New_Shareup_White.png" alt="ShareUpTime" /></a>
                 </div>
                 <div className="top-area-land">
                   <ul className="setting-area">
@@ -34,7 +34,7 @@ function PrivacyPolicyComponent() {
                 </div>
               </div>
               <div className="policy">
-              <h2 style={{color:"aquamarine", fontSize:"40px", fontWeight:"bold", textDecoration:"none" , textDecorationLine: 'underline' }} >ShareUpTime's Privacy Bill of Rights</h2>
+              <h2 style={{color:"aquamarine", fontSize:"40px", fontWeight:"bold", textDecoration:"none" , textDecorationLine: 'underline' }} >SHAREUPTIME's Privacy Bill of Rights</h2>
               <div className="row">
               
           <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -190,12 +190,12 @@ DATA BREACH</b>
 <br/>
 <br/>
 A privacy breach occurs when there is unauthorized access to or collection, use, disclosure, or disposal of personal information. 
-You will be notified about data breaches when <b className="font-weight-bold">“ShareUpTime”</b> believes you are likely to be at risk of serious harm. For example, a data breach may be
+You will be notified about data breaches when <b className="font-weight-bold">"ShareUpTime"</b> believes you are likely to be at risk of serious harm. For example, a data breach may be
  likely to result in serious financial harm or harm to your mental or physical well-being. 
 <br/>
 <br/>
-In the event that <b className="font-weight-bold">“ShareUpTime”</b> becomes aware of a security breach which has resulted or may result in unauthorized access, use or disclosure of 
-personal information. <b className="font-weight-bold">“ShareUpTime”</b> will promptly investigate the matter and notify the applicable Supervisory Authority not later than 72 hours after
+In the event that <b className="font-weight-bold">"ShareUpTime"</b>becomes aware of a security breach which has resulted or may result in unauthorized access, use or disclosure of
+personal information. <b className="font-weight-bold">"ShareUpTime"</b>will promptly investigate the matter and notify the applicable Supervisory Authority not later than 72 hours after
  having become aware of it unless the personal data breach is unlikely to result in a risk to the rights and freedoms of natural persons.  
 
 
@@ -609,7 +609,7 @@ Some of the key features of the new law include the clarification of data subjec
 <ol className="orderedlist-faq">
     <li><i style={{fontStyle:'italic'}}>What is ShareUpTime?</i></li>
   
-    ShareupTime  is a social media platform that is integrated with blockchain technology. It enables the users to share and support each other 
+    ShareUpTime is a social media platform that is integrated with blockchain technology. It enables the users to share and support each other 
     without fear.
     <br/>
 <br/>

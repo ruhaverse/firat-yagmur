@@ -8,7 +8,7 @@ function AboutComponent() {
         <div className="container-about pdng0">
           <div className="topbarLand transparent">
             <div className="logo">
-              <a title href="/"><img src="/assets/images/shareup_logo.png" alt="" /></a>
+              <a title href="/"><img src="/assets/images/New_Shareup_White.png" alt="ShareUpTime" /></a>
             </div>
             <div className="top-area-land">
               <ul className="setting-area">
@@ -92,7 +92,7 @@ function AboutComponent() {
 
                 More than that, it is secure and protects your privacy with the most  trending technology we use.
 
-We provide you most private and secure social media platform. Your data is our concern. You Share, we share and everyone share. Let’s share without fear. You are our concern, not our target.</p>
+We provide you most private and secure social media platform. Your data is our concern. You Share, we share and everyone share. Let's share without fear. You are our concern, not our target.</p>
               </div>
             </div>
 

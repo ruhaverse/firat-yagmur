@@ -190,12 +190,12 @@ DATA BREACH</b>
 <br/>
 <br/>
 A privacy breach occurs when there is unauthorized access to or collection, use, disclosure, or disposal of personal information. 
-You will be notified about data breaches when <b className="font-weight-bold">“Shareup”</b> believes you are likely to be at risk of serious harm. For example, a data breach may be
+You will be notified about data breaches when <b className="font-weight-bold">"ShareUpTime"</b> believes you are likely to be at risk of serious harm. For example, a data breach may be
  likely to result in serious financial harm or harm to your mental or physical well-being. 
 <br/>
 <br/>
-In the event that <b className="font-weight-bold">“Shareup”</b>becomes aware of a security breach which has resulted or may result in unauthorized access, use or disclosure of 
-personal information. <b className="font-weight-bold">“Shareup”</b>will promptly investigate the matter and notify the applicable Supervisory Authority not later than 72 hours after
+In the event that <b className="font-weight-bold">"ShareUpTime"</b>becomes aware of a security breach which has resulted or may result in unauthorized access, use or disclosure of
+personal information. <b className="font-weight-bold">"ShareUpTime"</b>will promptly investigate the matter and notify the applicable Supervisory Authority not later than 72 hours after
  having become aware of it unless the personal data breach is unlikely to result in a risk to the rights and freedoms of natural persons.  
 
 
@@ -607,9 +607,9 @@ Some of the key features of the new law include the clarification of data subjec
 <br/>
 <br/>
 <ol className="orderedlist-faq">
-    <li><i style={{fontStyle:'italic'}}>What is Shareup?</i></li>
+    <li><i style={{fontStyle:'italic'}}>What is ShareUpTime?</i></li>
   
-    Shareup  is a social media platform that is integrated with blockchain technology. It enables the users to share and support each other 
+    ShareUpTime is a social media platform that is integrated with blockchain technology. It enables the users to share and support each other 
     without fear.
     <br/>
 <br/>
@@ -620,22 +620,22 @@ Some of the key features of the new law include the clarification of data subjec
         (courtesy: https://builtin.com/blockchain)</a>
      <br/>
 <br/>
-    <li><i style={{fontStyle:'italic'}}>Which devices is Shareup available on?</i></li>
-    Shareup is available on Android or iOS smartphone, as well as on all desktops and tablets.
+    <li><i style={{fontStyle:'italic'}}>Which devices is ShareUpTime available on?</i></li>
+    ShareUpTime is available on Android or iOS smartphone, as well as on all desktops and tablets.
     <br/>
 <br/>
-    <li><i style={{fontStyle:'italic'}}>What content can I share on Shareup?</i></li>
-    At Shareup, you can safely share photos, videos, documents, voice messages, chats, gifts, memes, doodles, and more. You can communicate 1-to-1 
-    and in private groups with your contacts, friends, family, co-workers, and in open groups with other Shareup members with whom you share a common 
+    <li><i style={{fontStyle:'italic'}}>What content can I share on ShareUpTime?</i></li>
+    At ShareUpTime, you can safely share photos, videos, documents, voice messages, chats, gifts, memes, doodles, and more. You can communicate 1-to-1 
+    and in private groups with your contacts, friends, family, co-workers, and in open groups with other ShareUpTime members with whom you share a common 
     interest or hobby.
     <br/>
 <br/>
-    <li><i style={{fontStyle:'italic'}}>What are some unique features of Shareup?</i></li>
-    Shareup is an advanced social network with features that give you total control, including:
+    <li><i style={{fontStyle:'italic'}}>What are some unique features of ShareUpTime?</i></li>
+    ShareUpTime is an advanced social network with features that give you total control, including:
     <ul className="unorderedlist">
-	<li>Hangshare – Not only do you share images and videos but if you have more than you need then Shareup enables you share or support other people.</li>
-<li>Swap – If you want to swap anything with friends or public, Shareup is the safe platform to do so. Real people real accounts </li>
-	<li>KYC (Knowing Your Customer) – All the Shareup accounts are verified and are registered with real identities.</li>
+	<li>Hangshare – Not only do you share images and videos but if you have more than you need then ShareUpTime enables you share or support other people.</li>
+<li>Swap – If you want to swap anything with friends or public, ShareUpTime is the safe platform to do so. Real people real accounts </li>
+	<li>KYC (Knowing Your Customer) – All the ShareUpTime accounts are verified and are registered with real identities.</li>
 	<li>Universal tagging - This is a new, convenient way to sort and organize all the content you receive and share, making it easy to find everything, 
     anytime.</li>
 	<li>Enhanced permission control (patent issued) - Manage permissions on a granular level and decide exactly who sees what. You can also remove
@@ -645,14 +645,14 @@ Some of the key features of the new law include the clarification of data subjec
 <br/>
     <li><i style={{fontStyle:'italic'}}>Who can see the posts I share?</i></li>
    
-    You control who receives and views your posts. Since there is no way to boost anything on Shareup, you can be assured that your posts are shared 
-    only with members you connect with. Shareup does not spy on your private posts.
+    You control who receives and views your posts. Since there is no way to boost anything on ShareUpTime, you can be assured that your posts are shared 
+    only with members you connect with. ShareUpTime does not spy on your private posts.
     <br/>
 <br/>
-    <li><i style={{fontStyle:'italic'}}>Can I delete my Shareup account and is it easy to do this?</i></li>
+    <li><i style={{fontStyle:'italic'}}>Can I delete my ShareUpTime account and is it easy to do this?</i></li>
  
     
-    Yes! We make it easy to delete all your Shareup content anytime, and to delete your account. To delete, first delete any groups you own or
+    Yes! We make it easy to delete all your ShareUpTime content anytime, and to delete your account. To delete, first delete any groups you own or
      transfer ownership to another user. Once you are no longer an owner of any groups, you can quickly delete your account with the following steps:
      <br/>
      <br/>

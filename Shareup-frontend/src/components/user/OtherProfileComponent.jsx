@@ -414,7 +414,7 @@ function OtherProfileComponent() {
           
           <div className="widget-prof">
           <ul><li className="head-widgt">Privacy</li>
-          <li><div className="row"><input type="checkbox"/><p>Include my profile in ShareUp search</p></div></li>
+          <li><div className="row"><input type="checkbox"/><p>Include my profile in ShareUpTime search</p></div></li>
           <li><div className="row"><input type="checkbox"/><p>Allow my contacts to see my contacts</p></div></li>
       <li><div className="row"><input type="checkbox"/><p>Allow my contacts to download photos I share to my ShareTime</p></div></li>
       

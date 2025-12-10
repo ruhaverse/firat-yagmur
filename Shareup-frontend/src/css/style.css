@@ -1086,10 +1086,12 @@ header.sticky {
 .logo {
   display: inline-block;
   vertical-align: inherit;
-  width: 30%;
+  width: 600px;
+  max-width: 100%;
   position: relative;
   z-index: 10;
 }
+
 .logo-inside {
   text-align: center;
   display: inline-block;
@@ -3589,7 +3591,7 @@ footer .logo {
 }
 
 .logo > a > img {
-  width: 320px;
+  width: 100%;
   display: inline-block;
   vertical-align: middle;
 }

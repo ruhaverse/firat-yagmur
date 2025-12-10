@@ -1888,7 +1888,7 @@ function NewsfeedComponent() {
                             </p>
 
                             <p style={{ fontSize: '11px', fontweight: '300', paddingTop: '1px', color: '#525050' }}>
-                              your shareup friends
+                              your ShareUpTime friends
                             </p>
 
 
@@ -1965,7 +1965,7 @@ function NewsfeedComponent() {
                               Only Me
                             </p>
                             <p style={{ fontSize: '11px', fontweight: '300', paddingTop: '1px', color: '#525050' }}>
-                              private to all shareup users
+                              private to all ShareUpTime users
                             </p>
                           </div>
 

@@ -12,7 +12,15 @@ const settings = {
 
 const getCurrentSettings = () => {
   // Use production (shareuptime.com) - same backend as mobile app
-  return settings.prod;
+  // return settings.prod;
+   if (process.env.NODE_ENV === "development") {
+    return settings.dev;
+  } else if (process.env.NODE_ENV === "staging") {
+    return settings.staging;
+  } else {
+    return settings.prod;
+  }
+
 };
 
 export default getCurrentSettings();

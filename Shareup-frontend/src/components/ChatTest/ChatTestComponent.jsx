@@ -284,7 +284,7 @@ export default function ChatTestComponent() {
               showField === "editname" ?<p className="secrtyEdt active" onClick={() => setshowField('notif')}>Edit</p>:
               <p className="secrtyEdt" onClick={() => setshowField('notif')}>Edit</p>}</li>
                   {notif()}
-                  <li><p className="secrtySec">Choose 3 to 5 friends to contact if you get locked out<br/><span className="scnd">Your trusted contacts can send a code and URL from ShareUp to help you log back in</span></p>
+                  <li><p className="secrtySec">Choose 3 to 5 friends to contact if you get locked out<br/><span className="scnd">Your trusted contacts can send a code and URL from ShareUpTime to help you log back in</span></p>
                   {
               showField === "editname" ?<p className="secrtyEdt active" onClick={() => setshowField('frndSrch')}>Edit</p>:
               <p className="secrtyEdt" onClick={() => setshowField('frndSrch')}>Edit</p>}</li>
@@ -450,10 +450,10 @@ export default function ChatTestComponent() {
          
                 <div className="right-settings-bio">
                 <div className="right-settings-bio-top">
-                  <p className="clr">Shareup Language</p>
+                  <p className="clr">ShareUpTime Language</p>
                   <div className="right-settings-details">
                   <ul>
-                  <li><p className="secrtySec">Language for buttons, titles and other text from Shareup for this account.</p><p className="secrtyEdt">English(UK)</p></li>
+                  <li><p className="secrtySec">Language for buttons, titles and other text from ShareUpTime for this account.</p><p className="secrtyEdt">English(UK)</p></li>
                   
                   </ul></div>
                  
@@ -547,7 +547,7 @@ of a status.<br/></p>
                   <ul>
                   <li className="firstElement"><p className="secrtySec">Review posts that you're tagged in before the post appears on your profile?<br/></p><p className="secrtyEdt"> off</p></li>
                   <li className="firstElement"><p className="secrtySec">Review what other people see on your profile.<br/></p><p className="secrtyEdt"> off</p></li>
-                  <li ><p className="secrtySec">Review tags that people add to your posts before the tags appear on Shareup?<br/></p><p className="secrtyEdt"> off</p></li>
+                  <li ><p className="secrtySec">Review tags that people add to your posts before the tags appear on ShareUpTime?<br/></p><p className="secrtyEdt"> off</p></li>
                   </ul></div>
                  
                 </div>
@@ -597,13 +597,13 @@ follow you </p><p className="secrtyEdt">Friends</p></li>
                 </div>
                 <div className="right-settings-bio firstElement">
                 <div className="right-settings-bio-top">
-                  <p className="clr">Off-Shareup Previews</p>
+                  <p className="clr">Off-ShareUpTime Previews</p>
                   <div className="right-settings-details">
                   <ul>
                   <li className="firstElement"><p className="secrtySec">Who can like or comment on your public profile pictures
 and other profile info? Friends<br/></p><p className="secrtyEdt"> Friends</p></li>
                   <li className="firstElement"><p className="secrtySec">Get Notifications from public<br/></p><p className="secrtyEdt"> off</p></li>
-                  <li ><p className="secrtySec">Review tags that people add to your posts before the tags appear on Shareup?<br/></p><p className="secrtyEdt"> off</p></li>
+                  <li ><p className="secrtySec">Review tags that people add to your posts before the tags appear on ShareUpTime?<br/></p><p className="secrtyEdt"> off</p></li>
                   </ul></div>
                  
                 </div>

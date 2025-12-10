@@ -629,10 +629,10 @@ const hideFunction=()=>{
          
                 <div className="right-settings-bio">
                 <div className="right-settings-bio-top">
-                  <p className="clr">Shareup Language</p>
+                  <p className="clr">ShareUpTime Language</p>
                   <div className="right-settings-details">
                   <ul>
-                  <li><p className="secrtySec">Language for buttons, titles and other text from Shareup for this account.</p><p className="secrtyEdt">English(UK)</p></li>
+                  <li><p className="secrtySec">Language for buttons, titles and other text from ShareUpTime for this account.</p><p className="secrtyEdt">English(UK)</p></li>
                   
                   </ul></div>
                  
@@ -714,7 +714,7 @@ of a status.<br/></p>
                   <ul>
                   <li className="firstElement"><p className="secrtySec">Review posts that you're tagged in before the post appears on your profile?<br/></p><DropdownOnComponent/></li>
                   <li className="firstElement"><p className="secrtySec">Review what other people see on your profile.<br/></p><DropdownOnComponent/></li>
-                  <li ><p className="secrtySec">Review tags that people add to your posts before the tags appear on Shareup?<br/></p><DropdownOnComponent/></li>
+                  <li ><p className="secrtySec">Review tags that people add to your posts before the tags appear on ShareUpTime?<br/></p><DropdownOnComponent/></li>
                   </ul></div>
                  
                 </div>
@@ -764,13 +764,13 @@ follow you </p><DropdownComponent/></li>
                 </div>
                 <div className="right-settings-bio firstElement">
                 <div className="right-settings-bio-top">
-                  <p className="clr">Off-Shareup Previews</p>
+                  <p className="clr">Off-ShareUpTime Previews</p>
                   <div className="right-settings-details">
                   <ul>
                   <li className="firstElement"><p className="secrtySec">Who can like or comment on your public profile pictures
 and other profile info? Friends<br/></p><DropdownComponent/></li>
                   <li className="firstElement"><p className="secrtySec">Get Notifications from public<br/></p><DropdownOnComponent/></li>
-                  <li ><p className="secrtySec">Review tags that people add to your posts before the tags appear on Shareup?<br/></p><DropdownOnComponent/></li>
+                  <li ><p className="secrtySec">Review tags that people add to your posts before the tags appear on ShareUpTime?<br/></p><DropdownOnComponent/></li>
                   </ul></div>
                  
                 </div>

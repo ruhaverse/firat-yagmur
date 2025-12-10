@@ -1485,14 +1485,12 @@ function PostTextBoxComponent() {
                                 fontSize: "11px",
                                 fontweight: "300",
                                 paddingTop: "1px",
-                                color: "#525050",
-                              }}
-                            >
-                              private to all shareup users
+                              color: "#525050",
+                            }}
+                          >
+                              private to all ShareUpTime users
                             </p>
-                          </div>
-
-                          <input
+                          </div>                          <input
                             type="radio"
                             value="Only Me"
                             name="privacy"

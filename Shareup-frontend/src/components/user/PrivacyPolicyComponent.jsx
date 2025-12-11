@@ -15,7 +15,7 @@ function PrivacyPolicyComponent() {
             <div className="container-privacy pdng0">
               <div className="topbar transparent">
                 <div className="logo">
-                  <a title href="/"><img src="/assets/images/New_Shareup_White.png" alt="ShareUpTime" /></a>
+                  <a title href="/"><img src="/assets/images/shareup_logo.png" alt="ShareUpTime" /></a>
                 </div>
                 <div className="top-area-land">
                   <ul className="setting-area">

@@ -298,13 +298,60 @@
     }
 }
 
+/* Mobile/Tablet: show responsive header */
 @media screen and (max-width: 1465px) {
     .responsive-header {
         display: block;
     }
-    .topbar-land, .topbar,.topbarLand
+    /* Hide desktop headers for authenticated pages only */
+    .topbar-land,
     .side-panel {
         display: none;
+    }
+    /* Hide .topbar except for public pages */
+    .topbar {
+        display: none;
+    }
+    /* Keep topbarLand visible for landing page */
+    .topbarLand {
+        display: block;
+    }
+}
+
+/* Privacy/About pages: show desktop header on tablet/desktop */
+@media screen and (min-width: 769px) {
+    .container-privacy .topbar {
+        display: block !important;
+    }
+    /* Add padding to container to push content down */
+    .container-privacy {
+        padding-top: 80px;
+    }
+}
+
+/* Landing page: hide hamburger on tablet/desktop (769px-1465px) */
+@media screen and (min-width: 769px) {
+    body.landing-page .responsive-header {
+        display: none !important;
+    }
+    /* Privacy page: hide hamburger on tablet/desktop */
+    .container-privacy .responsive-header {
+        display: none !important;
+    }
+}
+
+/* Mobile only: hide desktop headers, show hamburger */
+@media screen and (max-width: 768px) {
+    body.landing-page .topbarLand {
+        display: none !important;
+    }
+    /* Privacy page: hide desktop header on mobile, show hamburger */
+    .container-privacy .topbar {
+        display: none !important;
+    }
+    /* Add padding to container for hamburger menu */
+    .container-privacy {
+        padding-top: 60px;
     }
 }
 /*--- tablet view ---*/

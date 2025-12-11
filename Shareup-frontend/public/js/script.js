@@ -322,7 +322,7 @@ function testScript(){
 		
 	//---- responsive header
 	
-	/*$(function() {
+	$(function() {
 
 	//	create the menus
 $('#menu').mmenu();
@@ -347,7 +347,7 @@ $('#menu').mmenu();
 	});
 
 	
-});*/	//**** Slide Panel Toggle ***//
+});	//**** Slide Panel Toggle ***//
 		  $("span.main-menu").on("click", function(){
 			$(".side-panel").toggleClass("active");
 			  $(".theme-layout").addClass('active');

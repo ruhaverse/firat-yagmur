@@ -12,7 +12,8 @@ import './css/styleguide.css';
 import './css/notifications.css';
 import './css/globals.css';
 import './css/emojionearea.min.css';
-import AuthService from './services/auth.services'
+import AuthService from './services/auth.services';
+import { useLocation } from 'react-router-dom'
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import HeaderComponent from './components/dashboard/HeaderComponent';
@@ -61,6 +62,24 @@ import Giphy from './components/Giphy';
 
 
 // import StoriesComponentMain from './components/Stories/StoriesComponent';
+
+// Component to conditionally render HeaderComponent based on route
+function ConditionalHeader() {
+  const location = useLocation();
+  
+  useEffect(() => {
+    // Add class to body for landing/public pages
+    const publicPages = ['/', '/about', '/privacyPolicy'];
+    if (publicPages.includes(location.pathname)) {
+      document.body.classList.add('landing-page');
+    } else {
+      document.body.classList.remove('landing-page');
+    }
+  }, [location]);
+  
+  return <HeaderComponent />;
+}
+
 function App() {
   testScript()
 
@@ -92,7 +111,7 @@ Giphy();
   return (
     <UserContext.Provider value={{ user }}>
       <Router>
-        <HeaderComponent />
+        <ConditionalHeader />
           <Switch>
           <Route path="/" exact><Index set={setJwtUser} setUser={setUser}/></Route>
           <Route path="/about">

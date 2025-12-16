@@ -22,8 +22,8 @@ import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 
-import Lightbox from 'react-image-lightbox';
-import 'react-image-lightbox/style.css';
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
 
 import Form from 'react-bootstrap/Form';
 import moment from 'moment'
@@ -652,7 +652,10 @@ export default function PostComponent({ post, setRefresh }) {
                       className="owl-theme grp-carousel post-carousel"
                       dots
                       nav
-                      navText={"<i className='fa fa-chevron-left'></i>", "<i className='fa fa-chevron-right'></i>"}
+                      navText={[
+  "<i class='fa fa-chevron-left'></i>",
+  "<i class='fa fa-chevron-right'></i>"
+]}
                       margin={10}>
                       {post.media.map((postImage, index) => (
                         <React.Fragment>
@@ -668,16 +671,15 @@ export default function PostComponent({ post, setRefresh }) {
                     </OwlCarousel>
                     {isOpen && (
                       <Lightbox
-                        mainSrc={fileStorage.baseUrl + post.media[photoIndex].mediaPath}
-                        nextSrc={post.media[(photoIndex + 1) % post.media.length]}
-                        prevSrc={post.media[(photoIndex + post.media.length - 1) % post.media.length]}
-                        onCloseRequest={() => setIsopen(false)}
-                        onMovePrevRequest={() =>
-                          setPhotoindex((photoIndex + post.media.length - 1) % post.media.length)
-                        }
-                        onMoveNextRequest={() =>
-                          setPhotoindex((photoIndex + 1) % post.media.length)
-                        }
+                        open={isOpen}
+                        close={() => setIsopen(false)}
+                        slides={post.media.map((img) => ({
+                          src: fileStorage.baseUrl + img.mediaPath,
+                        }))}
+                        index={photoIndex}
+                        on={{
+                          view: ({ index }) => setPhotoindex(index),
+                        }}
                       />
                     )}
                   </>
@@ -693,8 +695,12 @@ export default function PostComponent({ post, setRefresh }) {
                         />
                         {isOpen && (
                           <Lightbox
-                            mainSrc={fileStorage.baseUrl + postImage.mediaPath}
-                            onCloseRequest={() => setIsopen(false)}
+                            open={isOpen}
+                            close={() => setIsopen(false)}
+                            slides={[
+                              { src: fileStorage.baseUrl + postImage.mediaPath }
+                            ]}
+                            index={0}
                           />
                         )}
                       </React.Fragment>
@@ -972,7 +978,10 @@ export default function PostComponent({ post, setRefresh }) {
                           className="owl-theme grp-carousel post-carousel"
                           dots
                           nav
-                          navText={"<i className='fa fa-chevron-left'></i>", "<i className='fa fa-chevron-right'></i>"}
+                          navText={[
+  "<i class='fa fa-chevron-left'></i>",
+  "<i class='fa fa-chevron-right'></i>"
+]}
                           margin={10}>
                           {post.post.media.map((postImage, index) => (
                             <React.Fragment>

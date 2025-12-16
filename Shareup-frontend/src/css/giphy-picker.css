@@ -1,0 +1,25 @@
+.giphy-picker-modal {
+  padding: 8px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 300px;
+}
+.giphy-picker-modal input {
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.giphy-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.giphy-grid img {
+  cursor: pointer;
+  border-radius: 4px;
+}

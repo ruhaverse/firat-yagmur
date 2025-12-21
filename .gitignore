@@ -1,3 +1,69 @@
+# Node
+node_modules/
+**/node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Build
+dist/
+build/
+out/
+.cache/
+
+# Environment
+.env
+.env.*
+.env.local
+.env.production
+.env.test
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Uploads and generated media
+uploads/
+uploads/**
+
+# Docker
+docker-compose.override.yml
+**/docker-compose.override.yml
+
+# Misc
+.eslintcache
+.turbo
+.parcel-cache
+.cache-loader
+.sass-cache
+
+# Temporary
+tmp/
+temp/
+
+# Postman
+.postman_environment.json
+
 # Production builds
 /build
 /dist

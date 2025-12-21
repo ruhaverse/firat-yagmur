@@ -1,3 +1,18 @@
+/* DEBUG: Add visible borders to header and sidebar for troubleshooting */
+.topbar {
+  border: 4px solid red !important;
+}
+.sidebar {
+  border: 4px solid blue !important;
+}
+/* DEBUG: Force topbar visible and on top */
+.topbar {
+  z-index: 9999 !important;
+  position: fixed !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
 /*
 
 [Master Stylesheet]

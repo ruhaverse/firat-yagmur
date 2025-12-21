@@ -72,6 +72,9 @@ app.get('/', (req, res) => res.json({ ok: true, service: 'shareup-backend' }));
 app.use(`${API_BASE}/users`, require('./routes/auth'));
 app.use(`${API_BASE}/posts`, require('./routes/posts'));
 app.use(`${API_BASE}/reels`, require('./routes/reels'));
+app.use(`${API_BASE}/swaps`, require('./routes/swaps'));
+
+// (debug endpoints removed)
 
 // 404 handler - must be after all routes
 app.use((req, res) => {
@@ -80,20 +83,22 @@ app.use((req, res) => {
 
 // centralized error handler
 app.use((err, req, res, next) => {
+	// Defensive: ensure err exists
+	const isDev = config.nodeEnv === 'development';
+	const message = err && err.message ? err.message : 'Internal Server Error';
+	const stack = err && err.stack ? err.stack : undefined;
+
 	// Log error
 	logger.error('Error:', {
-		message: err.message,
-		stack: config.nodeEnv === 'development' ? err.stack : undefined,
-		path: req.path,
-		method: req.method,
+		message,
+		stack: isDev ? stack : undefined,
+		path: req && req.path,
+		method: req && req.method,
 	});
 
-	// Don't expose stack trace in production
-	const isDev = config.nodeEnv === 'development';
-	
-	res.status(err.status || 500).json({
-		error: err.message || 'Internal Server Error',
-		...(isDev && { stack: err.stack }),
+	res.status((err && err.status) || 500).json({
+		error: message,
+		...(isDev && { stack }),
 	});
 });
 

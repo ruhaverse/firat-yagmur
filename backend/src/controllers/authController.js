@@ -129,4 +129,45 @@ async function getUserByEmail(req, res, next) {
   }
 }
 
-module.exports = { register, login, getUserByEmail };
+async function listUsers(req, res, next) {
+  try {
+    const limit = Math.min(parseInt(req.query.limit, 10) || 50, 200);
+    const offset = Math.max(parseInt(req.query.offset, 10) || 0, 0);
+    const q = await db.query('SELECT id, email, first_name, last_name, profile_picture FROM users ORDER BY id DESC LIMIT $1 OFFSET $2', [limit, offset]);
+    res.json({ data: q.rows });
+  } catch (err) {
+    next(err);
+  }
+}
+
+// Admin: assign a role to a user (body: { role: 'admin' })
+async function assignRoleToUser(req, res, next) {
+  try {
+    const targetId = parseInt(req.params.id, 10);
+    if (!targetId) return res.status(400).json({ error: 'Invalid user id' });
+    const { role } = req.body;
+    if (!role || typeof role !== 'string') return res.status(400).json({ error: 'role required' });
+
+    // find role id
+    const r = await db.query('SELECT id FROM roles WHERE name=$1 LIMIT 1', [role]);
+    if (r.rowCount === 0) return res.status(404).json({ error: 'Role not found' });
+    const roleId = r.rows[0].id;
+
+    await db.query('INSERT INTO user_roles (user_id, role_id, created_at) VALUES ($1,$2,now()) ON CONFLICT (user_id, role_id) DO NOTHING', [targetId, roleId]);
+
+    const roles = await db.query(`SELECT r.name FROM roles r JOIN user_roles ur ON ur.role_id=r.id WHERE ur.user_id=$1`, [targetId]);
+    res.json({ data: roles.rows.map(x => x.name) });
+  } catch (err) { next(err); }
+}
+
+// Admin: list roles assigned to a user
+async function listUserRoles(req, res, next) {
+  try {
+    const targetId = parseInt(req.params.id, 10);
+    if (!targetId) return res.status(400).json({ error: 'Invalid user id' });
+    const roles = await db.query(`SELECT r.name FROM roles r JOIN user_roles ur ON ur.role_id=r.id WHERE ur.user_id=$1`, [targetId]);
+    res.json({ data: roles.rows.map(x => x.name) });
+  } catch (err) { next(err); }
+}
+
+module.exports = { register, login, getUserByEmail, listUsers, assignRoleToUser, listUserRoles };

@@ -1,29 +1,22 @@
-/**
- * Simple logger utility for consistent logging across the application
- */
+const pino = require('pino');
 
-const isDevelopment = process.env.NODE_ENV !== 'production';
+const isProd = process.env.NODE_ENV === 'production';
+const level = process.env.LOG_LEVEL || (isProd ? 'info' : 'debug');
 
-const logger = {
-  info: (...args) => {
-    if (isDevelopment) {
-      console.log('[INFO]', new Date().toISOString(), ...args);
-    }
+let destination;
+if (isProd && process.env.LOG_FILE) {
+  destination = pino.destination(process.env.LOG_FILE);
+}
+
+const logger = pino(
+  {
+    level,
+    timestamp: pino.stdTimeFunctions.isoTime,
+    serializers: {
+      err: pino.stdSerializers.err,
+    },
   },
-
-  error: (...args) => {
-    console.error('[ERROR]', new Date().toISOString(), ...args);
-  },
-
-  warn: (...args) => {
-    console.warn('[WARN]', new Date().toISOString(), ...args);
-  },
-
-  debug: (...args) => {
-    if (isDevelopment) {
-      console.log('[DEBUG]', new Date().toISOString(), ...args);
-    }
-  }
-};
+  destination
+);
 
 module.exports = logger;

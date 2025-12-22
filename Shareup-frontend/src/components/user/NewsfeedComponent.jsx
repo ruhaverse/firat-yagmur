@@ -2075,8 +2075,9 @@ function NewsfeedComponent() {
   };
   const getAllUser = async () => {
     await UserService.getUsers().then((res) => {
-      setAllUser(res.data);
-      setSearchedUser(res.data);
+      const users = res && res.data && res.data.data ? res.data.data : (res && res.data ? res.data : []);
+      setAllUser(users);
+      setSearchedUser(users);
     });
   };
   const getFriendsList = async () => {

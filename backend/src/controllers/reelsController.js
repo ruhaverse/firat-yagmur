@@ -36,8 +36,25 @@ async function getReels(req, res, next) {
     params.push(limit, offset);
     
     const result = await db.query(query, params);
-    
-    res.json({ data: result.rows });
+
+    // Fetch media for returned reels and attach as `media` array
+    const reels = result.rows || [];
+    if (reels.length > 0) {
+      const ids = reels.map(r => r.id);
+      const mediaRes = await db.query(`SELECT * FROM reel_media WHERE reel_id = ANY($1::int[]) ORDER BY created_at ASC`, [ids]);
+      const mediaByReel = {};
+      for (const m of mediaRes.rows) {
+        if (!mediaByReel[m.reel_id]) mediaByReel[m.reel_id] = [];
+        const url = m.media_url && m.media_url.startsWith('http') ? m.media_url : makeFileUrl(m.media_url);
+        mediaByReel[m.reel_id].push({ id: m.id, media_url: url, media_type: m.media_type, created_at: m.created_at });
+      }
+      for (const r of reels) {
+        r.media = mediaByReel[r.id] || [];
+        r.profile_picture = r.profile_picture ? makeFileUrl(r.profile_picture) : null;
+      }
+    }
+
+    res.json({ data: reels });
   } catch (err) {
     next(err);
   }
@@ -58,8 +75,14 @@ async function getReelById(req, res, next) {
     if (result.rowCount === 0) {
       return res.status(404).json({ error: 'Reel not found' });
     }
-    
-    res.json({ data: result.rows[0] });
+
+    const reel = result.rows[0];
+    // fetch media
+    const mediaQ = await db.query('SELECT * FROM reel_media WHERE reel_id = $1 ORDER BY created_at ASC', [reel.id]);
+    reel.media = mediaQ.rows.map(m => ({ id: m.id, media_url: m.media_url && m.media_url.startsWith('http') ? m.media_url : makeFileUrl(m.media_url), media_type: m.media_type, created_at: m.created_at }));
+    reel.profile_picture = reel.profile_picture ? makeFileUrl(reel.profile_picture) : null;
+
+    res.json({ data: reel });
   } catch (err) {
     next(err);
   }
@@ -68,13 +91,12 @@ async function getReelById(req, res, next) {
 // Minimal reels controller — skeletal implementation to match frontend expectations
 async function createReel(req, res, next) {
   try {
-    const userIdValidation = validateInteger(req.params.userId, 1, 999999999);
-    if (!userIdValidation.valid) {
-      return res.status(400).json({ error: 'Invalid user ID' });
-    }
-    const userId = userIdValidation.value;
-    
-    const { caption = '' } = req.body;
+    // Use authenticated user id; requireAuth middleware ensures this
+    const authUserId = req.user && req.user.id;
+    if (!authUserId) return res.status(401).json({ error: 'Unauthorized' });
+    const userId = parseInt(authUserId, 10);
+    // Accept optional `source` in body for tracking instead of encoding in URL
+    const { caption = '', source = null } = req.body;
     const sanitizedCaption = sanitizeCaption(caption);
 
     // Hostinger için sadece local uploads kullan
@@ -86,11 +108,13 @@ async function createReel(req, res, next) {
     }
 
     const insert = await db.query(
-      'INSERT INTO reels (user_id, caption, created_at) VALUES ($1,$2,now()) RETURNING id, user_id, caption, created_at',
-      [userId, sanitizedCaption]
+      'INSERT INTO reels (user_id, caption, source, created_at) VALUES ($1,$2,$3,now()) RETURNING id, user_id, caption, source, created_at',
+      [userId, sanitizedCaption, source]
     );
 
     const reel = insert.rows[0];
+    // Attach source for client-side tracing if provided (not persisted by default)
+    if (source) reel.source = source;
     res.json({ data: { reel: reel, media } });
   } catch (err) {
     next(err);
@@ -122,4 +146,45 @@ async function deleteReel(req, res, next) {
   }
 }
 
-module.exports = { getReels, getReelById, createReel, deleteReel };
+// List saved reels for a given email (uses saved_reels table)
+async function listSavedReelsByEmail(req, res, next) {
+  try {
+    const email = req.params.email;
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = Math.min(parseInt(req.query.limit, 10) || 50, 200);
+    const offset = (page - 1) * limit;
+
+    const u = await db.query('SELECT id FROM users WHERE email=$1', [email]);
+    if (u.rowCount === 0) return res.json({ data: [] });
+    const userId = u.rows[0].id;
+
+    try {
+      const q = await db.query(
+        `SELECT r.* FROM reels r JOIN saved_reels sr ON r.id = sr.reel_id WHERE sr.user_id = $1 ORDER BY r.created_at DESC LIMIT $2 OFFSET $3`,
+        [userId, limit, offset]
+      );
+      const rows = q.rows || [];
+      if (rows.length > 0) {
+        const ids = rows.map(r => r.id);
+        const mediaRes = await db.query(`SELECT * FROM reel_media WHERE reel_id = ANY($1::int[]) ORDER BY created_at ASC`, [ids]);
+        const mediaByReel = {};
+        for (const m of mediaRes.rows) {
+          if (!mediaByReel[m.reel_id]) mediaByReel[m.reel_id] = [];
+          const url = m.media_url && m.media_url.startsWith('http') ? m.media_url : makeFileUrl(m.media_url);
+          mediaByReel[m.reel_id].push({ id: m.id, media_url: url, media_type: m.media_type, created_at: m.created_at });
+        }
+        for (const r of rows) r.media = mediaByReel[r.id] || [];
+      }
+      res.json({ data: rows });
+    } catch (err) {
+      if (err && err.message && err.message.includes('relation "saved_reels"')) {
+        return res.json({ data: [] });
+      }
+      throw err;
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { getReels, getReelById, createReel, deleteReel, listSavedReelsByEmail };

@@ -2,24 +2,42 @@
 const db = require('../config/db');
 
 const createSwap = async (swap) => {
-  const { user_id, title, description, media_url, location, status } = swap;
+  const { user_id, title, description, media_url, media_files = [], location, status } = swap;
   const result = await db.query(
     `INSERT INTO swaps (user_id, title, description, media_url, location, status)
      VALUES ($1, $2, $3, $4, $5, $6)
      RETURNING *`,
     [user_id, title, description, media_url, location, status || 'active']
   );
-  return result.rows[0];
+  const created = result.rows[0];
+  // If media_files provided, insert into swap_media
+  if (Array.isArray(media_files) && media_files.length) {
+    const inserts = media_files.map(m => db.query(
+      `INSERT INTO swap_media (swap_id, media_url, media_type, created_at) VALUES ($1,$2,$3,now()) RETURNING *`,
+      [created.id, m.media_url, m.media_type]
+    ));
+    await Promise.all(inserts);
+  }
+  return created;
 };
 
 const updateSwap = async (swapId, swap) => {
-  const { title, description, media_url, location, status } = swap;
+  const { title, description, media_url, media_files = [], location, status } = swap;
   const result = await db.query(
     `UPDATE swaps SET title=$1, description=$2, media_url=$3, location=$4, status=$5, updated_at=NOW()
      WHERE id=$6 RETURNING *`,
     [title, description, media_url, location, status, swapId]
   );
-  return result.rows[0];
+  const updated = result.rows[0];
+  // If media_files provided, append to swap_media
+  if (Array.isArray(media_files) && media_files.length) {
+    const inserts = media_files.map(m => db.query(
+      `INSERT INTO swap_media (swap_id, media_url, media_type, created_at) VALUES ($1,$2,$3,now()) RETURNING *`,
+      [swapId, m.media_url, m.media_type]
+    ));
+    await Promise.all(inserts);
+  }
+  return updated;
 };
 
 const deleteSwap = async (swapId, userId) => {

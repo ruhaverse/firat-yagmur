@@ -27,6 +27,7 @@ const defaults = {
   NODE_ENV: 'development',
   BCRYPT_SALT_ROUNDS: '10',
   CORS_ORIGIN: '*',
+  RELEASE: '',
 };
 
 /**
@@ -84,6 +85,8 @@ function getConfig() {
     spacesKey: process.env.SPACES_KEY,
     spacesSecret: process.env.SPACES_SECRET,
     spacesBucket: process.env.SPACES_BUCKET,
+      // Release/version (optional)
+      release: process.env.RELEASE || '',
   };
 }
 

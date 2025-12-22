@@ -14,6 +14,10 @@ function requireAuth(req, res, next) {
   try {
     const payload = jwt.verify(token, JWT_SECRET);
     req.user = payload;
+    // Attach userId to pino logger when available
+    if (req.log && payload && payload.id) {
+      req.log = req.log.child({ userId: payload.id });
+    }
     next();
   } catch (err) {
     return res.status(401).json({ error: 'Invalid token' });

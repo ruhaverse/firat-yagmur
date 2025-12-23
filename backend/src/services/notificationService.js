@@ -2,19 +2,46 @@ const db = require('../config/db');
 const logger = require('../utils/logger');
 
 async function getPreferences(userId) {
-  const q = await db.query('SELECT notification_type, enabled, channels FROM notification_preferences WHERE user_id = $1', [userId]);
+  const q = await db.query(
+    `SELECT np.notification_type,
+            np.enabled,
+            COALESCE(array_agg(nc.channel) FILTER (WHERE nc.channel IS NOT NULL), ARRAY[]::text[]) AS channels
+     FROM notification_preferences np
+     LEFT JOIN notification_preference_channels nc ON nc.preference_id = np.id
+     WHERE np.user_id = $1
+     GROUP BY np.notification_type, np.enabled`,
+    [userId]
+  );
   const prefs = {};
   for (const row of q.rows) prefs[row.notification_type] = { enabled: row.enabled, channels: row.channels };
   return prefs;
 }
 
 async function setPreference(userId, notificationType, enabled = true, channels = ['inbox']) {
+  // Upsert preference (without channels column)
   const q = await db.query(
-    `INSERT INTO notification_preferences (user_id, notification_type, enabled, channels, created_at)
-     VALUES ($1,$2,$3,$4,now()) ON CONFLICT (user_id, notification_type) DO UPDATE SET enabled=EXCLUDED.enabled, channels=EXCLUDED.channels RETURNING *`,
-    [userId, notificationType, enabled, channels]
+    `INSERT INTO notification_preferences (user_id, notification_type, enabled, created_at)
+     VALUES ($1,$2,$3,now())
+     ON CONFLICT (user_id, notification_type) DO UPDATE SET enabled=EXCLUDED.enabled
+     RETURNING *`,
+    [userId, notificationType, enabled]
   );
-  return q.rows[0];
+  const pref = q.rows[0];
+
+  // Replace channels for this preference: delete existing, then insert provided channels
+  await db.query('DELETE FROM notification_preference_channels WHERE preference_id = $1', [pref.id]);
+  if (Array.isArray(channels) && channels.length > 0) {
+    await db.query(
+      `INSERT INTO notification_preference_channels (preference_id, channel, created_at)
+       SELECT $1, ch, now() FROM unnest($2::text[]) AS ch
+       ON CONFLICT (preference_id, channel) DO NOTHING`,
+      [pref.id, channels]
+    );
+  }
+
+  const chQ = await db.query('SELECT COALESCE(array_agg(channel), ARRAY[]::text[]) AS channels FROM notification_preference_channels WHERE preference_id = $1', [pref.id]);
+  pref.channels = chQ.rows[0].channels || [];
+  return pref;
 }
 
 // Create notification if user preference allows it

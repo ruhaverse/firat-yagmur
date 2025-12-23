@@ -226,6 +226,30 @@ async function up() {
     logger.info('Notification preferences table ensured');
     console.log('Notification preferences table ensured');
 
+    // Normalize channels array into a separate table to satisfy 1NF
+    await db.query(`CREATE TABLE IF NOT EXISTS notification_preference_channels (
+      id SERIAL PRIMARY KEY,
+      preference_id INTEGER NOT NULL REFERENCES notification_preferences(id) ON DELETE CASCADE,
+      channel TEXT NOT NULL,
+      created_at TIMESTAMP DEFAULT now(),
+      UNIQUE(preference_id, channel)
+    );`);
+    await db.query(`CREATE INDEX IF NOT EXISTS idx_notification_pref_channels_pref_id ON notification_preference_channels(preference_id);`);
+
+    // Backfill existing channels arrays into the normalized table (idempotent)
+    await db.query(`INSERT INTO notification_preference_channels (preference_id, channel, created_at)
+      SELECT np.id, ch, now()
+      FROM notification_preferences np, unnest(coalesce(np.channels, ARRAY[]::text[])) AS ch
+      WHERE np.channels IS NOT NULL AND array_length(np.channels,1) > 0
+      ON CONFLICT (preference_id, channel) DO NOTHING;`);
+    logger.info('Notification preference channels table ensured and backfilled');
+    console.log('Notification preference channels table ensured and backfilled');
+
+    // After backfill, drop the old channels array column to enforce 1NF (idempotent)
+    await db.query(`ALTER TABLE notification_preferences DROP COLUMN IF EXISTS channels;`);
+    logger.info('Dropped notification_preferences.channels column (if existed)');
+    console.log('Dropped notification_preferences.channels column (if existed)');
+
     // Likes table (for posts, reels, comments, swaps)
     await db.query(`CREATE TABLE IF NOT EXISTS likes (
       id SERIAL PRIMARY KEY,
@@ -272,9 +296,40 @@ async function up() {
     await db.query(`CREATE INDEX IF NOT EXISTS idx_reels_user ON reels(user_id);`);
     await db.query(`CREATE INDEX IF NOT EXISTS idx_reels_created ON reels(created_at DESC);`);
     await db.query(`CREATE INDEX IF NOT EXISTS idx_comments_post ON comments(post_id);`);
+    // Optionally create explicit indexes for FK columns that lacked them
+    // Use CONCURRENTLY in production by setting MIGRATE_USE_CONCURRENTLY=true
+    const useConcurrently = process.env.MIGRATE_USE_CONCURRENTLY === 'true';
+    const fkIndexTargets = [
+      { table: 'comments', column: 'parent_comment_id', name: 'idx_comments_parent_comment_id' },
+      { table: 'notifications', column: 'actor_id', name: 'idx_notifications_actor_id' }
+    ];
+    for (const t of fkIndexTargets) {
+      if (useConcurrently) {
+        const exists = await db.query(`SELECT 1 FROM pg_class WHERE relkind='i' AND relname=$1`, [t.name]);
+        if (exists.rowCount === 0) {
+          // CREATE INDEX CONCURRENTLY must not run inside a transaction; our driver issues single statements,
+          // so this should be safe in most deploys. For very large tables prefer running manually during maintenance.
+          await db.query(`CREATE INDEX CONCURRENTLY ${t.name} ON ${t.table}(${t.column});`);
+        }
+      } else {
+        await db.query(`CREATE INDEX IF NOT EXISTS ${t.name} ON ${t.table}(${t.column});`);
+      }
+    }
     await db.query(`CREATE INDEX IF NOT EXISTS idx_likes_target ON likes(target_type, target_id);`);
     await db.query(`CREATE INDEX IF NOT EXISTS idx_friendships_user ON friendships(user_id);`);
     await db.query(`CREATE INDEX IF NOT EXISTS idx_followers_following ON followers(following_id);`);
+    // Additional indexes and updated_at support for media/saved tables
+    await db.query(`CREATE INDEX IF NOT EXISTS idx_post_media_post_id ON post_media(post_id);`);
+    await db.query(`CREATE INDEX IF NOT EXISTS idx_reel_media_reel_id ON reel_media(reel_id);`);
+    await db.query(`CREATE INDEX IF NOT EXISTS idx_swap_media_swap_id ON swap_media(swap_id);`);
+    await db.query(`CREATE INDEX IF NOT EXISTS idx_comments_reel ON comments(reel_id);`);
+    await db.query(`CREATE INDEX IF NOT EXISTS idx_comments_swap ON comments(swap_id);`);
+    await db.query(`CREATE INDEX IF NOT EXISTS idx_comments_user ON comments(user_id);`);
+
+    // Composite indexes to help pagination and common access patterns
+    await db.query(`CREATE INDEX IF NOT EXISTS idx_posts_author_created ON posts(author_id, created_at DESC);`);
+    await db.query(`CREATE INDEX IF NOT EXISTS idx_reels_user_created ON reels(user_id, created_at DESC);`);
+
     // Backfill / ensure `source` column exists for older deployments where reels table was created earlier
     await db.query(`DO $$
     BEGIN
@@ -284,8 +339,37 @@ async function up() {
         ALTER TABLE reels ADD COLUMN source TEXT;
       END IF;
     END$$;`);
-    logger.info('All indexes ensured');
-    console.log('All indexes ensured');
+
+    // Ensure updated_at trigger function exists
+    await db.query(`DO $$
+    BEGIN
+      IF NOT EXISTS (SELECT 1 FROM pg_proc WHERE proname = 'update_updated_at_column') THEN
+        CREATE OR REPLACE FUNCTION update_updated_at_column()
+        RETURNS TRIGGER AS $$
+        BEGIN
+          NEW.updated_at = now();
+          RETURN NEW;
+        END;
+        $$ LANGUAGE plpgsql;
+      END IF;
+    END$$;`);
+
+    // Add updated_at to tables that currently have only created_at and attach triggers
+    const addUpdatedAtTables = ['post_media','reel_media','swap_media','saved_posts','saved_reels','saved_swaps'];
+    for (const t of addUpdatedAtTables) {
+      await db.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='${t}' AND column_name='updated_at') THEN ALTER TABLE ${t} ADD COLUMN updated_at TIMESTAMP DEFAULT now(); END IF; END$$;`);
+      await db.query(`DO $$
+      BEGIN
+        IF NOT EXISTS (
+          SELECT 1 FROM pg_trigger WHERE tgname = ('trg_'||'${t}'||'_updated_at')
+        ) THEN
+          EXECUTE 'CREATE TRIGGER trg_'||'${t}'||'_updated_at BEFORE UPDATE ON ${t} FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();';
+        END IF;
+      END$$;`);
+    }
+
+    logger.info('All indexes and updated_at triggers ensured');
+    console.log('All indexes and updated_at triggers ensured');
 
     logger.info('Migrations applied successfully');
     console.log('Migrations applied successfully');

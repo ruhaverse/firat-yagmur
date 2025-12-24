@@ -50,8 +50,8 @@ const getSwapById = async (swapId) => {
 };
 
 const listSwaps = async ({ page = 1, limit = 20, status, location }) => {
-  let filters = [];
-  let values = [];
+  const filters = [];
+  const values = [];
   let idx = 1;
   if (status) { filters.push(`status=$${idx++}`); values.push(status); }
   if (location) { filters.push(`location ILIKE $${idx++}`); values.push(`%${location}%`); }
@@ -69,8 +69,8 @@ const listSwaps = async ({ page = 1, limit = 20, status, location }) => {
 };
 
 const listSwapsByUser = async (email, { page = 1, limit = 20, status, location }) => {
-  let filters = ['u.email=$1'];
-  let values = [email];
+  const filters = ['u.email=$1'];
+  const values = [email];
   let idx = 2;
   if (status) { filters.push(`s.status=$${idx++}`); values.push(status); }
   if (location) { filters.push(`s.location ILIKE $${idx++}`); values.push(`%${location}%`); }
@@ -98,8 +98,8 @@ const listSwapsByFriends = async (email, { page = 1, limit = 20, status, locatio
   );
   const friendIds = friendsRes.rows.map(r => r.friend_id);
   if (!friendIds.length) return { items: [], pagination: { page, limit, total: 0 } };
-  let filters = [`user_id = ANY($1)`];
-  let values = [friendIds];
+  const filters = [`user_id = ANY($1)`];
+  const values = [friendIds];
   let idx = 2;
   if (status) { filters.push(`status=$${idx++}`); values.push(status); }
   if (location) { filters.push(`location ILIKE $${idx++}`); values.push(`%${location}%`); }
@@ -121,8 +121,8 @@ const listSavedSwaps = async (email, { page = 1, limit = 20, status, location })
   const userRes = await db.query(`SELECT id FROM users WHERE email=$1`, [email]);
   if (!userRes.rows.length) return { items: [], pagination: { page, limit, total: 0 } };
   const userId = userRes.rows[0].id;
-  let filters = ['ss.user_id=$1'];
-  let values = [userId];
+  const filters = ['ss.user_id=$1'];
+  const values = [userId];
   let idx = 2;
   if (status) { filters.push(`s.status=$${idx++}`); values.push(status); }
   if (location) { filters.push(`s.location ILIKE $${idx++}`); values.push(`%${location}%`); }

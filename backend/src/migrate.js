@@ -100,6 +100,20 @@ async function up() {
     logger.info('Posts table ensured');
     console.log('Posts table ensured');
 
+    // Hangs table for social 'hang' posts
+    await db.query(`CREATE TABLE IF NOT EXISTS hangs (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+      title TEXT,
+      description TEXT,
+      status TEXT DEFAULT 'draft',
+      created_at TIMESTAMP DEFAULT now(),
+      updated_at TIMESTAMP DEFAULT now()
+    );`);
+    await db.query(`CREATE INDEX IF NOT EXISTS idx_hangs_user_created ON hangs(user_id, created_at DESC);`);
+    logger.info('Hangs table ensured');
+    console.log('Hangs table ensured');
+
     // Post media table
     await db.query(`CREATE TABLE IF NOT EXISTS post_media (
       id SERIAL PRIMARY KEY,
@@ -237,18 +251,23 @@ async function up() {
     await db.query(`CREATE INDEX IF NOT EXISTS idx_notification_pref_channels_pref_id ON notification_preference_channels(preference_id);`);
 
     // Backfill existing channels arrays into the normalized table (idempotent)
-    await db.query(`INSERT INTO notification_preference_channels (preference_id, channel, created_at)
-      SELECT np.id, ch, now()
-      FROM notification_preferences np, unnest(coalesce(np.channels, ARRAY[]::text[])) AS ch
-      WHERE np.channels IS NOT NULL AND array_length(np.channels,1) > 0
-      ON CONFLICT (preference_id, channel) DO NOTHING;`);
-    logger.info('Notification preference channels table ensured and backfilled');
-    console.log('Notification preference channels table ensured and backfilled');
+    // Backfill existing channels arrays into the normalized table (idempotent)
+    // Only attempt backfill/drop if the `channels` column actually exists.
+    await db.query(`DO $$
+    BEGIN
+      IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='notification_preferences' AND column_name='channels') THEN
+        INSERT INTO notification_preference_channels (preference_id, channel, created_at)
+          SELECT np.id, ch, now()
+          FROM notification_preferences np, unnest(coalesce(np.channels, ARRAY[]::text[])) AS ch
+          WHERE np.channels IS NOT NULL AND array_length(np.channels,1) > 0
+          ON CONFLICT (preference_id, channel) DO NOTHING;
 
-    // After backfill, drop the old channels array column to enforce 1NF (idempotent)
-    await db.query(`ALTER TABLE notification_preferences DROP COLUMN IF EXISTS channels;`);
-    logger.info('Dropped notification_preferences.channels column (if existed)');
-    console.log('Dropped notification_preferences.channels column (if existed)');
+        -- After backfill, drop the old channels array column to enforce 1NF (idempotent)
+        ALTER TABLE notification_preferences DROP COLUMN IF EXISTS channels;
+      END IF;
+    END$$;`);
+    logger.info('Notification preference channels table ensured and backfilled (if channels existed)');
+    console.log('Notification preference channels table ensured and backfilled (if channels existed)');
 
     // Likes table (for posts, reels, comments, swaps)
     await db.query(`CREATE TABLE IF NOT EXISTS likes (
@@ -345,27 +364,27 @@ async function up() {
     BEGIN
       IF NOT EXISTS (SELECT 1 FROM pg_proc WHERE proname = 'update_updated_at_column') THEN
         CREATE OR REPLACE FUNCTION update_updated_at_column()
-        RETURNS TRIGGER AS $$
+        RETURNS TRIGGER AS $func$
         BEGIN
           NEW.updated_at = now();
           RETURN NEW;
         END;
-        $$ LANGUAGE plpgsql;
+        $func$ LANGUAGE plpgsql;
       END IF;
     END$$;`);
 
     // Add updated_at to tables that currently have only created_at and attach triggers
     const addUpdatedAtTables = ['post_media','reel_media','swap_media','saved_posts','saved_reels','saved_swaps'];
     for (const t of addUpdatedAtTables) {
-      await db.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='${t}' AND column_name='updated_at') THEN ALTER TABLE ${t} ADD COLUMN updated_at TIMESTAMP DEFAULT now(); END IF; END$$;`);
-      await db.query(`DO $$
-      BEGIN
-        IF NOT EXISTS (
-          SELECT 1 FROM pg_trigger WHERE tgname = ('trg_'||'${t}'||'_updated_at')
-        ) THEN
-          EXECUTE 'CREATE TRIGGER trg_'||'${t}'||'_updated_at BEFORE UPDATE ON ${t} FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();';
-        END IF;
-      END$$;`);
+      // Add updated_at column if missing (Postgres supports IF NOT EXISTS)
+      await db.query(`ALTER TABLE ${t} ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP DEFAULT now();`);
+
+      // Create trigger if not exists (check pg_trigger catalog and create if missing)
+      const trigName = `trg_${t}_updated_at`;
+      const trigCheck = await db.query(`SELECT 1 FROM pg_trigger WHERE tgname=$1`, [trigName]);
+      if (trigCheck.rowCount === 0) {
+        await db.query(`CREATE TRIGGER ${trigName} BEFORE UPDATE ON ${t} FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();`);
+      }
     }
 
     logger.info('All indexes and updated_at triggers ensured');
@@ -375,7 +394,13 @@ async function up() {
     console.log('Migrations applied successfully');
     process.exit(0);
   } catch (err) {
-    logger.error('Migration failed:', err);
+    // Ensure we print the full error to stdout/stderr for CI and local debugging
+    try {
+      console.error('Migration failed:', err && err.stack ? err.stack : err);
+    } catch (e) {
+      // ignore
+    }
+    logger.error({ err }, 'Migration failed');
     process.exit(1);
   }
 }

@@ -1,0 +1,8 @@
+// Candidate legacy files to review before removal. Do NOT delete until CI passes.
+d:/ShareUpTime/firat-yagmur/backend/src/controllers/authController.js
+d:/ShareUpTime/firat-yagmur/backend/src/controllers/friendshipsController.js
+d:/ShareUpTime/firat-yagmur/backend/src/controllers/notificationsController.js
+d:/ShareUpTime/firat-yagmur/backend/src/controllers/postsController.js
+d:/ShareUpTime/firat-yagmur/backend/src/controllers/reelsController.js
+d:/ShareUpTime/firat-yagmur/backend/src/controllers/searchController.js
+d:/ShareUpTime/firat-yagmur/backend/src/controllers/swapsController.js

@@ -1,4 +1,4 @@
-const db = require('./config/db');
+const db = require('./common/db');
 const logger = require('./utils/logger');
 
 // NOTE: This script must be able to create all tables from scratch on a new machine.

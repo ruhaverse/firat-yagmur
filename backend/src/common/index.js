@@ -5,8 +5,6 @@ const authMiddleware = require('./middleware/auth');
 const rbac = require('./middleware/rbac');
 
 // Services
-const notificationService = require('../services/notificationService');
-const swapService = require('../services/swapService');
 const storage = require('../services/storage');
 
 const config = getConfig();
@@ -18,8 +16,6 @@ module.exports = {
   authMiddleware,
   rbac,
   services: {
-    notificationService,
-    swapService,
     storage,
   }
 };

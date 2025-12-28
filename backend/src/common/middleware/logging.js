@@ -9,7 +9,7 @@ function requestLogger(req, res, next) {
 
   try {
     req.log = logger.child({ requestId: id });
-  } catch (e) {
+  } catch {
     // noop if child creation fails
   }
 

@@ -11,7 +11,7 @@ function requestLogger(req, res, next) {
   // Attach a minimal per-request logger early so other middleware can use it
   try {
     req.log = logger.child({ requestId: id });
-  } catch (e) {
+  } catch {
     // noop if child creation fails
   }
 

@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 
 function makeController(deps) {
   const db = deps.db;
+  const authService = (deps.services && deps.services.authService) ? deps.services.authService : require('./service')(deps);
   const config = deps.config;
   const JWT_SECRET = config.jwtSecret;
   const SALT_ROUNDS = config.saltRounds;
@@ -11,7 +12,7 @@ function makeController(deps) {
 
   function sanitizeUser(row) {
     if (!row) return null;
-    const { password, ...rest } = row;
+    const { password: _password, ...rest } = row;
     return rest;
   }
 
@@ -40,15 +41,11 @@ function makeController(deps) {
       const sanitizedFirstName = sanitizeInput(firstName);
       const sanitizedLastName = sanitizeInput(lastName);
 
-      const exists = await db.query('SELECT id FROM users WHERE email = $1', [sanitizedEmail]);
-      if (exists.rowCount > 0) return res.status(409).json({ error: 'User already exists' });
+      const exists = await authService.findUserByEmail(sanitizedEmail);
+      if (exists) return res.status(409).json({ error: 'User already exists' });
 
       const hash = await bcrypt.hash(password, SALT_ROUNDS);
-      const insert = await db.query(
-        'INSERT INTO users (email, password, first_name, last_name) VALUES ($1,$2,$3,$4) RETURNING id, email, first_name, last_name, profile_picture',
-        [sanitizedEmail, hash, sanitizedFirstName, sanitizedLastName]
-      );
-      const user = insert.rows[0];
+      const user = await authService.createUser(sanitizedEmail, hash, sanitizedFirstName, sanitizedLastName);
       const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
       res.json({ data: { user: sanitizeUser(user), token } });
     } catch (err) { next(err); }
@@ -61,9 +58,8 @@ function makeController(deps) {
       if (!password || typeof password !== 'string') return res.status(400).json({ error: 'Password is required' });
 
       const sanitizedEmail = email.trim().toLowerCase();
-      const q = await db.query('SELECT id, email, password, first_name, last_name, profile_picture FROM users WHERE email = $1', [sanitizedEmail]);
-      if (q.rowCount === 0) return res.status(401).json({ error: 'Invalid credentials' });
-      const user = q.rows[0];
+      const user = await authService.findUserByEmail(sanitizedEmail);
+      if (!user) return res.status(401).json({ error: 'Invalid credentials' });
       const match = await bcrypt.compare(password, user.password);
       if (!match) return res.status(401).json({ error: 'Invalid credentials' });
       const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
@@ -76,9 +72,9 @@ function makeController(deps) {
       const email = req.params.email;
       if (!validateEmail(email)) return res.status(400).json({ error: 'Invalid email format' });
       const sanitizedEmail = email.trim().toLowerCase();
-      const q = await db.query('SELECT id, email, first_name, last_name, profile_picture, bio, location FROM users WHERE email = $1', [sanitizedEmail]);
-      if (q.rowCount === 0) return res.status(404).json({ error: 'User not found' });
-      res.json({ data: q.rows[0] });
+      const user = await authService.getUserByEmailPublic(sanitizedEmail);
+      if (!user) return res.status(404).json({ error: 'User not found' });
+      res.json({ data: user });
     } catch (err) { next(err); }
   }
 
@@ -86,8 +82,8 @@ function makeController(deps) {
     try {
       const limit = Math.min(parseInt(req.query.limit, 10) || 50, 200);
       const offset = Math.max(parseInt(req.query.offset, 10) || 0, 0);
-      const q = await db.query('SELECT id, email, first_name, last_name, profile_picture FROM users ORDER BY id DESC LIMIT $1 OFFSET $2', [limit, offset]);
-      res.json({ data: q.rows });
+      const rows = await authService.listUsers(limit, offset);
+      res.json({ data: rows });
     } catch (err) { next(err); }
   }
 
@@ -97,12 +93,12 @@ function makeController(deps) {
       if (!targetId) return res.status(400).json({ error: 'Invalid user id' });
       const { role } = req.body;
       if (!role || typeof role !== 'string') return res.status(400).json({ error: 'role required' });
-      const r = await db.query('SELECT id FROM roles WHERE name=$1 LIMIT 1', [role]);
-      if (r.rowCount === 0) return res.status(404).json({ error: 'Role not found' });
-      const roleId = r.rows[0].id;
-      await db.query('INSERT INTO user_roles (user_id, role_id, created_at) VALUES ($1,$2,now()) ON CONFLICT (user_id, role_id) DO NOTHING', [targetId, roleId]);
-      const roles = await db.query(`SELECT r.name FROM roles r JOIN user_roles ur ON ur.role_id=r.id WHERE ur.user_id=$1`, [targetId]);
-      res.json({ data: roles.rows.map(x => x.name) });
+      const r = await authService.findRoleByName(role);
+      if (!r) return res.status(404).json({ error: 'Role not found' });
+      const roleId = r.id;
+      await authService.addUserRole(targetId, roleId);
+      const roles = await authService.listRolesForUser(targetId);
+      res.json({ data: roles });
     } catch (err) { next(err); }
   }
 
@@ -110,8 +106,8 @@ function makeController(deps) {
     try {
       const targetId = parseInt(req.params.id, 10);
       if (!targetId) return res.status(400).json({ error: 'Invalid user id' });
-      const roles = await db.query(`SELECT r.name FROM roles r JOIN user_roles ur ON ur.role_id = r.id WHERE ur.user_id=$1`, [targetId]);
-      res.json({ data: roles.rows.map(x => x.name) });
+      const roles = await authService.listRolesForUser(targetId);
+      res.json({ data: roles });
     } catch (err) { next(err); }
   }
 

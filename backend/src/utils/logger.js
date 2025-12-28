@@ -10,7 +10,7 @@ function createRotatingStream() {
   const logDir = process.env.LOG_DIR || path.resolve(__dirname, '../../logs');
   try {
     if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
-  } catch (e) {
+  } catch {
     // ignore directory creation errors; fallback to stdout
     return null;
   }

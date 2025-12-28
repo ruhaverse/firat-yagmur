@@ -18,7 +18,7 @@ function requireAuth(req, res, next) {
       req.log = req.log.child({ userId: payload.id });
     }
     next();
-  } catch (err) {
+  } catch (_err) {
     return res.status(401).json({ error: 'Invalid token' });
   }
 }

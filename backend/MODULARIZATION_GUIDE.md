@@ -96,3 +96,47 @@ npm test
 ---
 
 If you'd like, I can create a PR containing the extraction + tests or prepare the removal PR but I will not delete legacy files until CI passes as described above.
+
+## Monolith → Microservices Guidelines
+
+Purpose: development runs as a monolith for speed; production will be microservices for scalability and isolation. Follow these rules when changing code so later split is easy.
+
+- Development vs Hosting:
+  - Development: run all domains together in one service/container for fast iteration and simple debugging.
+  - Hosting/Production: deploy domains as individual services (auth, posts, notifications, etc.) with separate CI/CD pipelines, service-level scaling, and independent release cadence.
+
+- Shared modules and structure:
+  - Keep reusable code in `backend/src/common/` (e.g., `db.js`, `logger.js`, middleware). These modules must be environment-agnostic and accept configuration via `deps` or env vars.
+  - Avoid importing domain internals from other domains; use well-defined interfaces via `service` factories that accept a `deps` bag.
+  - Prefer dependency injection (pass `db`, `logger`, `config`, `storage`) instead of requiring global singletons — simplifies extracting a domain into its own service.
+
+- Database and connection considerations:
+  - Use `DATABASE_URL` env var and keep connection pooling centralized in `common/db.js`.
+  - Document pool sizing and limits in this guide (e.g., `PG_MAX_CLIENTS`), because microservices will each need their own pool configuration when split.
+  - Plan for connection pooling in hosting: use smaller per-service pools + connection pooling proxies (PgBouncer) for high-scale environments.
+
+- Environment and configuration:
+  - Read configuration from env vars (`DATABASE_URL`, `PORT`, `LOG_LEVEL`, `STORAGE_BUCKET`) and avoid hardcoded paths.
+  - Keep per-service config lightweight; when splitting, move service-specific vars to their service's deployment manifest.
+
+- CI/CD and testing:
+  - Keep CI lightweight during development: `lint` + `npm test` per PR.
+  - When moving to hosting, extend CI to include per-service builds, container image scans, and deployment steps.
+  - Design tests so domain-level integration tests can run independently against a test database or service mocks.
+
+- Observability & logging:
+  - Use structured logging (`pino`) and include `service`/`domain` fields in logs so logs are filterable after splitting into services.
+  - Emit metrics (latency, errors) at domain boundaries to ease monitoring in microservices.
+
+- Documentation & feature placement:
+  - When adding a feature, annotate whether it belongs to a domain or shared infra in the PR description.
+  - Keep infra changes (middleware, auth strategies, storage drivers) in `common/` and document migration implications.
+
+- Migration checklist (splitting a domain into a service):
+  1. Ensure domain code only depends on `common/` and exported service interfaces.
+  2. Create a new service skeleton (Dockerfile, minimal `package.json`) and move domain code with `deps` wiring.
+  3. Add env/config and CI pipeline for the new service; configure its DB pool and secrets.
+  4. Deploy to staging, run integration smoke tests, and monitor logs/metrics.
+  5. Gradually route traffic and scale the service independently.
+
+Follow these guidelines when refactoring, and I will apply them to future changes. I will not remove or consolidate infrastructure in ways that impede this migration plan without marking the change and documenting it here.

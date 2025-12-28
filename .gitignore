@@ -77,3 +77,4 @@ temp/
 
 # Postman
 .postman_environment.json
+backend/.env

@@ -39,7 +39,7 @@ app.use((req, res, next) => {
 			const userId = req.user && req.user.id ? req.user.id : null;
 			req.log = req.log.child({ requestId: req.id || req.requestId || null, userId });
 		}
-	} catch (e) {
+	} catch {
 		// noop
 	}
 	next();
@@ -128,7 +128,7 @@ app.use((req, res) => {
 });
 
 // centralized error handler
-app.use((err, req, res, next) => {
+app.use((err, req, res, _next) => {
 	// Defensive: ensure err exists
 	const isDev = config.nodeEnv === 'development';
 	const message = err && err.message ? err.message : 'Internal Server Error';

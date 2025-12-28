@@ -13,10 +13,10 @@ import {store} from "../../app/store";
 
 import { setSearchTerm } from "../../app/searchSlice";
 
-function ShareupInsideHeaderComponent() {
+function ShareupInsideHeaderComponent({ user: propUser }) {
   const history = useHistory();
 
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState(propUser || []);
   const [friendsList, setFriendsList] = useState([]);
   const [searchedFriendsList, setSearchedFriendsList] = useState([]);
   const [showUserSettings, setShowUserSettings] = useState(false);
@@ -75,8 +75,10 @@ function ShareupInsideHeaderComponent() {
   }, [searchedFriendsList])
 
   useEffect(() => {
-    currentUserGet()
-  }, [])
+    if (!propUser) {
+      currentUserGet();
+    }
+  }, [propUser])
 
   const onUnfocus = () => {
     if (showUserSettings === true) {
@@ -87,7 +89,7 @@ function ShareupInsideHeaderComponent() {
 
 
   return (
-    <div className="topbar stick">
+    <div className="topbar stick" data-testid="topbar-debug">
 
       <div className="container">
         <div className="main-area"><ul className="main-menu">

@@ -9,6 +9,7 @@ import AuthService from '../../services/auth.services';
 import SimpleReactLightbox from 'simple-react-lightbox'
 import { testScript } from '../../js/script';
 import GoogleMapReact from 'google-map-react';
+import { useGoogleMapsApi } from '../../hooks/useGoogleMapsApi';
 
 
 import EditPostComponent from '../post/EditPostComponent'
@@ -261,10 +262,11 @@ function CheckoutComponent({ data }) {
   }
   const showMap = () => {
     if (showLoc === "yes") {
+      useGoogleMapsApi();
       return (
         <div style={{ height: '100vh', width: '100%' }}>
           <GoogleMapReact
-            bootstrapURLKeys={{ key: "AIzaSyCUqRf-EB8vo-P_BYx0dRES5A3h78u1Xzc" }}
+            bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY }}
             defaultCenter={defaultProps.center}
             defaultZoom={defaultProps.zoom}
           >

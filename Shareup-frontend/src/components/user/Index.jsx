@@ -220,9 +220,11 @@ const onSubmit = (data) => {
 
 
   const getUser = async (email) => {
-    await UserService.getUserByEmail(email).then(res => {
-      setUser(res.data)
-    })
+    if (email) {
+      await UserService.getUserByEmail(email).then(res => {
+        setUser(res.data)
+      })
+    }
   }
 
   const validateLogin = (event) => {

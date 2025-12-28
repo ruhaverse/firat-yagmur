@@ -92,25 +92,32 @@ class AuthService {
   getCurrentUser = () => {
     try {
       const userData = localStorage.getItem("user");
-      
       if (!userData || userData === "undefined") {
         return null;
       }
-
       const parsed = JSON.parse(userData);
-      
+      // Validate structure: must have jwt, username, user, timestamp, expiresIn
+      if (
+        typeof parsed !== 'object' ||
+        !parsed.jwt ||
+        !parsed.username ||
+        !parsed.user ||
+        typeof parsed.timestamp !== 'number' ||
+        typeof parsed.expiresIn !== 'number'
+      ) {
+        this.logout();
+        return null;
+      }
       // Validate token expiry if metadata exists
       if (parsed.timestamp && parsed.expiresIn) {
         const now = Date.now();
         const tokenAge = now - parsed.timestamp;
-        
         if (tokenAge > parsed.expiresIn) {
           // Token expired, clear it
           this.logout();
           return null;
         }
       }
-      
       return parsed;
     } catch (error) {
       // Handle corrupted localStorage data

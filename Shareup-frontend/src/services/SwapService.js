@@ -50,7 +50,7 @@ class SwapService {
     getSwapForUserFriends = async (email) => {
         try {
             authenticate();
-            const result = await authAxios.get(`swaps/femail/${email}`)
+            const result = await authAxios.get(`swaps/friends/${email}`)
             return result;
         } catch (error) {
             logger.error('SwapService.getSwapForUserFriends failed:', error);
@@ -61,7 +61,8 @@ class SwapService {
     getSavedSwapForUser = async (email) => {
         try {
             authenticate();
-            const result = await authAxios.get(`swaps/${email}/saved_swaps`)
+            // backend exposes authenticated user's saved swaps at GET /api/v1/swaps/saved
+            const result = await authAxios.get(`swaps/saved`)
             return result;
         } catch (error) {
             logger.error('SwapService.getSavedSwapForUser failed:', error);

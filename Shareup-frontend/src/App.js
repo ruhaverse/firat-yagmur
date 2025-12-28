@@ -7,16 +7,14 @@ import './css/slider.css';
 import './css/color.css';
 import './css/responsive.css';
 import './css/responsive-fix.css';
-import './css/fontawesome/css/all.min.css';
 import './css/styleguide.css';
 import './css/notifications.css';
 import './css/globals.css';
-import './css/emojionearea.min.css';
 import AuthService from './services/auth.services';
-import { useLocation } from 'react-router-dom'
+import { useLocation, BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import HeaderComponent from './components/dashboard/HeaderComponent';
+// Removed local FontAwesome and Emojionearea CSS imports
+import HeaderComponent from './components/dashboard/HeaderComponent.jsx';
 import AddFriendsComponent from './components/user/AddFriendsComponent';
 import FriendsComponent from './components/user/FriendsComponent';
 import NewsfeedComponent from './components/user/NewsfeedComponent';
@@ -89,7 +87,7 @@ function App() {
   const userAuthenticator = async () => {
     await AuthService.setCurrentUser(jwtUser)
     let user = null
-    if (jwtUser) {
+    if (jwtUser && jwtUser.username) {
       user = await UserService.getUserByEmail(jwtUser.username).then(res => {
         return res.data
       })

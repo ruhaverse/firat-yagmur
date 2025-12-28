@@ -64,7 +64,22 @@ class UserService {
     getUserByEmail = async (email) => {
         try {
             authenticate();
-            const result = await authAxios.get(`users/${email}`)
+            // Normalize email: remove leading ':' or fallback to stored user email
+            let emailToUse = email;
+            if (emailToUse && typeof emailToUse === 'string' && emailToUse.startsWith(':')) {
+                emailToUse = emailToUse.slice(1);
+            }
+            // If still missing or doesn't look like an email, try the authenticated user's stored email
+            if (!emailToUse || (typeof emailToUse === 'string' && emailToUse.indexOf('@') === -1)) {
+                const cu = AuthService.getCurrentUser();
+                if (cu && cu.user && cu.user.email) {
+                    emailToUse = cu.user.email;
+                }
+            }
+            if (!emailToUse) {
+                throw new Error('No valid email available to fetch user');
+            }
+            const result = await authAxios.get(`users/${encodeURIComponent(emailToUse)}`)
             return result;
         } catch (error) {
             logger.error('UserService.getUserByEmail failed:', error);

@@ -153,13 +153,30 @@ MAX_FILE_SIZE=10485760  # 10MB
 | Method | Endpoint | Description | Auth Required |
 |--------|----------|-------------|---------------|
 | GET | `/` | Get reels list | ✅ |
-| POST | `/` | Create new reel | ✅ |
+| POST | `/` | Create new reel — canonical endpoint. Accepts optional `source` in JSON body for origin tracking. | ✅ |
 | GET | `/:id` | Get reel details | ✅ |
 | DELETE | `/:id` | Delete reel | ✅ |
 | POST | `/:id/like` | Like reel | ✅ |
 | POST | `/:id/comment` | Comment on reel | ✅ |
 
 *(60+ total endpoints including users, messages, groups, notifications, stories, etc.)*
+
+**Deprecation notice:** Legacy endpoints that encoded user identity in the URL (for example `/api/v1/reels/web/:userId`) have been removed. Always use `POST /api/v1/reels` with an authenticated token; ownership is derived from the JWT. If you previously relied on the URL to provide a source/origin, include a `source` string in the JSON request body instead.
+
+#### Create post details
+
+	- `content` (string) — required
+	- `privacy` (string) — optional, one of `public`, `friends`, `private` (defaults to `public`)
+
+---
+
+#### Create swap details
+
+- **Endpoint:** `POST /api/v1/swaps`
+- **Auth:** Required — include `Authorization: Bearer <token>` header
+- **Body:** JSON object with swap payload fields (see swap service). Do NOT include `userId` — the server will set `user_id` from the authenticated JWT.
+- **Files:** Optional multipart files under field `swapfiles`.
+- **Behavior:** The server will reject any attempt to set `user_id` from the URL or body; identity is token-based.
 
 ---
 

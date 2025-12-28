@@ -107,3 +107,11 @@ npm start
 ---
 
 If anything should be more detailed or you want a different organization, tell me which domain or feature to refine next and I'll update the docs and commit the changes.
+
+## Backend Versioning & Integration
+
+- **Single source of truth:** The backend version is tracked at `backend/VERSION` and follows `MAJOR.MINOR.PATCH+YYYYMMDD`.
+- **Cross-repo coordination:** When backend `MAJOR` or `MINOR` changes, update the frontend and mobile integration notes and/or pin the API client to the expected `backend/VERSION`.
+- **PR checklist:** For backend PRs that include migrations, confirm `npm run migrate` and `npm test` locally, update `backend/VERSION`, and add migration notes to the PR description. This ensures web and mobile teams can plan any update required.
+
+Refer to `backend/README.md` for the canonical release and migration checklist.

@@ -30,6 +30,42 @@ ShareUpTime backend serves both **web application** and **mobile app** with 60+ 
 backend/
 ├── src/
 │   ├── index.js              # Express server entry point
+
+## 🏷 Versioning & Release Policy
+
+- **Version file:** `backend/VERSION` contains the current backend build tag. Format: `MAJOR.MINOR.PATCH+YYYYMMDD` (example: `1.0.0+20251228`).
+- **When to bump:** Increment `MAJOR` for breaking API changes, `MINOR` for additive API changes, and `PATCH` for bugfixes. Always update `backend/VERSION` in the same PR that introduces migrations or API changes.
+- **Release procedure (quick):**
+	1. Run `npm run migrate` locally and ensure no errors.
+	2. Run `npm test` and confirm all tests pass.
+	3. Update `backend/VERSION` with the new tag.
+	4. Create PR, include migration notes and a short changelog entry.
+	5. Merge after CI passes; notify frontend/mobile teams to pin or verify compatibility.
+
+## ✅ Migration & Verification Checklist
+
+- **Pre-merge (developer):**
+	- Ensure `.env` is not committed and `.env.example` is updated if keys changed.
+	- Run and pass `npm run migrate` against a local Postgres instance.
+	- Run `npm test` (unit & integration) and fix failures.
+	- Add migration notes to the PR description (tables changed, seeds added, downtime risk).
+
+- **Post-merge (release):**
+	- Confirm CI applied migrations in the staging environment and smoke-tested endpoints.
+	- Verify critical endpoints (auth, posts, notifications) with a quick smoke run.
+	- Update release notes and notify integrators (frontend & mobile) of the `backend/VERSION` change.
+
+Run these commands locally to validate before creating a PR:
+
+```bash
+cd backend
+npm install
+# run migrations (requires Postgres)
+npm run migrate
+# run tests
+npm test
+```
+
 │   ├── migrate.js            # Database migrations
 │   ├── config/
 │   │   └── db.js             # PostgreSQL configuration

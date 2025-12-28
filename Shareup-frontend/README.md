@@ -116,3 +116,5 @@ Currently using: **Production** (settings.prod)
 
 **For team onboarding, architecture details, and deployment guides, see [PROJECT_DOCS.md](../PROJECT_DOCS.md)**
 
+> Developer note: see [ARCHITECTURE.md](../ARCHITECTURE.md) for developer-focused repository map, domain conventions and contribution workflow.
+

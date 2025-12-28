@@ -7,6 +7,8 @@
 
 > 📘 **New Team Members:** See [PROJECT_DOCS.md](PROJECT_DOCS.md) for comprehensive onboarding, architecture, and development guide!
 
+**Architecture doc:** see [ARCHITECTURE.md](ARCHITECTURE.md) for a developer-focused, team-readable repository map and contribution conventions.
+
 ---
 
 ## 📋 Project Overview

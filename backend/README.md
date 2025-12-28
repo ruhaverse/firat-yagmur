@@ -73,6 +73,7 @@ npm install
 cp .env.example .env
 # Edit .env with your database credentials
 ```text
+> Developer note: See [ARCHITECTURE.md](../ARCHITECTURE.md) for a developer-focused repository map, domain conventions, and contribution workflow.
 1. **Run database migrations:**
 
 ```bash

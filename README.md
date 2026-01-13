@@ -2,11 +2,11 @@
 
 **Repository:** [ruhaverse/firat-yagmur](https://github.com/ruhaverse/firat-yagmur)  
 **Production:** https://www.shareuptime.com  
-**Development:** Backend: http://localhost:4001 | Web: http://localhost:3000 | Mobile: Expo Go (localhost:19006)
+**Development:** Backend: http://localhost:4001 | Web: http://localhost:3000
 
 ---
 
-## 📦 Monorepo Architecture
+## 📦 Project Structure
 
 ```
 firat-yagmur/
@@ -31,12 +31,7 @@ firat-yagmur/
 │   │   └── App.jsx
 │   └── package.json
 │
-├── mobile-app/                # 📱 React Native Mobile (Optional)
-│   ├── src/
-│   ├── app.json              # Expo configuration
-│   └── package.json
-│
-├── shared/                    # 🔗 Shared Code (Web + Mobile)
+├── shared/                    # 🔗 Shared Code
 │   ├── api-config.js         # API endpoints & base URLs
 │   ├── utils.js              # Common utilities
 │   ├── types.ts              # TypeScript types
@@ -45,6 +40,8 @@ firat-yagmur/
 └── scripts/                   # 🧪 Testing & utilities
     └── test-mobile-web-compat.sh
 ```
+
+**Note:** Mobile app is maintained in a separate repository ([React Native CLI project](https://github.com/ruhaverse/shareup-mobile)) and uses the same backend.
 
 ---
 
@@ -92,16 +89,6 @@ React 18.2
 └── 84+ Components      (Modular UI)
 ```
 
-### Frontend (Mobile - Optional)
-```
-React Native + Expo
-├── React Native CLI
-├── Expo APIs           (Camera, notifications, etc.)
-├── Shared utilities    (from /shared)
-├── Native modules      (iOS/Android)
-└── Expo Go App         (Development)
-```
-
 ### Shared Code
 ```
 /shared - Monorepo utilities
@@ -122,10 +109,6 @@ React Native + Expo
 - npm or yarn
 - PostgreSQL 13+ (or Docker)
 - Git
-
-# For mobile development (optional)
-- Android Studio / Xcode
-- Expo CLI (npm install -g expo-cli)
 ```
 
 ### 1️⃣ Setup Backend
@@ -172,30 +155,12 @@ npm start  # http://localhost:3000
 
 **Browser:** Open http://localhost:3000 in Chrome/Safari/Firefox
 
-### 3️⃣ Setup Mobile Frontend (Optional)
-
-```bash
-cd mobile-app
-
-# Install dependencies
-npm install
-
-# Configure Expo
-npx expo prebuild  # Generates native code
-
-# Start Expo development server
-npm start          # Press 'i' for iOS or 'a' for Android
-
-# Or use Expo Go app on your phone
-# Scan QR code from terminal
-```
-
 ---
 
 ## 🔐 Authentication & Test Accounts
 
 ### JWT Authentication
-- **Token Storage:** localStorage (web), AsyncStorage (mobile)
+- **Token Storage:** localStorage (web)
 - **Expiration:** 24 hours
 - **Refresh:** POST /api/v1/auth/refresh
 - **Method:** Bearer token in Authorization header
@@ -220,7 +185,7 @@ Password: Admin123!
 ## 📡 API Integration
 
 ### Shared API Configuration
-All frontends use the same `/shared/api-config.js`:
+Frontend uses `/shared/api-config.js`:
 
 ```javascript
 import { API_ENDPOINTS, API_BASE_URLS } from '@shareup/shared';
@@ -263,8 +228,8 @@ sharp (image resizing)
         ↓
 4 sizes generated:
 ├── thumbnail (150px)  - Avatars, previews
-├── small (320px)      - Mobile devices
-├── medium (640px)     - Tablet, desktop
+├── small (320px)      - Mobile/web small screens
+├── medium (640px)     - Tablet, standard desktop
 └── large (1280px)     - High-res displays
         ↓
 Stored in /uploads directory
@@ -274,7 +239,6 @@ Served via GET /uploads/filename?size=small
 
 ### Image Loading (Frontend)
 
-**Web:**
 ```jsx
 import LazyImage from './components/LazyImage';
 
@@ -283,17 +247,6 @@ import LazyImage from './components/LazyImage';
   size="medium"        // Automatic size selection
   alt="User photo"
 />
-```
-
-**Mobile:**
-```jsx
-import { LazyImage } from '@shareup/shared';
-import { useImageOptimization } from '@shareup/shared';
-
-const { getRecommendedSize } = useImageOptimization();
-const size = getRecommendedSize();  // Checks device & connection
-
-<LazyImage src={imageUrl} size={size} />
 ```
 
 ### Data Reduction
@@ -314,10 +267,10 @@ Desktop (1025px - 1439px)   → 3-column layout
 Large Desktop (1440px+)     → 4-column layout
 ```
 
-### Mobile-First Features
+### Features
 - ✅ Touch-friendly buttons (44x44px minimum)
 - ✅ Flexible typography (14px - 28px)
-- ✅ Single-column layouts
+- ✅ Single-column layouts on mobile
 - ✅ Full-width inputs
 - ✅ Hidden sidebars on mobile
 - ✅ Full-screen modals
@@ -325,24 +278,18 @@ Large Desktop (1440px+)     → 4-column layout
 - ✅ Dark mode support
 - ✅ Retina display support (@2x)
 
-### Device Support
+### Browser Support
 ```
-iOS
-├── Safari 14+ (modern)
-├── Safari 12-13 (legacy)
-└── Capacitor/Cordova wrapper
+Desktop
+├── Chrome/Chromium (latest 2 versions)
+├── Safari (latest 2 versions)
+├── Firefox (latest 2 versions)
+└── Edge (latest 2 versions)
 
-Android
-├── Chrome 90+
-├── Firefox 88+
-└── Samsung Internet 14+
-
-Web Browsers
-├── Chrome/Chromium
-├── Safari (macOS/iOS)
-├── Firefox
-├── Edge
-└── Opera
+Mobile
+├── Safari (iOS 14+)
+├── Chrome (Android latest)
+└── Firefox (Android latest)
 ```
 
 ---
@@ -404,7 +351,7 @@ Shareup-frontend/src/
 ### Shared Code Structure
 ```
 shared/
-├── api-config.js      # API endpoints (used by both web & mobile)
+├── api-config.js      # API endpoints (shared code)
 ├── utils.js           # Common utilities
 ├── types.ts           # TypeScript definitions
 ├── index.js           # Main export
@@ -424,16 +371,11 @@ npm test
 # Frontend tests
 cd Shareup-frontend
 npm test
-
-# Mobile tests (if setup)
-cd mobile-app
-npm test
 ```
 
 ### Compatibility Test
 ```bash
 # Test all endpoints
-cd /workspaces/firat-yagmur
 ./scripts/test-mobile-web-compat.sh
 ```
 
@@ -454,13 +396,6 @@ cd /workspaces/firat-yagmur
 - [ ] Lazy loading images
 - [ ] API calls working
 - [ ] Authentication flow
-
-**Mobile App (optional):**
-- [ ] Responsive layout
-- [ ] Touch interactions
-- [ ] Image loading
-- [ ] API integration
-- [ ] Device permissions
 
 ---
 
@@ -484,8 +419,7 @@ tail -f /var/log/app.log
 // Check allowed origins:
 const allowedOrigins = [
   'http://localhost:3000',   // Web
-  'http://localhost:19006',  // Expo
-  'capacitor://localhost'    // Mobile
+  'https://www.shareuptime.com'
 ];
 ```
 
@@ -499,15 +433,6 @@ curl http://localhost:4001/uploads/test.jpg?size=small
 
 # Verify sharp is installed
 docker exec backend npm list sharp
-```
-
-### Mobile app connection
-```bash
-# Update API URL in mobile-app/.env
-EXPO_PUBLIC_API_URL=http://<YOUR_IP>:4001/api/v1
-
-# Restart Expo
-npm start
 ```
 
 ---
@@ -552,29 +477,34 @@ npm run build
 build/
 ```
 
-### Mobile App Deployment (App Store/Google Play)
-```bash
-# Build production APK/IPA
-eas build --platform android
-eas build --platform ios
-
-# Submit to stores
-eas submit
-```
-
 ---
 
 ## 📚 Documentation
 
-| Document | Purpose | Audience |
-|----------|---------|----------|
-| [README.md](README.md) | **← You are here** - Project overview | Everyone |
-| [MOBILE_WEB_PERFECT.md](MOBILE_WEB_PERFECT.md) | Responsive design guide | Frontend devs |
-| [ARCHITECTURE_MOBILE_WEB.md](ARCHITECTURE_MOBILE_WEB.md) | Detailed architecture | Architects |
-| [backend/README.md](backend/README.md) | Backend setup & APIs | Backend devs |
-| [backend/MOBILE_WEB_SYNC.md](backend/MOBILE_WEB_SYNC.md) | Backend optimization | DevOps |
-| [Shareup-frontend/README.md](Shareup-frontend/README.md) | Web frontend guide | Web devs |
-| [LOGIN_INFO.md](LOGIN_INFO.md) | Test credentials | QA/Testers |
+| Document | Purpose |
+|----------|---------|
+| [README.md](README.md) | **← You are here** - Project overview |
+| [MOBILE_WEB_PERFECT.md](MOBILE_WEB_PERFECT.md) | Responsive design guide |
+| [backend/README.md](backend/README.md) | Backend setup & APIs |
+| [backend/MOBILE_WEB_SYNC.md](backend/MOBILE_WEB_SYNC.md) | Backend optimization |
+| [LOGIN_INFO.md](LOGIN_INFO.md) | Test credentials |
+
+---
+
+## 📱 Mobile App
+
+The mobile app is maintained in a **separate repository** using React Native CLI.
+
+**Repository:** [ruhaverse/shareup-mobile](https://github.com/ruhaverse/shareup-mobile)  
+**Framework:** React Native CLI  
+**Platforms:** iOS & Android  
+**Backend:** Same API endpoint as web (http://localhost:4001/api/v1)
+
+Both web and mobile apps share:
+- Same backend API
+- Same database
+- Shared utilities from `/shared` folder
+- Common business logic
 
 ---
 
@@ -638,13 +568,6 @@ REACT_APP_ENVIRONMENT=development
 REACT_APP_VERSION=1.0.0
 ```
 
-### Mobile App (.env)
-```bash
-EXPO_PUBLIC_API_URL=http://localhost:4001/api/v1
-EXPO_PUBLIC_ENVIRONMENT=development
-EXPO_PUBLIC_VERSION=1.0.0
-```
-
 ---
 
 ## 📞 Support & Contact
@@ -674,7 +597,7 @@ MIT License - See [LICENSE](LICENSE) file for details
 **Backend Domains:** 13 modular domains  
 **Test Coverage:** Core flows tested  
 **Performance:** 92 Lighthouse score  
-**Mobile Support:** Full responsive design  
+**Responsive Design:** Full mobile support  
 
 ---
 

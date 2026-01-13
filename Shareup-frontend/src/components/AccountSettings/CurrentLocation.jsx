@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const mapStyles = {
   map: {
@@ -8,44 +8,34 @@ const mapStyles = {
   }
 };
 
-export class CurrentLocation extends React.Component {
-  constructor(props) {
-    super(props);
+export function CurrentLocation(props) {
+  const { lat, lng } = props.initialCenter;
+  const [currentLocation, setCurrentLocation] = useState({
+    lat: lat,
+    lng: lng
+  });
 
-    const { lat, lng } = this.props.initialCenter;
+  const mapRef = useRef(null);
+  const mapInstance = useRef(null);
 
-    this.state = {
-      currentLocation: {
-        lat: lat,
-        lng: lng
-      }
-    };
-    
-    // Create ref for map container
-    this.mapRef = React.createRef();
-  }
-  recenterMap() {
-    const map = this.map;
-    const current = this.state.currentLocation;
-    const google = this.props.google;
+  const recenterMap = () => {
+    const map = mapInstance.current;
+    const google = props.google;
     const maps = google.maps;
 
     if (map) {
-      const center = new maps.LatLng(current.lat, current.lng);
+      const center = new maps.LatLng(currentLocation.lat, currentLocation.lng);
       map.panTo(center);
     }
-  }
-  loadMap() {
-    if (this.props && this.props.google) {
-      // checks if google is available
-      const { google } = this.props;
+  };
+
+  const loadMap = () => {
+    if (props && props.google) {
+      const { google } = props;
       const maps = google.maps;
-
-      // reference to the actual DOM element via ref
-      const node = this.mapRef.current;
-
-      const { zoom } = this.props;
-      const { lat, lng } = this.state.currentLocation;
+      const node = mapRef.current;
+      const { zoom } = props;
+      const { lat, lng } = currentLocation;
       const center = new maps.LatLng(lat, lng);
 
       const mapConfig = Object.assign(
@@ -56,12 +46,12 @@ export class CurrentLocation extends React.Component {
         }
       );
 
-      // maps.Map() is constructor that instantiates the map
-      this.map = new maps.Map(node, mapConfig);
+      mapInstance.current = new maps.Map(node, mapConfig);
     }
-  }
-  renderChildren() {
-    const { children } = this.props;
+  };
+
+  const renderChildren = () => {
+    const { children } = props;
 
     if (!children) return;
 
@@ -69,52 +59,44 @@ export class CurrentLocation extends React.Component {
       if (!c) return;
 
       return React.cloneElement(c, {
-        map: this.map,
-        google: this.props.google,
-        mapCenter: this.state.currentLocation
+        map: mapInstance.current,
+        google: props.google,
+        mapCenter: currentLocation
       });
     });
-  }
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.google !== this.props.google) {
-      this.loadMap();
-    }
-    if (prevState.currentLocation !== this.state.currentLocation) {
-      this.recenterMap();
-    }
-  }
-  componentDidMount() {
-    if (this.props.centerAroundCurrentLocation) {
+  };
+
+  useEffect(() => {
+    if (props.centerAroundCurrentLocation) {
       if (navigator && navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(pos => {
           const coords = pos.coords;
-          this.setState({
-            currentLocation: {
-              lat: coords.latitude,
-              lng: coords.longitude
-            }
+          setCurrentLocation({
+            lat: coords.latitude,
+            lng: coords.longitude
           });
         });
       }
     }
-    this.loadMap();
-  }
-  render() {
-    const style = Object.assign({}, mapStyles.map);
+    loadMap();
+  }, []);
 
-    return (
-      <div>
-        <div style={style} ref={this.mapRef}>
-          Loading map...
-        </div>
-        {this.renderChildren()}
+  useEffect(() => {
+    recenterMap();
+  }, [currentLocation]);
+
+  const style = Object.assign({}, mapStyles.map);
+
+  return (
+    <div>
+      <div style={style} ref={mapRef}>
+        Loading map...
       </div>
-    );
-  }
-  
+      {renderChildren()}
+    </div>
+  );
 }
 
-export default CurrentLocation;
 CurrentLocation.defaultProps = {
   zoom: 14,
   initialCenter: {
@@ -124,3 +106,5 @@ CurrentLocation.defaultProps = {
   centerAroundCurrentLocation: false,
   visible: true
 };
+
+export default CurrentLocation;

@@ -10,392 +10,126 @@
 
 ```
 firat-yagmur/
-├── backend/                    # 🔧 Node.js + Express API
-│   ├── src/
-│   │   ├── domains/           # 13 modular business domains
-│   │   ├── middleware/        # Auth, logging, RBAC
-│   │   ├── services/          # Image optimization, storage
-│   │   ├── config/            # Database, environment
-│   │   └── index.js           # Express server
-│   ├── package.json
-│   ├── docker-compose.yml     # PostgreSQL + Backend
-│   └── Dockerfile
-│
-├── Shareup-frontend/          # 💻 React Web Application
-│   ├── public/
-│   ├── src/
-│   │   ├── components/        # 84 React components
-│   │   ├── features/          # Redux slices
-│   │   ├── services/          # API calls
-│   │   ├── utils/             # Helpers (lazy loading, optimization)
-│   │   └── App.jsx
-│   └── package.json
-│
-├── shared/                    # 🔗 Shared Code
-│   ├── api-config.js         # API endpoints & base URLs
-│   ├── utils.js              # Common utilities
-│   ├── types.ts              # TypeScript types
-│   └── index.js              # Main export
-│
-└── scripts/                   # 🧪 Testing & utilities
-    └── test-mobile-web-compat.sh
+├── backend/              # 🔧 Node.js + Express API
+├── Shareup-frontend/     # 💻 React Web Application  
+├── shared/               # 🔗 Shared Utilities
+└── scripts/              # 🧪 Testing Scripts
 ```
 
-**Note:** Mobile app is maintained in a separate repository ([React Native CLI project](https://github.com/ruhaverse/shareup-mobile)) and uses the same backend.
+---
+
+## ✨ Features
+
+📝 Posts & Feed | 🎥 Reels | 📖 Stories | 💬 Chat | 👥 Friends | 🔔 Notifications | 🎁 SwapPoint | 👔 Admin Panel | 🖼️ Image Optimization | ⚡ Compression | 📱 Responsive | 🌙 Dark Mode
 
 ---
 
-## ✨ Core Features
+## 🛠️ Tech Stack
 
-| Feature | Status | Notes |
-|---------|--------|-------|
-| 📝 Posts & News Feed | ✅ Production | Full CRUD, pagination, search |
-| 🎥 Reels & Stories | ✅ Production | 24h expiration, video processing |
-| 💬 Real-time Chat | ✅ Production | JWT auth, message history |
-| 👥 Friend Management | ✅ Production | Friend requests, blocking |
-| 🔔 Notifications | ✅ Production | Push notifications, real-time |
-| 🎁 SwapPoint Trading | ✅ Production | Point system, trading |
-| 👔 Employee Dashboard | ✅ Production | Admin features, reporting |
-| 📍 Location Sharing | ✅ Production | Map integration |
-| 🖼️ Image Optimization | ✅ Production | 4 size variants (sharp) |
-| ⚡ Compression | ✅ Production | gzip middleware, 60-80% reduction |
-| 📱 Mobile Responsive | ✅ Production | All screen sizes, touch-friendly |
-| 🌙 Dark Mode | ✅ Production | CSS variables, device preference |
+**Backend:** Node.js 20 | Express 5 | PostgreSQL 15 | JWT Auth | sharp | compression  
+**Frontend:** React 18.2 | Redux Toolkit | Axios | Lazy Loading | Responsive Design
 
 ---
 
-## 🛠️ Technology Stack
+## 🚀 Quick Start
 
 ### Backend
-```
-Node.js 20 (Alpine Docker)
-├── Express 5           (Web framework)
-├── PostgreSQL 15       (Database)
-├── JWT + bcrypt        (Authentication)
-├── sharp               (Image optimization)
-├── compression         (gzip middleware)
-├── pino                (Logging)
-└── dotenv              (Environment config)
-```
-
-### Frontend (Web)
-```
-React 18.2
-├── Redux Toolkit       (State management)
-├── Axios               (HTTP client)
-├── CSS Modules         (Styling)
-├── Intersection Observer (Lazy loading)
-├── Responsive Design   (Mobile-first)
-└── 84+ Components      (Modular UI)
-```
-
-### Shared Code
-```
-/shared - Monorepo utilities
-├── API configuration
-├── Utility functions
-├── TypeScript types
-└── Constants & helpers
-```
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-```bash
-# System requirements
-- Node.js 18+ or 20+
-- npm or yarn
-- PostgreSQL 13+ (or Docker)
-- Git
-```
-
-### 1️⃣ Setup Backend
-
 ```bash
 cd backend
 
-# Install dependencies
-npm install
-
-# Configure environment
-cp .env.example .env
-# Edit .env with your PostgreSQL credentials
-
-# Start with Docker (recommended)
+# Docker (Recommended)
 docker-compose up -d
 
-# OR manual setup
-npm run migrate  # Initialize database
-npm start        # http://localhost:4001
+# OR Manual
+npm install && cp .env.example .env
+npm run migrate && npm start
+# http://localhost:4001
 ```
 
-**Verify Backend:**
-```bash
-curl http://localhost:4001/api/v1/health
-# Should return: {"db":true,"sentry":false}
-```
-
-### 2️⃣ Setup Web Frontend
-
+### Web Frontend
 ```bash
 cd Shareup-frontend
 
-# Install dependencies
-npm install
-
-# Configure environment
-cp .env.example .env
-# REACT_APP_API_URL=http://localhost:4001/api/v1
-
-# Start development server
-npm start  # http://localhost:3000
-```
-
-**Browser:** Open http://localhost:3000 in Chrome/Safari/Firefox
-
----
-
-## 🔐 Authentication & Test Accounts
-
-### JWT Authentication
-- **Token Storage:** localStorage (web)
-- **Expiration:** 24 hours
-- **Refresh:** POST /api/v1/auth/refresh
-- **Method:** Bearer token in Authorization header
-
-### Test Credentials
-```
-👤 Test User
-Email: test@shareuptime.com
-Password: Test123!
-
-👨‍💼 Demo Admin
-Email: demo@shareuptime.com
-Password: Demo123!
-
-👑 Super Admin
-Email: admin@shareuptime.com
-Password: Admin123!
+npm install && cp .env.example .env
+npm start
+# http://localhost:3000
 ```
 
 ---
 
-## 📡 API Integration
+## 🔐 Test Accounts
 
-### Shared API Configuration
-Frontend uses `/shared/api-config.js`:
-
-```javascript
-import { API_ENDPOINTS, API_BASE_URLS } from '@shareup/shared';
-
-// Endpoints are shared
-const postUrl = API_ENDPOINTS.POSTS.LIST;  // /posts
-const userUrl = API_ENDPOINTS.USERS.PROFILE(123);  // /users/123
-
-// Base URL switches by environment
-const apiUrl = API_BASE_URLS.development;  // http://localhost:4001/api/v1
 ```
-
-### API Domains (Backend)
-
-| Domain | Endpoints | Status |
-|--------|-----------|--------|
-| `auth/` | Register, Login, Refresh, Verify | ✅ Complete |
-| `users/` | Profile, Search, Follow, Friends | ✅ Complete |
-| `posts/` | CRUD, Like, Comment, Share | ✅ Complete |
-| `reels/` | CRUD, Like, Comment | ✅ Complete |
-| `stories/` | Create, View, Delete | ✅ Complete |
-| `groups/` | CRUD, Members, Invite | ✅ Complete |
-| `swaps/` | Trading, Points, History | ✅ Complete |
-| `hangs/` | Create, Join, Invite | ✅ Complete |
-| `messages/` | Send, Fetch, Mark Read | ✅ Complete |
-| `notifications/` | Fetch, Mark Read, Delete | ✅ Complete |
-| `admin/` | Users, Reports, Settings | ✅ Complete |
-| `rbac/` | Roles, Permissions | ✅ Complete |
-| `health/` | Status, Database | ✅ Complete |
+Email: test@shareuptime.com | Password: Test123!
+Email: demo@shareuptime.com | Password: Demo123!
+Email: admin@shareuptime.com | Password: Admin123!
+```
 
 ---
 
-## 🖼️ Image Optimization Pipeline
+## 📡 API Endpoints
 
-### Image Processing (Backend)
+| Domain | Endpoints |
+|--------|-----------|
+| `auth/` | Register, Login, Refresh, Verify |
+| `users/` | Profile, Search, Follow, Friends |
+| `posts/` | CRUD, Like, Comment, Share |
+| `reels/` | CRUD, Like, Comment |
+| `stories/` | Create, View, Delete |
+| `groups/` | CRUD, Members, Invite |
+| `swaps/` | Trading, Points, History |
+| `hangs/` | Create, Join, Invite |
+| `messages/` | Send, Fetch, Mark Read |
+| `notifications/` | Fetch, Mark Read, Delete |
+
+---
+
+## 🖼️ Image Optimization
+
+Backend stores images and serves 4 sizes:
+
+```bash
+GET /uploads/photo.jpg?size=thumbnail  # 150px
+GET /uploads/photo.jpg?size=small      # 320px (mobile)
+GET /uploads/photo.jpg?size=medium     # 640px (tablet)
+GET /uploads/photo.jpg?size=large      # 1280px (desktop)
+GET /uploads/photo.jpg                 # Original
 ```
-POST /api/v1/posts with file
-        ↓
-sharp (image resizing)
-        ↓
-4 sizes generated:
-├── thumbnail (150px)  - Avatars, previews
-├── small (320px)      - Mobile/web small screens
-├── medium (640px)     - Tablet, standard desktop
-└── large (1280px)     - High-res displays
-        ↓
-Stored in /uploads directory
-        ↓
-Served via GET /uploads/filename?size=small
-```
 
-### Image Loading (Frontend)
-
+**Frontend Usage:**
 ```jsx
-import LazyImage from './components/LazyImage';
-
-<LazyImage 
-  src="/uploads/photo.jpg" 
-  size="medium"        // Automatic size selection
-  alt="User photo"
-/>
+<LazyImage src="/uploads/photo.jpg" size="medium" alt="Photo" />
 ```
 
-### Data Reduction
-- Compression middleware: **60-80% reduction**
-- Image optimization: **4 size variants**
-- Lazy loading: **Reduces initial load**
-- Total: **~80% data savings** vs unoptimized
+**Data Reduction:** 60-80% via compression + lazy loading
 
 ---
 
 ## 📱 Responsive Design
 
-### Breakpoints
-```css
-Mobile (320px - 767px)      → 1-column layout
-Tablet (768px - 1024px)     → 2-column layout
-Desktop (1025px - 1439px)   → 3-column layout
-Large Desktop (1440px+)     → 4-column layout
-```
+| Device | Width | Layout |
+|--------|-------|--------|
+| Mobile | 320-767px | 1 column |
+| Tablet | 768-1024px | 2 columns |
+| Desktop | 1025-1439px | 3 columns |
+| Large | 1440px+ | 4 columns |
 
-### Features
-- ✅ Touch-friendly buttons (44x44px minimum)
-- ✅ Flexible typography (14px - 28px)
-- ✅ Single-column layouts on mobile
-- ✅ Full-width inputs
-- ✅ Hidden sidebars on mobile
-- ✅ Full-screen modals
-- ✅ Landscape mode support
-- ✅ Dark mode support
-- ✅ Retina display support (@2x)
-
-### Browser Support
-```
-Desktop
-├── Chrome/Chromium (latest 2 versions)
-├── Safari (latest 2 versions)
-├── Firefox (latest 2 versions)
-└── Edge (latest 2 versions)
-
-Mobile
-├── Safari (iOS 14+)
-├── Chrome (Android latest)
-└── Firefox (Android latest)
-```
+**Features:** Touch-friendly buttons (44x44px) | Flexible typography | Full-width inputs | Hidden sidebars on mobile | Dark mode | Retina support
 
 ---
 
-## 🗂️ Folder Structure Guide
+## 🧪 Testing
 
-### Backend Structure
-```
-backend/src/
-├── index.js              # Express app setup
-├── migrate.js            # Database migrations
-├── common/
-│   ├── db.js            # PostgreSQL pool
-│   ├── env.js           # Environment config
-│   ├── logger.js        # Logging setup
-│   └── middleware/      # Express middleware
-├── domains/             # Business logic (13 domains)
-│   ├── auth/
-│   ├── users/
-│   ├── posts/
-│   ├── reels/
-│   ├── stories/
-│   ├── groups/
-│   ├── swaps/
-│   ├── hangs/
-│   ├── messages/
-│   ├── notifications/
-│   ├── admin/
-│   ├── rbac/
-│   └── health/
-├── middleware/          # Global middleware
-├── routes/              # API routes
-├── services/            # Services (storage, image processing)
-└── utils/               # Utilities
-```
-
-### Web Frontend Structure
-```
-Shareup-frontend/src/
-├── App.jsx             # Main component
-├── App.css             # Responsive styles
-├── components/         # 84 reusable components
-│   ├── auth/          # Login, register
-│   ├── dashboard/     # Main dashboard
-│   ├── post/          # Post components
-│   ├── messages/      # Chat interface
-│   ├── stories/       # Stories view
-│   └── ...
-├── features/          # Redux slices
-│   └── searchSlice.js
-├── services/          # API integration
-├── utils/             # Helpers & utilities
-├── hooks/             # Custom React hooks
-├── contexts/          # Context API
-├── styles/            # Global styles
-└── images/            # Static images
-```
-
-### Shared Code Structure
-```
-shared/
-├── api-config.js      # API endpoints (shared code)
-├── utils.js           # Common utilities
-├── types.ts           # TypeScript definitions
-├── index.js           # Main export
-└── package.json       # Shared package config
-```
-
----
-
-## 🧪 Testing & Quality
-
-### Automated Tests
 ```bash
 # Backend tests
-cd backend
-npm test
+cd backend && npm test
 
 # Frontend tests
-cd Shareup-frontend
-npm test
-```
+cd Shareup-frontend && npm test
 
-### Compatibility Test
-```bash
-# Test all endpoints
+# API compatibility tests
 ./scripts/test-mobile-web-compat.sh
 ```
-
-### Manual Testing Checklist
-
-**Backend:**
-- [ ] Health endpoint: `GET /api/v1/health`
-- [ ] CORS headers working
-- [ ] Image optimization: `GET /uploads/test.jpg?size=small`
-- [ ] Compression enabled (check response headers)
-- [ ] Database migrations complete
-
-**Web Frontend:**
-- [ ] Responsive on 320px (mobile)
-- [ ] Responsive on 768px (tablet)
-- [ ] Responsive on 1440px (desktop)
-- [ ] Dark mode toggle
-- [ ] Lazy loading images
-- [ ] API calls working
-- [ ] Authentication flow
 
 ---
 
@@ -403,137 +137,50 @@ npm test
 
 ### Backend won't start
 ```bash
-# Check environment
 docker-compose logs backend-backend-1
-
-# Ensure PostgreSQL is running
-docker-compose logs backend-db-1
-
-# Check logs for errors
-tail -f /var/log/app.log
 ```
 
 ### CORS errors
-```javascript
-// backend/src/index.js
-// Check allowed origins:
-const allowedOrigins = [
-  'http://localhost:3000',   // Web
-  'https://www.shareuptime.com'
-];
-```
+Update `backend/src/index.js` allowed origins
 
 ### Images not loading
 ```bash
-# Check uploads directory exists
-ls -la backend/uploads/
-
-# Check image processing
 curl http://localhost:4001/uploads/test.jpg?size=small
-
-# Verify sharp is installed
-docker exec backend npm list sharp
 ```
 
 ---
 
-## 📊 Performance Metrics
+## 📊 Performance
 
 | Metric | Target | Current |
 |--------|--------|---------|
 | Initial Load | <3s | ✅ 1.5s |
 | API Response | <200ms | ✅ 150ms |
-| Image Load | <1s | ✅ 0.8s |
-| Lighthouse Score | 85+ | ✅ 92 |
+| Lighthouse | 85+ | ✅ 92 |
 | Mobile Score | 80+ | ✅ 88 |
-| Data Transfer | -70% | ✅ -78% |
 
 ---
 
 ## 🚢 Deployment
 
-### Backend Deployment (Railway/Render/Heroku)
+### Backend
 ```bash
-# Environment variables needed
-DATABASE_URL=postgresql://user:pass@host/db
-JWT_SECRET=your-secret-key
+DATABASE_URL=postgresql://...
+JWT_SECRET=your-secret
 NODE_ENV=production
 PORT=4001
 
-# Docker image ready
 docker build -t shareup-backend .
 docker run -p 4001:4001 shareup-backend
 ```
 
-### Web Frontend Deployment (Vercel/Netlify)
+### Web Frontend
 ```bash
-# Environment variables
 REACT_APP_API_URL=https://api.shareuptime.com/api/v1
 
-# Build command
 npm run build
-
-# Output directory
-build/
+# Deploy build/ to Vercel/Netlify
 ```
-
----
-
-## 📚 Documentation
-
-| Document | Purpose |
-|----------|---------|
-| [README.md](README.md) | **← You are here** - Project overview |
-| [MOBILE_WEB_PERFECT.md](MOBILE_WEB_PERFECT.md) | Responsive design guide |
-| [backend/README.md](backend/README.md) | Backend setup & APIs |
-| [backend/MOBILE_WEB_SYNC.md](backend/MOBILE_WEB_SYNC.md) | Backend optimization |
-| [LOGIN_INFO.md](LOGIN_INFO.md) | Test credentials |
-
----
-
-## 📱 Mobile App
-
-The mobile app is maintained in a **separate repository** using React Native CLI.
-
-**Repository:** [ruhaverse/shareup-mobile](https://github.com/ruhaverse/shareup-mobile)  
-**Framework:** React Native CLI  
-**Platforms:** iOS & Android  
-**Backend:** Same API endpoint as web (http://localhost:4001/api/v1)
-
-Both web and mobile apps share:
-- Same backend API
-- Same database
-- Shared utilities from `/shared` folder
-- Common business logic
-
----
-
-## 🤝 Contributing
-
-1. Clone the repository
-   ```bash
-   git clone https://github.com/ruhaverse/firat-yagmur.git
-   ```
-
-2. Create feature branch
-   ```bash
-   git checkout -b feature/your-feature
-   ```
-
-3. Make changes
-   - Follow existing code style
-   - Update tests if needed
-   - Update documentation
-
-4. Commit changes
-   ```bash
-   git commit -m "feat: Your feature description"
-   ```
-
-5. Push and create PR
-   ```bash
-   git push origin feature/your-feature
-   ```
 
 ---
 
@@ -541,67 +188,97 @@ Both web and mobile apps share:
 
 ### Backend (.env)
 ```bash
-# Database
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/shareup
-
-# Server
 NODE_ENV=development
 PORT=4001
-
-# Authentication
 JWT_SECRET=your-very-secret-key-min-32-chars
 JWT_EXPIRATION=24h
-
-# Storage
-STORAGE_TYPE=local  # or 's3'
+STORAGE_TYPE=local
 UPLOAD_DIR=./uploads
-
-# Logging
 LOG_LEVEL=debug
-LOG_DIR=./logs
 ```
 
 ### Web Frontend (.env)
 ```bash
 REACT_APP_API_URL=http://localhost:4001/api/v1
 REACT_APP_ENVIRONMENT=development
-REACT_APP_VERSION=1.0.0
 ```
 
 ---
 
-## 📞 Support & Contact
+## 📁 Folder Structure
 
-**Issues & Bugs:** [GitHub Issues](https://github.com/ruhaverse/firat-yagmur/issues)  
-**Discussions:** [GitHub Discussions](https://github.com/ruhaverse/firat-yagmur/discussions)  
-**Live Site:** https://www.shareuptime.com  
+```
+backend/src/
+├── index.js (Express setup)
+├── migrate.js (Database)
+├── domains/ (13 business domains)
+├── middleware/ (Auth, logging, RBAC)
+├── services/ (Image processing)
+└── utils/ (Helpers)
+
+Shareup-frontend/src/
+├── components/ (84 components)
+├── features/ (Redux slices)
+├── services/ (API calls)
+├── utils/ (Helpers)
+└── App.jsx
+
+shared/
+├── api-config.js (API endpoints)
+├── utils.js (Common functions)
+├── types.ts (TypeScript types)
+└── index.js (Exports)
+```
+
+---
+
+## 📚 Documentation
+
+- **README.md** ← You are here (Single source of truth)
+- **backend/README.md** - Backend specific setup
+- **Shareup-frontend/README.md** - Frontend specific setup
+
+---
+
+## 📱 Mobile App
+
+Mobile app is in a **separate repository**: [ruhaverse/shareup-mobile](https://github.com/ruhaverse/shareup-mobile)
+
+- Framework: React Native CLI
+- Platforms: iOS & Android
+- Backend: Same API as web (http://localhost:4001/api/v1)
+
+---
+
+## 📞 Support
+
+**Issues:** [GitHub Issues](https://github.com/ruhaverse/firat-yagmur/issues)  
 **Email:** support@shareuptime.com  
+**Website:** https://www.shareuptime.com
 
 ---
 
 ## 📄 License
 
-MIT License - See [LICENSE](LICENSE) file for details
+MIT - See [LICENSE](LICENSE)
 
 ---
 
-## ✅ Project Status
+## ✅ Status
 
-**Version:** 1.0.0  
-**Status:** ✅ Production Ready  
-**Last Updated:** January 2026  
-**Maintained By:** ShareUp Team  
+**Version:** 1.0.0 | **Status:** ✅ Production Ready | **Updated:** January 2026
 
-**Components:** 84 React components  
-**API Endpoints:** 60+ endpoints  
-**Backend Domains:** 13 modular domains  
-**Test Coverage:** Core flows tested  
-**Performance:** 92 Lighthouse score  
-**Responsive Design:** Full mobile support  
+**Stats:**  
+- 84 React components
+- 60+ API endpoints  
+- 13 backend domains
+- 92 Lighthouse score
+- Full responsive design
 
 ---
 
-**Made with ❤️ by the ShareUp Team | [GitHub](https://github.com/ruhaverse/firat-yagmur) | [Website](https://www.shareuptime.com)**
+**Made with ❤️ by ShareUp Team | [GitHub](https://github.com/ruhaverse/firat-yagmur) | [Website](https://www.shareuptime.com)**
 
 ---
 

@@ -23,6 +23,14 @@ const getCurrentSettings = () => {
   
   if (hostname === 'localhost' || hostname === '127.0.0.1') {
     return settings.dev;
+  } else if (hostname.includes('github.dev')) {
+    // GitHub Codespaces - port forward 3000→3000, 4001→4001
+    const port = window.location.port || '3000';
+    const backendPort = port === '3000' ? '4001' : port;
+    const backendUrl = `http://${hostname}:${backendPort}`;
+    return {
+      apiUrl: backendUrl
+    };
   } else if (hostname.includes('staging')) {
     return settings.staging;
   } else {

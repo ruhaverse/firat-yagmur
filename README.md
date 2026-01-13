@@ -1,261 +1,337 @@
-# 🚀 ShareUpTime - Full Stack Social Platform
+# ShareUpTime - Full Stack Social Platform
+
+> Modern sosyal medya platformu | Web + Mobile + Backend
 
 **Repository:** [ruhaverse/firat-yagmur](https://github.com/ruhaverse/firat-yagmur)  
-**Production:** https://www.shareuptime.com  
-**Development:** Backend: http://localhost:4001 | Web: http://localhost:3000
+**Version:** 1.0.0 | **Status:** ✅ Development  
+**Website:** [shareuptime.com](https://shareuptime.com)
 
 ---
 
-## 📦 Project Structure
+## 🚀 Hızlı Başlangıç (5 dakika)
 
-```
-firat-yagmur/
-├── backend/              # 🔧 Node.js + Express API
-├── Shareup-frontend/     # 💻 React Web Application  
-├── shared/               # 🔗 Shared Utilities
-└── scripts/              # 🧪 Testing Scripts
+### Tek Komutla Tüm Sistem Başlat
+```bash
+npm run start:all
 ```
 
----
+### Veya Ayrı Ayrı Başlat
 
-## ✨ Features
-
-📝 Posts & Feed | 🎥 Reels | 📖 Stories | 💬 Chat | 👥 Friends | 🔔 Notifications | 🎁 SwapPoint | 👔 Admin Panel | 🖼️ Image Optimization | ⚡ Compression | 📱 Responsive | 🌙 Dark Mode
-
----
-
-## 🛠️ Tech Stack
-
-**Backend:** Node.js 20 | Express 5 | PostgreSQL 15 | JWT Auth | sharp | compression  
-**Frontend:** React 18.2 | Redux Toolkit | Axios | Lazy Loading | Responsive Design
-
----
-
-## 🚀 Quick Start
-
-### Backend
+#### 1️⃣ Backend (Port 4001)
 ```bash
 cd backend
-
-# Docker (Recommended)
-docker-compose up -d
-
-# OR Manual
-npm install && cp .env.example .env
-npm run migrate && npm start
-# http://localhost:4001
+npm install
+cp .env.example .env  # DATABASE_URL, JWT_SECRET gerekli
+npm run migrate       # DB şemasını kurar
+npm start
 ```
+**URL:** http://localhost:4001  
+**API:** http://localhost:4001/api/v1
 
-### Web Frontend
+#### 2️⃣ Web Frontend (Port 3000)
 ```bash
 cd Shareup-frontend
-
-npm install && cp .env.example .env
+npm install
 npm start
-# http://localhost:3000
+```
+**URL:** http://localhost:3000
+
+#### 3️⃣ Mobil App (React Native)
+```bash
+cd mobile-app
+npm install
+npm start
+```
+**Platform:**
+- iOS: `npm run ios`
+- Android: `npm run android`
+
+---
+
+## 📦 Proje Yapısı
+
+```
+shareuptime/
+├── backend/              # Node.js + Express API (Port 4001)
+│   ├── src/
+│   │   ├── domains/      # Feature modules (auth, users, posts, etc.)
+│   │   ├── middleware/   # Auth, RBAC, logging
+│   │   ├── routes/       # API routes
+│   │   ├── services/     # Business logic
+│   │   └── index.js      # Server entry point
+│   ├── __tests__/        # Unit & integration tests
+│   └── .env              # Environment variables
+│
+├── Shareup-frontend/     # React 18 Web App (Port 3000)
+│   ├── src/
+│   │   ├── components/   # React components
+│   │   ├── pages/        # Page components
+│   │   ├── services/     # API client
+│   │   ├── store/        # Redux state management
+│   │   └── App.js        # Main app
+│   └── package.json
+│
+├── mobile-app/           # React Native CLI (iOS/Android)
+│   ├── src/
+│   ├── app.json          # App config
+│   └── package.json
+│
+└── shared/               # Paylaşılan kod
+    ├── api-config.js     # API endpoints & URLs
+    └── types.ts          # TypeScript types
 ```
 
 ---
 
-## 🔐 Test Accounts
+## 🛠️ Teknoloji Stack
 
-```
-Email: test@shareuptime.com | Password: Test123!
-Email: demo@shareuptime.com | Password: Demo123!
-Email: admin@shareuptime.com | Password: Admin123!
-```
-
----
-
-## 📡 API Endpoints
-
-| Domain | Endpoints |
-|--------|-----------|
-| `auth/` | Register, Login, Refresh, Verify |
-| `users/` | Profile, Search, Follow, Friends |
-| `posts/` | CRUD, Like, Comment, Share |
-| `reels/` | CRUD, Like, Comment |
-| `stories/` | Create, View, Delete |
-| `groups/` | CRUD, Members, Invite |
-| `swaps/` | Trading, Points, History |
-| `hangs/` | Create, Join, Invite |
-| `messages/` | Send, Fetch, Mark Read |
-| `notifications/` | Fetch, Mark Read, Delete |
+| Layer | Teknoloji |
+|-------|-----------|
+| **Backend API** | Node.js 20 \| Express 5 \| PostgreSQL 15 |
+| **Web Frontend** | React 18.2 \| Redux Toolkit \| Axios |
+| **Mobile App** | React Native CLI \| Expo |
+| **Auth** | JWT \| Bcrypt \| CORS |
+| **DevOps** | Docker \| Docker Compose |
 
 ---
 
-## 🖼️ Image Optimization
+## � Ortam Değişkenleri (.env)
 
-Backend stores images and serves 4 sizes:
+Backend ve Web aynı ortam değişkenlerini paylaşır:
 
 ```bash
-GET /uploads/photo.jpg?size=thumbnail  # 150px
-GET /uploads/photo.jpg?size=small      # 320px (mobile)
-GET /uploads/photo.jpg?size=medium     # 640px (tablet)
-GET /uploads/photo.jpg?size=large      # 1280px (desktop)
-GET /uploads/photo.jpg                 # Original
-```
-
-**Frontend Usage:**
-```jsx
-<LazyImage src="/uploads/photo.jpg" size="medium" alt="Photo" />
-```
-
-**Data Reduction:** 60-80% via compression + lazy loading
-
----
-
-## 📱 Responsive Design
-
-| Device | Width | Layout |
-|--------|-------|--------|
-| Mobile | 320-767px | 1 column |
-| Tablet | 768-1024px | 2 columns |
-| Desktop | 1025-1439px | 3 columns |
-| Large | 1440px+ | 4 columns |
-
-**Features:** Touch-friendly buttons (44x44px) | Flexible typography | Full-width inputs | Hidden sidebars on mobile | Dark mode | Retina support
-
----
-
-## 🧪 Testing
-
-```bash
-# Backend tests
-cd backend && npm test
-
-# Frontend tests
-cd Shareup-frontend && npm test
-
-# API compatibility tests
-./scripts/test-mobile-web-compat.sh
-```
-
----
-
-## 🐛 Troubleshooting
-
-### Backend won't start
-```bash
-docker-compose logs backend-backend-1
-```
-
-### CORS errors
-Update `backend/src/index.js` allowed origins
-
-### Images not loading
-```bash
-curl http://localhost:4001/uploads/test.jpg?size=small
-```
-
----
-
-## 📊 Performance
-
-| Metric | Target | Current |
-|--------|--------|---------|
-| Initial Load | <3s | ✅ 1.5s |
-| API Response | <200ms | ✅ 150ms |
-| Lighthouse | 85+ | ✅ 92 |
-| Mobile Score | 80+ | ✅ 88 |
-
----
-
-## 🚢 Deployment
-
-### Backend
-```bash
-DATABASE_URL=postgresql://...
-JWT_SECRET=your-secret
-NODE_ENV=production
-PORT=4001
-
-docker build -t shareup-backend .
-docker run -p 4001:4001 shareup-backend
-```
-
-### Web Frontend
-```bash
-REACT_APP_API_URL=https://api.shareuptime.com/api/v1
-
-npm run build
-# Deploy build/ to Vercel/Netlify
-```
-
----
-
-## 📝 Environment Configuration
-
-### Backend (.env)
-```bash
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/shareup
+# Backend (.env)
 NODE_ENV=development
 PORT=4001
-JWT_SECRET=your-very-secret-key-min-32-chars
-JWT_EXPIRATION=24h
-STORAGE_TYPE=local
-UPLOAD_DIR=./uploads
-LOG_LEVEL=debug
+DATABASE_URL=postgres://user:password@localhost:5432/shareup
+JWT_SECRET=your-secret-key-change-in-production
+API_BASE=/api/v1
+CORS_ORIGIN=*
+BCRYPT_SALT_ROUNDS=10
+
+# Opsiyonel: File Storage (DigitalOcean Spaces)
+SPACES_ENDPOINT=https://xxx.digitaloceanspaces.com
+SPACES_KEY=your-key
+SPACES_SECRET=your-secret
+SPACES_BUCKET=shareup
 ```
 
-### Web Frontend (.env)
+**Mobil App** (.env.mobile):
 ```bash
-REACT_APP_API_URL=http://localhost:4001/api/v1
-REACT_APP_ENVIRONMENT=development
+API_BASE=http://localhost:4001/api/v1
+ENVIRONMENT=development
 ```
 
 ---
 
-## 📁 Folder Structure
+## ✅ Sistem Gereksinimleri
+
+- **Node.js** 20+ (Backend & Mobil)
+- **npm** 10+
+- **PostgreSQL** 15+
+- **Git** (version control)
+
+### macOS (Homebrew)
+```bash
+brew install node postgresql git
+brew services start postgresql
+```
+
+### Ubuntu/WSL
+```bash
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install nodejs postgresql git
+```
+
+### Windows
+- [Node.js 20+](https://nodejs.org/)
+- [PostgreSQL 15+](https://www.postgresql.org/download/windows/)
+- [Git Bash](https://git-scm.com/)
+
+---
+
+## 🧪 Test & Kalite Kontrol
+
+```bash
+# Backend Tests
+cd backend
+npm test                    # Unit & integration tests
+npm run lint               # Code quality check
+npm run lint:fix           # Auto-fix linting issues
+
+# Frontend Tests (React)
+cd Shareup-frontend
+npm test                   # Jest tests
+npm run build              # Production build
+```
+
+---
+
+## 🐳 Docker Kullan
+
+```bash
+# Backend'i Docker'da çalıştır
+docker-compose -f backend/docker-compose.yml up -d
+
+# Tüm servisleri başlat
+docker-compose up -d
+```
+
+---
+
+## 🔐 CORS & API Erişimi
+
+**Tüm istemciler (Web, Mobil) aynı backend'e bağlanır:**
+
+```javascript
+// shared/api-config.js
+API_BASE_URLS = {
+  development: 'http://localhost:4001/api/v1',
+  production: 'https://api.shareuptime.com/api/v1',
+}
+```
+
+**Backend CORS Ayarı:**
+- **Geliştirme:** `CORS_ORIGIN=*` (hepsi)
+- **Üretim:** `CORS_ORIGIN=https://shareuptime.com,https://mobile.shareuptime.com`
+
+---
+
+## 📱 Mobil App Entegrasyon
+
+### iOS
+```bash
+cd mobile-app
+npm install
+npm run ios
+```
+
+### Android
+```bash
+cd mobile-app
+npm install
+npm run android
+```
+
+> **Not:** Android Studio veya Xcode gerekli olabilir.
+
+---
+
+## 🚢 Production Deploy
+
+### Backend (Railway, Vercel, Heroku)
+```bash
+cd backend
+git push heroku main
+```
+
+### Frontend (Vercel, Netlify)
+```bash
+cd Shareup-frontend
+npm run build
+# Build artifacts → hosting provider
+```
+
+### Mobil App
+- **iOS:** App Store
+- **Android:** Google Play Store
+
+---
+
+## 🐛 Sorun Giderme
+
+### Port Zaten Kullanılıyorsa
+```bash
+# Port 3000 başka process tarafından kullanılıyorsa
+lsof -i :3000
+kill -9 <PID>
+
+# Port 4001 için
+lsof -i :4001
+kill -9 <PID>
+```
+
+### Database Bağlantısı Hatası
+```bash
+# PostgreSQL çalışıyor mu kontrol et
+psql -U postgres -d shareup -c "SELECT 1"
+
+# .env dosyasını kontrol et
+cat backend/.env
+```
+
+### Node Modules Sorunu
+```bash
+rm -rf node_modules package-lock.json
+npm install
+```
+
+---
+
+## 📚 Dokümantasyon
+
+- [Backend API Docs](/backend/docs/README.md)
+- [Frontend Setup](/Shareup-frontend/README.md)
+- [Mobil App Setup](/mobile-app/README.md)
+- [Database Schema](/backend/docs/DATABASE.md)
+
+---
+
+## 👥 Katkı
+
+1. Feature branch oluştur: `git checkout -b feature/amazing-feature`
+2. Commit et: `git commit -m 'Add amazing feature'`
+3. Push et: `git push origin feature/amazing-feature`
+4. Pull Request aç
+
+---
+
+## 📄 Lisans
+
+MIT License - [LICENSE](LICENSE)
+
+---
+
+## 📧 İletişim
+
+**Email:** support@shareuptime.com  
+**GitHub:** [@ruhaverse](https://github.com/ruhaverse)
+
+---
+
+**Son Güncelleme:** Ocak 2026 | **Versiyon:** 1.0.0
 
 ```
 backend/src/
-├── index.js (Express setup)
-├── migrate.js (Database)
-├── domains/ (13 business domains)
+├── index.js (Express app)
+├── migrate.js (Database setup)
+├── domains/ (13 business modules)
 ├── middleware/ (Auth, logging, RBAC)
 ├── services/ (Image processing)
 └── utils/ (Helpers)
 
 Shareup-frontend/src/
 ├── components/ (84 components)
-├── features/ (Redux slices)
 ├── services/ (API calls)
 ├── utils/ (Helpers)
-└── App.jsx
+├── App.jsx
+└── index.js
 
 shared/
-├── api-config.js (API endpoints)
-├── utils.js (Common functions)
-├── types.ts (TypeScript types)
-└── index.js (Exports)
+├── api-config.js
+├── utils.js
+├── types.ts
+└── index.js
 ```
 
 ---
 
 ## 📚 Documentation
 
-- **README.md** ← You are here (Single source of truth)
-- **backend/README.md** - Backend specific setup
-- **Shareup-frontend/README.md** - Frontend specific setup
-
----
-
-## 📱 Mobile App
-
-Mobile app is in a **separate repository**: [ruhaverse/shareup-mobile](https://github.com/ruhaverse/shareup-mobile)
-
-- Framework: React Native CLI
-- Platforms: iOS & Android
-- Backend: Same API as web (http://localhost:4001/api/v1)
-
----
-
-## 📞 Support
-
-**Issues:** [GitHub Issues](https://github.com/ruhaverse/firat-yagmur/issues)  
-**Email:** support@shareuptime.com  
-**Website:** https://www.shareuptime.com
+- **README.md** ← Single Source of Truth
+- **backend/README.md** - Backend details
+- **Shareup-frontend/README.md** - Frontend details
+- **[GitHub Issues](https://github.com/ruhaverse/firat-yagmur/issues)** - Support
 
 ---
 
@@ -265,92 +341,7 @@ MIT - See [LICENSE](LICENSE)
 
 ---
 
-## ✅ Status
-
-**Version:** 1.0.0 | **Status:** ✅ Production Ready | **Updated:** January 2026
-
-**Stats:**  
-- 84 React components
-- 60+ API endpoints  
-- 13 backend domains
-- 92 Lighthouse score
-- Full responsive design
-
----
-
-**Made with ❤️ by ShareUp Team | [GitHub](https://github.com/ruhaverse/firat-yagmur) | [Website](https://www.shareuptime.com)**
-
----
-
-## ⚙️ Environment Setup
-
-**Backend (.env):**
-```bash
-PORT=4001
-DATABASE_URL=postgres://user:pass@localhost:5432/shareup
-JWT_SECRET=your_secret_here_min_32_chars
-API_BASE=/api/v1
-NODE_ENV=development
-```
-
-**Frontend:** Auto-configured via `services/Settings.js`
-
----
-
-## 🔌 API Endpoints
-
-**Base:** `http://localhost:4001/api/v1` (dev) | `https://www.shareuptime.com/api/v1` (prod)
-
-**Key Endpoints:**
-- `POST /auth/login` - Authentication
-- `GET /posts` - Feed
-- `POST /posts` - Create post
-- `GET /messages/conversations` - Messages
-- `GET /notifications` - Notifications
-- `POST /groups` - Create group
-- `GET /stories` - Stories
-- `GET /reels` - Reels
-
-60+ total endpoints across 13 domains.
-
----
-
-## 📞 Contact & Support
-
-- **Repository:** [github.com/ruhaverse/firat-yagmur](https://github.com/ruhaverse/firat-yagmur)
-- **Issues:** [GitHub Issues](https://github.com/ruhaverse/firat-yagmur/issues)
-- **Mobile App:** [Shareup-Mobile-App-CLI](https://github.com/Shareup-dev/Shareup-Mobile-App-CLI)
-
-**Last Updated:** January 13, 2026
-- ✅ **Build Status**: Production build successful, zero breaking changes
-- ✅ **Security**: Backend SQL injection protection verified, bcrypt+JWT secure
-
----
-
-## 🐳 Docker Commands
-
-```bash
-# Start all services
-docker-compose up -d
-
-# View logs
-docker-compose logs -f backend
-docker-compose logs -f db
-
-# Stop services
-docker-compose down
-
-# Database access
-docker-compose exec db psql -U postgres -d shareup
-```
-
----
-
+**Made with ❤️ by ShareUp Team**  
 **Last Updated:** January 13, 2026  
-**Version:** 1.0.0  
-**Status:** ✅ Production Ready  
-**Frontend:** https://shareuptime.com  
-**Backend API:** https://www.shareuptime.com/api/v1
-
-**Happy Coding! 🚀**
+[GitHub](https://github.com/ruhaverse/firat-yagmur) | [Website](https://www.shareuptime.com)
 

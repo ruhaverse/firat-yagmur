@@ -3,10 +3,10 @@ const settings = {
     apiUrl: "http://localhost:4001", // Local development (if running backend locally)
   },
   staging: {
-    apiUrl: "https://staging.shareuptime.com", // Staging environment
+    apiUrl: "https://staging-api.shareuptime.com", // Staging environment - Backend API
   },
   prod: {
-    apiUrl: "https://www.shareuptime.com", // Production - Mobile App Backend (60+ endpoints)
+    apiUrl: "https://api.shareuptime.com", // Production - Backend API (60+ endpoints)
   },
 };
 

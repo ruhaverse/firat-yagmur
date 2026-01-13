@@ -1,4 +1,26 @@
 {
+  "name": "shareuptime",
+  "version": "1.0.0",
+  "description": "Full-stack social media platform",
+  "private": true,
+  "scripts": {
+    "start:backend": "cd backend && npm install && npm start",
+    "start:frontend": "cd Shareup-frontend && npm install && npm start",
+    "start:mobile": "cd mobile-app && npm install && npm start",
+    "start:all": "npm run start:backend & npm run start:frontend & npm run start:mobile",
+    "test": "npm run test:backend && npm run test:frontend",
+    "test:backend": "cd backend && npm test",
+    "test:frontend": "cd Shareup-frontend && npm test",
+    "lint": "npm run lint:backend && npm run lint:frontend",
+    "lint:backend": "cd backend && npm run lint",
+    "lint:frontend": "eslint Shareup-frontend/src/**/*.js",
+    "lint:fix": "npm run lint:fix:backend && npm run lint:fix:frontend",
+    "lint:fix:backend": "cd backend && npm run lint:fix",
+    "lint:fix:frontend": "eslint Shareup-frontend/src/**/*.js --fix",
+    "build:frontend": "cd Shareup-frontend && npm run build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down"
+  },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.3",
     "eslint-plugin-jest": "^29.11.0",

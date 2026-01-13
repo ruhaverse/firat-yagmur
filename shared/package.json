@@ -1,0 +1,13 @@
+{
+  "name": "@shareup/shared",
+  "version": "1.0.0",
+  "description": "Shared code between web and mobile frontends",
+  "main": "index.js",
+  "types": "types.ts",
+  "scripts": {
+    "test": "echo \"No tests yet\""
+  },
+  "keywords": ["shareup", "shared", "utilities"],
+  "author": "ShareUp Team",
+  "license": "MIT"
+}

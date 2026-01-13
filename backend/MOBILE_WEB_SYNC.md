@@ -36,6 +36,7 @@ CORS_ORIGIN=http://localhost:3000,
 - ✅ Mobile origins (Expo, React Native, Capacitor)
 - ✅ No-origin requests allowed (native apps)
 
+
 ### 3. **API Response Format (Consistent)**
 All endpoints return the same JSON structure:
 ```json

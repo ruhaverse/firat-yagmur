@@ -9,7 +9,6 @@ import 'lightbox2/dist/css/lightbox.css';
 import 'lightbox2/dist/js/lightbox';
 import 'reactjs-popup/dist/index.css';
 import 'react-phone-number-input/style.css'
-import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 

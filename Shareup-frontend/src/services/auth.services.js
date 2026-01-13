@@ -16,8 +16,6 @@ axios.interceptors.response.use(
   }
 );
 
-const my_api = `${settings.apiUrl}/api/v1/users`;
-
 class AuthService {
   /**
    * Login user and store JWT token

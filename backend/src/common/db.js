@@ -4,13 +4,23 @@ const { getConfig } = require('./env');
 
 const config = getConfig();
 
-const pool = new Pool({
+// Pool options
+const poolOptions = {
   connectionString: config.databaseUrl,
-});
+};
+
+// Enable SSL **only in production**
+if (config.nodeEnv === 'production') {
+  poolOptions.ssl = {
+    rejectUnauthorized: false, // Railway requires this for managed Postgres
+  };
+}
+
+const pool = new Pool(poolOptions);
 
 pool.on('error', (err) => {
   logger.error('Unexpected error on idle client', err);
-  // bubble up the error so the process terminates with an exception (preferred over process.exit)
+  // Throw to terminate process (better than process.exit)
   throw err;
 });
 

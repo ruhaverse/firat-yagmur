@@ -115,26 +115,28 @@ const[showCompont,setShowCompont]= useState();
   
   const getStoriesForUser = async () => {
     await StoriesService.getStoriesForUser(AuthService.getCurrentUser().username).then(res => {
-      const sorting = res.data.sort(function(a, b) {
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      const sorting = data.sort(function(a, b) {
         const dateA = new Date(a.date), dateB = new Date(b.date);
         return dateB - dateA;
     });
       const uniqueStories = Array.from(new Set(sorting.map(a => a.id)))
         .map(id => {
-          return res.data.find(a => a.id === id)
+          return data.find(a => a.id === id)
         })
       setStoriesForUser(uniqueStories)
     })
   }
   const getPostForUser = async () => {
     await PostService.getPostForUser(AuthService.getCurrentUser().username).then(res => {
-      const sorting = res.data.sort(function(a, b) {
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      const sorting = data.sort(function(a, b) {
         const dateA = new Date(a.published), dateB = new Date(b.published);
         return dateB - dateA;
     });
       const uniquePost = Array.from(new Set(sorting.map(a => a.id)))
         .map(id => {
-          return res.data.find(a => a.id === id)
+          return data.find(a => a.id === id)
         })
       setPostsForUser(uniquePost)
     })
@@ -184,7 +186,8 @@ const[showCompont,setShowCompont]= useState();
 	
   const getPost = async () => {
     await PostService.getPost().then(res => {
-      setPosts(res.data)
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setPosts(data)
     })
   }
   
@@ -193,7 +196,8 @@ const[showCompont,setShowCompont]= useState();
 
   const getSavedPost = async () => {
     await PostService.getSavedPostForUser(AuthService.getCurrentUser().username).then(res => {
-      setSavedPost(res.data)
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setSavedPost(data)
     })
   }
 
@@ -710,7 +714,8 @@ const handleRemoveImageSwap = () => {
     testScript()
   }, [stories])
   if (isLoading) {
-    return <div>Loading... Please Wait</div>
+    return <div>loading... please wait
+</div>
   }
 
   if (user.newUser) {

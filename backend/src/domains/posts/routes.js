@@ -3,17 +3,24 @@ module.exports = function createRoutes({ router, deps }) {
   const { upload } = deps.services.storage;
   const auth = deps.authMiddleware;
 
-  router.get('/', controller.getPosts);
-  router.get('/email/:email', controller.listPostsByEmail);
-  router.get('/:email/saved_posts', controller.listSavedPostsByEmail);
-  router.get('/:id', controller.getPostById);
-  router.get('/:id/comments', controller.getPostComments);
+  // Public routes
+  router.get('/', controller.getPosts); // List posts
+  router.get('/email/:email', controller.listPostsByEmail); // Posts by user email
+  router.get('/:email/saved_posts', controller.listSavedPostsByEmail); // Saved posts by email
+  router.get('/:id', controller.getPostById); // Get single post
+  router.get('/:id/comments', controller.getPostComments); // Get comments for a post
 
-  router.post('/', auth.requireAuth, upload.array('files', 8), controller.createPost);
-  router.put('/:id', auth.requireAuth, controller.updatePost);
-  router.delete('/:id', auth.requireAuth, controller.deletePost);
+  // Protected routes (require authentication)
+  router.post('/', auth.requireAuth, upload.array('files', 8), controller.createPost); // Create post
+  router.put('/:id', auth.requireAuth, controller.updatePost); // Update post
+  router.delete('/:id', auth.requireAuth, controller.deletePost); // Delete post
 
-  router.put('/:uid/like-unlike/:pid', auth.requireAuth, controller.likeUnlike);
-  router.put('/:uid/save-unsave/:pid', auth.requireAuth, controller.saveUnsave);
-  router.post('/:id/comment', auth.requireAuth, controller.commentOnPost);
+  // Likes/Dislikes
+  router.post('/:pid/like', auth.requireAuth, controller.likeUnlike); // Like/unlike post
+
+  // Save/Unsave
+  router.post('/:pid/save', auth.requireAuth, controller.saveUnsave); // Save/unsave post
+
+  // Comments
+  router.post('/:id/comment', auth.requireAuth, controller.commentOnPost); // Add comment
 };

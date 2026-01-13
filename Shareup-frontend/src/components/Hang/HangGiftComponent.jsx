@@ -225,7 +225,7 @@ const handleshowMeals = () => {
     return (
       <>
     <Layout user={user}>
-      <div className="col-lg-6">
+      <div className="">
      <div className="central-meta hanggift"> 
      <h1 style={{textAlign:'center',padding:'10px', fontSize:'18px',fontWeight:'bold'}}>Today to me, tomorrow to you</h1>
      <div className="containerHang"> <div className="row rowalin">

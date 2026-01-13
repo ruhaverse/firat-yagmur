@@ -12,7 +12,7 @@ import fileStorage from '../../config/fileStorage';
 
 function GuideComponent() {
     const history = useHistory();
-
+    const [showComp, setShowComp] = useState(false);
     const { user } = useContext(UserContext)
 
     const [refresh, setRefresh] = useState([]);
@@ -28,7 +28,9 @@ function GuideComponent() {
 
     const [friendsList, setFriendsList] = useState([]);
     const getFriendsList = async () => {
-        await FriendsService.getFriends(AuthService.getCurrentUser().username).then(res => {
+        const jwtUser = AuthService.getCurrentUser();
+        if (!jwtUser || !jwtUser.username) return;
+        await FriendsService.getFriends(jwtUser.username).then(res => {
             setFriendsList(res.data)
         })
     }
@@ -36,13 +38,17 @@ function GuideComponent() {
     const [friendRequestSent, setFriendRequestSent] = useState([]);
     const [friendRequestRecieved, setFriendRequestRecieved] = useState([]);
     const getAllFriendRequestSent = async () => {
-        await UserService.getFriendRequestSent(AuthService.getCurrentUser().username).then(res => {
+        const jwtUser = AuthService.getCurrentUser();
+        if (!jwtUser || !jwtUser.username) return;
+        await UserService.getFriendRequestSent(jwtUser.username).then(res => {
             setFriendRequestSent(res.data)
         })
     }
 
     const getAllFriendRequestRecieved = async () => {
-        await UserService.getFriendRequestRecieved(AuthService.getCurrentUser().username).then(res => {
+        const jwtUser = AuthService.getCurrentUser();
+        if (!jwtUser || !jwtUser.username) return;
+        await UserService.getFriendRequestRecieved(jwtUser.username).then(res => {
             setFriendRequestRecieved(res.data)
         })
     }
@@ -76,15 +82,37 @@ function GuideComponent() {
     const [following, setFollowing] = useState([]);
     const [followers, setFollowers] = useState([]);
     const getAllFollowing = async () => {
-        await UserService.getFollowing(AuthService.getCurrentUser().username).then(res => {
-            setFollowing(res.data)
-        })
+        const jwtUser = AuthService.getCurrentUser();
+        if (!jwtUser || !jwtUser.username) return;
+        try {
+            const res = await UserService.getFollowing(jwtUser.username);
+            setFollowing(Array.isArray(res?.data) ? res.data : []);
+        } catch (error) {
+            const status = error?.response?.status;
+            if (status === 404) {
+                setFollowing([]);
+                return;
+            }
+            console.warn('GuideComponent.getAllFollowing failed:', error);
+            setFollowing([]);
+        }
     }
 
     const getAllFollowers = async () => {
-        await UserService.getFollowers(AuthService.getCurrentUser().username).then(res => {
-            setFollowers(res.data)
-        })
+        const jwtUser = AuthService.getCurrentUser();
+        if (!jwtUser || !jwtUser.username) return;
+        try {
+            const res = await UserService.getFollowers(jwtUser.username);
+            setFollowers(Array.isArray(res?.data) ? res.data : []);
+        } catch (error) {
+            const status = error?.response?.status;
+            if (status === 404) {
+                setFollowers([]);
+                return;
+            }
+            console.warn('GuideComponent.getAllFollowers failed:', error);
+            setFollowers([]);
+        }
     }
     const handleFollow = (uid) => {
         UserService.follow(user.email, uid).then(res => {
@@ -354,16 +382,29 @@ function GuideComponent() {
         }
     }
 
-    useEffect(() => {
-        getAllUser()
-        getAllGroups()
-        getFriendsList()
-        getAllFriendRequestSent()
-        getAllFriendRequestRecieved()
-        getAllFollowing()
-        getAllFollowers()
-    }, [refresh])
+ useEffect(() => {
+    const fetchData = async () => {
+        try {
+            await getAllUser();
+            await getFriendsList();
+            await getAllFollowing();
+            await getAllFollowers();
+            await getAllFriendRequestSent();
+            await getAllFriendRequestRecieved();
+        } catch (err) {
+            if (err.response?.status === 429) {
+                console.log("Too many requests. Please wait a moment.");
+                // Optional: retry after a short delay
+                setTimeout(fetchData, 1000);
+            } else {
+                console.error(err);
+            }
+        }
+    };
 
+    fetchData();
+}, [showComp, refresh]);
+    
     return (
         <Layout user={user}>
             <div className="col-lg-6">

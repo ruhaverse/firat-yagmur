@@ -294,15 +294,17 @@ function SearchFeedComponent() {
     }
     const getAllGroups = async () => {
         await GroupService.getAllGroups().then(res => {
-            setAllGroups(res.data)
-            setSearchedGroups(res.data)
+            const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+            setAllGroups(data)
+            setSearchedGroups(data)
         })
     }
 
 
     const getPost = async () => {
         await PostService.getPost().then(res => {
-            setPosts(res.data)
+            const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+            setPosts(data)
         })
     }
 
@@ -310,8 +312,12 @@ function SearchFeedComponent() {
 
 
     const getSavedPost = async () => {
-        await PostService.getSavedPostForUser(AuthService.getCurrentUser().username).then(res => {
-            setSavedPost(res.data)
+        const jwtUser = AuthService.getCurrentUser()
+        if (!jwtUser || !jwtUser.username) return
+
+        await PostService.getSavedPostForUser(jwtUser.username).then(res => {
+            const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+            setSavedPost(data)
         })
     }
 
@@ -1101,7 +1107,9 @@ function SearchFeedComponent() {
         })
     }
     const getFriendsList = async () => {
-        await FriendsService.getFriends(AuthService.getCurrentUser().username).then(res => {
+        const jwtUser = AuthService.getCurrentUser();
+        if (!jwtUser || !jwtUser.username) return;
+        await FriendsService.getFriends(jwtUser.username).then(res => {
             setFriendsList(res.data)
         })
     }
@@ -1109,7 +1117,8 @@ function SearchFeedComponent() {
 
 
     if (isLoading) {
-        return <div>Loading... Please Wait</div>
+        return <div>loading... please wait
+</div>
     }
 
     if (user.newUser) {

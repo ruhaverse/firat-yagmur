@@ -20,7 +20,9 @@ function FriendProfWidgtComponent() {
     const [friendsList, setFriendsList] = useState([])
 
     const getFriendsList = async () => {
-        await FriendsService.getFriends(AuthService.getCurrentUser().username).then(res => {
+        const jwtUser = AuthService.getCurrentUser();
+        if (!jwtUser || !jwtUser.username) return;
+        await FriendsService.getFriends(jwtUser.username).then(res => {
             setFriendsList(res.data)
         })
     }

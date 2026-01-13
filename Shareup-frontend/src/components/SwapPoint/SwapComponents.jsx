@@ -102,13 +102,14 @@ export default function SwapComponents(props) {
 
   const getPostForUser = async () => {
     await PostService.getPostForUser(AuthService.getCurrentUser().username).then(res => {
-      const sorting = res.data.sort(function (a, b) {
+      const data = Array.isArray(res.data) ? res.data : (res && res.data && Array.isArray(res.data.data) ? res.data.data : []);
+      const sorting = data.slice().sort(function (a, b) {
         const dateA = new Date(a.published), dateB = new Date(b.published);
         return dateB - dateA;
       });
       const uniquePost = Array.from(new Set(sorting.map(a => a.id)))
         .map(id => {
-          return res.data.find(a => a.id === id)
+          return data.find(a => a.id === id)
         })
       setPostsForUser(uniquePost)
     })
@@ -150,15 +151,17 @@ export default function SwapComponents(props) {
   }
   const getAllGroups = async () => {
     await GroupService.getAllGroups().then(res => {
-      setAllGroups(res.data)
-      setSearchedGroups(res.data)
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setAllGroups(data)
+      setSearchedGroups(data)
     })
   }
 
 
   const getPost = async () => {
     await PostService.getPost().then(res => {
-      setPosts(res.data)
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setPosts(data)
     })
   }
 
@@ -167,7 +170,8 @@ export default function SwapComponents(props) {
 
   const getSavedPost = async () => {
     await PostService.getSavedPostForUser(AuthService.getCurrentUser().username).then(res => {
-      setSavedPost(res.data)
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setSavedPost(data)
     })
   }
 
@@ -529,7 +533,9 @@ export default function SwapComponents(props) {
     })
   }
   const getFriendsList = async () => {
-    await FriendsService.getFriends(AuthService.getCurrentUser().username).then(res => {
+    const jwtUser = AuthService.getCurrentUser();
+    if (!jwtUser || !jwtUser.username) return;
+    await FriendsService.getFriends(jwtUser.username).then(res => {
       setFriendsList(res.data)
     })
   }
@@ -568,7 +574,8 @@ export default function SwapComponents(props) {
   }, [user])
 
   if (isLoading) {
-    return <div>Loading... Please Wait</div>
+    return <div>loading... please wait
+</div>
   }
 
 

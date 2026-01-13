@@ -272,7 +272,7 @@ function CreateGroupComponentMain() {
 
     return (
         <Layout user={user}>
-            <div className="col-lg-6">
+            <div className="">
                 <div className="central-meta create-group">
                                 <div className="card px-0 pt-4 pb-0 mt-3 mb-3">
                                     <div style={{contentAlign: 'center', textAlign: 'center'}}>

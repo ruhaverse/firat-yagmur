@@ -27,18 +27,22 @@ class ReelsServices {
     createReels = async (userId, formdata) => {
         try {
             authenticate();
-            const result = await authAxios.post(`/reels/web/${userId}`,formdata)
-            return result
+            // Legacy endpoints that encoded userId in the URL were removed on the server.
+            // POST /api/v1/reels expects an authenticated request and derives the author from the JWT.
+            const result = await authAxios.post(`/reels`, formdata);
+            return result;
         } catch (error) {
             logger.error('ReelsServices.createReels failed:', error);
             throw error;
         }
     }
 
-    getReelForUser = async (email) => {
+    getReelForUser = async (userId) => {
         try {
             authenticate();
-            const result = await authAxios.get(`reel/user/${email}`)
+            const result = await authAxios.get('/reels', {
+                params: { userId },
+            })
             return result;
         } catch (error) {
             logger.error('ReelsServices.getReelForUser failed:', error);

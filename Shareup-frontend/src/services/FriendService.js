@@ -6,6 +6,20 @@ import logger from '../utils/logger';
 const USER_API_BASE_URL = `${settings.apiUrl}/api/v1/`
 let authAxios = null;
 
+const _inFlight = new Map();
+const _cache = new Map();
+const CACHE_TTL_MS = 5000;
+
+const getCached = (key) => {
+    const entry = _cache.get(key);
+    if (!entry) return null;
+    if (Date.now() - entry.ts > CACHE_TTL_MS) {
+        _cache.delete(key);
+        return null;
+    }
+    return entry.value;
+}
+
 const authenticate = () => {
     if(AuthService.getCurrentUser()){
         authAxios = axios.create({
@@ -27,8 +41,32 @@ class FriendService {
     getFriends = async (email) => {
         try {
             authenticate()
-            const result = await authAxios.get(`/friends/email/${email}`)
-            return result
+            const key = `friends:${email || ''}`;
+            const cached = getCached(key);
+            if (cached) return { data: cached };
+            if (_inFlight.has(key)) return _inFlight.get(key);
+
+            const encoded = encodeURIComponent(email);
+            const promise = authAxios
+                .get(`/friends/email/${encoded}`)
+                .then((res) => {
+                    _cache.set(key, { ts: Date.now(), value: res.data });
+                    return res;
+                })
+                .catch((error) => {
+                    const status = error?.response?.status;
+                    if (status === 404 || status === 429) {
+                        const cached2 = getCached(key);
+                        return { data: cached2 || [] };
+                    }
+                    throw error;
+                })
+                .finally(() => {
+                    _inFlight.delete(key);
+                });
+
+            _inFlight.set(key, promise);
+            return await promise;
         } catch (error) {
             logger.error('FriendService.getFriends failed:', error);
             throw error;
@@ -60,7 +98,7 @@ class FriendService {
     sendRequest = async (uid,fid) => {
         try {
             authenticate();
-            const result = await authAxios.post(`/${uid}/friend_request/${fid}`)
+            const result = await authAxios.post(`/friends/${uid}/friend_request/${fid}`)
             return result
         } catch (error) {
             logger.error('FriendService.sendRequest failed:', error);
@@ -71,7 +109,7 @@ class FriendService {
     acceptRequest = async (uid, fid) => {
         try {
             authenticate();
-            const result = await authAxios.post(`/${uid}/accept_friend_request/${fid}`)
+            const result = await authAxios.post(`/friends/${uid}/accept_friend_request/${fid}`)
             return result
         } catch (error) {
             logger.error('FriendService.acceptRequest failed:', error);
@@ -82,7 +120,7 @@ class FriendService {
     declineRequest = async (uid, fid) => {
         try {
             authenticate();
-            const result = await authAxios.post(`/${uid}/decline_friend_request/${fid}`)
+            const result = await authAxios.post(`/friends/${uid}/decline_friend_request/${fid}`)
             return result
         } catch (error) {
             logger.error('FriendService.declineRequest failed:', error);
@@ -93,7 +131,7 @@ class FriendService {
     unsendRequest = async (uid, fid) => {
         try {
             authenticate();
-            const result = await authAxios.post(`/${uid}/decline_friend_request/${fid}`)
+            const result = await authAxios.post(`/friends/${uid}/decline_friend_request/${fid}`)
             return result
         } catch (error) {
             logger.error('FriendService.unsendRequest failed:', error);

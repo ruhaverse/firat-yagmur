@@ -42,20 +42,22 @@ function GroupComponent({post}) {
 
 	const getAllGroups = async () => {
 		await GroupService.getAllGroups().then(res => {
-			setAllGroups(res.data)
-			setSearchedGroups(res.data)
+			const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+			setAllGroups(data)
+			setSearchedGroups(data)
 		})
 	}
 
 	const getMyGroups = async () => {
 		await GroupService.getGroupByCurrentUser(user.email).then(res => {
-			const uniqueGroups = Array.from(new Set(res.data.map(a => a.id)))
+            const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+            const uniqueGroups = Array.from(new Set(data.map(a => a.id)))
         .map(id => {
-          return res.data.find(a => a.id === id)
+          return data.find(a => a.id === id)
         })
-			setMyGroups(uniqueGroups)
-			setSearchedMyGroups(uniqueGroups)
-		})
+            setMyGroups(uniqueGroups)
+            setSearchedMyGroups(uniqueGroups)
+        })
 	}
 
 	const handleSearchGroup = (event) => {
@@ -244,7 +246,7 @@ function GroupComponent({post}) {
 
 	return (
 		<Layout user={user}>
-			<div className="col-lg-6">
+			<div className="">
 				<div className="central-meta swap-pg-cont">
 					<div className="frnds">
 						<div>

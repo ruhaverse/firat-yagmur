@@ -1,23 +1,18 @@
-import React, { useState, useEffect, useContext }from 'react'
+import React, { useState } from 'react'
 import axios from 'axios';
-
-
-// this function returns UUID
-function uuidv4() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
-  }
+import { useHistory } from 'react-router-dom';
+import settings from '../../services/Settings';
 
 function ForgotPasswordComponent(props){
+
+    const history = useHistory();
    
-  const [mailSent, setMailSent] = useState(0)
-  const [newPass, setNewPass] = useState()
-  const [verCode, setVerCode] = useState()
-  const [email, setEmail] = useState()
-  const [verifiyCodeInput, setVerifiyCodeInput] = useState()
-  const [verifiyCode, setVerifiyCode] = useState()
+    const [mailSent, setMailSent] = useState(0)
+    const [newPass, setNewPass] = useState('')
+    const [email, setEmail] = useState('')
+    const [verifiyCodeInput, setVerifiyCodeInput] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
   
       
 
@@ -31,41 +26,76 @@ function ForgotPasswordComponent(props){
         setNewPass(event.target.value)
     }
 
-    // this function sends reset password mail to the given mail with a bundle which includes email and
-    // verification code which come from uuid
-    const sendResetPasswordMailFunc = () => {
-        if(email){
-            verCode = uuidv4()
-            const bundle = {
-                mail: email,
-                verifiyCode:verCode,
+    // Step 1: request reset token
+    const sendResetPasswordMailFunc = async () => {
+        setError('');
+        if(!email){
+            setError('Please enter your email');
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const res = await axios.post(`${settings.apiUrl}/api/v1/users/forgot-password`, { email });
+            const token = res?.data?.data?.resetToken;
+            if (token) {
+                alert(`Dev reset code: ${token}`);
+            } else {
+                alert('If the account exists, reset instructions have been sent.');
             }
-            // Use Settings.js for API URL (already configured for shareuptime.com)
-            import('../../services/Settings').then(({ getCurrentSettings }) => {
-                const settings = getCurrentSettings();
-                axios.post(`${settings.apiUrl}/auth/forgot-password`, bundle).then((res)=> {
-                    alert("Password reset mail sent to your email adress.")
-                }).catch((err) => {
-                    alert("An error has occurred")
-                })
-            });
-           setMailSent(1)
+            setMailSent(1);
+        } catch (err) {
+            const msg = err?.response?.data?.error || err?.message || 'An error has occurred';
+            setError(msg);
+        } finally {
+            setLoading(false);
         }
     }
+
+        const goBackToLogin = () => {
+            if (typeof props?.stateChanger === 'function') {
+                props.stateChanger();
+                return;
+            }
+            history.push('/', { showComponent: 'login' });
+        };
 
     // verification code input listener
     const verifiyCodeInputListener = (event) => {
         setVerifiyCodeInput(event.target.value)
     }
 
-    // this function sends a bundle which includes new password and mail to the api for reseting password
-    const resetPasswordFunction = () => {
-        if(verifiyCode = verifiyCodeInput){
-            const bundle = {
-                newPass: newPass,
-                mail: email
-            }
-            //axios api connection
+    // Step 2: submit token + new password
+    const resetPasswordFunction = async () => {
+        setError('');
+
+        if (!email) {
+            setError('Email is required');
+            return;
+        }
+        if (!verifiyCodeInput) {
+            setError('Reset code is required');
+            return;
+        }
+        if (!newPass || newPass.length < 8) {
+            setError('Password must be at least 8 characters');
+            return;
+        }
+
+        setLoading(true);
+        try {
+            await axios.post(`${settings.apiUrl}/api/v1/users/reset-password`, {
+                email,
+                token: verifiyCodeInput,
+                newPassword: newPass,
+            });
+            alert('Password updated successfully. Please login.');
+            goBackToLogin();
+        } catch (err) {
+            const msg = err?.response?.data?.error || err?.message || 'An error has occurred';
+            setError(msg);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -75,12 +105,17 @@ function ForgotPasswordComponent(props){
                 <div className="frgtPwd">
                     <h2>Forgot Your Password?</h2>
                     <div className="optionText">Please enter your email and get your account right back</div>
+                    {error ? <div style={{ color: 'red', marginBottom: '8px' }}>{error}</div> : null}
                     <div className="form-group">
                        
                         <input className="form-input" type="text" placeholder="Enter your email" onChange= {emailInputListener}/>
                     </div>
-                    <div className="optionText" onClick={props.stateChanger}>Remembered your password?</div>
-                    <div className="submit-btns-log"><button className="mtr-btn" onClick={sendResetPasswordMailFunc}><span>Send mail</span></button></div>
+                    <div className="optionText" onClick={goBackToLogin}>Remembered your password?</div>
+                    <div className="submit-btns-log">
+                        <button className="mtr-btn" onClick={sendResetPasswordMailFunc} disabled={loading}>
+                            <span>{loading ? 'Sending…' : 'Send mail'}</span>
+                        </button>
+                    </div>
                    
                 </div>
             )
@@ -88,15 +123,19 @@ function ForgotPasswordComponent(props){
             return(
                 <div>
                     <h2>Please enter the code to reset your password.</h2>
+                    {error ? <div style={{ color: 'red', marginBottom: '8px' }}>{error}</div> : null}
                     <div className="inputWrapperDiv">
                         <i className="fas fa-lock" style={{color:"#4fb5ff", marginTop:"6px", marginLeft:"8px"}}></i>
-                        <input className="inputClass" type="text" placeholder="Enter your new password" onChange= {newPassInputListener}/>
+                        <input className="inputClass" type="password" placeholder="Enter your new password" onChange= {newPassInputListener}/>
                     </div>
                     <div className="inputWrapperDiv">
                         <i className="fas fa-lock" style={{color:"#4fb5ff", marginTop:"6px", marginLeft:"8px"}}></i>
                         <input className="inputClass" type="text" placeholder="Enter the code" onChange= {verifiyCodeInputListener}/>
                     </div>
-                    <button className="loginButton" onClick={null} style={{width:"160px"}} >Send password reset mail</button>
+                    <button className="loginButton" onClick={resetPasswordFunction} disabled={loading} style={{width:"220px"}}>
+                        {loading ? 'Updating…' : 'Reset password'}
+                    </button>
+                    <div className="optionText" onClick={goBackToLogin} style={{ marginTop: '10px' }}>Back to login</div>
                 </div>
             )
         }

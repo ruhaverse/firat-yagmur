@@ -6,8 +6,9 @@ import fileStorage from '../config/fileStorage';
 // import FollowingWidgetComponent from './widgets/FollowingWidgetComponent';
 
 function Layout(props){
-    const { user } = useContext(UserContext)
-    return(
+  const { user } = useContext(UserContext)
+  const currentUser = props.user || user || null;
+  return(
         <section>
             <div className="gap gray-bg">
               <div className="container-fluid">
@@ -18,9 +19,9 @@ function Layout(props){
                         <aside className="sidebar static">
                         <div className="widget">
                             <h4 className="widget-title">User</h4>
-                            <img src={fileStorage.baseUrl+user.profilePicturePath} style={{width: 80, float:"left"}}></img>
-                            <a href={`/profile`}><p style={{fontWeight: "bold"}}>{`${user.firstName} ${user.lastName}`}</p></a>
-    
+                            <img src={currentUser && currentUser.profilePicturePath ? fileStorage.baseUrl+currentUser.profilePicturePath : ''} style={{width: 80, float:"left"}} alt="profile" />
+                            <a href={`/profile`}><p style={{fontWeight: "bold"}}>{currentUser ? `${currentUser.firstName || ''} ${currentUser.lastName || ''}` : 'User'}</p></a>
+
                           </div>
                           <div className="widget">
                             <h4 className="widget-title">Menu</h4>

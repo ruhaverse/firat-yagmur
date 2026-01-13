@@ -348,31 +348,59 @@ function FriendsTestComponent() {
     }
 
     const getFriendsList = async () => {
-        await FriendsService.getFriends(AuthService.getCurrentUser().username).then(res => {
+        const jwtUser = AuthService.getCurrentUser();
+        if (!jwtUser || !jwtUser.username) return;
+        await FriendsService.getFriends(jwtUser.username).then(res => {
             setFriendsList(res.data)
         })
     }
 
     const getAllFollowing = async () => {
-        await UserService.getFollowing(AuthService.getCurrentUser().username).then(res => {
-            setFollowing(res.data)
-        })
+        const jwtUser = AuthService.getCurrentUser();
+        if (!jwtUser || !jwtUser.username) return;
+        try {
+            const res = await UserService.getFollowing(jwtUser.username);
+            setFollowing(Array.isArray(res?.data) ? res.data : []);
+        } catch (error) {
+            const status = error?.response?.status;
+            if (status === 404) {
+                setFollowing([]);
+                return;
+            }
+            console.warn('FriendsTestComponent.getAllFollowing failed:', error);
+            setFollowing([]);
+        }
     }
 
     const getAllFollowers = async () => {
-        await UserService.getFollowers(AuthService.getCurrentUser().username).then(res => {
-            setFollowers(res.data)
-        })
+        const jwtUser = AuthService.getCurrentUser();
+        if (!jwtUser || !jwtUser.username) return;
+        try {
+            const res = await UserService.getFollowers(jwtUser.username);
+            setFollowers(Array.isArray(res?.data) ? res.data : []);
+        } catch (error) {
+            const status = error?.response?.status;
+            if (status === 404) {
+                setFollowers([]);
+                return;
+            }
+            console.warn('FriendsTestComponent.getAllFollowers failed:', error);
+            setFollowers([]);
+        }
     }
 
     const getAllFriendRequestSent = async () => {
-        await UserService.getFriendRequestSent(AuthService.getCurrentUser().username).then(res => {
+        const jwtUser = AuthService.getCurrentUser();
+        if (!jwtUser || !jwtUser.username) return;
+        await UserService.getFriendRequestSent(jwtUser.username).then(res => {
             setFriendRequestSent(res.data)
         })
     }
 
     const getAllFriendRequestRecieved = async () => {
-        await UserService.getFriendRequestRecieved(AuthService.getCurrentUser().username).then(res => {
+        const jwtUser = AuthService.getCurrentUser();
+        if (!jwtUser || !jwtUser.username) return;
+        await UserService.getFriendRequestRecieved(jwtUser.username).then(res => {
             setFriendRequestRecieved(res.data)
         })
     }
@@ -392,15 +420,29 @@ function FriendsTestComponent() {
 
     }
 
-    useEffect(() => {
-        getAllUser()
-        getFriendsList()
-        getAllFollowing()
-        getAllFollowers()
-        getAllFriendRequestSent()
-        getAllFriendRequestRecieved()
+useEffect(() => {
+    const fetchData = async () => {
+        try {
+            await getAllUser();
+            await getFriendsList();
+            await getAllFollowing();
+            await getAllFollowers();
+            await getAllFriendRequestSent();
+            await getAllFriendRequestRecieved();
+        } catch (err) {
+            if (err.response?.status === 429) {
+                console.log("Too many requests. Please wait a moment.");
+                // Optional: retry after a short delay
+                setTimeout(fetchData, 1000);
+            } else {
+                console.error(err);
+            }
+        }
+    };
 
-    }, [showComp, refresh])
+    fetchData();
+}, [showComp, refresh]);
+
 
     useEffect(() => {
         testScript()

@@ -160,14 +160,18 @@ function ReelFeedComponent() {
   // }
 
   const getStoriesForUser = async () => {
-    await StoriesService.getStoriesForUser(AuthService.getCurrentUser().username).then(res => {
-      const sorting = res.data.sort(function (a, b) {
+    const jwtUser = AuthService.getCurrentUser()
+    if (!jwtUser || !jwtUser.username) return
+
+    await StoriesService.getStoriesForUser(jwtUser.username).then(res => {
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      const sorting = data.sort(function (a, b) {
         const dateA = new Date(a.date), dateB = new Date(b.date);
         return dateB - dateA;
       });
       const uniqueStories = Array.from(new Set(sorting.map(a => a.id)))
         .map(id => {
-          return res.data.find(a => a.id === id)
+          return data.find(a => a.id === id)
         })
       setStoriesForUser(uniqueStories)
     })
@@ -175,15 +179,50 @@ function ReelFeedComponent() {
   
   
   const getReelsForUser = async () => {
+    const jwtUser = AuthService.getCurrentUser()
+    const userId = jwtUser?.user?.id
+    if (!userId) return
 
-    await ReelsServices.getReelForUser(AuthService.getCurrentUser().username).then(res => {
-      const sorting = res.data.sort(function (a, b) {
+    const normalizeMediaPath = (mediaUrl) => {
+      if (!mediaUrl) return ''
+      // Backend may return absolute URLs; keep them as-is.
+      return mediaUrl
+    }
+
+    const normalizeReelPost = (r) => {
+      const published = r?.created_at || r?.published || r?.createdAt || new Date().toISOString()
+      const profilePicturePath = r?.profile_picture || r?.profilePicturePath || ''
+      return {
+        id: r?.id,
+        allPostsType: 'reel',
+        content: r?.content || r?.caption || '',
+        published,
+        user: {
+          id: r?.author_id || r?.user_id || null,
+          email: r?.email || '',
+          firstName: r?.first_name || r?.firstName || '',
+          lastName: r?.last_name || r?.lastName || '',
+          profilePicturePath,
+        },
+        media: Array.isArray(r?.media)
+          ? r.media.map((m) => ({
+              mediaPath: normalizeMediaPath(m?.media_url || m?.mediaPath || ''),
+              mediaType: m?.media_type || m?.mediaType || '',
+            }))
+          : [],
+      }
+    }
+
+    await ReelsServices.getReelForUser(userId).then(res => {
+      const raw = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      const data = raw.map(normalizeReelPost)
+      const sorting = data.sort(function (a, b) {
         const dateA = new Date(a.published), dateB = new Date(b.published);
         return dateB - dateA;
       });
       const uniquePost = Array.from(new Set(sorting.map(a => a.id)))
         .map(id => {
-          return res.data.find(a => a.id === id)
+          return data.find(a => a.id === id)
         })
       setSearchedReelforUser(uniquePost)
     })
@@ -191,15 +230,18 @@ function ReelFeedComponent() {
   }
 
   const getAllReels = async () => {
+    const jwtUser = AuthService.getCurrentUser()
+    if (!jwtUser || !jwtUser.username) return
 
-    await ReelsServices.getAllReels(AuthService.getCurrentUser().username).then(res => {
-      const sorting = res.data.sort(function (a, b) {
+    await ReelsServices.getAllReels(jwtUser.username).then(res => {
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      const sorting = data.sort(function (a, b) {
         const dateA = new Date(a.published), dateB = new Date(b.published);
         return dateB - dateA;
       });
       const uniquePost = Array.from(new Set(sorting.map(a => a.id)))
         .map(id => {
-          return res.data.find(a => a.id === id)
+          return data.find(a => a.id === id)
         })
         
       setSearchedReel(uniquePost)
@@ -321,15 +363,17 @@ function ReelFeedComponent() {
   }
   const getAllGroups = async () => {
     await GroupService.getAllGroups().then(res => {
-      setAllGroups(res.data)
-      setSearchedGroups(res.data)
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setAllGroups(data)
+      setSearchedGroups(data)
     })
   }
 
 
   const getPost = async () => {
     await PostService.getPost().then(res => {
-      setPosts(res.data)
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setPosts(data)
     })
   }
 
@@ -338,7 +382,8 @@ function ReelFeedComponent() {
 
   const getSavedPost = async () => {
     await PostService.getSavedPostForUser(AuthService.getCurrentUser().username).then(res => {
-      setSavedPost(res.data)
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setSavedPost(data)
     })
   }
 
@@ -1229,7 +1274,9 @@ function ReelFeedComponent() {
     })
   }
   const getFriendsList = async () => {
-    await FriendsService.getFriends(AuthService.getCurrentUser().username).then(res => {
+    const jwtUser = AuthService.getCurrentUser();
+    if (!jwtUser || !jwtUser.username) return;
+    await FriendsService.getFriends(jwtUser.username).then(res => {
       setFriendsList(res.data)
     })
   }
@@ -1248,7 +1295,11 @@ const AllReelscomponentFunction = () => {
               <div style={{paddingBottom:'10px'}} key={post.id}>
                 {
                   post.group ?
-                    post.group.members.some(member => member.email === AuthService.getCurrentUser().username) ?
+                    (() => {
+                      const jwtUser = AuthService.getCurrentUser();
+                      if (!jwtUser || !jwtUser.username) return false;
+                      return post.group.members.some(member => member.email === jwtUser.username);
+                    })() ?
                       testFanc(post) : null
                     :
                     testFanc(post)
@@ -1303,7 +1354,7 @@ const AllReelscomponentFunction = () => {
 
 
   if (isLoading) {
-    return <div>Loading... Please Wait</div>
+    return <div>loading... Please wait Monica</div>
   }
 
   if (user.newUser) {
@@ -1312,7 +1363,7 @@ const AllReelscomponentFunction = () => {
 
   return (
     <Layout user={user}>
-      <div className="col-lg-6">
+      <div className="">
         <div className="central-meta swap-pg-cont">
           <div className="frnds">   
             <div>

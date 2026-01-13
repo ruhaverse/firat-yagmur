@@ -401,7 +401,7 @@ const handleCounterReaction = () => {
 										
 						<div className="headpop">
 						<div className="row"><div style={{width:'5%'}}><a href="#!"  onClick={close}><i className="las la-times"></i></a></div>
-						<div style={{ color:'#000000',fontSize:'14px',fontWeight:'bold',width:'85%',textAlign: 'center'}}><span>We share, do you?</span></div>
+						<div style={{ color:'#000000',fontSize:'14px',fontWeight:'bold',width:'85%',textAlign: 'center'}}><span>We fddshare, do you?</span></div>
 						<div style={{ width:'10%',textAlign: 'center'}}><span style={{float:'right'}}>  <button style={{float: 'right', borderRadius:'20px'}} type="submit" onClick={uploadPost}>Post</button></span></div>
 						</div></div>
 					

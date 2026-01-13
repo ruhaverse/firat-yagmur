@@ -16,7 +16,9 @@ function GroupsWidgetComponent() {
     const [friendsList, setFriendsList] = useState([])
 
     const getFriendsList = async () => {
-        await FriendsService.getFriends(AuthService.getCurrentUser().username).then(res => {
+        const jwtUser = AuthService.getCurrentUser();
+        if (!jwtUser || !jwtUser.username) return;
+        await FriendsService.getFriends(jwtUser.username).then(res => {
             setFriendsList(res.data)
         })
     }
@@ -26,8 +28,9 @@ function GroupsWidgetComponent() {
 
     const getAllGroups = async () => {
         await GroupService.getAllGroups().then(res => {
-            setAllGroups(res.data)
-            setSearchedGroups(res.data)
+            const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : []);
+            setAllGroups(data)
+            setSearchedGroups(data)
         })
     }
 
@@ -50,7 +53,7 @@ function GroupsWidgetComponent() {
                 <p className="widget-title" style={{position:'absolute', left: '50px',}}>Groups</p></div>
             {/* <div id="searchDir" /> */}
             <ul className="nearby-contct sidebar-grp">
-                {searchedGroups.slice(0,4).map(
+                {(Array.isArray(searchedGroups) ? searchedGroups : []).slice(0,4).map(
                     group =>
                     <li key={group.id}>
                     <div className="nearly-pepls" style={{display:'flex' ,background:'white' ,padding:'10px'}}>

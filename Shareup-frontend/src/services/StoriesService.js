@@ -27,7 +27,8 @@ class StoriesService {
         try {
             authenticate();
             const result = await authAxios.get('stories/')
-            return result;
+            const payload = (result && result.data && result.data.data) ? result.data.data : (result && result.data ? result.data : []);
+            return { data: payload };
         } catch (error) {
             logger.error('StoriesService.getStories failed:', error);
             throw error;
@@ -38,7 +39,8 @@ class StoriesService {
         try {
             authenticate();
             const result = await authAxios.get(`stories/${email}`)
-            return result;
+            const payload = (result && result.data && result.data.data) ? result.data.data : (result && result.data ? result.data : []);
+            return { data: payload };
         } catch (error) {
             logger.error('StoriesService.getStoriesForUser failed:', error);
             throw error;

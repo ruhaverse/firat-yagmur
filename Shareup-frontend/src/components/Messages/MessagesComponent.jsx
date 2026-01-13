@@ -26,36 +26,56 @@ function MessagesComponent() {
     const [stories, setStories] = useState([]);
     const [refresh, setRefresh] = useState(null)
     const [userR, setUserR] = useState(null);
+    const activeUser = user || userR || {};
     const [searchedUser, setSearchedUser] = useState([]);
 
     const handleChat = (userM) => {
         setUserR(userM)
     }
     const handleSearchedUser = (event) => {
-        if (event.target.value === "") {
-            setSearchedUser(allUser)
-        } else {
-            const temp = []
-            allUser.map(u => {
-                const email = u.email.toLowerCase()
-                const firstname = u.firstName.toLowerCase()
-                const lastname = u.lastName.toLowerCase()
-                const searchedvalue = event.target.value.toLowerCase()
-                if (email.includes(searchedvalue) || firstname.includes(searchedvalue) || lastname.includes(searchedvalue)) {
-                    temp.push(u)
-                }
-            })
-            setSearchedUser(temp)
+        const normalize = (value) => (value ?? "").toString().toLowerCase();
+        const searchedValue = normalize(event?.target?.value);
+
+        if (!searchedValue) {
+            setSearchedUser(allUser);
+            return;
         }
+
+        const filtered = (allUser || []).filter((u) => {
+            const email = normalize(u?.email);
+            const firstname = normalize(u?.firstName);
+            const lastname = normalize(u?.lastName);
+            return (
+                email.includes(searchedValue) ||
+                firstname.includes(searchedValue) ||
+                lastname.includes(searchedValue)
+            );
+        });
+
+        setSearchedUser(filtered);
     }
     const getAllUser = async () => {
-        await UserService.getUsers().then(res => {
-            setAllUser(res.data)
-            setSearchedUser(res.data)
-        })
+    try {
+        const res = await UserService.getUsers();
+
+        const users =
+            Array.isArray(res.data) ? res.data :
+            Array.isArray(res.data.users) ? res.data.users :
+            Array.isArray(res.data.data) ? res.data.data :
+            [];
+
+        setAllUser(users);
+        setSearchedUser(users);
+    } catch (err) {
+        console.error("Failed to load users", err);
+        setAllUser([]);
+        setSearchedUser([]);
     }
+};
     const getFriendsList = async () => {
-        await FriendsService.getFriends(AuthService.getCurrentUser().username).then(res => {
+        const jwtUser = AuthService.getCurrentUser();
+        if (!jwtUser || !jwtUser.username) return;
+        await FriendsService.getFriends(jwtUser.username).then(res => {
             setFriendsList(res.data)
         })
     }
@@ -73,8 +93,8 @@ function MessagesComponent() {
             <div className="left-message">
                 <div className="msgHead">
 
-                    <a href={`/profile/${user.email}`} title={`${user.email}`}>
-                        <img className="msgprof" style={{ objectFit: 'cover' }} src={fileStorage.baseUrl + user.profilePicturePath} alt="" /><span style={{ paddingLeft: '10px', fontWeight: 'bold', fontSize: '15px' }}>{`${user.firstName} ${user.lastName}`}</span>
+                    <a href={`/profile/${activeUser.email || ''}`} title={`${activeUser.email || ''}`}>
+                        <img className="msgprof" style={{ objectFit: 'cover' }} src={fileStorage.baseUrl + (activeUser.profilePicturePath || '')} alt="" /><span style={{ paddingLeft: '10px', fontWeight: 'bold', fontSize: '15px' }}>{`${activeUser.firstName || ''} ${activeUser.lastName || ''}`}</span>
                         <span style={{ paddingLeft: '20px', fontWeight: '900' }}><img src="/assets/images/msgarrw.svg" /></span></a>
                 </div>
                 <div className="search-container" style={{ paddingBottom: '16px', borderBottom: '1px solid #cecece' }} >
@@ -87,7 +107,7 @@ function MessagesComponent() {
 
                         {searchedUser.map(
                             userM =>
-                                (user.id !== userM.id) ?
+                                (activeUser.id !== userM.id) ?
                                     <li key={userM.id} className="friends-card grp"  style={{background:'#e9e9e9'}}>
                                         <a  href="#!" onClick={() => handleChat(userM)} > 
                                         <div className="grid-container" style={{height: '75px !important' }}>

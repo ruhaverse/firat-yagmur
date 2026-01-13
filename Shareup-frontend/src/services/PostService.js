@@ -27,7 +27,8 @@ class PostService {
         try {
             authenticate();
             const result = await authAxios.get('posts/')
-            return result;
+            const payload = (result && result.data && result.data.data) ? result.data.data : (result && result.data ? result.data : []);
+            return { data: payload };
         } catch (error) {
             logger.error('PostService.getPost failed:', error);
             throw error;
@@ -38,7 +39,8 @@ class PostService {
         try {
             authenticate();
             const result = await authAxios.get(`posts/email/${email}`)
-            return result;
+            const payload = (result && result.data && result.data.data) ? result.data.data : (result && result.data ? result.data : []);
+            return { data: payload };
         } catch (error) {
             logger.error('PostService.getPostForUser failed:', error);
             throw error;

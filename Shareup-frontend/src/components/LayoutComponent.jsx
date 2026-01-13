@@ -1,448 +1,335 @@
-  import React, { useState, useEffect, useContext } from 'react';
-  import { Redirect, useHistory } from "react-router-dom";
-  import Form from 'react-bootstrap/Form';
-  import UserContext from '../contexts/UserContext';
-  import AuthService from '../services/auth.services';
-  import PostService from '../services/PostService';
-  import ShareupInsideHeaderComponent from './dashboard/ShareupInsideHeaderComponent';
-  import EditPostComponent from './user/EditPostComponent'
-  import FollowingWidgetComponent from './widgets/FollowingWidgetComponent';
-  import FriendsWidgetComponent from './widgets/FriendsWidgetComponent';
-  import GroupsWidgetComponent from './widgets/GroupsWidgetComponent';
-  import settings from '../services/Settings';
-  import fileStorage from '../config/fileStorage';
-  import ReelsServices from '../services/ReelsServices';
+import React, { useState, useEffect, useContext } from 'react';
+import { useHistory } from "react-router-dom";
+import UserContext from '../contexts/UserContext';
+import AuthService from '../services/auth.services';
+import ShareupInsideHeaderComponent from './dashboard/ShareupInsideHeaderComponent';
+import FriendsWidgetComponent from './widgets/FriendsWidgetComponent';
+import FollowingWidgetComponent from './widgets/FollowingWidgetComponent';
+import GroupsWidgetComponent from './widgets/GroupsWidgetComponent';
+import fileStorage from '../config/fileStorage';
+import ReelsServices from '../services/ReelsServices';
+import Popup from 'reactjs-popup';
+import img1 from '../images/news1.jpg';
+import './Layout.css';
 
-  import Popup from 'reactjs-popup';
+export default function Layout(props) {
+  const [isLoading, setIsLoading] = useState(true);
+  const history = useHistory();
+  const { user } = useContext(UserContext);
+  const currentUser = props.user || user || null;
+  const displayUsername = currentUser?.username || AuthService.getCurrentUser()?.username;
 
-  import img1 from '../images/news1.jpg'
+  const [refresh, setRefresh] = useState(null);
+  const [filesReel, setFilesReel] = useState(null);
+  const [ReelVideo, setReelVideo] = useState(null);
+  const [ShowReelVideo, setShowReelVideo] = useState(false);
+  const [uploadErrorReel, setUploadErrorReel] = useState('');
+  const [reelPreviewPath, setReelPreviewPath] = useState(null);
+  const [reelContent, setReelContent] = useState('');
 
-  export default function Layout(props) {
-  console.log('LayoutComponent: props.user =', props.user, 'isLoading =', isLoading);
+  useEffect(() => {
+    if (currentUser) setIsLoading(false);
+  }, [currentUser]);
 
-    const [isLoading, setIsLoading] = useState(true);
+  // Resolve various backend profile-picture field names to a usable URL
+  const resolveProfileImage = (u) => {
+    if (!u) return "../assets/images/resources/admin.jpg";
+    const pic = u.profile_picture || u.profilePicturePath || u.profilePicture || u.profilePictureUrl || null;
+    if (!pic) return "../assets/images/resources/admin.jpg";
+    if (typeof pic === 'string') {
+      if (pic.startsWith('http')) return pic;
+      if (pic.startsWith(fileStorage.baseUrl)) return pic;
+      const path = pic.startsWith('/') ? pic : `/${pic}`;
+      return fileStorage.baseUrl + path;
+    }
+    return "../assets/images/resources/admin.jpg";
+  };
 
-    const history = useHistory();
+  useEffect(() => {
+    getPreviewReel();
+  }, [refresh]);
 
-    useEffect(() => {
-      if (props.user) {
-        setIsLoading(false)
-      }
+  const getPreviewReel = async () => {
+    const authUser = AuthService.getCurrentUser();
+    const username = props.user?.username || user?.username || authUser?.username;
+    if (!username) return;
+    try {
+      const res = await ReelsServices.getPreviewReel(username);
+      if (res?.data?.media && res.data.media.length > 0) setReelPreviewPath(res.data.media[0]);
+    } catch (err) {
+      console.error('getPreviewReel error', err);
+    }
+  };
 
-    }, [])
+  const uploadReels = (event) => {
+    event.preventDefault();
+    setUploadErrorReel('');
 
+    if (!filesReel) {
+      setUploadErrorReel('Please add reel video');
+      return;
+    }
 
+    const formData = new FormData();
+    formData.append('content', reelContent || '');
+    formData.append('reelfiles', filesReel); // must match Multer field name
 
-    useEffect(() => {
-      if (props.user) {
-        setIsLoading(false)
-      }
-
-    }, [])
-
-    const { user } = useContext(UserContext)
-
-    const [refresh, setRefresh] = useState(null);
-    const [reels, setReels] = useState([]);
-
-    const [filesReel, setFilesReel] = useState({});
-    const [ReelVideo, setReelVideo] = useState([]);
-    const [ShowReelVideo, setShowReelVideo] = useState(false);
-    const [uploadErrorReel, setUploadErrorReel] = useState('');
-    const [reelPreviewPath, setReelPreviewPath] = useState([]);
-
-
-
-    const uploadReels = (event) => {
-      event.preventDefault();
-      setUploadErrorReel('');
-
-      if (Object.keys(filesReel).length === 0 && filesReel.constructor === Object) {
-        setUploadErrorReel('Please Add reel video');
-        return;
-      }
-
-      const video = document.getElementById("video");
-      const canvas = document.createElement("canvas");
-      // scale the canvas accordingly
-      canvas.width = video.videoWidth / 10;
-      canvas.height = video.videoHeight / 10;
-      // draw the video at that frame
-      canvas.getContext('2d').drawImage(video, 10, 10);
-      // convert it to a usable data URL
-      const dataURL = canvas.toDataURL();
-      const img = document.createElement("img");
-      img.src = fileStorage.baseUrl + "/user-stories/1643529794109/Picture.jpg";
-
-
-      const formData = new FormData();
-      const content = "test";
-
-
-      formData.append(`content`, content);
-      formData.append(`reelfiles`, filesReel);
-
-
-      ReelsServices.createReels(user.id, formData).then((res) => {
+    ReelsServices.createReels(currentUser?.id, formData)
+      .then((res) => {
         handleRemoveReelVideo();
-        setReels(res.data);
         setRefresh(res.data);
-
-
-      });
-
-
-    };
-
-    useEffect(() => {
-
-      getPreviewReel()
-
-    }, [refresh])
-
-    const getPreviewReel = async () => {
-
-      await ReelsServices.getPreviewReel(AuthService.getCurrentUser().username).then(res => {
-        setReelPreviewPath(res.data.media[0])
-
-
       })
-    }
+      .catch((err) => {
+        console.error('Upload failed', err);
+        setUploadErrorReel('Failed to upload reel');
+      });
+  };
 
+  const handleFileReel = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
 
+    setFilesReel(file);
 
-
-    const handleFileReel = (event) => {
-
-      setFilesReel(event.target.files[0]);
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setReelVideo(reader.result);
-        }
-      };
-      // if(event.target.files[0].type === blob){
-      reader.readAsDataURL(event.target.files[0]);
-      // }
-      setShowReelVideo(true);
-
-
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setReelVideo(reader.result);
+      }
     };
+    reader.readAsDataURL(file);
+    setShowReelVideo(true);
+  };
 
-    const handleRemoveReelVideo = () => {
-      setFilesReel({});
-      setShowReelVideo(false);
-    };
+  const handleRemoveReelVideo = () => {
+    setFilesReel(null);
+    setReelVideo(null);
+    setShowReelVideo(false);
+    setUploadErrorReel('');
+  };
 
-
-
-
-
-    if (isLoading) {
-      return null
+  const newsItems = [
+    {
+      headline: "Omicron variant of COVID-19: New travel guidelines to come into force from December 1",
+      source: "Aljazeera Qatar News",
+      link: "https://www.aljazeera.com/where/qatar/",
+      date: "12/1/2021",
+      image: img1
+    },
+    {
+      headline: "Prime Minister Scott Morrison says big tech firms have responsibility to ensure their platforms are safe.",
+      source: "Technology",
+      link: "https://www.theverge.com/tech",
+      date: "12/1/2021"
+    },
+    {
+      headline: "Comprehensive Guide to Qatar Business ....",
+      source: "Business",
+      link: "https://thepeninsulaqatar.com/category/Qatar-Business",
+      date: "12/1/2021"
+    },
+    {
+      headline: "The #FIFArabCup Qatar 2021 kicks off today, coinciding with the inauguration of Al Bayt Stadium and Stadium 974",
+      source: "Sports",
+      link: "https://www.dohanews.co/category/sports/",
+      date: "12/1/2021"
     }
-    const curdate = () => {
-      const date = new Date()
-      const dd = date.getDate()
-      const mm = date.getMonth()
-      const yy = date.getFullYear()
-      return `${dd}/ ${mm}/ ${yy}`
-    }
-    return (
-      <>
-        <ShareupInsideHeaderComponent user={props.user} />
-        {/* topbar */}
-        <div className="container">
-          <section>
-            <div className="gap gray-bg">
-              <div className="container-fluid">
-                <div className="row">
-                  <div className="col-lg-12">
-                    <div className="row" id="page-contents">
-                      <div className="col-lg-3" style={{ maxWidth: '21%' }}>
-                        <aside className="sidebar static" data-testid="sidebar-debug" style={{ width: '91%', marginRight: '0px', paddingLeft: '3px' }}>
-                          <div className="widget" style={{ borderBottom: '1px solid #75757530' }}>
-                            {/* <div className="row"><img src="../assets/images/unnamed.png"/><p className="widget-title">User</p></div>   */}
-                            <div className="user" >
-                              <img src={fileStorage.baseUrl + user.profilePicturePath} />
-                              <a href="/profile" ><p style={{ fontWeight: "bold" }}>{`${props.user.firstName} ${props.user.lastName}`}</p></a>
-                            </div>
-                          </div>
+  ];
+
+  const menuItems = [
+    { icon: "ti-clipboard", label: "NewsFeed", link: "/newsfeed" },
+    { icon: "ti-write", label: "SavedShares", link: "/savedShares" },
+    { icon: "ti-comments", label: "Messages", link: "/messages" },
+    { icon: "ti-user", label: "ShareFriends", link: "/friends" },
+    { icon: "ti-user", label: "Add Friends", link: "/Addfriends", badge: true },
+    { icon: "ti-user", label: "ShareGroups", link: "/groups", doubleIcon: true },
+    { icon: "ti-link", label: "SharePoint", link: "/shareFeed" },
+    { icon: "ti-control-shuffle", label: "SwapPoint", link: "/swapFeed" }
+  ];
+
+  if (isLoading) return null;
+
+  return (
+    <>
+      <ShareupInsideHeaderComponent user={currentUser} />
+      
+      <div className="layout-wrapper">
+        <div className="layout-container">
+          <div className="layout-grid">
+            
+            {/* Left Sidebar */}
+            <aside className="left-sidebar">
+              {/* User Profile Card */}
+            <div className="profile-card">
+    <div className="profile-avatar">
+    <img src={resolveProfileImage(currentUser)} alt="" />
+  </div>
+  <a href="/profile" className="profile-name">
+    {currentUser ? `${currentUser.first_name || ''} ${currentUser.last_name || ''}` : 'User'}
+  </a>
+  {displayUsername && (
+    <div className="profile-username">{displayUsername}</div>
+  )}
+</div>
 
 
-
-                          <div className="widget navmenu">
-                            {/* <div className="row"><img src="../assets/images/menu-1899421-1606840.png"/><p className="widget-title">Menu</p></div>  */}
-                            <div><ul className="naves">
-                              <li>
-                                <div style={{ marginRight: "12px", display: "inline" }}><i className="ti-clipboard" /></div>
-                                <a href="/newsfeed" title="#">ShareFeed</a>
-                              </li>
-                              <li>
-                                <div style={{ marginRight: "12px", display: "inline" }}><i className="ti-write" /></div>
-                                <a href="/savedShares" title="#">SavedShares</a>
-                              </li>
-                              <li>
-                                <div style={{ marginRight: "12px", display: "inline" }}><i className="ti-comments" /></div>
-                                <a href="/messages" title="#">Messages</a>
-                              </li>
-                              <li>
-                                <div style={{ marginRight: "12px", display: "inline" }}><i className="ti-user" /></div>
-                                <a href="/friends" title="#">ShareFriends</a>
-                              </li>
-                              <li>
-                                <div style={{ marginRight: "12px", display: "inline" }}>
-                                  <i className="ti-user" />
-                                  <p style={{ fontSize: "18px", color: "blue", marginLeft: "-8px", display: "inline" }}>+
-                                  </p>
-                                </div>
-
-                                <a href="/Addfriends" title="#">Add Friends</a>
-                              </li>
-
-                              <li>
-                                <div style={{ marginRight: "5px", display: "inline" }}><i className="ti-user" /><i className="ti-user" style={{ marginLeft: "-19px" }} /></div>
-                                <a href="/groups" title="#">ShareGroups</a>
-                              </li>
-                              <li>
-                                <div style={{ marginRight: "12px", display: "inline" }}><i className="ti-link" /></div>
-
-                                <a href="/shareFeed" title="#">SharePoint</a>
-                              </li>
-                              <li>
-                                <div style={{ marginRight: "12px", display: "inline" }}><i className="ti-control-shuffle" /></div>
-
-                                <a href="/swapFeed" title="#">SwapPoint</a>
-                              </li>
-                            </ul></div>
-                          </div>{/* Shortcuts */}
-
-                        </aside>
-                      </div>{/* sidebar */}
-                      {/* ------------------------------------------------------------------------- */}
-                      {props.children}
-                      {/* --------------------------------------------------------------------------------- */}
-                      {/* centerl meta */}
-                      <div className="col-lg-3">
-                        <aside className="sidebar static " style={{ paddingTop: '10px' }}>
-                          {/* <div className="widget friend-list stick-widget">
-                          <div className="row"><img src="../assets/images/1865023.png"/><p className="widget-title">Ads</p></div>
-                            <div className="ads"><a href="https://technology-signals.com/wp-content/uploads/2019/05/images.martechadvisor.comvoice_technology_5cecf0b8-3f280e5abac0da913f8aa0868cf970c6a429a128.jpg" data-lightbox="image-1" data-title="My caption"><img src="https://technology-signals.com/wp-content/uploads/2019/05/images.martechadvisor.comvoice_technology_5cecf0b8-3f280e5abac0da913f8aa0868cf970c6a429a128.jpg"></img></a>
-                          </div>
-                        </div> */}
-
-                          {/* <div className="widget friend-list stick-widget">
-                          <div className="row" ><img src="../assets/images/Trends1.jpg"/><p className="widget-title">News</p></div>
-                            <div className="news">
-                              <a href="#" data-lightbox="image-1" data-title="My caption">
-                                <img src="../assets/images/Trends1.jpg"></img>
-                              </a>
-                            </div>
-                          </div> */}
-
-                          <div style={{
-                            paddingBottom: '20px',
-                            // borderBottom: '1px solid #75757530'
-                          }} >
-                            <div className="sidebar-news">
-                              <div className="media-date">What's trending</div>
-                              <div style={{}}>
-                                <ul>
-                                  <li>
-                                    <div className="headline-cont">
-                                      <p className="headline">
-                                        Omicron variant of COVID-19: New travel guidelines to come into force from December 1
-                                      </p>
-                                      <img src={img1} />
-                                    </div>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                      <a href=" https://www.aljazeera.com/where/qatar/" target="_blank" className="source">Aljazeera Qatar News</a>
-                                      <p className="date">12/1/2021</p>
-                                    </div>
-
-                                  </li>
-
-                                  <li>
-                                    <div className="headline-cont">
-                                      <p className="headline" >Prime Minister Scott Morrison says big tech firms have responsibility to ensure their platforms are safe.</p>
-                                    </div>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                      <a href="https://www.theverge.com/tech" target="_blank" className="source" rel="noreferrer">Technology</a>
-                                      <p className="date">12/1/2021</p>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <div className="headline-cont">
-                                      <p className="headline">Comprehensive Guide to Qatar Business ....</p>
-                                    </div>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                      <a href="https://thepeninsulaqatar.com/category/Qatar-Business" target="_blank" className="source" rel="noreferrer">Business</a>
-                                      <p className="date">12/1/2021</p>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <div className="headline-cont">
-                                      <p className="headline">The #FIFArabCup Qatar 2021 kicks off today, coinciding with the inauguration of Al Bayt Stadium and Stadium 974, the latest stadiums to be ready for the FIFA World Cup 2022</p>
-                                    </div>
-
-                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                      <a href="https://www.dohanews.co/category/sports/" target="_blank" className="source" rel="noreferrer">Sports</a>
-                                      <p className="date">12/1/2021</p>
-                                    </div>
-                                  </li>
-                                  <li style={{ textAlign: "center", paddingTop: '10px' }}><a href="https://www.aljazeera.com/" style={{ fontSize: '12px', color: "#258eae" }} target="_blank" rel="noreferrer">Show More</a></li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-
-
-
-
-
-                          <div className="sidebar-news" style={{}}>
-                            <div className="media-date">REELS</div>
-                            <div style={{}}>
-                              <ul>
-                                <li>
-                                  <div className="headline-cont">
-
-
-                                    {reelPreviewPath
-                                      ?
-
-                                      <React.Fragment>
-                                        <video
-                                          loop
-                                          controls
-                                          // autoPlay
-                                          muted
-                                          style={{ width: '100%', height: '195px', objectFit: 'fill' }}
-                                          src={`${fileStorage.baseUrl}${reelPreviewPath.mediaPath}`}
-                                          type="video/mp4"
-                                          alt={`${fileStorage.baseUrl}${reelPreviewPath.mediaPath}`}
-                                        // onClick={() => setIsopen()}
-
-
-
-                                        />
-
-                                      </React.Fragment>
-
-                                      : <div>No Reels to show</div>
-                                    }
-
-
-
-                                  </div>
-
-
-                                </li>
-
-                                <Popup trigger={<div className='add-reel'> Add Reel</div>} modal>
-                                  {(close) => (
-                                    <Form className='popwidth'>
-
-                                      <div className='headpop'>
-                                        <div style={{ padding: '10px' }}>
-                                          <span>
-                                            <a href='#!' style={{ padding: '10px 150px 10px 0' }} onClick={close}>
-                                              <i className='las la-times'></i>
-                                            </a>
-                                          </span>
-                                          <span style={{ color: '#000000', fontSize: '14px', fontWeight: 'bold' }}>
-                                            Lets Add Reel Video
-                                          </span>
-
-                                          {/* { checkIfUserAlreadyPostStory(storyauth.user) ?  */}
-                                          <span style={{ float: 'right' }}>
-                                            {' '}
-                                            <button
-                                              style={{ float: 'right', borderRadius: '20px', padding: '5px 20px' }}
-                                              type='submit'
-                                              onClick={uploadReels}
-                                            >
-                                              Upload
-                                            </button>
-                                          </span>
-                                          {/* :null}  */}
-                                        </div>
-                                      </div>
-
-                                      <div style={{ margin: '0 11px 10px 11px' }}>
-                                        <span className='textPop'>
-                                          {ShowReelVideo ? (
-                                            <>
-                                              <video id='video' width="100%" height={"350px"} controls="controls">
-                                                <source src={ReelVideo} />
-                                              </video>
-
-
-                                              <button
-                                                onClick={handleRemoveReelVideo}
-                                                style={{
-                                                  right: '20px',
-                                                  position: 'absolute',
-                                                  borderRadius: '100%',
-                                                  background: '#b7b7b738',
-                                                  padding: '10px 10px',
-                                                }}
-                                              >
-                                                <i className='las la-times'></i>
-                                              </button>
-                                            </>
-                                          ) : (
-                                            <div style={{ textAlign: 'center' }}>
-                                              <label className='fileContainer'>
-                                                <div className='reelvideo' type='submit'>
-                                                  <input
-                                                    type='file'
-                                                    name='reel_video'
-                                                    accept='video/*'
-                                                    onChange={handleFileReel}
-                                                  ></input>
-                                                  Add Reel Video
-                                                </div>
-                                              </label>
-                                            </div>
-                                          )}
-                                        </span>
-                                        {/* <div className='storyErr'>{uploadErrorStory ? `${uploadErrorStory}` : null}</div> */}
-                                      </div>
-                                      {/* </> 
-                                                    
-                                  )}  */}
-                                    </Form>
-                                  )}
-                                </Popup>
-
-
-
-                                <div className='add-reel'>
-                                  <a href="/reelFeed" title="#" style={{ color: 'white' }}> Explore Reels </a>
-
-                                </div>
-
-                              </ul>
-                            </div>
-                          </div>
-
-
-
-
-                          <FriendsWidgetComponent />
-                          <FollowingWidgetComponent />
-                          <GroupsWidgetComponent />
-                        </aside>
-                      </div>
-                      {/* sidebar */}
+              {/* Navigation Menu */}
+              <nav className="sidebar-nav">
+                {menuItems.map((item, index) => (
+                  <a key={index} href={item.link} className="nav-link">
+                    <div className="nav-icon">
+                      <i className={item.icon} />
+                      {item.doubleIcon && <i className={`${item.icon} double-icon`} />}
+                      {item.badge && <span className="badge-plus">+</span>}
                     </div>
-                  </div>
+                    <span>{item.label}</span>
+                  </a>
+                ))}
+              </nav>
+            </aside>
+
+            {/* Main Content */}
+            <main className="main-content">
+              {React.Children.map(props.children, (child) =>
+                React.isValidElement(child) ? React.cloneElement(child, { user: currentUser }) : child
+              )}
+            </main>
+
+            {/* Right Sidebar */}
+            <aside className="right-sidebar">
+              
+              {/* Trending News */}
+              <div className="widget-card">
+                <div className="widget-header">
+                  <i className="ti-bolt" />
+                  <h6>What's Trending</h6>
+                </div>
+                <div className="widget-content">
+                  {newsItems.map((news, index) => (
+                    <div key={index} className="news-item">
+                      {news.image && (
+                        <div className="news-image">
+                          <img src={news.image} alt="" />
+                        </div>
+                      )}
+                      <p className="news-headline">{news.headline}</p>
+                      <div className="news-meta">
+                        <a href={news.link} target="_blank" rel="noreferrer" className="news-source">
+                          {news.source}
+                        </a>
+                        <span className="news-date">{news.date}</span>
+                      </div>
+                    </div>
+                  ))}
+                  <a href="https://www.aljazeera.com/" target="_blank" rel="noreferrer" className="show-more">
+                    Show More
+                  </a>
                 </div>
               </div>
-            </div>
-          </section>
+
+              {/* Reels Widget */}
+              <div className="widget-card">
+                <div className="widget-header">
+                  <i className="ti-video-clapper" />
+                  <h6>Reels</h6>
+                </div>
+                
+                <div className="widget-content">
+                  {reelPreviewPath?.mediaPath ? (
+                    <div className="reel-preview">
+                      <video
+                        loop
+                        controls
+                        muted
+                        className="reel-video"
+                        src={`${fileStorage.baseUrl}${reelPreviewPath.mediaPath}`}
+                        type="video/mp4"
+                      />
+                    </div>
+                  ) : (
+                    <div className="no-reels">
+                      <i className="ti-video-camera" />
+                      <p>No Reels to show</p>
+                    </div>
+                  )}
+
+                  <Popup 
+                    trigger={<button className="widget-btn primary">Add Reel</button>} 
+                    modal
+                    closeOnDocumentClick
+                  >
+                    {(close) => (
+                      <div className="reel-modal">
+                        <div className="modal-header">
+                          <h5>Add Reel Video</h5>
+                          <button onClick={close} className="close-btn">
+                            <i className="las la-times" />
+                          </button>
+                        </div>
+                        
+                        <div className="modal-body">
+                          <div className="reel-content-input">
+                            <label htmlFor="reel-content">Caption / Content</label>
+                            <textarea
+                              id="reel-content"
+                              value={reelContent}
+                              onChange={(e) => setReelContent(e.target.value)}
+                              placeholder="Add a caption or description for your reel"
+                              rows={3}
+                            />
+                          </div>
+                          {ShowReelVideo ? (
+                            <div className="video-preview">
+                              <video id="video" controls className="preview-video">
+                                <source src={ReelVideo} />
+                              </video>
+                              <button onClick={handleRemoveReelVideo} className="remove-video-btn">
+                                <i className="las la-times" />
+                              </button>
+                            </div>
+                          ) : (
+                            <label className="upload-area">
+                              <input
+                                type="file"
+                                accept="video/*"
+                                onChange={handleFileReel}
+                                style={{ display: 'none' }}
+                              />
+                              <div className="upload-content">
+                                <i className="ti-video-camera" />
+                                <p>Click to upload reel video</p>
+                              </div>
+                            </label>
+                          )}
+                          {uploadErrorReel && <div className="error-msg">{uploadErrorReel}</div>}
+                        </div>
+
+                        {ShowReelVideo && (
+                          <div className="modal-footer">
+                            <button onClick={(e) => { uploadReels(e); close(); }} className="upload-btn">
+                              Upload Reel
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </Popup>
+
+                  <a href="/reelFeed" className="widget-btn secondary">
+                    Explore Reels
+                  </a>
+                </div>
+              </div>
+
+              {/* Widget Components */}
+              <FriendsWidgetComponent />
+              <FollowingWidgetComponent />
+              <GroupsWidgetComponent />
+            </aside>
+
+          </div>
         </div>
-      </>
-    );
-  }
+      </div>
+    </>
+  );
+}

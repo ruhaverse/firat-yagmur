@@ -36,6 +36,7 @@ export default function PostComponent({ post, setRefresh }) {
 
   const [editPostId, setEditPostId] = useState(null)
   const [userR, setUserR] = useState([]);
+  const activeUser = user || userR || {};
   const [showComment, setShowComment] = useState(false)
   const [showMoreOptions, setShowMoreOptions] = useState(false)
   const [showReactions, setShowReactions] = useState(false)
@@ -109,7 +110,7 @@ export default function PostComponent({ post, setRefresh }) {
   };
   const checkIfLiked = (post) => {
     if (post.reactions) {
-      const result = post.reactions.filter(reaction => reaction.user.id == user.id)
+      const result = post.reactions.filter(reaction => reaction.user.id == activeUser.id)
       if (result.length > 0) {
         return true
       }
@@ -136,7 +137,7 @@ export default function PostComponent({ post, setRefresh }) {
   };
   const checkIfSaved = (post) => {
     if (post.savedByUsers) {
-      const result = post.savedByUsers.filter(userz => userz.id == user.id)
+      const result = post.savedByUsers.filter(userz => userz.id == activeUser.id)
       if (result.length > 0) {
         return true
       }
@@ -320,13 +321,9 @@ export default function PostComponent({ post, setRefresh }) {
               </div>
             </div>
             <div style={{ padding: '0 11px 11px 11px' }}>
-              <div className='popupimg'>
+                <div className='popupimg'>
                 <img
-                  src={
-                    user
-                      ? fileStorage.baseUrl + user.profilePicturePath
-                      : fileStorage.baseUrl + userR.profilePicturePath
-                  }
+                  src={fileStorage.baseUrl + (activeUser.profilePicturePath || '')}
                   alt=''
                 />
               </div>
@@ -334,7 +331,7 @@ export default function PostComponent({ post, setRefresh }) {
 
                 <div style={{ display: 'inline' }}>
                   <span>
-                    {`${user.firstName} ${user.lastName}`}
+                    {`${activeUser.firstName || ''} ${activeUser.lastName || ''}`}
                     {userF ?
                       <> with {`${userF.firstName} ${userF.lastName}`}</> : null}
                   </span>
@@ -610,7 +607,7 @@ export default function PostComponent({ post, setRefresh }) {
                   </button>
                   <div className="dropdown-menu drop-options" aria-labelledby="dropdownMenuButton">
                     <ul>
-                      {post.user.id === user.id ? (
+                          {post.user.id === activeUser.id ? (
                         <li onClick={() => handleEditPost(post.id)}>
                           <i className='las la-pencil-alt'></i>
                           <span>Edit Post</span>
@@ -622,7 +619,7 @@ export default function PostComponent({ post, setRefresh }) {
                         <i className='lar la-bookmark'></i>
                         <span>Save Post</span>
                       </li>
-                      {post.user.id === user.id ? (
+                      {post.user.id === activeUser.id ? (
                         <li onClick={() => handleDeletePost(post)}>
                           <i className='las la-trash'></i>
                           <span>Delete</span>
@@ -714,7 +711,7 @@ export default function PostComponent({ post, setRefresh }) {
                         {/* <Popup */}
                         {/* trigger={ */}
                         <img
-                          style={post.user.id == user.id ? { width: '100%', objectFit: 'cover' } : { borderRadius: '10px 10px 0 0' }}
+                          style={post.user.id == activeUser.id ? { width: '100%', objectFit: 'cover' } : { borderRadius: '10px 10px 0 0' }}
                           src={`${fileStorage.baseUrl}${postImage.mediaPath}`}
                           alt={`${fileStorage.baseUrl}${postImage.mediaPath}`}
                           onClick={() => setIsopen(true)}
@@ -726,7 +723,7 @@ export default function PostComponent({ post, setRefresh }) {
                             onCloseRequest={() => setIsopen(false)}
                           />
                         )}
-                        {post.user.id !== user.id &&
+                        {post.user.id !== activeUser.id &&
                           <div className='swappost-cont'>
                             <div className=''>
                               <div className="bold " style={{ marginBottom: '5px', marginTop: '10px', color: '#050505' }}>{post.category ? post.category : 'Category'}</div>
@@ -798,7 +795,7 @@ export default function PostComponent({ post, setRefresh }) {
                                         className='textpopup'
                                         rows={2}
                                         // style={{fontSize:'14px'}}
-                                        placeholder={'Share about swap with ' + post.user.firstName + '?'}
+                                        placeholder={'Share about swap with ' + (post.user.firstName || '') + '?'}
                                         name='swap_content'
                                         value={shareContent}
                                         onChange={handleSwapContent}
@@ -971,7 +968,7 @@ export default function PostComponent({ post, setRefresh }) {
                       </button>
                       <div className="dropdown-menu drop-options" aria-labelledby="dropdownMenuButton">
                         <ul>
-                          {post.post.user.id === user.id ? (
+                          {post.post.user.id === activeUser.id ? (
                             <li onClick={() => handleEditPost(post.id)}>
                               <i className='las la-pencil-alt'></i>
                               <span>Edit Post</span>
@@ -983,7 +980,7 @@ export default function PostComponent({ post, setRefresh }) {
                             <i className='lar la-bookmark'></i>
                             <span>Save Post</span>
                           </li>
-                          {post.post.user.id === user.id ? (
+                          {post.post.user.id === activeUser.id ? (
                             <li onClick={() => handleDeletePost(post.post)}>
                               <i className='las la-trash'></i>
                               <span>Delete</span>
@@ -1076,7 +1073,7 @@ export default function PostComponent({ post, setRefresh }) {
                             {/* <Popup */}
                             {/* trigger={ */}
                             <img
-                              style={post.user.id == user.id ? { width: '100%', objectFit: 'cover' } : { borderRadius: '10px 10px 0 0' }}
+                              style={post.user.id == activeUser.id ? { width: '100%', objectFit: 'cover' } : { borderRadius: '10px 10px 0 0' }}
                               src={`${fileStorage.baseUrl}${postImage.mediaPath}`}
                               alt={`${fileStorage.baseUrl}${postImage.mediaPath}`}
                               onClick={() => setIsopen(true)}
@@ -1088,7 +1085,7 @@ export default function PostComponent({ post, setRefresh }) {
                                 onCloseRequest={() => setIsopen(false)}
                               />
                             )}
-                            {post.post.user.id !== user.id &&
+                            {post.post.user.id !== activeUser.id &&
                               <div className='swappost-cont'>
                                 <div className=''>
                                   <div className="bold " style={{ marginBottom: '5px', marginTop: '10px', color: '#050505' }}>{post.category ? post.category : 'Category'}</div>
@@ -1124,18 +1121,14 @@ export default function PostComponent({ post, setRefresh }) {
                                       <div style={{ padding: '0 11px 11px 11px' }}>
                                         <div className='popupimg'>
                                           <img
-                                            src={
-                                              user
-                                                ? fileStorage.baseUrl + user.profilePicturePath
-                                                : fileStorage.baseUrl + userR.profilePicturePath
-                                            }
+                                            src={fileStorage.baseUrl + (activeUser.profilePicturePath || '')}
                                             alt=''
                                           />
                                         </div>
                                         <div className='popupuser-name'>
                                           <div style={{ display: 'inline' }}>
                                             <span>
-                                              {`${user.firstName} ${user.lastName}`}
+                                              {`${activeUser.firstName || ''} ${activeUser.lastName || ''}`}
                                               {post.user ? <> <span style={{ color: 'rgb(100 166 194)', fontWeight: '500' }}>swap with</span> {`${post.user.firstName} ${post.user.lastName}`}</> : null}
                                             </span>
                                             <span style={{ marginTop: '4px ', display: 'block', fontSize: '10px' }}>
@@ -1546,7 +1539,7 @@ export default function PostComponent({ post, setRefresh }) {
               <li className='head-drop'>
                 <h6>Post Options</h6>
               </li>
-              {post.user.id === user.id ? (
+              {post.user.id === activeUser.id ? (
                 <li onClick={() => handleEditPost(post.id)}>
                   <i className='las la-pencil-alt'></i>
                   <span>Edit Post</span>
@@ -1558,7 +1551,7 @@ export default function PostComponent({ post, setRefresh }) {
                 <i className='lar la-bookmark'></i>
                 <span>Save Post</span>
               </li>
-              {post.user.id === user.id ? (
+              {post.user.id === activeUser.id ? (
                 <li onClick={() => handleDeletePost(post.id)}>
                   <i className='las la-trash'></i>
                   <span>Delete</span>

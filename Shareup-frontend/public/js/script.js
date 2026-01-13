@@ -368,10 +368,10 @@ $('#menu').mmenu();
         return false;
         });
         
-        $('.already-have').on("click", function(){
-        $('.login-reg-bg').removeClass('show');
-        return false;
-        });
+		$('.already-have').on("click", function(e){
+		// Allow React onClick handlers to run by not preventing propagation here.
+		$('.login-reg-bg').removeClass('show');
+		});
 		
 		
 	//----- count down timer		

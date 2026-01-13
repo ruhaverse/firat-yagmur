@@ -89,15 +89,17 @@ function ShippingComponent(props)  {
 
   const getPost = async () => {
     await PostService.getPost().then(res => {
-      setPosts(res.data)
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setPosts(data)
     })
   }
 
   const getPostForUser = async () => {
     await PostService.getPostForUser(AuthService.getCurrentUser().username).then(res => {
-      const uniquePost = Array.from(new Set(res.data.map(a => a.id)))
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      const uniquePost = Array.from(new Set(data.map(a => a.id)))
         .map(id => {
-          return res.data.find(a => a.id === id)
+          return data.find(a => a.id === id)
         })
       setPostsForUser(uniquePost)
     })
@@ -105,7 +107,8 @@ function ShippingComponent(props)  {
 
   const getSavedPost = async () => {
     await PostService.getSavedPostForUser(AuthService.getCurrentUser().username).then(res => {
-      setSavedPost(res.data)
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setSavedPost(data)
     })
   }
 
@@ -341,7 +344,7 @@ function ShippingComponent(props)  {
   }
   )
   if (isLoading) {
-    return <div>Loading... Please Wait</div>
+    return <div>loading... Please wait Monica</div>
   }
 
   // const handleBoundsChanged = () => {
@@ -357,7 +360,7 @@ function ShippingComponent(props)  {
 
   return (
     <Layout user={user}>
-    <div className="col-lg-6">
+    <div className="">
             <div className="central-meta newsfeed metaSip">
               
                  <div className="new-postbox shipping">

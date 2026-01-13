@@ -8,8 +8,10 @@ export default function authHeader() {
         
         const user = JSON.parse(userStr);
 
-        if (user && user.accessToken) {
-            return { Authorization: 'Bearer ' + user.accessToken };
+        // Support both legacy 'accessToken' and current 'jwt' storage formats
+        const token = (user && (user.jwt || user.accessToken)) || null;
+        if (token) {
+            return { Authorization: 'Bearer ' + token };
         }
         
         return {};

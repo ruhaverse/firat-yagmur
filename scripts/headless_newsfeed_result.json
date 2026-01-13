@@ -1,0 +1,21 @@
+{
+  "ok": true,
+  "url": "http://localhost:3000",
+  "screenshot": "C:\\Users\\HP\\Documents\\GitHub\\MuhammedAthil\\firat-yagmur\\scripts\\newsfeed_screenshot.png",
+  "logs": [
+    {
+      "type": "requestfailed",
+      "url": "http://localhost:3000/",
+      "failure": {
+        "errorText": "net::ERR_CONNECTION_REFUSED"
+      }
+    },
+    {
+      "type": "requestfailed",
+      "url": "http://localhost:3000/newsfeed",
+      "failure": {
+        "errorText": "net::ERR_CONNECTION_REFUSED"
+      }
+    }
+  ]
+}

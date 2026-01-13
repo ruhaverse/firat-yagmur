@@ -6,6 +6,20 @@ import logger from '../utils/logger';
 let authAxios = null;
 const baseurl=`${settings.apiUrl}/api/v1/`
 
+const _inFlight = new Map();
+const _cache = new Map();
+const CACHE_TTL_MS = 5000;
+
+const getCached = (key) => {
+    const entry = _cache.get(key);
+    if (!entry) return null;
+    if (Date.now() - entry.ts > CACHE_TTL_MS) {
+        _cache.delete(key);
+        return null;
+    }
+    return entry.value;
+}
+
 
 const authenticate = () => {
     if(AuthService.getCurrentUser()){
@@ -28,8 +42,31 @@ class SwapService {
     getSwap = async () => {
         try {
             authenticate();
-            const result = await authAxios.get('swaps/')
-            return result;
+            const key = 'swaps:all';
+            const cached = getCached(key);
+            if (cached) return { data: cached };
+            if (_inFlight.has(key)) return _inFlight.get(key);
+
+            const promise = authAxios
+                .get('swaps/')
+                .then((res) => {
+                    _cache.set(key, { ts: Date.now(), value: res.data });
+                    return res;
+                })
+                .catch((error) => {
+                    const status = error?.response?.status;
+                    if (status === 404 || status === 429) {
+                        const cached2 = getCached(key);
+                        return { data: cached2 || [] };
+                    }
+                    throw error;
+                })
+                .finally(() => {
+                    _inFlight.delete(key);
+                });
+
+            _inFlight.set(key, promise);
+            return await promise;
         } catch (error) {
             logger.error('SwapService.getSwap failed:', error);
             throw error;

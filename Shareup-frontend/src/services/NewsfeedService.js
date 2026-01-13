@@ -25,7 +25,8 @@ class NewsFeedService {
     getFeed = async (email) => {
             authenticate();
             const result = await authAxios.get(`newsFeed/${email}`)
-            return result;
+            const payload = (result && result.data && result.data.data) ? result.data.data : (result && result.data ? result.data : []);
+            return { data: payload };
         }
     // getPost = async () => {
     //     authenticate();

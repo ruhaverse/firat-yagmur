@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import UserService from '../../services/UserService';
 import AuthService from '../../services/auth.services';
 import { useJwt } from "react-jwt";
@@ -51,8 +51,9 @@ function Index({ set, setUser }) {
 
 
   const history = useHistory();
+  const location = useLocation();
 
-  const [showComponent, setShowComponent] = useState('register');
+  const [showComponent, setShowComponent] = useState(() => location?.state?.showComponent || 'register');
 
   const [showModal, setShowModal] = useState(false)
 
@@ -181,42 +182,67 @@ const {
   trigger,
 } = useForm();
 
-const onSubmit = (data) => {
+const onSubmit = async (data) => {
+  // prefer server-side validation; check client-side passwords match first
+  if (data.password !== data.confirmPassword) {
+    setRegisterError('Passwords do not match');
+    return;
+  }
+  if (!data.password || data.password.length < 8) {
+    setRegisterError('Password must be at least 8 characters');
+    return;
+  }
 
-
-  if(data.password == data.confirmPassword)
-  {
-    handleRegister();
+  try {
+    await handleRegister(data);
+    // reset form fields on success
     reset();
     addP();
-
+  } catch (err) {
+    // handleRegister already sets `registerError` from server response; ensure no uncaught rejection
+    console.warn('Registration failed', err);
   }
-  else{
-    document.getElementById('message').innerHTML="password didnt match";
-  }
-
-
-
 };
 
 //najam form register / login end
 
-  const handleRegister = async() => {
-    const user = { email, password,confirmPassword, firstName, lastName , p_no}
+  const handleRegister = async (userData) => {
+    setLoading(true);
+    setRegisterError('');
+    try {
+      const user = {
+        email: userData.email || email,
+        password: userData.password || password,
+        confirmPassword: userData.confirmPassword || confirmPassword,
+        firstName: userData.firstName || firstName,
+        lastName: userData.lastName || lastName,
+        p_no: p_no || userData.p_no,
+      };
 
-    await UserService.createUser(user).then(res => {
-      history.push('/');
-      setRegisterSuccessful(<h1 className='successfull-msg' style={{fontSize: '30px', color: 'green', textAlign: 'center'}}>Your Account Is Successfully Registered</h1>)
-      setTimeout(() => document.querySelector('.successfull-msg').style.display="none",4000)
-      setShowComponent("login")
-      // handleLoginAutomatically()
-      // openModal()
-    }).catch(
-        error => {
-          setRegisterError("User Already Registered");
-        }
-      )    
-  }
+      const res = await UserService.createUser(user);
+      // show success and switch to login view
+      setRegisterSuccessful(
+        <h1 className="successfull-msg" style={{ fontSize: '30px', color: 'green', textAlign: 'center' }}>
+          Your Account Is Successfully Registered
+        </h1>
+      );
+      setTimeout(() => {
+        const el = document.querySelector('.successfull-msg');
+        if (el) el.style.display = 'none';
+      }, 4000);
+      setShowComponent('login');
+      // optional: navigate to home or auto-login
+      // history.push('/');
+      return res;
+    } catch (error) {
+      // prefer server-provided message
+      const serverMessage = (error && error.response && (error.response.data.message || error.response.data.error)) || error.message;
+      setRegisterError(serverMessage || 'Registration failed');
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
   const getUser = async (email) => {
@@ -270,8 +296,9 @@ const onSubmit = (data) => {
   const handleLogin = async () => {
 
     await AuthService.login(email, password).then(res => {
-      set(res.data)
-      getUser(res.data.username)
+      const jwtUser = AuthService.getCurrentUser();
+      set(jwtUser)
+      getUser(jwtUser && jwtUser.username)
       history.push("/newsfeed")
     },
       error => {
@@ -284,8 +311,9 @@ const onSubmit = (data) => {
   const handleLoginAutomatically = async () => {
 
     await AuthService.login(email, password).then(res => {
-      set(res.data)
-      getUser(res.data.username)
+      const jwtUser = AuthService.getCurrentUser();
+      set(jwtUser)
+      getUser(jwtUser && jwtUser.username)
     },
       error => {
         const resMessage = (error.response && error.response.data && error.response.data.message)
@@ -433,7 +461,7 @@ const onSubmit = (data) => {
             <div className="checkbox">
               <label> <input type="checkbox" defaultChecked="checked" /><i className="check-box" />I am 18 years old or above</label>
             </div>
-            <a href="#" onClick={() => setShowComponent("login")} className="already-have">Already an account?</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); setShowComponent("login"); }} className="already-have">Already an account?</a>
 
             <div className="submit-btns" onClick={formValidation}>
               <button className="mtr-btn signup" type='submit'>
@@ -486,8 +514,17 @@ const onSubmit = (data) => {
              
             </div>
             <div style={{ textAlign: 'center' }}>
-              <a href="#" className="forgot-pwd">Forgot Password?</a>
-              <a href="#" onClick={() => setShowComponent("register")} className="already-have">Dont have an account?</a>
+              <a
+                href="#"
+                className="forgot-pwd"
+                onClick={(e) => {
+                  e.preventDefault();
+                  history.push('/forgot-password');
+                }}
+              >
+                Forgot Password?
+              </a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setShowComponent("register"); }} className="already-have">Dont have an account?</a>
             </div>
             <div className="submit-btns-log">
             <button className="mtr-btn signup" onClick={validateLogin} >
@@ -534,7 +571,7 @@ const onSubmit = (data) => {
             </div>
           </div>
           <div className="mainContnr">
-            <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div className=" col-md-6 col-sm-6 col-xs-12">
               <div className="login-reg-bg">
                 <div>
                   {registerSuccessful &&
@@ -546,7 +583,7 @@ const onSubmit = (data) => {
                 }
               </div>
             </div>
-            <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div className=" col-md-6 col-sm-6 col-xs-12">
               <div className="land-featurearea">
                 <div className="land-meta">
                   <img style={{width:'40%',marginRight:'35%'}} src="/assets/images/cropped_flipped.png" alt="img" />

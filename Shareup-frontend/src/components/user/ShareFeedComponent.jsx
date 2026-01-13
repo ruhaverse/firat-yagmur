@@ -120,27 +120,35 @@ function ShareFeedComponent() {
   // }
 
   const getStoriesForUser = async () => {
-    await StoriesService.getStoriesForUser(AuthService.getCurrentUser().username).then(res => {
-      const sorting = res.data.sort(function (a, b) {
+    const jwtUser = AuthService.getCurrentUser()
+    if (!jwtUser || !jwtUser.username) return
+
+    await StoriesService.getStoriesForUser(jwtUser.username).then(res => {
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      const sorting = data.sort(function (a, b) {
         const dateA = new Date(a.date), dateB = new Date(b.date);
         return dateB - dateA;
       });
       const uniqueStories = Array.from(new Set(sorting.map(a => a.id)))
         .map(id => {
-          return res.data.find(a => a.id === id)
+          return data.find(a => a.id === id)
         })
       setStoriesForUser(uniqueStories)
     })
   }
   const getPostForUser = async () => {
-    await PostService.getPostForUser(AuthService.getCurrentUser().username).then(res => {
-      const sorting = res.data.sort(function (a, b) {
+    const jwtUser = AuthService.getCurrentUser()
+    if (!jwtUser || !jwtUser.username) return
+
+    await PostService.getPostForUser(jwtUser.username).then(res => {
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      const sorting = data.sort(function (a, b) {
         const dateA = new Date(a.published), dateB = new Date(b.published);
         return dateB - dateA;
       });
       const uniquePost = Array.from(new Set(sorting.map(a => a.id)))
         .map(id => {
-          return res.data.find(a => a.id === id)
+          return data.find(a => a.id === id)
         })
       setPostsForUser(uniquePost)
     })
@@ -190,7 +198,8 @@ function ShareFeedComponent() {
 
   const getPost = async () => {
     await PostService.getPost().then(res => {
-      setPosts(res.data)
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setPosts(data)
     })
   }
 
@@ -198,8 +207,12 @@ function ShareFeedComponent() {
 
 
   const getSavedPost = async () => {
-    await PostService.getSavedPostForUser(AuthService.getCurrentUser().username).then(res => {
-      setSavedPost(res.data)
+    const jwtUser = AuthService.getCurrentUser()
+    if (!jwtUser || !jwtUser.username) return
+
+    await PostService.getSavedPostForUser(jwtUser.username).then(res => {
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setSavedPost(data)
     })
   }
 
@@ -574,7 +587,7 @@ function ShareFeedComponent() {
 
           <div className="headpop">
             <div className="row"><div style={{ width: '5%' }}><a href="#!" onClick={close}><i className="las la-times"></i></a></div>
-              <div style={{ color: '#000000', fontSize: '14px', fontWeight: 'bold', width: '85%', textAlign: 'center' }}><span>We share, do you?</span></div>
+              <div style={{ color: '#000000', fontSize: '14px', fontWeight: 'bold', width: '85%', textAlign: 'center' }}><span>We sshare, do you?</span></div>
               <div style={{ width: '10%', textAlign: 'center' }}><span style={{ float: 'right' }}>  <button style={{ float: 'right', borderRadius: '20px' }} type="submit" onClick={uploadPost}>Post</button></span></div>
             </div></div>
 
@@ -770,7 +783,9 @@ function ShareFeedComponent() {
     })
   }
   const getFriendsList = async () => {
-    await FriendsService.getFriends(AuthService.getCurrentUser().username).then(res => {
+    const jwtUser = AuthService.getCurrentUser();
+    if (!jwtUser || !jwtUser.username) return;
+    await FriendsService.getFriends(jwtUser.username).then(res => {
       setFriendsList(res.data)
     })
   }
@@ -810,7 +825,7 @@ function ShareFeedComponent() {
     testScript()
   }, [stories])
   if (isLoading) {
-    return <div>Loading... Please Wait</div>
+    return <div>loading... Please wait Monica</div>
   }
 
   if (user.newUser) {
@@ -819,7 +834,7 @@ function ShareFeedComponent() {
 
   return (
     <Layout user={user}>
-      <div className="col-lg-6">
+      <div className="">
         <div className="central-meta swap-pg-cont">
           <div className="frnds">
             <div>

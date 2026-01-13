@@ -29,7 +29,7 @@ export default function PayConfirmComponent() {
     return (
       <>
     <Layout user={user}>
-      <div className="col-lg-6">
+      <div className="">
      <div className="central-meta hanggift"> 
      
      <div className="containerHang">

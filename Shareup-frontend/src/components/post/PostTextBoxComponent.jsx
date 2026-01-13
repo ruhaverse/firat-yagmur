@@ -41,6 +41,7 @@ function PostTextBoxComponent() {
   const [postsForUser, setPostsForUser] = useState([]);
   const [savedPost, setSavedPost] = useState([]);
   const [userR, setUserR] = useState([]);
+  const activeUser = user || userR || {};
   const [postContent, setPostContent] = useState("");
   const [commentContent, setCommentContent] = useState("");
   const [files, setFiles] = useState({});
@@ -81,7 +82,8 @@ function PostTextBoxComponent() {
 
   const getPost = async () => {
     await PostService.getPost().then((res) => {
-      setPosts(res.data);
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setPosts(data);
     });
   };
   const handleChange = e => {
@@ -94,9 +96,10 @@ function PostTextBoxComponent() {
     await PostService.getPostForUser(
       AuthService.getCurrentUser().username
     ).then((res) => {
-      const uniquePost = Array.from(new Set(res.data.map((a) => a.id))).map(
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      const uniquePost = Array.from(new Set(data.map((a) => a.id))).map(
         (id) => {
-          return res.data.find((a) => a.id === id);
+          return data.find((a) => a.id === id);
         }
       );
       setPostsForUser(uniquePost);
@@ -107,7 +110,8 @@ function PostTextBoxComponent() {
     await PostService.getSavedPostForUser(
       AuthService.getCurrentUser().username
     ).then((res) => {
-      setSavedPost(res.data);
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setSavedPost(data);
     });
   };
 
@@ -131,7 +135,7 @@ function PostTextBoxComponent() {
       return null;
     }
     const comment = { content: commentContent };
-    PostService.addComment(user.id, postid, comment).then((res) => {
+    PostService.addComment(activeUser.id, postid, comment).then((res) => {
       setRefresh(res.data);
       setCommentContent("");
     });
@@ -192,7 +196,7 @@ function PostTextBoxComponent() {
     //   return false
     // }
     // })
-    const result = post.savedByUsers.filter((userz) => userz.id == user.id);
+    const result = post.savedByUsers.filter((userz) => userz.id == activeUser.id);
     if (result.length > 0) {
       return true;
     }
@@ -229,13 +233,13 @@ function PostTextBoxComponent() {
     formData.append("content", postContent);
     formData.append(`files`, files);
     if (userF === null) {
-      PostService.createPost(user.id, formData, null).then((res) => {
+      PostService.createPost(activeUser.id, formData, null).then((res) => {
         setPostContent("");
         handleRemoveImage();
         setRefresh(res.data);
       });
     } else
-      PostService.createPost(user.id, formData, userF.id).then((res) => {
+      PostService.createPost(activeUser.id, formData, userF.id).then((res) => {
         setPostContent("");
         handleRemoveImage();
         setRefresh(res.data);
@@ -243,13 +247,13 @@ function PostTextBoxComponent() {
   };
 
   const handleLikePost = async (post_id) => {
-    UserService.likePost(user.id, post_id).then((res) => {
+    UserService.likePost(activeUser.id, post_id).then((res) => {
       setRefresh(res.data);
     });
   };
 
   const handleSavePost = async (post_id) => {
-    UserService.savePost(user.id, post_id).then((res) => {
+    UserService.savePost(activeUser.id, post_id).then((res) => {
       setRefresh(res.data);
     });
   };
@@ -379,7 +383,9 @@ function PostTextBoxComponent() {
     });
   };
   const getFriendsList = async () => {
-    await FriendsService.getFriends(AuthService.getCurrentUser().username).then(
+    const jwtUser = AuthService.getCurrentUser();
+    if (!jwtUser || !jwtUser.username) return;
+    await FriendsService.getFriends(jwtUser.username).then(
       (res) => {
         setFriendsList(res.data);
       }
@@ -409,7 +415,8 @@ function PostTextBoxComponent() {
   }, [user]);
 
   if (isLoading) {
-    return <div>Loading... Please Wait</div>;
+    return <div>loading... please wait
+</div>;
   }
 
   const imageshow = () => {
@@ -471,7 +478,7 @@ function PostTextBoxComponent() {
                     {friendsList.length > 0 ? (
                       <>
                         {friendsList.map((userM) =>
-                          user.id !== userM.id ? (
+                          activeUser.id !== userM.id ? (
                             <li key={userM.id} className="friends-card">
                               <a href="#!" onClick={() => handleTag(userM)}>
                                 {" "}
@@ -592,7 +599,7 @@ function PostTextBoxComponent() {
                     {friendsList.length > 0 ? (
                       <>
                         {friendsList.map((userM) =>
-                          user.id !== userM.id ? (
+                          activeUser.id !== userM.id ? (
                             <li key={userM.id} className="friends-card">
                               <a href="#!" onClick={() => handleTag(userM)}>
                                 {" "}
@@ -708,19 +715,12 @@ function PostTextBoxComponent() {
 
             <div style={{ padding: "0 11px 11px 11px" }}>
               <div className="popupimg">
-                <img
-                  src={
-                    user
-                      ? fileStorage.baseUrl + user.profilePicturePath
-                      : fileStorage.baseUrl + userR.profilePicturePath
-                  }
-                  alt=""
-                />
+                <img src={fileStorage.baseUrl + (activeUser.profilePicturePath || '')} alt="" />
               </div>
               <div className="popupuser-name">
                 <div style={{ float: "left", display: "inline" }}>
                   <span>
-                    {`${user.firstName} ${user.lastName}`}
+                    {`${activeUser.firstName || ''} ${activeUser.lastName || ''}`}
                     {userF ? (
                       <> with {`${userF.firstName} ${userF.lastName}`}</>
                     ) : null}
@@ -853,11 +853,7 @@ function PostTextBoxComponent() {
             <div style={{ padding: "0 11px 11px 11px" }}>
               <div className="popupimg">
                 <img
-                  src={
-                    user
-                      ? fileStorage.baseUrl + user.profilePicturePath
-                      : fileStorage.baseUrl + userR.profilePicturePath
-                  }
+                  src={fileStorage.baseUrl + (activeUser.profilePicturePath || '')}
                   alt=""
                 />
               </div>
@@ -866,7 +862,7 @@ function PostTextBoxComponent() {
                   <span
                     style={{ textTransform: "capitalize", fontWeight: "bold" }}
                   >
-                    {`${user.firstName} ${user.lastName}`}
+                    {`${activeUser.firstName || ''} ${activeUser.lastName || ''}`}
                     {userF ? (
                       <> with {`${userF.firstName} ${userF.lastName}`}</>
                     ) : null}
@@ -990,11 +986,7 @@ function PostTextBoxComponent() {
               {" "}
               <div className="popupimg">
                 <img
-                  src={
-                    user
-                      ? fileStorage.baseUrl + user.profilePicturePath
-                      : fileStorage.baseUrl + userR.profilePicturePath
-                  }
+                  src={fileStorage.baseUrl + (activeUser.profilePicturePath || '')}
                   alt=""
                 />
               </div>
@@ -1003,7 +995,7 @@ function PostTextBoxComponent() {
                   <span
                     style={{ textTransform: "capitalize", fontWeight: "bold" }}
                   >
-                    {`${user.firstName} ${user.lastName}`}
+                    {`${activeUser.firstName || ''} ${activeUser.lastName || ''}`}
                     {userF ? (
                       <> with {`${userF.firstName} ${userF.lastName}`}</>
                     ) : null}
@@ -1123,8 +1115,8 @@ function PostTextBoxComponent() {
                   <img
                     src={
                       user
-                        ? fileStorage.baseUrl + user.profilePicturePath
-                        : fileStorage.baseUrl + userR.profilePicturePath
+                        ? fileStorage.baseUrl + activeUser.profilePicturePath
+                        : fileStorage.baseUrl + (activeUser.profilePicturePath || '')
                     }
                     alt=""
                   />
@@ -1137,7 +1129,7 @@ function PostTextBoxComponent() {
                         fontWeight: "bold",
                       }}
                     >
-                      {`${user.firstName} ${user.lastName}`}
+                      {`${activeUser.firstName || ''} ${activeUser.lastName || ''}`}
                       {userF ? (
                         <> with {`${userF.firstName} ${userF.lastName}`}</>
                       ) : null}
@@ -1572,7 +1564,7 @@ function PostTextBoxComponent() {
                     {friendsList.length > 0 ? (
                       <>
                         {friendsList.map((userM) =>
-                          user.id !== userM.id ? (
+                          activeUser.id !== userM.id ? (
                             <li key={userM.id} className="friends-card">
                               <a href="#!" onClick={() => handleTag(userM)}>
                                 {" "}
@@ -1704,16 +1696,16 @@ function PostTextBoxComponent() {
                 <img
                   src={
                     user
-                      ? fileStorage.baseUrl + user.profilePicturePath
-                      : fileStorage.baseUrl + userR.profilePicturePath
-                  }
+                        ? fileStorage.baseUrl + activeUser.profilePicturePath
+                        : fileStorage.baseUrl + (activeUser.profilePicturePath || '')
+                      }
                   alt=""
                 />
               </div>
               <div className="popupuser-name">
                 <div style={{ display: "inline" }}>
                   <span>
-                    {`${user.firstName} ${user.lastName}`}
+                    {`${activeUser.firstName || ''} ${activeUser.lastName || ''}`}
                     {userF ? (
                       <> with {`${userF.firstName} ${userF.lastName}`}</>
                     ) : null}
@@ -1833,7 +1825,7 @@ function PostTextBoxComponent() {
     await formData.append(`swapfiles`, swapfiles);
     await formData.append(`privacy`, Privacy);
     if (userF === null) {
-      await SwapService.createSwap(user.id, formData, null).then((res) => {
+      await SwapService.createSwap(activeUser.id, formData, null).then((res) => {
         // setCloseModal(false)
         // window.location.reload();
 
@@ -1843,7 +1835,7 @@ function PostTextBoxComponent() {
         // window.location.reload();
       });
     } else
-      await SwapService.createSwap(user.id, formData, userF.id).then((res) => {
+      await SwapService.createSwap(activeUser.id, formData, userF.id).then((res) => {
         setSwapContent("");
         handleRemoveImageSwap();
         setRefresh(res.data);
@@ -1854,7 +1846,7 @@ function PostTextBoxComponent() {
     <div className="central-meta newsfeed">
       {/* <div className="new-postbox">
                 <figure>
-                  <img src={user ? user.profilePicturePath : userR.profilePicturePath} alt="" />
+                  <img src={activeUser.profilePicturePath || ''} alt="" />
                 </figure>
                 <div className="newpst-input">
                   <Form>

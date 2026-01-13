@@ -42,6 +42,7 @@ function ShareItemComponent({post}) {
   const [postsForUser, setPostsForUser] = useState([]);
   const [savedPost, setSavedPost] = useState([]);
   const [userR, setUserR] = useState([]);
+  const activeUser = user || userR || {};
 
 
   const [postContent, setPostContent] = useState("");
@@ -114,25 +115,44 @@ function ShareItemComponent({post}) {
   // },[cursorPosition])
 
   const getPost = async () => {
-    await PostService.getPost().then(res => {
-      setPosts(res.data)
-    })
+    try {
+      const res = await PostService.getPost()
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setPosts(data)
+    } catch (error) {
+      // Avoid crashing the UI on 429 or transient network failures.
+      console.warn('ShareItemComponent.getPost failed:', error)
+    }
   }
 
   const getPostForUser = async () => {
-    await PostService.getPostForUser(AuthService.getCurrentUser().username).then(res => {
-      const uniquePost = Array.from(new Set(res.data.map(a => a.id)))
+    try {
+      const currentUser = AuthService.getCurrentUser()
+      if (!currentUser || !currentUser.username) return
+
+      const res = await PostService.getPostForUser(currentUser.username)
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      const uniquePost = Array.from(new Set(data.map(a => a.id)))
         .map(id => {
-          return res.data.find(a => a.id === id)
+          return data.find(a => a.id === id)
         })
       setPostsForUser(uniquePost)
-    })
+    } catch (error) {
+      console.warn('ShareItemComponent.getPostForUser failed:', error)
+    }
   }
 
   const getSavedPost = async () => {
-    await PostService.getSavedPostForUser(AuthService.getCurrentUser().username).then(res => {
-      setSavedPost(res.data)
-    })
+    try {
+      const currentUser = AuthService.getCurrentUser()
+      if (!currentUser || !currentUser.username) return
+
+      const res = await PostService.getSavedPostForUser(currentUser.username)
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setSavedPost(data)
+    } catch (error) {
+      console.warn('ShareItemComponent.getSavedPost failed:', error)
+    }
   }
 
   const handlePostContent = (event) => {
@@ -155,7 +175,7 @@ function ShareItemComponent({post}) {
       return null;
     }
     const comment = { content: commentContent }
-    PostService.addComment(user.id, postid, comment).then(res => {
+    PostService.addComment(activeUser.id, postid, comment).then(res => {
       setRefresh(res.data)
       setCommentContent("")
     })
@@ -214,7 +234,7 @@ function ShareItemComponent({post}) {
     //   return false
     // }
     // })
-    const result = post.savedByUsers.filter(userz => userz.id == user.id)
+    const result = post.savedByUsers.filter(userz => userz.id == activeUser.id)
     if (result.length > 0) {
       return true
     }
@@ -246,7 +266,7 @@ function ShareItemComponent({post}) {
     const formData = new FormData();
     formData.append('content', postContent)
     formData.append(`files`, files)
-    PostService.createPost(user.id, formData).then(res => {
+    PostService.createPost(activeUser.id, formData).then(res => {
       setPostContent("")
       handleRemoveImage()
       setRefresh(res.data)
@@ -265,13 +285,13 @@ const handleCounterReaction = () => {
   return (<img src="/assets/images/likeic.png" alt="" />)
 }
   const handleLikePost = async (post_id) => {
-    UserService.likePost(user.id, post_id).then(res => {
+    UserService.likePost(activeUser.id, post_id).then(res => {
       setRefresh(res.data)
     })
   }
 
   const handleSavePost = async (post_id) => {
-    UserService.savePost(user.id, post_id).then(res => {
+    UserService.savePost(activeUser.id, post_id).then(res => {
       setRefresh(res.data)
     })
   }
@@ -353,22 +373,26 @@ const staticpost=()=>{
 
   useEffect(() => {
     getUser()
+  }, [user])
+
+  useEffect(() => {
+    let isMounted = true
+
     getPost().then(() => {
-      setIsLoading(false)
+      if (isMounted) setIsLoading(false)
     })
     getPostForUser()
     getSavedPost()
     testScript()
+
+    return () => {
+      isMounted = false
+    }
   }, [editPostId, refresh])
 
-  useEffect(() => {
-    getPostForUser()
-    getSavedPost()
-    testScript()
-  }, [user])
-
   if (isLoading) {
-    return <div>Loading... Please Wait</div>
+    return <div>loading... please wait
+ Monica</div>
   }
 
   if (user.newUser) {
@@ -395,13 +419,13 @@ const staticpost=()=>{
 
                     
 <figure>
-                    <img src={fileStorage.baseUrl+user.profilePicturePath} alt="" />
+                    <img src={fileStorage.baseUrl + (activeUser.profilePicturePath || '')} alt="" />
                 </figure>
                 
                 <div className="friend-name">
                     <div style={{ float: 'left', display: 'inline' }}>
 
-                        <a href="#" title="#" style={{ textTransform: 'capitalize', fontWeight: 'bold' }}>{user.firstName} {user.lastName}</a>
+                        <a href="#" title="#" style={{ textTransform: 'capitalize', fontWeight: 'bold' }}>{activeUser.firstName || ''} {activeUser.lastName || ''}</a>
 
                         <span style={{ display: 'block', fontSize: '12px',paddingTop:'5px' }}>on 2/3/2021 </span>
                        
@@ -471,7 +495,7 @@ const staticpost=()=>{
         <ul className="we-comet">
         <li className="post-comment">
                 <div className="comet-avatar">
-                  <img src={fileStorage.baseUrl+user.profilePicturePath}  alt="" />
+                  <img src={fileStorage.baseUrl + (activeUser.profilePicturePath || '')} alt="" />
                 </div>
                 <div className="post-comt-box">
                   <Form>

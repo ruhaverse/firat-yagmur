@@ -79,9 +79,10 @@ function OtherProfileComponent() {
 
     const getPostForUser = async () => {
       await PostService.getPostForUser(AuthService.getCurrentUser().username).then(res => {
-        const uniquePost = Array.from(new Set(res.data.map(a => a.id)))
+        const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+        const uniquePost = Array.from(new Set(data.map(a => a.id)))
           .map(id => {
-            return res.data.find(a => a.id === id)
+            return data.find(a => a.id === id)
           })
           const mypost = []
           uniquePost.map(post => {
@@ -176,31 +177,59 @@ function OtherProfileComponent() {
 	}
 
 	const getFriendsList = async () => {
-		await FriendsService.getFriends(AuthService.getCurrentUser().username).then(res => {
+    const jwtUser = AuthService.getCurrentUser();
+    if (!jwtUser || !jwtUser.username) return;
+    await FriendsService.getFriends(jwtUser.username).then(res => {
 			setFriendsList(res.data)
 		})
 	}
 
 	const getAllFollowing = async () => {
-		await UserService.getFollowing(AuthService.getCurrentUser().username).then(res => {
-			setFollowing(res.data)
-		})
+    const jwtUser = AuthService.getCurrentUser();
+    if (!jwtUser || !jwtUser.username) return;
+    try {
+      const res = await UserService.getFollowing(jwtUser.username);
+      setFollowing(Array.isArray(res?.data) ? res.data : []);
+    } catch (error) {
+      const status = error?.response?.status;
+      if (status === 404) {
+        setFollowing([]);
+        return;
+      }
+      console.warn('OtherProfileComponent.getAllFollowing failed:', error);
+      setFollowing([]);
+    }
 	}
 
 	const getAllFollowers = async () => {
-		await UserService.getFollowers(AuthService.getCurrentUser().username).then(res => {
-			setFollowers(res.data)
-		})
+    const jwtUser = AuthService.getCurrentUser();
+    if (!jwtUser || !jwtUser.username) return;
+    try {
+      const res = await UserService.getFollowers(jwtUser.username);
+      setFollowers(Array.isArray(res?.data) ? res.data : []);
+    } catch (error) {
+      const status = error?.response?.status;
+      if (status === 404) {
+        setFollowers([]);
+        return;
+      }
+      console.warn('OtherProfileComponent.getAllFollowers failed:', error);
+      setFollowers([]);
+    }
 	}
 
 	const getAllFriendRequestSent = async () => {
-		await UserService.getFriendRequestSent(AuthService.getCurrentUser().username).then(res => {
+    const jwtUser = AuthService.getCurrentUser();
+    if (!jwtUser || !jwtUser.username) return;
+    await UserService.getFriendRequestSent(jwtUser.username).then(res => {
 			setFriendRequestSent(res.data)
 		})
 	}
 
 	const getAllFriendRequestRecieved = async () => {
-		await UserService.getFriendRequestRecieved(AuthService.getCurrentUser().username).then(res => {
+    const jwtUser = AuthService.getCurrentUser();
+    if (!jwtUser || !jwtUser.username) return;
+    await UserService.getFriendRequestRecieved(jwtUser.username).then(res => {
 			setFriendRequestRecieved(res.data)
 		})
 	}

@@ -34,6 +34,23 @@ const my_url = `${storage.baseUrl}`
 export default function ReelPostComponent({ post, setRefresh }) {
     const { user } = useContext(UserContext)
 
+    const defaultAvatar = "../assets/images/resources/admin.jpg";
+    const getUserAvatarSrc = (u) => {
+        const p = u?.profilePicturePath;
+        if (!p) return defaultAvatar;
+        if (typeof p === 'string' && p.startsWith('http')) return p;
+        return fileStorage.baseUrl + p;
+    };
+    const getMediaSrc = (mediaPath) => {
+        if (!mediaPath) return '';
+        if (typeof mediaPath === 'string' && mediaPath.startsWith('http')) return mediaPath;
+        return `${fileStorage.baseUrl}${mediaPath}`;
+    };
+
+    const postUser = post?.user || {};
+    const postUserName = `${postUser?.firstName || ''} ${postUser?.lastName || ''}`.trim();
+    const postUserEmail = postUser?.email || '';
+
     const [editPostId, setEditPostId] = useState(null)
     const [userR, setUserR] = useState([]);
     const [showComment, setShowComment] = useState(false)
@@ -79,15 +96,14 @@ export default function ReelPostComponent({ post, setRefresh }) {
     }
 
     const getCommentCounter = (comments) => {
-        let counter = 0
-        comments.map(comment => {
-            counter += comment.replies.length + 1
-        })
-        if (counter > 0)
-            return counter + " Comments"
-        else return ""
-
-    }
+        if (!Array.isArray(comments) || comments.length === 0) return "";
+        let counter = 0;
+        comments.forEach(comment => {
+            const repliesLen = Array.isArray(comment?.replies) ? comment.replies.length : 0;
+            counter += repliesLen + 1;
+        });
+        return counter > 0 ? `${counter} Comments` : "";
+    };
 
 
     const getShareCounter = (shares) => {
@@ -322,9 +338,7 @@ export default function ReelPostComponent({ post, setRefresh }) {
                             <div className='popupimg'>
                                 <img
                                     src={
-                                        user
-                                            ? fileStorage.baseUrl + user.profilePicturePath
-                                            : fileStorage.baseUrl + userR.profilePicturePath
+                                        user ? getUserAvatarSrc(user) : getUserAvatarSrc(userR)
                                     }
                                     alt=''
                                 />
@@ -429,19 +443,17 @@ export default function ReelPostComponent({ post, setRefresh }) {
                                 <div style={{ display: 'flex' }}>
 
                                     <figure>
-                                        <img src={fileStorage.baseUrl + post.user.profilePicturePath} alt='' className="post-user-img" />
+                                        <img src={getUserAvatarSrc(postUser)} alt='' className="post-user-img" />
                                     </figure>
                                     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '10px' }}>
                                         <a
-                                            href={`/profile/${post.user.email}`}
+                                            href={`/profile/${postUserEmail}`}
                                             title='#'
                                             style={{ textTransform: 'capitalize', fontWeight: 'bold' }}
                                         >
 
 
-
-
-                                            {`${post.user.firstName} ${post.user.lastName}`}
+                                            {postUserName}
 
 
                                             {post.allPostsType === 'share' ?
@@ -458,57 +470,65 @@ export default function ReelPostComponent({ post, setRefresh }) {
 
                                         </a>
                                         <span style={{ display: 'block', fontSize: '12px', paddingTop: '5px' }}>
-                                            on {moment(post.published, "DD MMMM YYYY hh:mm:ss").fromNow()}
+                                            on {moment(post.published).fromNow()}
                                         </span>
                                     </div>
 
                                 </div>
 
-                                <div className="dropdown add-dropdown">
-                                    <button className="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <div className="add-dropdown" onClick={(e) => { e.stopPropagation(); setShowMoreOptions(!showMoreOptions); }}>
+                                    <button className="btn" type="button">
                                         <i className='fas fa-ellipsis-h' style={{ fontSize: '20px' }}></i>
                                     </button>
-                                    <div className="dropdown-menu drop-options" aria-labelledby="dropdownMenuButton">
-                                        <ul>
-                                            {post.user.id === user.id ? (
-                                                <li onClick={() => handleEditPost(post.id)}>
-                                                    <i className='las la-pencil-alt'></i>
-                                                    <span>Edit Post</span>
+                                    {showMoreOptions && (
+                                        <div className="drop-options active" onClick={toggleShowMoreOptions}>
+                                            <ul>
+                                                {postUser?.id === user?.id ? (
+                                                    <li onClick={() => handleEditPost(post.id)}>
+                                                        <i className='las la-pencil-alt'></i>
+                                                        <span>Edit Post</span>
+                                                    </li>
+                                                ) : null}
+                                                <li onClick={() => handleSavePost(post.id)}>
+                                                    <i className='lar la-bookmark'></i>
+                                                    <span>Save Post</span>
                                                 </li>
-                                            ) : (
-                                                <></>
-                                            )}
-                                            <li onClick={() => handleSavePost(post.id)}>
-                                                <i className='lar la-bookmark'></i>
-                                                <span>Save Post</span>
-                                            </li>
-                                            {post.user.id === user.id ? (
-                                                <li onClick={() => handleDeletePost(post)}>
-                                                    <i className='las la-trash'></i>
-                                                    <span>Delete</span>
+                                                {postUser?.id === user?.id ? (
+                                                    <li onClick={() => handleDeletePost(post)}>
+                                                        <i className='las la-trash'></i>
+                                                        <span>Delete</span>
+                                                    </li>
+                                                ) : null}
+                                                <li>
+                                                    <i className='las la-link'></i>
+                                                    <span>Copy Link</span>
                                                 </li>
-                                            ) : (
-                                                <></>
-                                            )}
-                                            <li>
-                                                <i className='las la-link'></i>
-                                                <span>Copy Link</span>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                            </ul>
+                                        </div>
+                                    )}
                                 </div>
 
                             </div>
 
                             {post.content && (
-                                <p id={`post-content-${post.id}`} style={{ fontSize: '14px', color: 'black' }}>
+                                <p
+                                    id={`post-content-${post.id}`}
+                                    style={{
+                                        fontSize: '14px',
+                                        color: 'black',
+                                        overflowWrap: 'break-word',
+                                        wordBreak: 'break-word',
+                                        whiteSpace: 'pre-wrap',
+                                        margin: 0,
+                                    }}
+                                >
                                     {`${post.content}`}
-                                    <br></br>
+                                    <br />
                                 </p>
                             )}
 
 
-                            <div className='postImage'>
+                            <div className='postImage' style={{ overflow: 'hidden', maxWidth: '100%', boxSizing: 'border-box' }}>
                                 {post.allPostsType === 'reel' && post.media && post.media.length === 1
                                     ? post.media.map((postVideo) => (
                                         <React.Fragment>
@@ -518,11 +538,10 @@ export default function ReelPostComponent({ post, setRefresh }) {
                                                 controls
                                                 autoPlay
                                                 muted
-                                                style={{ width: '100%', maxHeight:'460px', objectFit: 'fill' }}
-                                                src={`${fileStorage.baseUrl}${postVideo.mediaPath}`}
+                                                style={{ width: '100%', maxHeight: '460px', objectFit: 'cover', display: 'block' }}
+                                                src={getMediaSrc(postVideo?.mediaPath)}
                                                 type="video/mp4"
-
-                                                alt={`${fileStorage.baseUrl}${postVideo.mediaPath}`}
+                                                alt={getMediaSrc(postVideo?.mediaPath)}
                                                 onClick={() => setIsopen()}
                                             />
 
@@ -538,7 +557,7 @@ export default function ReelPostComponent({ post, setRefresh }) {
                                     <div className='friend-name' style={{ width: "100%", display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '8px' }}>
                                         <div style={{ display: 'flex' }}>
                                             <figure>
-                                                <img src={fileStorage.baseUrl + post.post.user.profilePicturePath} alt='' className="post-user-img" style={{ borderRadius: '100%' }} />
+                                                <img src={getUserAvatarSrc(post?.post?.user)} alt='' className="post-user-img" style={{ borderRadius: '100%' }} />
                                             </figure>
                                             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: '10px' }}>
                                                 <a
@@ -556,53 +575,61 @@ export default function ReelPostComponent({ post, setRefresh }) {
                                                     ) : null}
                                                 </a>
                                                 <span style={{ display: 'block', fontSize: '12px', paddingTop: '5px' }}>
-                                                    on {moment(post.post.published, "DD MMMM YYYY hh:mm:ss").fromNow()}
+                                                    on {moment(post.post.published).fromNow()}
                                                     {/* {checkIfSaved(post) && <i className='las la-bookmark szbkmrk'></i>} */}
                                                 </span>
                                             </div>
 
                                         </div>
 
-                                        <div className="dropdown add-dropdown">
-                                            <button className="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <div className="add-dropdown" onClick={(e) => { e.stopPropagation(); setShowMoreOptions(!showMoreOptions); }}>
+                                            <button className="btn" type="button">
                                                 <i className='fas fa-ellipsis-h' style={{ fontSize: '20px' }}></i>
                                             </button>
-                                            <div className="dropdown-menu drop-options" aria-labelledby="dropdownMenuButton">
-                                                <ul>
-                                                    {post.post.user.id === user.id ? (
-                                                        <li onClick={() => handleEditPost(post.id)}>
-                                                            <i className='las la-pencil-alt'></i>
-                                                            <span>Edit Post</span>
+                                            {showMoreOptions && (
+                                                <div className="drop-options active" onClick={toggleShowMoreOptions}>
+                                                    <ul>
+                                                        {post.post.user.id === user.id ? (
+                                                            <li onClick={() => handleEditPost(post.id)}>
+                                                                <i className='las la-pencil-alt'></i>
+                                                                <span>Edit Post</span>
+                                                            </li>
+                                                        ) : null}
+                                                        <li onClick={() => handleSavePost(post.id)}>
+                                                            <i className='lar la-bookmark'></i>
+                                                            <span>Save Post</span>
                                                         </li>
-                                                    ) : (
-                                                        <></>
-                                                    )}
-                                                    <li onClick={() => handleSavePost(post.id)}>
-                                                        <i className='lar la-bookmark'></i>
-                                                        <span>Save Post</span>
-                                                    </li>
-                                                    {post.post.user.id === user.id ? (
-                                                        <li onClick={() => handleDeletePost(post.post)}>
-                                                            <i className='las la-trash'></i>
-                                                            <span>Delete</span>
+                                                        {post.post.user.id === user.id ? (
+                                                            <li onClick={() => handleDeletePost(post.post)}>
+                                                                <i className='las la-trash'></i>
+                                                                <span>Delete</span>
+                                                            </li>
+                                                        ) : null}
+                                                        <li>
+                                                            <i className='las la-link'></i>
+                                                            <span>Copy Link</span>
                                                         </li>
-                                                    ) : (
-                                                        <></>
-                                                    )}
-                                                    <li>
-                                                        <i className='las la-link'></i>
-                                                        <span>Copy Link</span>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                                    </ul>
+                                                </div>
+                                            )}
                                         </div>
 
                                     </div>
 
                                     {post.post.content && (
-                                        <p id={`post-content-${post.id}`} style={{ fontSize: '14px', color: 'black' }}>
+                                        <p
+                                            id={`post-content-${post.id}`}
+                                            style={{
+                                                fontSize: '14px',
+                                                color: 'black',
+                                                overflowWrap: 'break-word',
+                                                wordBreak: 'break-word',
+                                                whiteSpace: 'pre-wrap',
+                                                margin: 0,
+                                            }}
+                                        >
                                             {`${post.post.content}`}
-                                            <br></br>
+                                            <br />
                                         </p>
                                     )}
 
@@ -679,9 +706,9 @@ export default function ReelPostComponent({ post, setRefresh }) {
                                                         {/* <Popup */}
                                                         {/* trigger={ */}
                                                         <img
-                                                            style={post.user.id == user.id ? { width: '100%', objectFit: 'cover' } : { borderRadius: '10px 10px 0 0' }}
-                                                            src={`${fileStorage.baseUrl}${postImage.mediaPath}`}
-                                                            alt={`${fileStorage.baseUrl}${postImage.mediaPath}`}
+                                                            style={post?.user?.id == user?.id ? { width: '100%', objectFit: 'cover' } : { borderRadius: '10px 10px 0 0' }}
+                                                            src={getMediaSrc(postImage?.mediaPath)}
+                                                            alt={getMediaSrc(postImage?.mediaPath)}
                                                             onClick={() => setIsopen(true)}
 
                                                         />
@@ -691,7 +718,7 @@ export default function ReelPostComponent({ post, setRefresh }) {
                                                                 onCloseRequest={() => setIsopen(false)}
                                                             />
                                                         )}
-                                                        {post.post.user.id !== user.id &&
+                                                        {post?.post?.user?.id !== user?.id &&
                                                             <div className='swappost-cont'>
                                                                 <div className=''>
                                                                     <div className="bold " style={{ marginBottom: '5px', marginTop: '10px', color: '#050505' }}>{post.category ? post.category : 'Category'}</div>
@@ -728,9 +755,7 @@ export default function ReelPostComponent({ post, setRefresh }) {
                                                                                 <div className='popupimg'>
                                                                                     <img
                                                                                         src={
-                                                                                            user
-                                                                                                ? fileStorage.baseUrl + user.profilePicturePath
-                                                                                                : fileStorage.baseUrl + userR.profilePicturePath
+                                                                                            user ? getUserAvatarSrc(user) : getUserAvatarSrc(userR)
                                                                                         }
                                                                                         alt=''
                                                                                     />
@@ -739,7 +764,7 @@ export default function ReelPostComponent({ post, setRefresh }) {
                                                                                     <div style={{ display: 'inline' }}>
                                                                                         <span>
                                                                                             {`${user.firstName} ${user.lastName}`}
-                                                                                            {post.user ? <> <span style={{ color: 'rgb(100 166 194)', fontWeight: '500' }}>swap with</span> {`${post.user.firstName} ${post.user.lastName}`}</> : null}
+                                                                                            {postUserName ? <> <span style={{ color: 'rgb(100 166 194)', fontWeight: '500' }}>swap with</span> {postUserName}</> : null}
                                                                                         </span>
                                                                                         <span style={{ marginTop: '4px ', display: 'block', fontSize: '10px' }}>
                                                                                             <li style={{ paddingLeft: '0%', paddingTop: '1%', listStyleType: 'none' }}>
@@ -763,7 +788,11 @@ export default function ReelPostComponent({ post, setRefresh }) {
                                                                                         className='textpopup'
                                                                                         rows={2}
                                                                                         // style={{fontSize:'14px'}}
-                                                                                        placeholder={'Share about swap with ' + post.user.firstName + '?'}
+                                                                                        placeholder={
+                                                                                            'Share about swap with ' + (postUser?.firstName || 'user') + '?'
+                                                                                        }
+                                                                                        
+                                                                                        
                                                                                         name='swap_content'
                                                                                         value={shareContent}
                                                                                         onChange={handleSwapContent}

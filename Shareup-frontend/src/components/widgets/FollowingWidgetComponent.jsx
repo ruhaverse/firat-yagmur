@@ -19,9 +19,20 @@ function FollowingWidgetComponent() {
 	const [searchedFollowers, setSearchedFollowers] = useState([]);
 
     const getAllFollowers = async () => {
-		await UserService.getFollowers(AuthService.getCurrentUser().username).then(res => {
-			setFollowers(res.data)
-		})
+        const jwtUser = AuthService.getCurrentUser();
+        if (!jwtUser || !jwtUser.username) return;
+        try {
+            const res = await UserService.getFollowers(jwtUser.username);
+            setFollowers(Array.isArray(res?.data) ? res.data : []);
+        } catch (error) {
+            const status = error?.response?.status;
+            if (status === 404) {
+                setFollowers([]);
+                return;
+            }
+            console.warn('FollowingWidgetComponent.getAllFollowers failed:', error);
+            setFollowers([]);
+        }
 	}
 
     useEffect(() => {

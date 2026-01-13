@@ -1,158 +1,108 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Redirect, useHistory } from "react-router-dom";
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import UserService from '../../services/UserService';
+import React, { useState, useContext } from 'react';
 import UserContext from '../../contexts/UserContext';
-import PostService from '../../services/PostService';
-import AuthService from '../../services/auth.services';
-import SimpleReactLightbox from 'simple-react-lightbox'
-import { testScript } from '../../js/script';
-
-import EditPostComponent from './EditPostComponent'
-
 import Layout from '../LayoutComponent';
-import GuideComponent from './GuideComponent';
-
-
+import './NotificationChat.css';
 
 function NotificationChatComponent() {
-    const { user } = useContext(UserContext)
+    const { user } = useContext(UserContext);
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [message, setMessage] = useState('');
 
-    const onSubmit = (e) => {
+    const users = [
+        { id: 1, name: 'Molly Cyrus', avatar: '../assets/images/resources/friend-avatar2.jpg', status: 'online' },
+        { id: 2, name: 'Andrew', avatar: '../assets/images/resources/friend-avatar3.jpg', status: 'away' },
+        { id: 3, name: 'Jason Bourne', avatar: '../assets/images/resources/friend-avatar.jpg', status: 'online' },
+        { id: 4, name: 'Sarah Grey', avatar: '../assets/images/resources/friend-avatar4.jpg', status: 'offline' },
+        { id: 5, name: 'Bill Doe', avatar: '../assets/images/resources/friend-avatar5.jpg', status: 'online' },
+        { id: 6, name: 'Shen Cornery', avatar: '../assets/images/resources/friend-avatar6.jpg', status: 'away' },
+        { id: 7, name: 'Kill Bill', avatar: '../assets/images/resources/friend-avatar7.jpg', status: 'offline' },
+        { id: 8, name: 'Jasmin Walia', avatar: '../assets/images/resources/friend-avatar8.jpg', status: 'online' },
+    ];
+
+    const messages = [
+        { id: 1, type: 'received', text: "what's liz short for? :)" },
+        { id: 2, type: 'sent', text: 'Elizabeth lol' },
+        { id: 3, type: 'sent', text: 'wanna know whats my second guess was?' },
+        { id: 4, type: 'received', text: 'yes' },
+        { id: 5, type: 'sent', text: "Disney's the lizard king" },
+        { id: 6, type: 'sent', text: 'i know him 5 years ago' },
+        { id: 7, type: 'received', text: 'coooooooooool dude ;)' }
+    ];
+
+    const handleSendMessage = (e) => {
         e.preventDefault();
-    }
+        if (message.trim()) {
+            setMessage('');
+        }
+    };
+
+    const currentChat = selectedUser || users[2];
+
     return (
         <Layout user={user}>
-                <div className="col-lg-6">
-                    <div className="central-meta">
-                        <div className="messages">
-                            <h5 className="f-title"><i className="ti-bell" />All Messages <span className="more-options"><i className="fa fa-ellipsis-h" /></span></h5>
-                            <div className="message-box">
-                                <ul className="peoples">
-                                    
-                                    <li>
-                                        <figure>
-                                            <img src="../assets/images/resources/friend-avatar2.jpg" alt="" />
-                                            <span className="status f-online" />
-                                        </figure>
-                                        <div className="people-name">
-                                            <span>Molly cyrus</span>
+            <div className="">
+                <div className="messaging-card">
+                    <div className="messaging-header">
+                        <h5>Messages</h5>
+                    </div>
+
+                    <div className="messaging-container">
+                        {/* Users Sidebar */}
+                        <aside className="contacts-sidebar">
+                            <div className="contacts-list">
+                                {users.map((u) => (
+                                    <div
+                                        key={u.id}
+                                        className={`contact-item ${currentChat.id === u.id ? 'active' : ''}`}
+                                        onClick={() => setSelectedUser(u)}
+                                    >
+                                        <div className="contact-avatar">
+                                            <img src={u.avatar} alt={u.name} />
+                                            <span className={`status ${u.status}`}></span>
                                         </div>
-                                    </li>
-                                    <li>
-                                        <figure><img src="../assets/images/resources/friend-avatar3.jpg" alt="" />
-                                            <span className="status f-away" />
-                                        </figure>
-                                        <div className="people-name">
-                                            <span>Andrew</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <figure>
-                                            <img src="../assets/images/resources/friend-avatar.jpg" alt="" />
-                                            <span className="status f-online" />
-                                        </figure>
-                                        <div className="people-name">
-                                            <span>jason bourne</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <figure><img src="../assets/images/resources/friend-avatar4.jpg" alt="" />
-                                            <span className="status off-online" />
-                                        </figure>
-                                        <div className="people-name">
-                                            <span>Sarah Grey</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <figure><img src="../assets/images/resources/friend-avatar5.jpg" alt="" />
-                                            <span className="status f-online" />
-                                        </figure>
-                                        <div className="people-name">
-                                            <span>bill doe</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <figure><img src="../assets/images/resources/friend-avatar6.jpg" alt="" />
-                                            <span className="status f-away" />
-                                        </figure>
-                                        <div className="people-name">
-                                            <span>shen cornery</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <figure><img src="../assets/images/resources/friend-avatar7.jpg" alt="" />
-                                            <span className="status off-online" />
-                                        </figure>
-                                        <div className="people-name">
-                                            <span>kill bill</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <figure><img src="../assets/images/resources/friend-avatar8.jpg" alt="" />
-                                            <span className="status f-online" />
-                                        </figure>
-                                        <div className="people-name">
-                                            <span>jasmin walia</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <figure><img src="../assets/images/resources/friend-avatar6.jpg" alt="" />
-                                            <span className="status f-online" />
-                                        </figure>
-                                        <div className="people-name">
-                                            <span>neclos cage</span>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <div className="peoples-mesg-box">
-                                    <div className="conversation-head">
-                                        <figure><img src="../assets/images/resources/friend-avatar.jpg" alt="" /></figure>
-                                        <span>jason bourne <i>online</i></span>
+                                        <span className="contact-name">{u.name}</span>
                                     </div>
-                                    <ul className="chatting-area">
-                                        <li className="you">
-                                            <figure><img src="../assets/images/resources/userlist-2.jpg" alt="" /></figure>
-                                            <p>what's liz short for? :)</p>
-                                        </li>
-                                        <li className="me">
-                                            <figure><img src="../assets/images/resources/userlist-1.jpg" alt="" /></figure>
-                                            <p>Elizabeth lol</p>
-                                        </li>
-                                        <li className="me">
-                                            <figure><img src="../assets/images/resources/userlist-1.jpg" alt="" /></figure>
-                                            <p>wanna know whats my second guess was?</p>
-                                        </li>
-                                        <li className="you">
-                                            <figure><img src="../assets/images/resources/userlist-2.jpg" alt="" /></figure>
-                                            <p>yes</p>
-                                        </li>
-                                        <li className="me">
-                                            <figure><img src="../assets/images/resources/userlist-1.jpg" alt="" /></figure>
-                                            <p>Disney's the lizard king</p>
-                                        </li>
-                                        <li className="me">
-                                            <figure><img src="../assets/images/resources/userlist-1.jpg" alt="" /></figure>
-                                            <p>i know him 5 years ago</p>
-                                        </li>
-                                        <li className="you">
-                                            <figure><img src="../assets/images/resources/userlist-2.jpg" alt="" /></figure>
-                                            <p>coooooooooool dude ;)</p>
-                                        </li>
-                                    </ul>
-                                    <div className="message-text-container">
-                                        <form onSubmit={onSubmit}>
-                                            <textarea defaultValue={""} />
-                                            <button title="send"><i className="fa fa-paper-plane" /></button>
-                                        </form>
-                                    </div>
+                                ))}
+                            </div>
+                        </aside>
+
+                        {/* Chat Panel */}
+                        <main className="chat-panel">
+                            <div className="chat-header">
+                                <img src={currentChat.avatar} alt={currentChat.name} />
+                                <div className="chat-user-info">
+                                    <h6>{currentChat.name}</h6>
+                                    <span className={`status-text ${currentChat.status}`}>{currentChat.status}</span>
                                 </div>
                             </div>
-                        </div>
+
+                            <div className="chat-messages">
+                                {messages.map((msg) => (
+                                    <div key={msg.id} className={`message-row ${msg.type}`}>
+                                        <div className="message-bubble">
+                                            {msg.text}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <form className="chat-input-form" onSubmit={handleSendMessage}>
+                                <input
+                                    type="text"
+                                    placeholder="Type a message..."
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                />
+                                <button type="submit">
+                                    <i className="ti-arrow-right"></i>
+                                </button>
+                            </form>
+                        </main>
                     </div>
                 </div>
+            </div>
         </Layout>
-    )
+    );
 }
+
 export default NotificationChatComponent;

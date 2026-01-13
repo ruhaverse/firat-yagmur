@@ -444,36 +444,69 @@ const getAllUser = async () => {
 }
 
 const getFriendsList = async () => {
-	await FriendsService.getFriends(AuthService.getCurrentUser().username).then(res => {
+	const jwtUser = AuthService.getCurrentUser();
+	if (!jwtUser || !jwtUser.username) return;
+	await FriendsService.getFriends(jwtUser.username).then(res => {
 		setFriendsList(res.data)
 		setSearchedUser	(res.data)
 	})
 }
 
 const getAllFollowing = async () => {
-	await UserService.getFollowing(AuthService.getCurrentUser().username).then(res => {
-		setFollowing(res.data)
-		setSearchedFollowing(res.data)
-	})
+	const jwtUser = AuthService.getCurrentUser();
+	if (!jwtUser || !jwtUser.username) return;
+	try {
+		const res = await UserService.getFollowing(jwtUser.username);
+		const data = Array.isArray(res?.data) ? res.data : [];
+		setFollowing(data)
+		setSearchedFollowing(data)
+	} catch (error) {
+		const status = error?.response?.status;
+		if (status === 404) {
+			setFollowing([])
+			setSearchedFollowing([])
+			return;
+		}
+		console.warn('FriendsComponent.getAllFollowing failed:', error);
+		setFollowing([])
+		setSearchedFollowing([])
+	}
 }
 
 
 const getAllFollowers = async () => {
-	await UserService.getFollowers(AuthService.getCurrentUser().username).then(res => {
-		setFollowers(res.data)
-		setSearchedFollowers(res.data)
-
-	})
+	const jwtUser = AuthService.getCurrentUser();
+	if (!jwtUser || !jwtUser.username) return;
+	try {
+		const res = await UserService.getFollowers(jwtUser.username);
+		const data = Array.isArray(res?.data) ? res.data : [];
+		setFollowers(data)
+		setSearchedFollowers(data)
+	} catch (error) {
+		const status = error?.response?.status;
+		if (status === 404) {
+			setFollowers([])
+			setSearchedFollowers([])
+			return;
+		}
+		console.warn('FriendsComponent.getAllFollowers failed:', error);
+		setFollowers([])
+		setSearchedFollowers([])
+	}
 }
 
 const getAllFriendRequestSent = async () => {
-	await UserService.getFriendRequestSent(AuthService.getCurrentUser().username).then(res => {
+	const jwtUser = AuthService.getCurrentUser();
+	if (!jwtUser || !jwtUser.username) return;
+	await UserService.getFriendRequestSent(jwtUser.username).then(res => {
 		setFriendRequestSent(res.data)
 	})
 }
 
 const getAllFriendRequestRecieved = async () => {
-	await UserService.getFriendRequestRecieved(AuthService.getCurrentUser().username).then(res => {
+	const jwtUser = AuthService.getCurrentUser();
+	if (!jwtUser || !jwtUser.username) return;
+	await UserService.getFriendRequestRecieved(jwtUser.username).then(res => {
 		setFriendRequestRecieved(res.data)
 	})
 }
@@ -514,7 +547,7 @@ useEffect(() => {
 
 return (
 	<Layout user={user}>
-		<div className="col-lg-6">
+		<div className="">
 			<div className="central-meta swap-pg-cont">
 				<div className="frnds">
 					{/* <ul className="nav nav-tabs"> */}

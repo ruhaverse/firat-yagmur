@@ -16,7 +16,7 @@ import fileStorage from "../../config/fileStorage";
 
 function ProfileComponent() {
   const history = useHistory();
-
+const [showComp, setShowComp] = useState(false);
   const { user } = useContext(UserContext);
 
   const [temp, setTemp] = useState("");
@@ -100,9 +100,10 @@ function ProfileComponent() {
     await PostService.getPostForUser(
       AuthService.getCurrentUser().username
     ).then((res) => {
-      const uniquePost = Array.from(new Set(res.data.map((a) => a.id))).map(
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      const uniquePost = Array.from(new Set(data.map((a) => a.id))).map(
         (id) => {
-          return res.data.find((a) => a.id === id);
+          return data.find((a) => a.id === id);
         }
       );
       const mypost = [];
@@ -274,7 +275,9 @@ function ProfileComponent() {
   };
 
   const getFriendsList = async () => {
-    await FriendsService.getFriends(AuthService.getCurrentUser().username).then(
+    const jwtUser = AuthService.getCurrentUser();
+    if (!jwtUser || !jwtUser.username) return;
+    await FriendsService.getFriends(jwtUser.username).then(
       (res) => {
         setFriendsList(res.data);
       }
@@ -282,33 +285,51 @@ function ProfileComponent() {
   };
 
   const getAllFollowing = async () => {
-    await UserService.getFollowing(AuthService.getCurrentUser().username).then(
-      (res) => {
-        setFollowing(res.data);
-      }
-    );
+    const jwtUser = AuthService.getCurrentUser();
+    if (!jwtUser || !jwtUser.username) return;
+  try {
+    const res = await UserService.getFollowing(jwtUser.username);
+    setFollowing(Array.isArray(res?.data) ? res.data : []);
+  } catch (error) {
+    const status = error?.response?.status;
+    if (status === 404) {
+      setFollowing([]);
+      return;
+    }
+    console.warn('ProfileComponent.getAllFollowing failed:', error);
+    setFollowing([]);
+  }
   };
 
   const getAllFollowers = async () => {
-    await UserService.getFollowers(AuthService.getCurrentUser().username).then(
-      (res) => {
-        setFollowers(res.data);
-      }
-    );
+    const jwtUser = AuthService.getCurrentUser();
+    if (!jwtUser || !jwtUser.username) return;
+  try {
+    const res = await UserService.getFollowers(jwtUser.username);
+    setFollowers(Array.isArray(res?.data) ? res.data : []);
+  } catch (error) {
+    const status = error?.response?.status;
+    if (status === 404) {
+      setFollowers([]);
+      return;
+    }
+    console.warn('ProfileComponent.getAllFollowers failed:', error);
+    setFollowers([]);
+  }
   };
 
   const getAllFriendRequestSent = async () => {
-    await UserService.getFriendRequestSent(
-      AuthService.getCurrentUser().username
-    ).then((res) => {
+    const jwtUser = AuthService.getCurrentUser();
+    if (!jwtUser || !jwtUser.username) return;
+    await UserService.getFriendRequestSent(jwtUser.username).then((res) => {
       setFriendRequestSent(res.data);
     });
   };
 
   const getAllFriendRequestRecieved = async () => {
-    await UserService.getFriendRequestRecieved(
-      AuthService.getCurrentUser().username
-    ).then((res) => {
+    const jwtUser = AuthService.getCurrentUser();
+    if (!jwtUser || !jwtUser.username) return;
+    await UserService.getFriendRequestRecieved(jwtUser.username).then((res) => {
       setFriendRequestRecieved(res.data);
     });
   };
@@ -335,16 +356,29 @@ function ProfileComponent() {
     }
   };
 
-  useEffect(() => {
-    currentUserGet();
-    getAllUser();
-    getPostForUser();
-    getFriendsList();
-    getAllFollowing();
-    getAllFollowers();
-    getAllFriendRequestSent();
-    getAllFriendRequestRecieved();
-  }, [refresh, show]);
+ useEffect(() => {
+    const fetchData = async () => {
+        try {
+            await getAllUser();
+            await getFriendsList();
+            await getAllFollowing();
+            await getAllFollowers();
+            await getAllFriendRequestSent();
+            await getAllFriendRequestRecieved();
+        } catch (err) {
+            if (err.response?.status === 429) {
+                console.log("Too many requests. Please wait a moment.");
+                // Optional: retry after a short delay
+                setTimeout(fetchData, 1000);
+            } else {
+                console.error(err);
+            }
+        }
+    };
+
+    fetchData();
+}, [showComp, refresh]);
+
 
   const profileAboutComponent = () => {
     return (

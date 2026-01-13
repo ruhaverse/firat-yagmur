@@ -95,15 +95,17 @@ function CheckoutComponent({ data }) {
 
   const getPost = async () => {
     await PostService.getPost().then(res => {
-      setPosts(res.data)
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setPosts(data)
     })
   }
 
   const getPostForUser = async () => {
     await PostService.getPostForUser(AuthService.getCurrentUser().username).then(res => {
-      const uniquePost = Array.from(new Set(res.data.map(a => a.id)))
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      const uniquePost = Array.from(new Set(data.map(a => a.id)))
         .map(id => {
-          return res.data.find(a => a.id === id)
+          return data.find(a => a.id === id)
         })
       setPostsForUser(uniquePost)
     })
@@ -111,7 +113,8 @@ function CheckoutComponent({ data }) {
 
   const getSavedPost = async () => {
     await PostService.getSavedPostForUser(AuthService.getCurrentUser().username).then(res => {
-      setSavedPost(res.data)
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setSavedPost(data)
     })
   }
 
@@ -345,7 +348,7 @@ function CheckoutComponent({ data }) {
   }, [user])
 
   if (isLoading) {
-    return <div>Loading... Please Wait</div>
+    return <div>loading... Please wait Monica</div>
   }
 
   // const handleBoundsChanged = () => {
@@ -375,7 +378,7 @@ function CheckoutComponent({ data }) {
   return (
     <Layout user={user}>
 
-      <div className="col-lg-6 checkout">
+      <div className=" checkout">
         <div className="central-meta  pdngPay">
 
           <div className="new-postbox ">

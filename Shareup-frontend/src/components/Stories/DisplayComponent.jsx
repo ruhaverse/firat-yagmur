@@ -40,14 +40,15 @@ function DisplayComponent() {
     await StoriesService.getStoriesForUser(
       AuthService.getCurrentUser().username
     ).then((res) => {
-      const sorting = res.data.sort(function (a, b) {
+      const data = Array.isArray(res.data) ? res.data : (res && res.data && Array.isArray(res.data.data) ? res.data.data : []);
+      const sorting = data.slice().sort(function (a, b) {
         const dateA = new Date(a.date),
           dateB = new Date(b.date);
         return dateB - dateA;
       });
       const uniqueStories = Array.from(new Set(sorting.map((a) => a.id))).map(
         (id) => {
-          return res.data.find((a) => a.id === id);
+          return data.find((a) => a.id === id);
         }
       );
 

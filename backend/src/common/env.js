@@ -1,11 +1,13 @@
 /**
- * Environment variable validation and configuration (moved to common)
+ * Environment variable validation and configuration (common/env.js)
  */
 const dotenv = require('dotenv');
 const path = require('path');
 
-// Load environment variables
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+// Load .env only in development, Railway injects env automatically
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+}
 
 const required = [
   'DATABASE_URL',
@@ -13,7 +15,7 @@ const required = [
 ];
 
 const defaults = {
-  PORT: '8080',
+  PORT: '4001',               // Local fallback port
   API_BASE: '/api/v1',
   NODE_ENV: 'development',
   BCRYPT_SALT_ROUNDS: '10',
@@ -34,9 +36,10 @@ function validateEnv() {
   }
 
   if (process.env.JWT_SECRET === 'secret' || process.env.JWT_SECRET === 'change_this_to_a_strong_secret') {
-    console.warn('⚠️  WARNING: Using default JWT_SECRET is insecure! Please set a strong JWT_SECRET in your .env file.');
+    console.warn('⚠️ WARNING: Using default JWT_SECRET is insecure! Please set a strong JWT_SECRET in your .env file.');
   }
 
+  // Set default values for optional envs
   for (const [key, value] of Object.entries(defaults)) {
     if (!process.env[key]) process.env[key] = value;
   }
@@ -46,7 +49,7 @@ function getConfig() {
   validateEnv();
 
   return {
-    port: parseInt(process.env.PORT, 10),
+    port: process.env.PORT ? parseInt(process.env.PORT, 10) : 4001, // Railway dynamic port
     apiBase: process.env.API_BASE,
     nodeEnv: process.env.NODE_ENV,
     databaseUrl: process.env.DATABASE_URL,

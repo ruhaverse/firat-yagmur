@@ -62,6 +62,7 @@ function NewsfeedComponent() {
   const [storiesForUser, setStoriesForUser] = useState([]);
   const [savedPost, setSavedPost] = useState([]);
   const [userR, setUserR] = useState([]);
+  const activeUser = user || userR || {};
   const [group, setGroup] = useState([]);
   const [allGroups, setAllGroups] = useState([]);
   const [searchedGroups, setSearchedGroups] = useState([]);
@@ -149,7 +150,7 @@ function NewsfeedComponent() {
 
     const formData = new FormData();
     formData.append(`stryfiles`, filesStry);
-    StoriesService.createStories(user.id, formData).then((res) => {
+    StoriesService.createStories(activeUser.id, formData).then((res) => {
       handleRemoveImageStry();
       setStories(res.data);
       setRefresh(res.data);
@@ -162,34 +163,50 @@ function NewsfeedComponent() {
   // }
 
   const getStoriesForUser = async () => {
-    const currentUser = AuthService.getCurrentUser();
-    if (!currentUser || !currentUser.username) return;
-    await StoriesService.getStoriesForUser(currentUser.username).then((res) => {
-      const sorting = res.data.sort(function (a, b) {
+    let username = activeUser?.email || activeUser?.username;
+    if (!username) {
+      const jwtUser = AuthService.getCurrentUser();
+      if (!jwtUser || !jwtUser.username) return;
+      username = jwtUser.username;
+    }
+    try {
+      const res = await StoriesService.getStoriesForUser(username);
+      const data = Array.isArray(res.data) ? res.data : (res && res.data && Array.isArray(res.data.data) ? res.data.data : []);
+      const sorting = data.slice().sort(function (a, b) {
         const dateA = new Date(a.date),
           dateB = new Date(b.date);
         return dateB - dateA;
       });
       const uniqueStories = Array.from(new Set(sorting.map((a) => a.id))).map((id) => {
-        return res.data.find((a) => a.id === id);
+        return data.find((a) => a.id === id);
       });
       setStoriesForUser(uniqueStories);
-    });
+    } catch (error) {
+      console.warn('NewsfeedComponent.getStoriesForUser failed:', error);
+    }
   };
   const getPostForUser = async () => {
-    const currentUser = AuthService.getCurrentUser();
-    if (!currentUser || !currentUser.username) return;
-    await NewsFeedService.getFeed(currentUser.username).then((res) => {
-      const sorting = res.data.sort(function (a, b) {
+    let username = activeUser?.email || activeUser?.username;
+    if (!username) {
+      const jwtUser = AuthService.getCurrentUser();
+      if (!jwtUser || !jwtUser.username) return;
+      username = jwtUser.username;
+    }
+    try {
+      const res = await NewsFeedService.getFeed(username);
+      const data = Array.isArray(res.data) ? res.data : (res && res.data && Array.isArray(res.data.data) ? res.data.data : []);
+      const sorting = data.slice().sort(function (a, b) {
         const dateA = new Date(a.published),
           dateB = new Date(b.published);
         return dateB - dateA;
       });
       const uniquePost = Array.from(new Set(sorting.map((a) => a.id))).map((id) => {
-        return res.data.find((a) => a.id === id);
+        return data.find((a) => a.id === id);
       });
       setPostsForUser(uniquePost);
-    });
+    } catch (error) {
+      console.warn('NewsfeedComponent.getPostForUser failed:', error);
+    }
   };
 
 
@@ -214,7 +231,7 @@ function NewsfeedComponent() {
   };
   const handleLeaveGroup = (e, group_id) => {
     e.preventDefault();
-    GroupService.leaveGroup(user.id, group_id).then((res) => {
+    GroupService.leaveGroup(activeUser.id, group_id).then((res) => {
       setRefresh(res.data);
       setGroup(res.data);
     });
@@ -222,31 +239,40 @@ function NewsfeedComponent() {
 
   const handleJoinGroup = (e, group_id) => {
     e.preventDefault();
-    GroupService.joinGroup(user.id, group_id).then((res) => {
+    GroupService.joinGroup(activeUser.id, group_id).then((res) => {
       setRefresh(res.data);
       setGroup(res.data);
     });
   };
 
   const checkIfInGroup = (members) => {
-    const found = members.some((el) => el.id === user.id);
+    const found = members.some((el) => el.id === activeUser.id);
     return found;
   };
   const getAllGroups = async () => {
     await GroupService.getAllGroups().then((res) => {
-      setAllGroups(res.data);
-      setSearchedGroups(res.data);
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setAllGroups(data);
+      setSearchedGroups(data);
     });
   };
 
   const getPost = async () => {
-    await PostService.getPost().then((res) => {
-      setPosts(res.data);
-    });
+    try {
+      const res = await PostService.getPost();
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setPosts(data);
+    } catch (error) {
+      console.warn('NewsfeedComponent.getPost (posts) failed:', error);
+    }
 
-    await SwapService.getSwap().then((res) => {
-      setPosts((val) => [...val, ...res.data]);
-    });
+    try {
+      const res = await SwapService.getSwap();
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setPosts((val) => [...(Array.isArray(val) ? val : []), ...data]);
+    } catch (error) {
+      console.warn('NewsfeedComponent.getPost (swaps) failed:', error);
+    }
   };
 
   useEffect(() => {
@@ -255,11 +281,19 @@ function NewsfeedComponent() {
 
 
   const getSavedPost = async () => {
-    const currentUser = AuthService.getCurrentUser();
-    if (!currentUser || !currentUser.username) return;
-    await PostService.getSavedPostForUser(currentUser.username).then((res) => {
-      setSavedPost(res.data);
-    });
+    let username = activeUser?.email || activeUser?.username;
+    if (!username) {
+      const jwtUser = AuthService.getCurrentUser();
+      if (!jwtUser || !jwtUser.username) return;
+      username = jwtUser.username;
+    }
+    try {
+      const res = await PostService.getSavedPostForUser(username);
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setSavedPost(data);
+    } catch (error) {
+      console.warn('NewsfeedComponent.getSavedPost failed:', error);
+    }
   };
 
   const handlePostContent = (event) => {
@@ -284,7 +318,7 @@ function NewsfeedComponent() {
       return null;
     }
     const comment = { content: commentContent };
-    PostService.addComment(user.id, postid, comment).then((res) => {
+    PostService.addComment(activeUser.id, postid, comment).then((res) => {
       setRefresh(res.data);
       setCommentContent('');
     });
@@ -395,7 +429,7 @@ function NewsfeedComponent() {
     //   return false
     // }
     // })
-    const result = post.savedByUsers.filter((userz) => userz.id == user.id);
+    const result = post.savedByUsers.filter((userz) => userz.id == activeUser.id);
     if (result.length > 0) {
       return true;
     }
@@ -436,14 +470,14 @@ function NewsfeedComponent() {
       formData.append(`swapfiles`, swapfiles);
       formData.append(`privacy`, Privacy);
       if (userF === null) {
-        PostService.createPost(user.id, formData, null).then((res) => {
+        PostService.createPost(activeUser.id, formData, null).then((res) => {
           setPostContent('');
           handleRemoveImage();
           setRefresh(res.data);
 
         });
       } else
-        PostService.createPost(user.id, formData, userF.id).then((res) => {
+        PostService.createPost(activeUser.id, formData, userF.id).then((res) => {
           setPostContent('');
           handleRemoveImage();
           setRefresh(res.data);
@@ -460,13 +494,13 @@ function NewsfeedComponent() {
 
 
   const handleLikePost = async (post_id) => {
-    UserService.likePost(user.id, post_id).then((res) => {
+    UserService.likePost(activeUser.id, post_id).then((res) => {
       setRefresh(res.data);
     });
   };
 
   const handleSavePost = async (post_id) => {
-    UserService.savePost(user.id, post_id).then((res) => {
+    UserService.savePost(activeUser.id, post_id).then((res) => {
       setRefresh(res.data);
     });
   };
@@ -524,7 +558,7 @@ function NewsfeedComponent() {
                     {friendsList.length > 0 ? (
                       <>
                         {friendsList.map((userM) =>
-                          user.id !== userM.id ? (
+                          activeUser.id !== userM.id ? (
                             <li key={userM.id} className='friends-card'>
                               <a href='#!' onClick={() => handleTag(userM)}>
                                 {' '}
@@ -631,7 +665,7 @@ function NewsfeedComponent() {
     await formData.append(`swapfiles`, swapfiles);
     await formData.append(`privacy`, Privacy);
     if (userF === null) {
-      await SwapService.createSwap(user.id, formData, null).then((res) => {
+      await SwapService.createSwap(activeUser.id, formData, null).then((res) => {
         // setCloseModal(false)
         // window.location.reload();
 
@@ -642,7 +676,7 @@ function NewsfeedComponent() {
 
       });
     } else
-      await SwapService.createSwap(user.id, formData, userF.id).then((res) => {
+      await SwapService.createSwap(activeUser.id, formData, userF.id).then((res) => {
         setSwapContent('');
         handleRemoveImageSwap();
         setRefresh(res.data);
@@ -714,7 +748,7 @@ function NewsfeedComponent() {
                     {friendsList.length > 0 ? (
                       <>
                         {friendsList.map((userM) =>
-                          user.id !== userM.id ? (
+                          activeUser.id !== userM.id ? (
                             <li key={userM.id} className='friends-card'>
                               <a href='#!' onClick={() => handleTag(userM)}>
                                 {' '}
@@ -815,7 +849,7 @@ function NewsfeedComponent() {
                     {friendsList.length > 0 ? (
                       <>
                         {friendsList.map((userM) =>
-                          user.id !== userM.id ? (
+                          activeUser.id !== userM.id ? (
                             <li key={userM.id} className='friends-card'>
                               <a href='#!' onClick={() => handleTag(userM)}>
                                 {' '}
@@ -1155,18 +1189,14 @@ function NewsfeedComponent() {
             <div style={{ padding: '0 11px 11px 11px' }}>
               <div className='popupimg'>
                 <img
-                  src={
-                    user
-                      ? fileStorage.baseUrl + user.profilePicturePath
-                      : fileStorage.baseUrl + userR.profilePicturePath
-                  }
+                  src={fileStorage.baseUrl + (activeUser.profilePicturePath || '')}
                   alt=''
                 />
               </div>
               <div className='popupuser-name'>
                 <div style={{ display: 'inline' }}>
                   <span>
-                    {`${user.firstName} ${user.lastName}`}
+                    {`${activeUser.firstName || ''} ${activeUser.lastName || ''}`}
                     {userF ? <> with {`${userF.firstName} ${userF.lastName}`}</> : null}
                   </span>
                   <span style={{ marginTop: '4px ', display: 'block', fontSize: '10px' }}>
@@ -1290,18 +1320,14 @@ function NewsfeedComponent() {
             <div style={{ padding: '0 11px 11px 11px' }}>
               <div className='popupimg'>
                 <img
-                  src={
-                    user
-                      ? fileStorage.baseUrl + user.profilePicturePath
-                      : fileStorage.baseUrl + userR.profilePicturePath
-                  }
+                  src={fileStorage.baseUrl + (activeUser.profilePicturePath || '')}
                   alt=''
                 />
               </div>
               <div className='popupuser-name'>
                 <div style={{ display: 'inline' }}>
                   <span>
-                    {`${user.firstName} ${user.lastName}`}
+                    {`${activeUser.firstName || ''} ${activeUser.lastName || ''}`}
                     {userF ? <> with {`${userF.firstName} ${userF.lastName}`}</> : null}
                   </span>
                   <span style={{ marginTop: '4px ', display: 'block', fontSize: '10px' }}>
@@ -1421,18 +1447,14 @@ function NewsfeedComponent() {
             <div style={{ padding: '0 11px 11px 11px' }}>
               <div className='popupimg'>
                 <img
-                  src={
-                    user
-                      ? fileStorage.baseUrl + user.profilePicturePath
-                      : fileStorage.baseUrl + userR.profilePicturePath
-                  }
+                  src={fileStorage.baseUrl + (activeUser.profilePicturePath || '')}
                   alt=''
                 />
               </div>
               <div className='popupuser-name'>
                 <div style={{ display: 'inline' }}>
                   <span>
-                    {`${user.firstName} ${user.lastName}`}
+                    {`${activeUser.firstName || ''} ${activeUser.lastName || ''}`}
                     {userF ? <>
                       <span style={{ fontWeight: '100', fontSize: '14px' }}> with   </span>
                       {`${userF.firstName} ${userF.lastName}`}</> : null}
@@ -1580,18 +1602,14 @@ function NewsfeedComponent() {
             <div style={{ padding: '0 11px 11px 11px' }}>
               <div className='popupimg'>
                 <img
-                  src={
-                    user
-                      ? fileStorage.baseUrl + user.profilePicturePath
-                      : fileStorage.baseUrl + userR.profilePicturePath
-                  }
+                  src={fileStorage.baseUrl + (activeUser.profilePicturePath || '')}
                   alt=''
                 />
               </div>
               <div className='popupuser-name'>
                 <div style={{ display: 'inline' }}>
                   <span>
-                    {`${user.firstName} ${user.lastName}`}
+                    {`${activeUser.firstName || ''} ${activeUser.lastName || ''}`}
                     {userF ? <> with {`${userF.firstName} ${userF.lastName}`}</> : null}
                   </span>
                   <span style={{ marginTop: '4px ', display: 'block', fontSize: '10px' }}>
@@ -1680,18 +1698,14 @@ function NewsfeedComponent() {
               <div style={{ padding: '0 11px 11px 11px' }}>
                 <div className='popupimg'>
                   <img
-                    src={
-                      user
-                        ? fileStorage.baseUrl + user.profilePicturePath
-                        : fileStorage.baseUrl + userR.profilePicturePath
-                    }
+                    src={fileStorage.baseUrl + (activeUser.profilePicturePath || '')}
                     alt=''
                   />
                 </div>
                 <div className='popupuser-name'>
                   <div style={{ display: 'inline' }}>
                     <span>
-                      {`${user.firstName} ${user.lastName}`}
+                      {`${activeUser.firstName || ''} ${activeUser.lastName || ''}`}
                       {userF ? <> with {`${userF.firstName} ${userF.lastName}`}</> : null}
                     </span>
                     <span style={{ marginTop: '4px ', display: 'block', fontSize: '10px' }}>
@@ -2015,9 +2029,9 @@ function NewsfeedComponent() {
             {
               post.group ?
                 (() => {
-                  const currentUser = AuthService.getCurrentUser();
-                  if (!currentUser || !currentUser.username) return false;
-                  return post.group.members.some((member) => member.email === currentUser.username);
+                  const username = activeUser?.email || activeUser?.username;
+                  if (!username) return false;
+                  return post.group.members.some((member) => member.email === username);
                 })() ?
                   <PostComponent post={post} setRefresh={setRefresh} user={user} userF={userF} />
                   : null
@@ -2074,16 +2088,23 @@ function NewsfeedComponent() {
     }
   };
   const getAllUser = async () => {
-    await UserService.getUsers().then((res) => {
+    try {
+      const res = await UserService.getUsers();
       const users = res && res.data && res.data.data ? res.data.data : (res && res.data ? res.data : []);
       setAllUser(users);
       setSearchedUser(users);
-    });
+    } catch (error) {
+      console.warn('NewsfeedComponent.getAllUser failed:', error);
+    }
   };
   const getFriendsList = async () => {
-    const currentUser = AuthService.getCurrentUser();
-    if (!currentUser || !currentUser.username) return;
-    await FriendsService.getFriends(currentUser.username).then((res) => {
+    let username = activeUser?.email || activeUser?.username;
+    if (!username) {
+      const jwtUser = AuthService.getCurrentUser();
+      if (!jwtUser || !jwtUser.username) return;
+      username = jwtUser.username;
+    }
+    await FriendsService.getFriends(username).then((res) => {
       setFriendsList(res.data);
     });
   };
@@ -2103,199 +2124,236 @@ function NewsfeedComponent() {
 
   useEffect(() => {
     getUser();
+  }, [user]);
+
+  useEffect(() => {
     getPost().then(() => {
       setIsLoading(false);
     });
     getPostForUser();
     getSavedPost();
     testScript();
-  }, [editPostId, refresh]);
-
-
-
+  }, [editPostId, refresh, activeUser?.email, activeUser?.username]);
 
   useEffect(() => {
-    getPostForUser();
-    getSavedPost();
-    testScript();
-  }, [user]);
-  
-  useEffect(() => {
+    // Stories should refresh after creating stories (which bumps `refresh`) or when the active user changes.
     getStoriesForUser();
     testScript();
-  }, [stories]);
+  }, [refresh, activeUser?.email, activeUser?.username]);
   if (isLoading) {
-    return <div>Loading... Please Wait</div>;
+    return <div>loading... Please wait Monica</div>;
   }
 
-  if (user.newUser) {
-    return <GuideComponent />;
-  }
 
-  return (
-    <Layout user={user ? user : userR}>
-      {user.newUser ? (
-        <GuideComponent />
-      ) : (
-        <div className='col-lg-6'>
-          <div className='slide-wrapperstry'>
-            <ul className='slidestry'>
-              <li className='slideitemstry'>
-                <div className='strysggstion-card'>
-                  <div className='strysggstion-img'>
-                    <img src='/assets/images/vector-34@2x.png' alt='img' />
-                  </div>
-                  <Popup trigger={<div className='add-stry'> +</div>} modal>
-                    {(close) => (
-                      <Form className='popwidth'>
-                        <div className='headpop'>
-                          <div style={{ padding: '10px' }}>
-                            <span>
-                              <a href='#!' style={{ padding: '10px 150px 10px 0' }} onClick={close}>
-                                <i className='las la-times'></i>
-                              </a>
-                            </span>
-                            <span style={{ color: '#000000', fontSize: '14px', fontWeight: 'bold' }}>
-                              Lets Add Stories
-                            </span>
-                            <span style={{ float: 'right' }}>
+  // choose a safe user once
+
+// early return (safe)
+if (activeUser?.newUser) {
+  return <GuideComponent />;
+}
+
+return (
+  <Layout user={activeUser}>
+    {activeUser?.newUser ? (
+      <GuideComponent />
+    ) : (
+      <div className=''>
+        <div className='slide-wrapperstry'>
+          <ul className='slidestry'>
+            <li className='slideitemstry'>
+              <div className='strysggstion-card'>
+                <div className='strysggstion-img'>
+                  <img src='/assets/images/vector-34@2x.png' alt='img' />
+                </div>
+
+                <Popup trigger={<div className='add-stry'> +</div>} modal>
+                  {(close) => (
+                    <Form className='popwidth'>
+                      <div className='headpop'>
+                        <div style={{ padding: '10px' }}>
+                          <span>
+                            <a
+                              href='#!'
+                              style={{ padding: '10px 150px 10px 0' }}
+                              onClick={close}
+                            >
+                              <i className='las la-times'></i>
+                            </a>
+                          </span>
+
+                          <span
+                            style={{
+                              color: '#000000',
+                              fontSize: '14px',
+                              fontWeight: 'bold',
+                            }}
+                          >
+                            Lets Add Stories
+                          </span>
+
+                          <span style={{ float: 'right' }}>
+                            <button
+                              style={{
+                                float: 'right',
+                                borderRadius: '20px',
+                                padding: '5px 20px',
+                              }}
+                              type='submit'
+                              onClick={uploadStories}
+                            >
+                              Upload
+                            </button>
+                          </span>
+                        </div>
+                      </div>
+
+                      <div style={{ margin: '0 11px 10px 11px' }}>
+                        <span className='textPop'>
+                          {showstoriesImage ? (
+                            <>
+                              <img
+                                id='preview'
+                                src={storiesImage}
+                                style={{ width: '100%' }}
+                                alt=''
+                              />
                               <button
-                                style={{ float: 'right', borderRadius: '20px', padding: '5px 20px' }}
-                                type='submit'
-                                onClick={uploadStories}
+                                onClick={handleRemoveImageStry}
+                                style={{
+                                  right: '20px',
+                                  position: 'absolute',
+                                  borderRadius: '100%',
+                                  background: '#b7b7b738',
+                                  padding: '10px 10px',
+                                }}
                               >
-                                Upload
+                                <i className='las la-times'></i>
                               </button>
-                            </span>
+                            </>
+                          ) : (
+                            <div style={{ textAlign: 'center' }}>
+                              <label className='fileContainer'>
+                                <div className='storypic' type='submit'>
+                                  <input
+                                    type='file'
+                                    name='swap_image'
+                                    accept='image/*'
+                                    onChange={handleFileStry}
+                                  />
+                                  Add Story
+                                </div>
+                              </label>
+                            </div>
+                          )}
+                        </span>
+
+                        <div className='storyErr'>
+                          {uploadErrorStory ? `${uploadErrorStory}` : null}
+                        </div>
+                      </div>
+                    </Form>
+                  )}
+                </Popup>
+
+                <label className='fileContainer'>
+                  <input
+                    id='file-input'
+                    type='file'
+                    name='stories_image'
+                    accept='image/*'
+                    onChange={handleFileStry}
+                  />
+                </label>
+
+                <div className='strysggstion-by'>
+                  <h5>Create Story</h5>
+                </div>
+              </div>
+            </li>
+
+            {storiesForUser.map((story, index) => (
+              <React.Fragment key={story.id}>
+                {story.storiesImagePath && index === 0 ? (
+                  <Popup
+                    style={{ padding: '0px' }}
+                    trigger={
+                      <li className='slideitemstry'>
+                        <StoriesComponent
+                          story={story}
+                          setRefresh={setRefresh}
+                        />
+                      </li>
+                    }
+                    modal
+                  >
+                    {(close) => (
+                      <Form className='stryp'>
+                        <div>
+                          <div className='row'>
+                            <div style={{ width: '5%' }}>
+                              <a href='#!' onClick={close}>
+                                <i
+                                  style={{
+                                    color: '#fff',
+                                    padding: '10px',
+                                    fontSize: '30px',
+                                  }}
+                                  className='las la-times'
+                                ></i>
+                              </a>
+                            </div>
                           </div>
                         </div>
-                        <div style={{ margin: '0 11px 10px 11px' }}>
-                          <span className='textPop'>
-                            {showstoriesImage ? (
-                              <>
-                                <img id='preview' src={storiesImage} style={{ width: '100%' }} />
-                                <button
-                                  onClick={handleRemoveImageStry}
-                                  style={{
-                                    right: '20px',
-                                    position: 'absolute',
-                                    borderRadius: '100%',
-                                    background: '#b7b7b738',
-                                    padding: '10px 10px',
-                                  }}
-                                >
-                                  <i className='las la-times'></i>
-                                </button>
-                              </>
-                            ) : (
-                              <div style={{ textAlign: 'center' }}>
-                                <label className='fileContainer'>
-                                  <div className='storypic' type='submit'>
-                                    <input
-                                      type='file'
-                                      name='swap_image'
-                                      accept='image/*'
-                                      onChange={handleFileStry}
-                                    ></input>
-                                    Add Story
-                                  </div>
-                                </label>
-                              </div>
-                            )}
-                          </span>
-                          <div className='storyErr'>{uploadErrorStory ? `${uploadErrorStory}` : null}</div>
-                        </div>
+                        <DisplayComponent />
                       </Form>
                     )}
                   </Popup>
-                  <label className='fileContainer'>
-                    <input
-                      id='file-input'
-                      type='file'
-                      name='stories_image'
-                      accept='image/*'
-                      onChange={handleFileStry}
-                    ></input>
-                  </label>
-                  <div className='strysggstion-by'>
-                    <h5>Create Story</h5>
-                  </div>
-                </div>
-              </li>
-              {storiesForUser.map((story, index) => (
-                <React.Fragment key={story.id}>
-                  {story.storiesImagePath && index === 0 ? (
-                    <Popup
-                      style={{ padding: '0px' }}
-                      trigger={
-                        <li className='slideitemstry'>
-                          <StoriesComponent story={story} setRefresh={setRefresh} />
-                        </li>
-                      }
-                      modal
-                    >
-                      {(close) => (
-                        <Form className='stryp'>
-                          <div>
-                            <div className='row'>
-                              <div style={{ width: '5%' }}>
-                                <a href='#!' onClick={close}>
-                                  <i
-                                    style={{ color: '#fff', padding: '10px', fontSize: '30px' }}
-                                    className='las la-times'
-                                  ></i>
-                                </a>
-                              </div>
-                            </div>
-                          </div>
-                          <DisplayComponent />
-                        </Form>
-                      )}
-                    </Popup>
-                  ) : null}
-                </React.Fragment>
-              ))}
-            </ul>
-            <div className='paddles'>
-              <button className='left-paddlestry paddle  hidden'>
-                <i className='las la-chevron-circle-left'></i>
-              </button>
-              <button className='right-paddlestry paddle'>
-                <i className='las la-chevron-circle-right'></i>
-              </button>
-            </div>
+                ) : null}
+              </React.Fragment>
+            ))}
+          </ul>
+
+          <div className='paddles'>
+            <button className='left-paddlestry paddle hidden'>
+              <i className='las la-chevron-circle-left'></i>
+            </button>
+            <button className='right-paddlestry paddle'>
+              <i className='las la-chevron-circle-right'></i>
+            </button>
           </div>
-          <div className='central-meta newsfeed'>
-            <div className='new-postbox'>
-              <figure>
-                <img
-                  src={
-                    user
-                      ? fileStorage.baseUrl + user.profilePicturePath
-                      : fileStorage.baseUrl + userR.profilePicturePath
-                  }
-                  alt=''
-                />
-              </figure>
-              <div className='newpst-input'>
-                <Form>
-                  {postUp()}
-                </Form>
-              </div>
-              <div className='attachments'>
-                <ul>
-                  <li>{hangsharePopUp()}</li>
-                  <li>{shareUp()}</li>
-                  <li>{photos()}</li>
-                  <li>{popSwap()}</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          {show()}
         </div>
-      )}
-    </Layout>
-  );
+
+        <div className='central-meta newsfeed'>
+          <div className='new-postbox'>
+            <figure>
+              <img
+                src={
+                  fileStorage.baseUrl + activeUser?.profilePicturePath
+                }
+                alt=''
+              />
+            </figure>
+
+            <div className='newpst-input'>
+              <Form>{postUp()}</Form>
+            </div>
+
+            <div className='attachments'>
+              <ul>
+                <li>{hangsharePopUp()}</li>
+                <li>{shareUp()}</li>
+                <li>{photos()}</li>
+                <li>{popSwap()}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {show()}
+      </div>
+    )}
+  </Layout>
+);
+
 }
 export default NewsfeedComponent;

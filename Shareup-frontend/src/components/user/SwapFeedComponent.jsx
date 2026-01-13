@@ -173,28 +173,35 @@ function SwapFeedComponent() {
   // }
 
   const getStoriesForUser = async () => {
-    await StoriesService.getStoriesForUser(AuthService.getCurrentUser().username).then(res => {
-      const sorting = res.data.sort(function (a, b) {
+    const jwtUser = AuthService.getCurrentUser()
+    if (!jwtUser || !jwtUser.username) return
+
+    await StoriesService.getStoriesForUser(jwtUser.username).then(res => {
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      const sorting = data.sort(function (a, b) {
         const dateA = new Date(a.date), dateB = new Date(b.date);
         return dateB - dateA;
       });
       const uniqueStories = Array.from(new Set(sorting.map(a => a.id)))
         .map(id => {
-          return res.data.find(a => a.id === id)
+          return data.find(a => a.id === id)
         })
       setStoriesForUser(uniqueStories)
     })
   }
   const getSwapsForUser = async () => {
+    const jwtUser = AuthService.getCurrentUser()
+    if (!jwtUser || !jwtUser.username) return
 
-    await SwapService.getSwapForUser(AuthService.getCurrentUser().username).then(res => {
-      const sorting = res.data.sort(function (a, b) {
+    await SwapService.getSwapForUser(jwtUser.username).then(res => {
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      const sorting = data.sort(function (a, b) {
         const dateA = new Date(a.published), dateB = new Date(b.published);
         return dateB - dateA;
       });
       const uniquePost = Array.from(new Set(sorting.map(a => a.id)))
         .map(id => {
-          return res.data.find(a => a.id === id)
+          return data.find(a => a.id === id)
         })
       setSwapsForUser(uniquePost)
       setSearchedSwap(uniquePost)
@@ -202,15 +209,18 @@ function SwapFeedComponent() {
   }
 
   const getSwapForUserFriends = async () => {
+    const jwtUser = AuthService.getCurrentUser()
+    if (!jwtUser || !jwtUser.username) return
 
-    await SwapService.getSwapForUserFriends(AuthService.getCurrentUser().username).then(res => {
-      const sorting = res.data.sort(function (a, b) {
+    await SwapService.getSwapForUserFriends(jwtUser.username).then(res => {
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      const sorting = data.sort(function (a, b) {
         const dateA = new Date(a.published), dateB = new Date(b.published);
         return dateB - dateA;
       });
       const uniquePost = Array.from(new Set(sorting.map(a => a.id)))
         .map(id => {
-          return res.data.find(a => a.id === id)
+          return data.find(a => a.id === id)
         })
       setSwapsForUserFriends(uniquePost)
       setSearchedSwapFriend(uniquePost)
@@ -278,15 +288,17 @@ function SwapFeedComponent() {
   }
   const getAllGroups = async () => {
     await GroupService.getAllGroups().then(res => {
-      setAllGroups(res.data)
-      setSearchedGroups(res.data)
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setAllGroups(data)
+      setSearchedGroups(data)
     })
   }
 
 
   const getPost = async () => {
     await PostService.getPost().then(res => {
-      setPosts(res.data)
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setPosts(data)
     })
   }
 
@@ -295,7 +307,8 @@ function SwapFeedComponent() {
 
   const getSavedPost = async () => {
     await PostService.getSavedPostForUser(AuthService.getCurrentUser().username).then(res => {
-      setSavedPost(res.data)
+      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
+      setSavedPost(data)
     })
   }
 
@@ -1405,7 +1418,9 @@ function SwapFeedComponent() {
     })
   }
   const getFriendsList = async () => {
-    await FriendsService.getFriends(AuthService.getCurrentUser().username).then(res => {
+    const jwtUser = AuthService.getCurrentUser();
+    if (!jwtUser || !jwtUser.username) return;
+    await FriendsService.getFriends(jwtUser.username).then(res => {
       setFriendsList(res.data)
     })
   }
@@ -1424,7 +1439,11 @@ const AllswapscomponentFunction = () => {
               <div style={{paddingBottom:'10px'}} key={post.id}>
                 {
                   post.group ?
-                    post.group.members.some(member => member.email === AuthService.getCurrentUser().username) ?
+                    (() => {
+                      const jwtUser = AuthService.getCurrentUser();
+                      if (!jwtUser || !jwtUser.username) return false;
+                      return post.group.members.some(member => member.email === jwtUser.username);
+                    })() ?
                       testFanc(post) : null
                     :
                     testFanc(post)
@@ -1479,7 +1498,7 @@ const AllswapscomponentFunction = () => {
 
 
   if (isLoading) {
-    return <div>Loading... Please Wait</div>
+    return <div>loading... Please wait Monica</div>
   }
 
   if (user.newUser) {
@@ -1488,7 +1507,7 @@ const AllswapscomponentFunction = () => {
 
   return (
     <Layout user={user}>
-      <div className="col-lg-6">
+      <div className="">
         <div className="central-meta swap-pg-cont">
           <div className="frnds">
             <div>

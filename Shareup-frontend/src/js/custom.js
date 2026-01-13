@@ -55,9 +55,9 @@ const CURRENT_URL = window.location.href.split('#')[0].split('?')[0],
 	
 // Sidebar
 function init_sidebar() {
-// TODO: This is some kind of easy fix, maybe we can improve this
+// Calculate and set content height dynamically
 const setContentHeight = function () {
-	// reset height
+	// reset height to window height
 	$RIGHT_COL.css('min-height', $(window).height());
 
 	let bodyHeight = $BODY.outerHeight(),
@@ -65,7 +65,7 @@ const setContentHeight = function () {
 		leftColHeight = $LEFT_COL.eq(1).height() + $SIDEBAR_FOOTER.height(),
 		contentHeight = bodyHeight < leftColHeight ? leftColHeight : bodyHeight;
 
-	// normalize content
+	// normalize content height by subtracting nav menu and footer
 	contentHeight -= $NAV_MENU.height() + footerHeight;
 
 	$RIGHT_COL.css('min-height', contentHeight);

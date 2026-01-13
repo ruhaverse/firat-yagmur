@@ -14,6 +14,16 @@ function AddFriendsComponent() {
 
 	const { user } = useContext(UserContext)
 
+	// Defensive: if user is not yet loaded (App fetches it asynchronously), show a loading state
+	if (user == null) {
+		return (
+			<Layout user={user}>
+				<div className="central-meta swap-pg-cont">
+					<div style={{ padding: 24, textAlign: 'center' }}>Loading...</div>
+				</div>
+			</Layout>
+		);
+	}
 	const [refresh, setRefresh] = useState([]);
 
 
@@ -22,6 +32,39 @@ function AddFriendsComponent() {
 	const [allUser, setAllUser] = useState([]);
 	const [friendsList, setFriendsList] = useState([]);
 	const [searchedUser, setSearchedUser] = useState([]);
+
+	const toArray = (value) => {
+		if (Array.isArray(value)) return value;
+		if (value && typeof value === 'object') {
+			const candidates = [value.users, value.results, value.items, value.content, value.data];
+			for (const candidate of candidates) {
+				if (Array.isArray(candidate)) return candidate;
+			}
+		}
+		return [];
+	}
+
+	// Normalize user object coming from API (snake_case -> camelCase)
+	const normalizeUser = (u) => {
+		if (!u || typeof u !== 'object') return u;
+		return {
+			...u,
+			id: u.id ?? u.user_id ?? u.uid ?? u.ID ?? null,
+			email: u.email ?? u.user_email ?? u.username ?? u.user ?? '',
+			firstName: u.firstName ?? u.first_name ?? u.firstname ?? '',
+			lastName: u.lastName ?? u.last_name ?? u.lastname ?? '',
+			profilePicturePath: u.profilePicturePath ?? u.profile_picture ?? u.profile_picture_path ?? u.profilePicture ?? '',
+		}
+	}
+
+	const getDisplayName = (u) => {
+		if (!u || typeof u !== 'object') return '';
+		const first = u.firstName ?? u.first_name ?? u.firstname ?? u.name ?? '';
+		const last = u.lastName ?? u.last_name ?? u.lastname ?? u.last ?? '';
+		if (first || last) return `${first} ${last}`.trim();
+		if (u.fullName || u.full_name) return u.fullName ?? u.full_name;
+		return u.email ?? u.username ?? '';
+	}
 
 	const [showComp, setShowComp] = useState("members");
 
@@ -125,13 +168,13 @@ function AddFriendsComponent() {
 
 
 	const handleFollow = (uid) => {
-		UserService.follow(user.email, uid).then(res => {
+		UserService.follow(user?.email, uid).then(res => {
 			setRefresh(res.data)
 		})
 	}
 
 	const handleUnfollow = (uid) => {
-		UserService.unfollow(user.email, uid).then(res => {
+		UserService.unfollow(user?.email, uid).then(res => {
 			setRefresh(res.data)
 		})
 	}
@@ -167,7 +210,7 @@ function AddFriendsComponent() {
 						<p style={{ fontWeight: 'medium', fontSize: '18px', color: '#646464' }}>There are no Friends!</p>}
 				</div>
 				<ul className="nearby-contct">
-					{searchedUser.map(
+					{(Array.isArray(searchedUser) ? searchedUser : []).map(
 						userM =>
 							(friendsList.some(el => el.id === userM.id)) ? null : <>
 								<li key={userM.id} className="friends-card grp">
@@ -175,31 +218,31 @@ function AddFriendsComponent() {
 										{/* <figure> */}
 										<div className="item1">
 										<a href={`/profile/${userM.email}`} title={`${userM.email}`}>
-												<img style={{ objectFit: 'cover' }} src={fileStorage.baseUrl + userM.profilePicturePath} alt="" /></a>
+												<img style={{ objectFit: 'cover' }} src={fileStorage.baseUrl + (userM.profilePicturePath || userM.profile_picture || '/default.png')} alt="" /></a>
 											{/* </figure> */}
 										</div>
 										{/* <div className="  "> */}
 										<div className="item2">
 											<p className="nameTag">
-												<a href={`/profile/${userM.email}`} title={`${userM.email}`}>{`${userM.firstName} ${userM.lastName}`}</a></p>
+												<a href={`/profile/${userM.email}`} title={`${userM.email}`}>{getDisplayName(userM)}</a></p>
 											<div style={{ fontSize: '12px', paddingTop: '5px' }}>
 
 												10 Mutual friends
 											</div>
-											{/* <button className="friends-button" onClick={() => unsendFriendRequest(user.id, userM.id)}>Request Sent</button> */}
+											{/* <button className="friends-button" onClick={() => unsendFriendRequest(user?.id, userM.id)}>Request Sent</button> */}
 
 										</div>
 										<div className="item4">
 											{
-												(user.id !== userM.id) ?
+												(user?.id !== userM.id) ?
 													(!friendsList.some(el => el.id === userM.id)) ?
 														friendRequestRecieved.some(el => el.id === userM.id)
 															?
 															<>
-																<a href="#!" title="#" className="add-butn more-action" style={{ color: "white", background: '#EAEAEA', fontSize: '12px' }} data-ripple onClick={() => acceptFriendRequest(user.id, userM.id)}>Accept Request</a>
+																<a href="#!" title="#" className="add-butn more-action" style={{ color: "white", background: '#EAEAEA', fontSize: '12px' }} data-ripple onClick={() => acceptFriendRequest(user?.id, userM.id)}>Accept Request</a>
 
 																{/* <div className="item3">
-                                                            <p><a style={{ display: "block", float: "right", color: "#fff",background:'#033347',fontSize:'12px' }} href="#" onClick={() => declineFriendRequest(user.id, userM.id)}>Decline Friend Request</a></p>
+	                                                            <p><a style={{ display: "block", float: "right", color: "#fff",background:'#033347',fontSize:'12px' }} href="#" onClick={() => declineFriendRequest(user?.id, userM.id)}>Decline Friend Request</a></p>
                                                             <br></br>
                                                             <br></br>
                                                         </div>  */}
@@ -208,18 +251,18 @@ function AddFriendsComponent() {
 															friendRequestSent.some(el => el.id === userM.id)
 																?
 
-																<a href="#!" className="button" style={{ color: "#fff", background: '#033347', fontSize: '12px' }} data-ripple onClick={() => unsendFriendRequest(user.id, userM.id)}>Unsend Request</a>
+																<a href="#!" className="button" style={{ color: "#fff", background: '#033347', fontSize: '12px' }} data-ripple onClick={() => unsendFriendRequest(user?.id, userM.id)}>Unsend Request</a>
 
 																:
 
-																<a href="#!" className="button" style={{ color: "#000000", background: '#EAEAEA', fontSize: '12px' }} data-ripple onClick={() => sendFriendRequest(user.id, userM.id)}>Send Request</a>
+																<a href="#!" className="button" style={{ color: "#000000", background: '#EAEAEA', fontSize: '12px' }} data-ripple onClick={() => sendFriendRequest(user?.id, userM.id)}>Send Request</a>
 
 														:
 														<>
 
 															<a href="#" style={{ color: "#fff", background: '#033347' }}
 
-																className="button more-action" data-ripple onClick={() => removeFriend(user.id, userM.id)}>Unfriend</a>
+																className="button more-action" data-ripple onClick={() => removeFriend(user?.id, userM.id)}>Unfriend</a>
 
 															{/* <div className="item5">
                                                      <p style={{ float: "right" }}>Already a friend</p> 
@@ -237,7 +280,7 @@ function AddFriendsComponent() {
                                 </div> */}
 
 										{
-											(user.id !== userM.id) ?
+												(user?.id !== userM.id) ?
 												(!following.some(el => el.id === userM.id)) ?
 													<div className="item7">
 														{/* <p><a className="button3" style={{ backgroundColor: "#0009b7", color: "#ffffff"}} href="#!" onClick={() => handleFollow(userM.id)} >Follow</a></p> */}
@@ -276,12 +319,12 @@ function AddFriendsComponent() {
 										{/* <div className="nearly-pepls"> */}
 										{/* <figure> */}
 										<div className="item1">
-											<a href={`/profile/${userM.email}`} title={`${userM.email}`}><img src={fileStorage.baseUrl + userM.profilePicturePath} alt="" /></a>
+											<a href={`/profile/${userM.email}`} title={`${userM.email}`}><img src={fileStorage.baseUrl + (userM.profilePicturePath || userM.profile_picture || '/default.png')} alt="" /></a>
 											{/* </figure> */}
 										</div>
 										{/* <div className="  "> */}
 										<div className="item2">
-											<p className="nameTag"><a href={`/profile/${userM.email}`} title={`${userM.email}`}>{`${userM.firstName} ${userM.lastName}`}</a></p>
+											<p className="nameTag"><a href={`/profile/${userM.email}`} title={`${userM.email}`}>{getDisplayName(userM)}</a></p>
 											<div style={{ fontSize: '12px', paddingTop: '5px' }}>
 												10 Mutual friends
 											</div>
@@ -289,7 +332,7 @@ function AddFriendsComponent() {
 										</div>
 										<div className="item4">
 
-											<a href="#" className="add-butn more-action" data-ripple onClick={() => handleUnfollow(userM.id)}>unfollow</a>
+											<a href="#" className="add-butn more-action" data-ripple onClick={() => handleUnfollow(userM.id)}>UNFOLLOW</a>
 
 										</div>
 
@@ -299,7 +342,7 @@ function AddFriendsComponent() {
                                         <i style={{ float: "right", fontSize: 35 }} className="las la-ellipsis-v"></i>
                                     </div> */}
 										{/* <div className="pepl-info">
-                                            <h4><a href={`/profile/${userM.email}`} title={`${userM.email}`}>{`${userM.firstName} ${userM.lastName}`}</a></h4>
+											<h4><a href={`/profile/${userM.email}`} title={`${userM.email}`}>{getDisplayName(userM)}</a></h4>
                                             <p><a href={`/profile/${userM.email}`} title={`${userM.email}`}>{`${userM.email}`}</a></p>
                                             <span>Engr</span>
                                             <a href="#" title="#" className="add-butn more-action" data-ripple onClick={() => handleUnfollow(userM.id)}>unfollow</a>
@@ -336,7 +379,7 @@ function AddFriendsComponent() {
 										</div>
 										{/* <div className="  "> */}
 										<div className="item2">
-											<p className="nameTag"><a href={`/profile/${userM.email}`} title={`${userM.email}`}>{`${userM.firstName} ${userM.lastName}`}</a></p>
+											<p className="nameTag"><a href={`/profile/${userM.email}`} title={`${userM.email}`}>{getDisplayName(userM)}</a></p>
 											{/* <button className="friends-button">Request Sent</button> */}
 
 											<div style={{ fontSize: '12px', paddingTop: '5px' }}>10 Mutual friends</div>
@@ -349,7 +392,7 @@ function AddFriendsComponent() {
 											<a href="#" className="add-butn more-action" data-ripple onClick={() => handleUnfollow(userM.id)}>unfollow</a>
 										</div>
 										{/* <div className="pepl-info">
-                                            <h4><a href={`/profile/${userM.email}`} title={`${userM.email}`}>{`${userM.firstName} ${userM.lastName}`}</a></h4>
+											<h4><a href={`/profile/${userM.email}`} title={`${userM.email}`}>{getDisplayName(userM)}</a></h4>
                                             <p><a href={`/profile/${userM.email}`} title={`${userM.email}`}>{`${userM.email}`}</a></p>
                                             <span>Engr</span>
                                           
@@ -447,17 +490,21 @@ function AddFriendsComponent() {
 
 	const getAllUser = async () => {
 		await UserService.getUsers().then(res => {
-			setAllUser(res.data)
-			setSearchedUser(res.data)
-			setSearchedFollowing(res.data)
-			setSearchedFollowers(res.data)
-
+			const users = toArray(res?.data).map(normalizeUser);
+			setAllUser(users)
+			setSearchedUser(users)
+			setSearchedFollowing(users)
+			setSearchedFollowers(users)
 		})
 	}
 
 	const getFriendsList = async () => {
-		await FriendsService.getFriends(AuthService.getCurrentUser().username).then(res => {
-			setFriendsList(res.data)
+		const jwtUser = AuthService.getCurrentUser();
+		const email = user?.email ?? jwtUser?.username;
+		if (!email) return;
+		await FriendsService.getFriends(email).then(res => {
+			const friends = toArray(res?.data).map(normalizeUser)
+			setFriendsList(friends)
 		})
 	}
 
@@ -479,14 +526,22 @@ function AddFriendsComponent() {
 	// }
 
 	const getAllFriendRequestSent = async () => {
-		await UserService.getFriendRequestSent(AuthService.getCurrentUser().username).then(res => {
-			setFriendRequestSent(res.data)
+		const jwtUser = AuthService.getCurrentUser();
+		const email = user?.email ?? jwtUser?.username;
+		if (!email) return;
+		await UserService.getFriendRequestSent(email).then(res => {
+			const sent = toArray(res?.data).map(normalizeUser)
+			setFriendRequestSent(sent)
 		})
 	}
 
 	const getAllFriendRequestRecieved = async () => {
-		await UserService.getFriendRequestRecieved(AuthService.getCurrentUser().username).then(res => {
-			setFriendRequestRecieved(res.data)
+		const jwtUser = AuthService.getCurrentUser();
+		const email = user?.email ?? jwtUser?.username;
+		if (!email) return;
+		await UserService.getFriendRequestRecieved(email).then(res => {
+			const rec = toArray(res?.data).map(normalizeUser)
+			setFriendRequestRecieved(rec)
 		})
 	}
 
@@ -517,7 +572,7 @@ function AddFriendsComponent() {
 		getAllFriendRequestSent()
 		getAllFriendRequestRecieved()
 
-	}, [showComp, refresh])
+	}, [showComp, refresh, user])
 
 	useEffect(() => {
 		testScript()
@@ -526,7 +581,7 @@ function AddFriendsComponent() {
 
 	return (
 		<Layout user={user}>
-			<div className="col-lg-6">
+			<div className="">
 				<div className="central-meta swap-pg-cont">
 					<div className="frnds">
 						{/* <ul className="nav nav-tabs"> */}

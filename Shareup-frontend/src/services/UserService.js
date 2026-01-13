@@ -12,7 +12,7 @@ const authenticate = () => {
             baseURL: `${my_api}/api/v1/`,
             headers: {
                 'Authorization': `Bearer ${AuthService.getCurrentUser().jwt}`,
-                'Access-Control-Allow-Origin': "*"
+               
             }
         })
     }else{
@@ -37,7 +37,8 @@ class UserService {
     createUser = async (user) => {
         try {
             authenticate();
-            const result = await axios.post(`${my_api}/api/v1/users/`, user)
+            // Backend expects POST /api/v1/users/register
+            const result = await axios.post(`${my_api}/api/v1/users/register`, user);
             return result;
         } catch (error) {
             logger.error('UserService.createUser failed:', error);
@@ -104,7 +105,9 @@ class UserService {
 
     getFollowers = async (email) => {
         try {
-            const result = await authAxios.get(`${email}/followers`)
+            authenticate();
+            const encoded = encodeURIComponent(email);
+            const result = await authAxios.get(`users/${encoded}/followers`)
             return result
         } catch (error) {
             logger.error('UserService.getFollowers failed:', error);
@@ -114,7 +117,9 @@ class UserService {
 
     getFollowing = async (email) => {
         try {
-            const result = await authAxios.get(`${email}/following`)
+            authenticate();
+            const encoded = encodeURIComponent(email);
+            const result = await authAxios.get(`users/${encoded}/following`)
             return result
         } catch (error) {
             logger.error('UserService.getFollowing failed:', error);
@@ -123,13 +128,67 @@ class UserService {
     }
 
     getFriendRequestSent = async (email) => {
-        const result = await authAxios.get(`${email}/friend_request_sent`)
-        return result
+        try {
+            authenticate();
+            const encoded = encodeURIComponent(email);
+
+            // Try a few common endpoint patterns; treat 404 as "not supported".
+            const tryPaths = [
+                // New backend friends endpoints
+                `friends/email/${encoded}/requests_sent`,
+                `friends/email/${encoded}/requestsSent`,
+                // Legacy/alternate patterns
+                `users/${encoded}/friend_request_sent`,
+                `${encoded}/friend_request_sent`,
+            ];
+
+            for (const path of tryPaths) {
+                try {
+                    return await authAxios.get(path);
+                } catch (error) {
+                    if (error?.response?.status === 404) continue;
+                    throw error;
+                }
+            }
+
+            return { data: [] };
+        } catch (error) {
+            logger.error('UserService.getFriendRequestSent failed:', error);
+            throw error;
+        }
     }
 
     getFriendRequestRecieved = async (email) => {
-        const result = await authAxios.get(`${email}/friend_request_recieved`)
-        return result
+        try {
+            authenticate();
+            const encoded = encodeURIComponent(email);
+
+            // Some backends spell "received" correctly; legacy code uses "recieved".
+            const tryPaths = [
+                // New backend friends endpoints
+                `friends/email/${encoded}/requests_received`,
+                `friends/email/${encoded}/requests_recieved`,
+                // Legacy/alternate patterns
+                `users/${encoded}/friend_request_received`,
+                `users/${encoded}/friend_request_recieved`,
+                `${encoded}/friend_request_received`,
+                `${encoded}/friend_request_recieved`,
+            ];
+
+            for (const path of tryPaths) {
+                try {
+                    return await authAxios.get(path);
+                } catch (error) {
+                    if (error?.response?.status === 404) continue;
+                    throw error;
+                }
+            }
+
+            return { data: [] };
+        } catch (error) {
+            logger.error('UserService.getFriendRequestRecieved failed:', error);
+            throw error;
+        }
     }
 
     follow = async (email,followed_id) => {

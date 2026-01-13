@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import './App.css';
 import './css/main.min.css';
 import './css/style.css';
@@ -52,6 +52,8 @@ import MessagesComponent from './components/Messages/MessagesComponent';
 import LocationComponent from './components/AccountSettings/LocationComponent';
 import SearchFeedComponent from './components/user/SearchFeedComponent';
 
+import ForgotPasswordComponent from './components/user/ForgotPasswordComponent.jsx';
+
 
 
 
@@ -84,20 +86,67 @@ function App() {
   const [jwtUser, setJwtUser] = useState(AuthService.getCurrentUser())
   const [user, setUser] = useState([])
 
-  const userAuthenticator = async () => {
-    await AuthService.setCurrentUser(jwtUser)
-    let user = null
-    if (jwtUser && jwtUser.username) {
-      user = await UserService.getUserByEmail(jwtUser.username).then(res => {
-        return res.data
-      })
-    }
-    setUser(user)
-  }
+  const authKey = useMemo(() => {
+    const username = jwtUser?.username || '';
+    const jwt = jwtUser?.jwt || '';
+    return `${username}|${jwt}`;
+  }, [jwtUser?.username, jwtUser?.jwt]);
+
+  const lastAuthKeyRef = useRef(null);
+  const inFlightRef = useRef(false);
 
   useEffect(() => {
-    userAuthenticator()
-  }, [jwtUser]);
+    // Not logged in (or invalid), do not overwrite stored auth
+    if (!jwtUser?.jwt || !jwtUser?.username) {
+      lastAuthKeyRef.current = null;
+      setUser(null);
+      return;
+    }
+
+    // Dedupe: only fetch once per unique authKey
+    if (lastAuthKeyRef.current === authKey || inFlightRef.current) {
+      return;
+    }
+
+    lastAuthKeyRef.current = authKey;
+    inFlightRef.current = true;
+    let cancelled = false;
+
+    (async () => {
+      try {
+        await AuthService.setCurrentUser(jwtUser);
+        const res = await UserService.getUserByEmail(jwtUser.username);
+        if (!cancelled) {
+          // axios response body is { data: <user> } so prefer res.data.data
+          const u = res.data?.data ?? res.data ?? {};
+          const normalized = {
+            id: u.id,
+            email: u.email || u.email_address,
+            firstName: u.first_name || u.firstName || '',
+            lastName: u.last_name || u.lastName || '',
+            profilePicturePath: u.profile_picture || u.profilePicturePath || '',
+            bio: u.bio || '',
+            location: u.location || ''
+          };
+          setUser(normalized);
+        }
+      } catch (err) {
+        const status = err?.response?.status;
+        if (status === 429) {
+          // Rate-limited: don't crash the app; keep current user state as-is.
+          console.warn('Rate limited (429) while fetching user; will not retry immediately.');
+        } else {
+          console.error('userAuthenticator error:', err);
+        }
+      } finally {
+        inFlightRef.current = false;
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [authKey, jwtUser]);
 
   // useEffect(() => {
   //   AuthService.setCurrentUser(jwtUser)
@@ -118,6 +167,9 @@ Giphy();
           <Route path="/privacyPolicy">
             <PrivacyPolicyComponent/>
           </Route>
+          <Route path="/forgot-password" exact>
+            <ForgotPasswordComponent />
+          </Route>
           <ProtectedRoute path="/newsfeed" component={NewsfeedComponent}></ProtectedRoute>
           <ProtectedRoute path="/shareFeed" component={ShareFeedComponent}></ProtectedRoute>
           <ProtectedRoute path="/notifications" component={NotificationChatComponent}></ProtectedRoute>
@@ -127,7 +179,7 @@ Giphy();
           <ProtectedRoute path="/groups/:id" component={ViewGroupComponent}></ProtectedRoute>
           <ProtectedRoute path="/groups/" component={GroupComponent}></ProtectedRoute>
           <ProtectedRoute path="/profile/:email" component={OtherProfileComponent}></ProtectedRoute>
-          <ProtectedRoute path="/profile" component={ProfileComponent}></ProtectedRoute>
+          <ProtectedRoute path="/" exact component={ProfileComponent}></ProtectedRoute>
           <ProtectedRoute path="/Addfriends" component={AddFriendsComponent}></ProtectedRoute>
           <ProtectedRoute path="/friends" component={FriendsComponent}></ProtectedRoute>
           <ProtectedRoute path="/chat" component={ChatComponent}></ProtectedRoute>

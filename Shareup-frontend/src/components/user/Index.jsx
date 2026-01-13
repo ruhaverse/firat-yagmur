@@ -221,16 +221,13 @@ const onSubmit = async (data) => {
 
       const res = await UserService.createUser(user);
       // show success and switch to login view
-      setRegisterSuccessful(
-        <h1 className="successfull-msg" style={{ fontSize: '30px', color: 'green', textAlign: 'center' }}>
-          Your Account Is Successfully Registered
-        </h1>
-      );
+      setRegisterSuccessful('Your Account Is Successfully Registered');
       setTimeout(() => {
-        const el = document.querySelector('.successfull-msg');
-        if (el) el.style.display = 'none';
-      }, 4000);
-      setShowComponent('login');
+        setRegisterSuccessful('');
+        setShowComponent('login');
+      }, 2000);
+      // optional: navigate to home or auto-login
+      // history.push('/');
       // optional: navigate to home or auto-login
       // history.push('/');
       return res;

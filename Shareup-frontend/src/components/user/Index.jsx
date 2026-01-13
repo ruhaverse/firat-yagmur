@@ -254,37 +254,33 @@ const onSubmit = async (data) => {
   }
 
   const validateLogin = (event) => {
-    event.preventDefault()
-    setAllFieldFillError("")
-    setEmailError("")
-    setPasswordError("")
-    setLoginError("")
-    let validated = true
+    event.preventDefault();
+    setAllFieldFillError("");
+    setEmailError("");
+    setPasswordError("");
+    setLoginError("");
+    let validated = true;
 
-    if (email == '') {
-    document.getElementById('email-empty').innerHTML="Please enter email";
-    // document.getElementById('loginemail').style.border="2px solid red";
-    document.querySelector('.input-error-icon').style.visibility="visible";
-
+    if (!email || email.trim() === '') {
+      const emailEmptyEl = document.getElementById('email-empty');
+      if (emailEmptyEl) emailEmptyEl.innerHTML = "Please enter email";
+      const iconEl = document.querySelector('.input-error-icon');
+      if (iconEl) iconEl.style.visibility = "visible";
       validated = false;
     }
-    if (password == '') {
-    document.getElementById('password-empty').innerHTML="Please enter password";
-    // document.getElementById('loginpassword').style.border="2px solid red";
-    document.querySelector('.input-error-icon2').style.visibility="visible";
-
-
-
+    
+    if (!password || password.trim() === '') {
+      const passwordEmptyEl = document.getElementById('password-empty');
+      if (passwordEmptyEl) passwordEmptyEl.innerHTML = "Please enter password";
+      const iconEl = document.querySelector('.input-error-icon2');
+      if (iconEl) iconEl.style.visibility = "visible";
       validated = false;
     }
 
-    if(email){
-      if (!email.includes('@')) {
-      document.getElementById('email-empty').innerHTML="Please include @";
-  
-        validated = false;
-      }
-
+    if (email && !email.includes('@')) {
+      const emailEmptyEl = document.getElementById('email-empty');
+      if (emailEmptyEl) emailEmptyEl.innerHTML = "Please include @";
+      validated = false;
     }
     
     if (validated) {
@@ -294,32 +290,59 @@ const onSubmit = async (data) => {
 
 
   const handleLogin = async () => {
-
-    await AuthService.login(email, password).then(res => {
+    setLoginError("");
+    try {
+      const res = await AuthService.login(email, password);
       const jwtUser = AuthService.getCurrentUser();
-      set(jwtUser)
-      getUser(jwtUser && jwtUser.username)
-      history.push("/newsfeed")
-    },
-      error => {
-        const resMessage = (error.response && error.response.data && error.response.data.message)
-          || error.message || error.toString();
-        setLoginError("Incorrect Email and or Password")
-      });
+      
+      // Ensure jwtUser exists and has required fields
+      if (jwtUser && jwtUser.jwt) {
+        if (typeof set === 'function') {
+          set(jwtUser);
+        }
+        // Use email from jwtUser since that's what's stored
+        await getUser(jwtUser.username || jwtUser.user?.email);
+        history.push("/newsfeed");
+      } else {
+        setLoginError("Login failed: Invalid token received");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      // Improved error handling - check for error property first (backend returns 'error')
+      let resMessage = "Incorrect Email and/or Password";
+      if (error.response?.data) {
+        resMessage = error.response.data.error || error.response.data.message || resMessage;
+      } else if (error.message) {
+        resMessage = error.message;
+      }
+      setLoginError(resMessage);
+    }
   }
 
   const handleLoginAutomatically = async () => {
-
-    await AuthService.login(email, password).then(res => {
+    setLoginError("");
+    try {
+      const res = await AuthService.login(email, password);
       const jwtUser = AuthService.getCurrentUser();
-      set(jwtUser)
-      getUser(jwtUser && jwtUser.username)
-    },
-      error => {
-        const resMessage = (error.response && error.response.data && error.response.data.message)
-          || error.message || error.toString();
-        setLoginError("Incorrect Email and or Password")
-      });
+      
+      if (jwtUser && jwtUser.jwt) {
+        if (typeof set === 'function') {
+          set(jwtUser);
+        }
+        await getUser(jwtUser.username || jwtUser.user?.email);
+      } else {
+        setLoginError("Login failed: Invalid token received");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      let resMessage = "Incorrect Email and/or Password";
+      if (error.response?.data) {
+        resMessage = error.response.data.error || error.response.data.message || resMessage;
+      } else if (error.message) {
+        resMessage = error.message;
+      }
+      setLoginError(resMessage);
+    }
   }
   
   const handleShow = () => {

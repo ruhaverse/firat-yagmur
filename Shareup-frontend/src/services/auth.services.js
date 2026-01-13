@@ -4,6 +4,20 @@ import logger from "../utils/logger";
 
 const my_api = `${settings.apiUrl}/api/v1/users`;
 
+// Add response interceptor to improve error handling
+axios.interceptors.response.use(
+  response => response,
+  error => {
+    // Enhance error messages from backend
+    if (error.response?.data?.error) {
+      error.response.data.message = error.response.data.error;
+    }
+    return Promise.reject(error);
+  }
+);
+
+const my_api = `${settings.apiUrl}/api/v1/users`;
+
 class AuthService {
   /**
    * Login user and store JWT token

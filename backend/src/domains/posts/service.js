@@ -97,6 +97,16 @@ module.exports = function createService(deps) {
     return true;
   }
 
+  async function deleteComment(commentId, userId) {
+    // Check if comment exists and belongs to user
+    const check = await db.query('SELECT user_id FROM comments WHERE id = $1', [commentId]);
+    if (check.rowCount === 0) throw new Error('Comment not found');
+    if (check.rows[0].user_id !== userId) throw new Error('Not authorized');
+    
+    await db.query('DELETE FROM comments WHERE id = $1', [commentId]);
+    return true;
+  }
+
   return {
     getPosts,
     getPostById,
@@ -109,5 +119,6 @@ module.exports = function createService(deps) {
     getPostComments,
     toggleSave,
     deletePost,
+    deleteComment,
   };
 };

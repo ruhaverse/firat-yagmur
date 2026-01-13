@@ -8,8 +8,9 @@ module.exports = function createAuthRoutes({ router, deps }) {
   // POST /api/v1/auth/login
   router.post('/login', controller.login);
 
-  // GET /api/v1/users/profile
+  // GET /api/v1/users/profile (and /me alias)
   router.get('/profile', auth.requireAuth, controller.getProfile);
+  router.get('/me', auth.requireAuth, controller.getProfile);
 
   // GET /api/v1/users/:email
   router.get('/:email', controller.getUserByEmail);

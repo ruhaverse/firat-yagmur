@@ -61,7 +61,8 @@ class PostService {
     createPost = async (userId, formdata, userTagId) => {
         try {
             authenticate();
-            const result = await authAxios.post(`posts/${userId}`,formdata, { params: { userTagId }}
+            // Backend expects POST /api/v1/posts/ (userId comes from JWT token)
+            const result = await authAxios.post(`posts/`, formdata, { params: { userTagId }}
         )
             return result
         } catch (error) {
@@ -95,7 +96,8 @@ class PostService {
     addComment = async (userid, postid, comment) => {
         try {
             authenticate();
-            const result = await authAxios.post(`comment/${userid}/${postid}`, comment)
+            // Backend expects POST /api/v1/posts/:id/comment
+            const result = await authAxios.post(`posts/${postid}/comment`, comment)
             return result
         } catch (error) {
             logger.error('PostService.addComment failed:', error);
@@ -106,7 +108,8 @@ class PostService {
     deleteComment = async (commentid) => {
         try {
             authenticate();
-            const result = await authAxios.delete(`comment/${commentid}`)
+            // Backend expects DELETE /api/v1/posts/comments/:id
+            const result = await authAxios.delete(`posts/comments/${commentid}`)
             return result
         } catch (error) {
             logger.error('PostService.deleteComment failed:', error);

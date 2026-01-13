@@ -184,11 +184,29 @@ const makeController = (deps) => {
     } catch (err) { next(err); }
   }
 
+  async function deleteComment(req, res, next) {
+    try {
+      const commentId = parseInt(req.params.id, 10);
+      const userId = req.user && req.user.id;
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+      if (!commentId) return res.status(400).json({ error: 'Invalid comment id' });
+
+      // Delete comment (service should check ownership)
+      await postsService.deleteComment(commentId, userId);
+      res.json({ message: 'Comment deleted successfully' });
+    } catch (err) { 
+      if (err.message === 'Comment not found') return res.status(404).json({ error: err.message });
+      if (err.message === 'Not authorized') return res.status(403).json({ error: err.message });
+      next(err); 
+    }
+  }
+
   return {
     getPosts,
     getPostById,
     createPost,
     deletePost,
+    deleteComment,
     listPostsByEmail,
     listSavedPostsByEmail,
     updatePost,

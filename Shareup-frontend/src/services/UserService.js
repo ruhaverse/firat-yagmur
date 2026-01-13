@@ -238,7 +238,8 @@ class UserService {
     likePost = async (uid,pid) => {
         try {
             authenticate();
-            const result = await authAxios.put(`/posts/${uid}/like-unlike/${pid}`,{emoji:"like"})
+            // Backend expects POST /api/v1/posts/:pid/like
+            const result = await authAxios.post(`posts/${pid}/like`,{emoji:"like"})
             return result
         } catch (error) {
             logger.error('UserService.likePost failed:', error);
@@ -249,7 +250,8 @@ class UserService {
     savePost = async (uid,pid) => {
         try {
             authenticate();
-            const result = await authAxios.put(`/posts/${uid}/save-unsave/${pid}`)
+            // Backend expects POST /api/v1/posts/:pid/save
+            const result = await authAxios.post(`posts/${pid}/save`)
             return result
         } catch (error) {
             logger.error('UserService.savePost failed:', error);

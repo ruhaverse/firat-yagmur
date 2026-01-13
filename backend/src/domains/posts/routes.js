@@ -23,4 +23,5 @@ module.exports = function createRoutes({ router, deps }) {
 
   // Comments
   router.post('/:id/comment', auth.requireAuth, controller.commentOnPost); // Add comment
+  router.delete('/comments/:id', auth.requireAuth, controller.deleteComment); // Delete comment
 };

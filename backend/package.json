@@ -4,8 +4,8 @@
   "private": true,
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
+    "start": "node server.js",
+    "dev": "nodemon server.js",
     "lint": "eslint \"src/**/*.{js,jsx,cjs,mjs}\" --max-warnings=0",
     "lint:fix": "eslint \"src/**/*.{js,jsx,cjs,mjs}\" --fix",
     "migrate": "node src/migrate.js",

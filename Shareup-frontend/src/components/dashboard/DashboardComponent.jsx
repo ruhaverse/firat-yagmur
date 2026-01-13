@@ -1,21 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class DashboardComponent extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
+function DashboardComponent() {
+    return (
+        <div>
             
-        }
-    }
-    
-    render() {
-        return (
-            <div>
-                
-            </div>
-        );
-    }
+        </div>
+    );
 }
 
 export default DashboardComponent;

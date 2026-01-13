@@ -4,6 +4,7 @@ const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const compression = require('compression');
 const deps = require('./common');
 const logger = deps.logger;
 const pinoHttp = require('pino-http');
@@ -14,6 +15,18 @@ const app = express();
 
 const PORT = config.port;
 const API_BASE = config.apiBase;
+
+// Compression middleware (mobile optimization)
+app.use(compression({
+  threshold: 1024, // Only compress responses > 1KB
+  filter: (req, res) => {
+    // Don't compress images/videos
+    if (req.headers['accept']?.includes('image') || req.headers['accept']?.includes('video')) {
+      return false;
+    }
+    return compression.filter(req, res);
+  }
+}));
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
@@ -91,7 +104,44 @@ app.use(
 );
 
 // serve uploads directory for local dev (storage.makeFileUrl points to /uploads/<filename>)
-app.use('/uploads', express.static(path.resolve(__dirname, '../uploads')));
+// Dynamic image resizing support for mobile optimization
+const { resizeImage } = deps.services.storage;
+
+app.get('/uploads/:filename', async (req, res, next) => {
+	try {
+		const { filename } = req.params;
+		const { size } = req.query; // ?size=small|medium|large|thumbnail
+		const filepath = path.resolve(__dirname, '../uploads', filename);
+
+		// Check if file exists
+		if (!fs.existsSync(filepath)) {
+			return res.status(404).json({ error: 'File not found' });
+		}
+
+		// If size parameter is provided and it's an image, resize it
+		if (size && ['thumbnail', 'small', 'medium', 'large'].includes(size)) {
+			const buffer = await resizeImage(filepath, size);
+			res.set('Content-Type', 'image/jpeg');
+			res.set('Cache-Control', 'public, max-age=31536000'); // 1 year cache
+			res.set('X-Image-Size', size); // Debug header
+			return res.send(buffer);
+		}
+
+		// Otherwise serve original file with cache headers
+		res.set('Cache-Control', 'public, max-age=31536000');
+		res.sendFile(filepath);
+	} catch (error) {
+		logger.error({ err: error }, 'Image serving error');
+		next(error);
+	}
+});
+
+// Fallback static serving (if dynamic route doesn't match)
+app.use('/uploads', express.static(path.resolve(__dirname, '../uploads'), {
+	maxAge: '1y',
+	etag: true,
+	lastModified: true
+}));
 
 // health
 app.get('/', (req, res) => res.json({ ok: true, service: 'shareup-backend' }));

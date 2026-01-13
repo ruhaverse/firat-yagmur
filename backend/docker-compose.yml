@@ -17,6 +17,8 @@ services:
       # Do not include "- .:/app" in production, only for dev convenience.
       # In production remove the host mount and rebuild the image so code is baked into the image.
       - backend-node-modules:/app/node_modules
+    environment:
+      - DOCKER=true
     env_file:
       - ./.env
     ports:

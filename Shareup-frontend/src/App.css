@@ -930,3 +930,304 @@ position: absolute;
   font-size: 24px;
   padding-top: 150px;
 }
+
+/* ========================================
+   MOBILE-FIRST RESPONSIVE DESIGN
+   Perfect display on ALL devices
+   ======================================== */
+
+/* Touch-friendly button sizes (minimum 44x44px for mobile) */
+button, .button, a.btn {
+  min-height: 44px;
+  min-width: 44px;
+  touch-action: manipulation;
+}
+
+/* Prevent text size adjustment on mobile */
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+/* Smooth scrolling for all devices */
+* {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Image optimization - prevent layout shifts */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Responsive images with lazy loading support */
+img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+img[loading="lazy"].loaded {
+  opacity: 1;
+}
+
+/* ========================================
+   MOBILE DEVICES (320px - 767px)
+   ======================================== */
+@media only screen and (max-width: 767px) {
+  /* Grid layouts to single column */
+  .grid-container,
+  .grid-containeraudience,
+  .grid-containerChat {
+    grid-template-columns: 1fr !important;
+    grid-gap: 10px !important;
+    padding: 10px;
+  }
+
+  /* Card grids to single column */
+  .card-grid {
+    grid-template-columns: 1fr !important;
+    grid-gap: 15px !important;
+  }
+
+  /* Full-width containers */
+  .container,
+  .content-wrapper {
+    width: 100% !important;
+    padding: 10px !important;
+    box-sizing: border-box;
+  }
+
+  /* Responsive text sizing */
+  h1 { font-size: 24px !important; }
+  h2 { font-size: 20px !important; }
+  h3 { font-size: 18px !important; }
+  h4 { font-size: 16px !important; }
+  p, span, div { font-size: 14px !important; }
+
+  /* Responsive buttons */
+  .button, button {
+    width: 100% !important;
+    margin-bottom: 10px !important;
+    padding: 12px !important;
+  }
+
+  /* Hide sidebars on mobile */
+  .sidebar,
+  .left-sidebar,
+  .right-sidebar {
+    display: none !important;
+  }
+
+  /* Full-width forms */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  textarea,
+  select {
+    width: 100% !important;
+    font-size: 16px !important; /* Prevent zoom on iOS */
+  }
+
+  /* Responsive navigation */
+  nav,
+  .navbar {
+    flex-direction: column !important;
+  }
+
+  .nav-item {
+    width: 100% !important;
+    text-align: center;
+    padding: 10px !important;
+  }
+
+  /* Modal full-screen on mobile */
+  .modal-content,
+  .popup {
+    width: 95vw !important;
+    max-height: 90vh !important;
+    margin: 5vh auto !important;
+  }
+
+  /* Responsive posts/cards */
+  .post,
+  .card {
+    width: 100% !important;
+    margin: 10px 0 !important;
+  }
+
+  /* Image posts */
+  .post-image,
+  .feed-image {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Reels responsive */
+  .reelvideo,
+  .add-reel {
+    width: 100% !important;
+    max-width: 300px !important;
+    height: auto !important;
+    aspect-ratio: 9/16;
+    margin: 10px auto !important;
+  }
+}
+
+/* ========================================
+   SMALL MOBILE (320px - 480px)
+   ======================================== */
+@media only screen and (max-width: 480px) {
+  body {
+    font-size: 14px !important;
+  }
+
+  h1 { font-size: 20px !important; }
+  h2 { font-size: 18px !important; }
+  h3 { font-size: 16px !important; }
+
+  /* Extra compact spacing */
+  .container {
+    padding: 5px !important;
+  }
+
+  /* Smaller buttons on very small screens */
+  .button-small {
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+  }
+}
+
+/* ========================================
+   TABLETS (768px - 1024px)
+   ======================================== */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  /* 2-column grid on tablets */
+  .grid-container {
+    grid-template-columns: 1fr 2fr !important;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    grid-gap: 20px !important;
+  }
+
+  /* Show sidebar but narrower */
+  .sidebar {
+    width: 200px !important;
+  }
+
+  /* Responsive text for tablets */
+  h1 { font-size: 28px !important; }
+  h2 { font-size: 24px !important; }
+  h3 { font-size: 20px !important; }
+}
+
+/* ========================================
+   LANDSCAPE MODE (all devices)
+   ======================================== */
+@media only screen and (orientation: landscape) and (max-height: 600px) {
+  /* Reduce header height in landscape */
+  header,
+  .navbar {
+    height: 50px !important;
+    padding: 5px !important;
+  }
+
+  /* Compact modal height */
+  .modal-content {
+    max-height: 85vh !important;
+    overflow-y: auto !important;
+  }
+}
+
+/* ========================================
+   LARGE SCREENS (1025px+)
+   ======================================== */
+@media only screen and (min-width: 1025px) {
+  /* 3-column layout */
+  .grid-container {
+    grid-template-columns: 0.5fr 1fr 0.5fr !important;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+
+  /* Max-width for readability */
+  .content-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+}
+
+/* ========================================
+   EXTRA LARGE SCREENS (1440px+)
+   ======================================== */
+@media only screen and (min-width: 1440px) {
+  .card-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+
+  .container {
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+}
+
+/* ========================================
+   HIGH DPI / RETINA DISPLAYS
+   ======================================== */
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+       only screen and (min-resolution: 192dpi) {
+  /* Use 2x images for retina */
+  img {
+    image-rendering: -webkit-optimize-contrast;
+  }
+}
+
+/* ========================================
+   DARK MODE SUPPORT
+   ======================================== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #1a1a1a;
+    --text-color: #ffffff;
+    --border-color: #333333;
+  }
+
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+  }
+
+  .card,
+  .post {
+    background-color: #2a2a2a;
+    border-color: var(--border-color);
+  }
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+@media print {
+  /* Hide non-essential elements */
+  .sidebar,
+  .navbar,
+  .button,
+  button {
+    display: none !important;
+  }
+
+  /* Optimize for printing */
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+}

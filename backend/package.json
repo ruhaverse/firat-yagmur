@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "compression": "^1.8.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
@@ -24,6 +25,7 @@
     "pino": "^8.14.0",
     "pino-http": "^8.6.0",
     "rotating-file-stream": "^3.2.7",
+    "sharp": "^0.34.5",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

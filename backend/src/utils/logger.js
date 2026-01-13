@@ -3,7 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const rfs = require('rotating-file-stream');
 
-const isProd = process.env.NODE_ENV === 'production';
+// Force production mode in Docker to avoid pino-pretty
+const isProd = process.env.NODE_ENV === 'production' || !process.env.NODE_ENV || process.env.DOCKER === 'true';
 const level = process.env.LOG_LEVEL || (isProd ? 'info' : 'debug');
 
 function createRotatingStream() {

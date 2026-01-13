@@ -3,7 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const rfs = require('rotating-file-stream');
 
-const isProd = process.env.NODE_ENV === 'production';
+// Force production mode in Docker to avoid pino-pretty
+const isProd = process.env.NODE_ENV === 'production' || !process.env.NODE_ENV || process.env.DOCKER === 'true';
 const level = process.env.LOG_LEVEL || (isProd ? 'info' : 'debug');
 
 function createRotatingStream() {
@@ -37,16 +38,21 @@ function createRotatingStream() {
 let logger;
 
 if (!isProd) {
-  const transport = pino.transport({
-    target: 'pino-pretty',
-    options: {
-      colorize: true,
-      translateTime: 'SYS:standard',
-      ignore: 'pid,hostname'
-    }
-  });
-
-  logger = pino({ level, base: null, timestamp: pino.stdTimeFunctions.isoTime, serializers: { err: pino.stdSerializers.err } }, transport);
+  // Development: Use pino-pretty if available, otherwise plain JSON
+  try {
+    const transport = pino.transport({
+      target: 'pino-pretty',
+      options: {
+        colorize: true,
+        translateTime: 'SYS:standard',
+        ignore: 'pid,hostname'
+      }
+    });
+    logger = pino({ level, base: null, timestamp: pino.stdTimeFunctions.isoTime, serializers: { err: pino.stdSerializers.err } }, transport);
+  } catch (err) {
+    // pino-pretty not available (e.g., in --omit=dev builds), use plain JSON
+    logger = pino({ level, base: null, timestamp: pino.stdTimeFunctions.isoTime, serializers: { err: pino.stdSerializers.err } });
+  }
 } else {
   const stream = createRotatingStream();
   if (stream) {

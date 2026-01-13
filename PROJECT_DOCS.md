@@ -1,7 +1,8 @@
 # 📘 Shareup Project Documentation
 
-**Last Updated:** November 11, 2025  
-**Repository:** [Shareup-frontend](https://github.com/Shareup-dev/Shareup-frontend)
+**Last Updated:** January 13, 2026  
+**Repository:** [firat-yagmur](https://github.com/ruhaverse/firat-yagmur)  
+**Contact:** info@shareuptime.com
 
 ---
 
@@ -56,9 +57,10 @@
 - Rate limiting (DDoS protection)
 
 **Infrastructure:**
-- Production: <https://www.shareuptime.com>
-- Staging: <https://staging.shareuptime.com>
-- Backend API: Port 8080, `/api/v1` base path
+- Development Backend: http://localhost:4001
+- Development Frontend: http://localhost:3000
+- Production (Planned): https://www.shareuptime.com
+- Backend API: Port 4001 (dev), `/api/v1` base path
 
 ---
 
@@ -75,8 +77,8 @@
 
 ```bash
 # Clone repository
-git clone <https://github.com/Shareup-dev/Shareup-frontend.git>
-cd Shareup-frontend
+git clone https://github.com/ruhaverse/firat-yagmur.git
+cd firat-yagmur
 
 # Install frontend dependencies
 cd Shareup-frontend
@@ -93,7 +95,7 @@ npm install
 ```bash
 cd backend
 npm run dev
-# Backend runs on <http://localhost:8080>
+# Backend runs on http://localhost:4001
 ```text
 **Terminal 2 - Frontend:**
 
@@ -109,15 +111,22 @@ npm start
 ### Repository Structure
 
 ```text
-Shareup-frontend/
+firat-yagmur/
 ├── backend/                    # Node.js Express API
 │   ├── src/
 │   │   ├── index.js           # Main server file
-│   │   ├── config/            # Database and environment config
-│   │   ├── controllers/       # Business logic (auth, posts, reels)
-│   │   ├── routes/            # API endpoints
-│   │   ├── middleware/        # Auth, validation, error handling
-│   │   └── services/          # External services (storage, email)
+│   │   ├── domains/           # Domain-driven architecture (13 domains)
+│   │   │   ├── auth/          # Authentication & users
+│   │   │   ├── friends/       # Friend management
+│   │   │   ├── posts/         # Posts & feed
+│   │   │   ├── reels/         # Short videos
+│   │   │   ├── groups/        # Group management
+│   │   │   ├── stories/       # 24-hour stories
+│   │   │   └── ...            # + 7 more domains
+│   │   ├── common/            # Shared database & utilities
+│   │   ├── shared/            # Middleware & config
+│   │   └── migrate.js         # Database migrations
+│   ├── .env.example           # Environment template
 │   ├── uploads/               # User-uploaded files
 │   ├── package.json
 │   └── Dockerfile             # Container configuration
@@ -157,11 +166,12 @@ Shareup-frontend/
 ┌─────────────────────────────────────────┐
 │       Backend API (Node.js/Express)     │
 │                                         │
-│  • Port 8080                            │
+│  • Port 4001 (dev)                      │
 │  • Base path: /api/v1                   │
 │  • Authentication: JWT                  │
 │  • Security: Helmet, Rate Limiting      │
 │  • File uploads: Multer                 │
+│  • Domains: 13 (auth, friends, posts...)│
 └───────────────┬─────────────────────────┘
                 │
                 │ SQL Queries
@@ -176,7 +186,7 @@ Shareup-frontend/
 │   Frontend (React Web App)      │
 │                                  │
 │  • Port 3000 (dev)               │
-│  • Production: shareuptime.com   │
+│  • Production: shareuptime.com (planned) │
 │  • State: Redux Toolkit          │
 │  • Routing: React Router         │
 └──────────────────────────────────┘
@@ -184,13 +194,25 @@ Shareup-frontend/
 ### API Endpoints Overview
 
 **Authentication:**
-- `POST /api/v1/auth/register` - User registration
-- `POST /api/v1/auth/login` - User login
-- `POST /api/v1/auth/logout` - User logout
-- `GET /api/v1/auth/me` - Get current user
+- `POST /api/v1/users/register` - User registration
+- `POST /api/v1/users/login` - User login
+- `GET /api/v1/users/profile` - Get current user
+- `GET /api/v1/users/:email` - Get user by email
+- `GET /api/v1/users/` - List all users
+
+**Friends:**
+- `GET /api/v1/friends/email/:email` - List friends by email
+- `POST /api/v1/friends/:uid/:fid` - Add friend
+- `DELETE /api/v1/friends/:uid/:fid` - Remove friend
+- `POST /api/v1/friends/:uid/friend_request/:fid` - Send friend request
+- `POST /api/v1/friends/:uid/accept_friend_request/:fid` - Accept request
+- `POST /api/v1/friends/:uid/decline_friend_request/:fid` - Decline request
+- `GET /api/v1/friends/email/:email/requests_sent` - List sent requests
+- `GET /api/v1/friends/email/:email/requests_received` - List received requests
 
 **Posts:**
 - `GET /api/v1/posts` - Get all posts
+- `GET /api/v1/posts/email/:email` - Get posts by user
 - `POST /api/v1/posts` - Create post
 - `PUT /api/v1/posts/:id` - Update post
 - `DELETE /api/v1/posts/:id` - Delete post
@@ -225,12 +247,12 @@ JWT_SECRET=your_jwt_secret_key_here
 JWT_EXPIRE=30d
 
 # Server
-PORT=8080
+PORT=4001
 NODE_ENV=development
 API_BASE=/api/v1
 
 # CORS
-CORS_ORIGIN=<http://localhost:3000>
+CORS_ORIGIN=http://localhost:3000
 
 # File Upload
 UPLOAD_PATH=./uploads
@@ -244,8 +266,8 @@ RATE_LIMIT_MAX=100
 
 ```bash
 # API Configuration
-REACT_APP_API_URL=<http://localhost:8080>
-REACT_APP_SOCKET_URL=<http://localhost:8080>
+REACT_APP_API_URL=http://localhost:4001
+REACT_APP_SOCKET_URL=http://localhost:4001
 
 # Environment
 REACT_APP_ENV=development
@@ -302,7 +324,7 @@ npm run migrate
 **File:** `backend/src/index.js`
 
 ```javascript
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 4001;
 const API_BASE = process.env.API_BASE || '/api/v1';
 
 // Security middleware
@@ -523,16 +545,16 @@ npm run lint
 
 ## 🚀 Deployment
 
-### Production Environment
+### Production Environment (Planned)
 
 **Frontend:**
-- **URL:** <https://shareuptime.com>
-- **Hosting:** Hostinger VPS
+- **URL:** https://shareuptime.com (planned)
+- **Hosting:** Hostinger VPS / GitHub Pages
 - **Build:** Static files served via nginx
 
 **Backend:**
-- **URL:** <https://www.shareuptime.com>
-- **Port:** 8080
+- **URL:** https://www.shareuptime.com (planned)
+- **Port:** 4001
 - **Base Path:** /api/v1
 - **Hosting:** Docker container on VPS
 
@@ -603,16 +625,16 @@ NODE_ENV=production npm start
 ### Environment-Specific Configuration
 
 **Development:**
-- Frontend: <http://localhost:3000>
-- Backend: <http://localhost:8080>
+- Frontend: http://localhost:3000
+- Backend: http://localhost:4001
 
-**Staging:**
-- Frontend: <https://staging.shareuptime.com>
-- Backend: <https://staging.shareuptime.com/api>
+**Staging (Planned):**
+- Frontend: https://staging.shareuptime.com
+- Backend: https://staging.shareuptime.com/api
 
-**Production:**
-- Frontend: <https://shareuptime.com>
-- Backend: <https://www.shareuptime.com/api>
+**Production (Planned):**
+- Frontend: https://shareuptime.com
+- Backend: https://www.shareuptime.com/api
 
 ---
 
@@ -769,14 +791,14 @@ npm run migrate:rollback
 **Backend won't start:**
 
 ```bash
-# Check if port 8080 is in use
-lsof -i :8080
+# Check if port 4001 is in use (Windows)
+netstat -ano | findstr :4001
 
-# Kill process using port
-kill -9 <PID>
+# Kill process using port (Windows)
+taskkill /PID <PID> /F
 
 # Check database connection
-psql -U shareup_user -d shareup -h localhost
+psql -U postgres -d shareup -h localhost
 ```text
 **Frontend build fails:**
 
@@ -974,6 +996,17 @@ Add screenshots here
 ---
 
 ## 📝 Change Log
+
+### January 2026
+
+- ✅ Repository migrated to ruhaverse/firat-yagmur
+- ✅ Backend domain architecture implemented (13 domains)
+- ✅ Friends domain added with full CRUD + requests
+- ✅ Groups, newsFeed, stories domains added
+- ✅ Frontend user display normalized (snake_case → camelCase)
+- ✅ Backend .env.example created
+- ✅ All documentation updated to current state
+- ✅ Git workflow stabilized (all changes pushed)
 
 ### November 2025
 

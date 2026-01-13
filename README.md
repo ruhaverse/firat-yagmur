@@ -1,11 +1,11 @@
-# 🚀 ShareUpTime Website Frontend
+# 🚀 Firat Yagmur (ShareUpTime) - Full Stack Social Platform
 
-**Production URL:** <<https://shareuptime.com>>  
-**Backend API:** <<https://www.shareuptime.com/api>> (shared with mobile app)  
-**Repository:** Shareup-dev/Shareup-frontend  
-**Branch:** main
+**Repository:** [ruhaverse/firat-yagmur](https://github.com/ruhaverse/firat-yagmur)  
+**Contact:** info@shareuptime.com  
+**Production (Planned):** https://www.shareuptime.com  
+**Development:** Backend: http://localhost:4001 | Frontend: http://localhost:3000
 
-> 📘 **New Team Members:** See [PROJECT_DOCS.md](PROJECT_DOCS.md) for comprehensive onboarding, architecture, and development guide!
+> 📘 **Documentation:** See [PROJECT_DOCS.md](PROJECT_DOCS.md) for comprehensive setup, API reference, and development guide!
 
 **Architecture doc:** see [ARCHITECTURE.md](ARCHITECTURE.md) for a developer-focused, team-readable repository map and contribution conventions.
 
@@ -26,10 +26,12 @@ ShareUpTime is a comprehensive social media platform with features including:
 
 **Technology Stack:**
 
-- **Frontend:** React 17, Redux Toolkit, React Router
-- **Backend:** Centralized API at <www.shareuptime.com> (60+ endpoints)
-- **Real-time:** WebSocket integration
-- **Deployment:** Static build to Hostinger
+- **Frontend:** React 18, Redux Toolkit, React Router 5
+- **Backend:** Node.js 18+, Express 5, PostgreSQL 14+
+- **Architecture:** Domain-driven design (13 domains)
+- **API:** Port 4001 (dev), 60+ endpoints, JWT auth
+- **Real-time:** WebSocket support (planned)
+- **Deployment:** Hostinger VPS (planned)
 
 ---
 
@@ -46,9 +48,99 @@ ShareUpTime is a comprehensive social media platform with features including:
 
 ---
 
+---
+
+## 🚀 Quick Start
+
+```bash
+# Clone repository
+git clone https://github.com/ruhaverse/firat-yagmur.git
+cd firat-yagmur
+
+# Install dependencies
+cd backend
+npm install
+
+cd ../Shareup-frontend
+npm install
+
+# Setup environment
+cd ../backend
+cp .env.example .env
+# Edit .env with your database credentials
+
+# Run migrations
+npm run migrate
+
+# Start backend (Terminal 1)
+npm run dev
+# Backend runs on http://localhost:4001
+
+# Start frontend (Terminal 2)
+cd ../Shareup-frontend
+npm start
+# Frontend runs on http://localhost:3000
+```
+
+---
+
 ## 🗂️ Project Structure
 
-```text
+```
+firat-yagmur/
+├── backend/                  # Node.js/Express API
+│   ├── src/
+│   │   ├── domains/         # 13 business domains
+│   │   │   ├── auth/        # User authentication
+│   │   │   ├── friends/     # Friend management
+│   │   │   ├── posts/       # Posts & feed
+│   │   │   ├── reels/       # Short videos
+│   │   │   ├── stories/     # 24h stories
+│   │   │   ├── groups/      # Group features
+│   │   │   ├── swaps/       # Trading system
+│   │   │   └── ...          # + 6 more
+│   │   ├── common/          # DB & utilities
+│   │   ├── shared/          # Middleware
+│   │   └── migrate.js       # Migrations
+│   ├── .env.example         # Environment template
+│   └── package.json
+│
+├── Shareup-frontend/        # React web app
+│   ├── src/
+│   │   ├── components/      # 84 React components
+│   │   ├── services/        # API clients
+│   │   ├── contexts/        # React Context
+│   │   ├── app/             # Redux store
+│   │   └── css/             # Stylesheets
+│   └── package.json
+│
+└── Documentation/           # Project docs
+    ├── PROJECT_DOCS.md      # Main documentation
+    ├── ARCHITECTURE.md      # System design
+    └── DEPLOYMENT.md        # Deploy guide
+```
+
+## 📚 Backend Domains (13)
+
+The backend uses domain-driven architecture for better organization:
+
+1. **auth** - User authentication & management
+2. **friends** - Friend requests & relationships
+3. **posts** - Posts & news feed
+4. **reels** - Short-form videos
+5. **stories** - 24-hour expiring content
+6. **groups** - Group management
+7. **swaps** - Trading/swap system
+8. **hangs** - Social activities
+9. **notifications** - Push & in-app notifications
+10. **messages** - Real-time messaging (planned)
+11. **admin** - Admin panel features
+12. **rbac** - Role-based access control
+13. **health** - Health check endpoints
+
+## 📂 Frontend Components (84)
+
+```
 Shareup-frontend/
 ├── public/                    # Static files
 │   ├── index.html
@@ -336,55 +428,64 @@ backend/                       # Node.js/Express API (Production)
 **API Configuration:**
 
 ```javascript
-// services/Settings.js
-apiUrl: "<https://www.shareuptime.com">  // Production backend
-```text
+// services/Settings.js - Current configuration
+const settings = {
+  dev: { apiUrl: "http://localhost:4001" },
+  staging: { apiUrl: "https://staging.shareuptime.com" },
+  prod: { apiUrl: "https://www.shareuptime.com" }
+};
+```
+
 ---
 
-## 🚀 Development
+## 🔧 Development
 
 ### Prerequisites
 
 - Node.js 18+
 - npm 8+
+- PostgreSQL 14+
 
-### Installation
+### Environment Setup
+
+**Backend (.env):**
+```bash
+PORT=4001
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/shareup
+JWT_SECRET=your_secret_here
+API_BASE=/api/v1
+```
+
+**Frontend:**
+Frontend automatically connects to backend based on Settings.js configuration.
+
+### Development Commands
+
+**Backend:**
+```bash
+npm run dev        # Start with nodemon
+npm run migrate    # Run DB migrations
+npm test          # Run tests
+```
+
+**Frontend:**
 
 ```bash
-cd Shareup-frontend
-npm install
-```text
-### Development Server
+npm start         # Development server (port 3000)
+npm run build     # Production build
+npm test          # Run tests
+```
 
-```bash
-npm start
-# Opens <http://localhost:3000>
-```text
-### Build for Production
-
-```bash
-npm run build
-# Output: build/ folder (~5MB)
-```text
-### Environment
-
-```javascript
-// API configuration in src/services/Settings.js
-{
-  dev: { apiUrl: "<http://localhost:8080"> },
-  staging: { apiUrl: "<https://staging.shareuptime.com"> },
-  prod: { apiUrl: "<https://www.shareuptime.com"> }  // Current
-}
-```text
 ---
 
-## 📦 Deployment
+## 📦 Deployment (Planned)
 
-**Target:** Hostinger (shareuptime.com)  
-**Type:** Static React build (frontend only)  
-**Backend:** External (www.shareuptime.com/api)
+**Target:** Hostinger VPS / GitHub Pages  
+**Backend:** Port 4001, Docker container  
+**Frontend:** Static build served via nginx  
+**Domain:** www.shareuptime.com
 
-See **[HOSTINGER-DEPLOY.md](./HOSTINGER-DEPLOY.md)** for complete deployment instructions.
+See [DEPLOYMENT.md](DEPLOYMENT.md) for complete deployment guide.
 
 **Quick Deploy:**
 
@@ -476,46 +577,51 @@ See mobile app docs: <https://github.com/Shareup-dev/Shareup-Mobile-App-CLI/blob
 
 ## 📚 Documentation
 
-- **[PROJECT_DOCS.md](PROJECT_DOCS.md)** - Comprehensive team documentation (onboarding, architecture, deployment)
+- **[PROJECT_DOCS.md](PROJECT_DOCS.md)** - Comprehensive documentation (setup, API, development)
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** - System architecture & design patterns
 - **[COMPONENT_CATALOG.md](COMPONENT_CATALOG.md)** - Complete component inventory
-- **[BACKEND_COMPARISON.md](BACKEND_COMPARISON.md)** - Backend architecture analysis
 - **[SECURITY.md](SECURITY.md)** - Security guidelines and best practices
 - **[DEPLOYMENT.md](DEPLOYMENT.md)** - Deployment procedures
-- **[FINAL_REPO_STATUS.md](FINAL_REPO_STATUS.md)** - Current repository status
 
 ---
 
-**Last Updated:** 16 Kasım 2025  
-**Maintained by:** Shareup Development Team
+**Repository:** [ruhaverse/firat-yagmur](https://github.com/ruhaverse/firat-yagmur)  
+**Contact:** info@shareuptime.com  
+**Last Updated:** January 13, 2026
 
 ---
 
 ## 📞 Support
 
-For backend API issues or deployment help, refer to:
+For issues or questions:
 
-- Backend documentation (mobile app repo)
-- HOSTINGER-DEPLOY.md (deployment guide)
-- BACKEND_ALIGNMENT_COMPLETE.md (integration details)
+1. Check [PROJECT_DOCS.md](PROJECT_DOCS.md) documentation
+2. Search [GitHub Issues](https://github.com/ruhaverse/firat-yagmur/issues)
+3. Contact: info@shareuptime.com
 
 ---
 
 ## 🔄 Recent Updates
 
+### January 2026 - Repository Migration & Architecture
+- ✅ **Repository Migration**: Moved to ruhaverse/firat-yagmur
+- ✅ **Backend Domains**: Implemented 13-domain architecture
+- ✅ **Friends System**: Full CRUD + request management (8 endpoints)
+- ✅ **New Domains**: Groups, newsFeed, stories added
+- ✅ **Frontend Fixes**: User display normalization (snake_case → camelCase)
+- ✅ **Documentation**: Updated all docs with current info
+- ✅ **Environment**: Created .env.example for backend
+
 ### November 2025 - Code Quality & Documentation
-- ✅ **React Modernization**: Deprecated API'ler kaldırıldı (findDOMNode, string refs)
-- ✅ **ESLint Cleanup**: Kritik uyarılar düzeltildi (missing keys, unused imports)
-- ✅ **Markdown Formatting**: 126 → 5 linting hatası (tüm dokümantasyon)
-- ✅ **Build Status**: Production build başarılı, sıfır breaking change
-- ✅ **Security**: Backend SQL injection koruması doğrulandı, bcrypt+JWT güvenli
+- ✅ **React Modernization**: Deprecated APIs removed (findDOMNode, string refs)
+- ✅ **ESLint Cleanup**: Critical warnings fixed (missing keys, unused imports)
+- ✅ **Markdown Formatting**: 126 → 5 linting errors (all documentation)
+- ✅ **Build Status**: Production build successful, zero breaking changes
+- ✅ **Security**: Backend SQL injection protection verified, bcrypt+JWT secure
 
-**Commits:**
-- `06f2c65` - React deprecated API fixes
-- `375e0db` - Missing key props & unused imports cleanup
-- `50c13d1` - Markdown formatting (126 fixes)
-- `f3ff42a` - Comprehensive inspection report
+---
 
-**Documentation:** COMPREHENSIVE_INSPECTION_REPORT.md
+**Happy Coding! 🚀**
 
 ---
 

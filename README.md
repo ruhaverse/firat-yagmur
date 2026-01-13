@@ -2,6 +2,8 @@
 
 Modern sosyal medya platformu | Real-time notifications | Posts, Reels, Hangs, Swaps ve daha fazla
 
+**Developed by:** ShareUpTime Team
+
 ## 📋 Sistem Mimarisi
 
 **Backend:** Node.js/Express + PostgreSQL  

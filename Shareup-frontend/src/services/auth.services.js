@@ -1,5 +1,6 @@
 import axios from "axios";
 import settings from "./Settings";
+import logger from "../utils/logger";
 
 const my_api = `${settings.apiUrl}/api/v1/users`;
 
@@ -29,7 +30,7 @@ class AuthService {
       try {
         localStorage.setItem("user", JSON.stringify(tokenData));
       } catch (error) {
-        console.error("Failed to store auth data:", error);
+        logger.error("Failed to store auth data:", error);
         throw new Error("Authentication storage failed");
       }
     }
@@ -66,7 +67,7 @@ class AuthService {
       try {
         localStorage.setItem("user", JSON.stringify(tokenData));
       } catch (error) {
-        console.error("Failed to store auth data:", error);
+        logger.error("Failed to store auth data:", error);
         throw new Error("Authentication storage failed");
       }
     }
@@ -81,7 +82,7 @@ class AuthService {
     try {
       localStorage.removeItem("user");
     } catch (error) {
-      console.error("Failed to clear auth data:", error);
+      logger.error("Failed to clear auth data:", error);
     }
   }
 
@@ -121,7 +122,7 @@ class AuthService {
       return parsed;
     } catch (error) {
       // Handle corrupted localStorage data
-      console.error("Error parsing user from localStorage:", error);
+      logger.error("Error parsing user from localStorage:", error);
       this.logout(); // Clear corrupted data
       return null;
     }
@@ -149,7 +150,7 @@ class AuthService {
       };
       localStorage.setItem("user", JSON.stringify(tokenData));
     } catch (error) {
-      console.error("Failed to update user data:", error);
+      logger.error("Failed to update user data:", error);
     }
   }
 }

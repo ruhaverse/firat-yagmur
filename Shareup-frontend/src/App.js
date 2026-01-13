@@ -12,6 +12,7 @@ import './css/notifications.css';
 import './css/globals.css';
 import AuthService from './services/auth.services';
 import { useLocation, BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import logger from './utils/logger';
 
 // Removed local FontAwesome and Emojionearea CSS imports
 import HeaderComponent from './components/dashboard/HeaderComponent.jsx';
@@ -134,9 +135,9 @@ function App() {
         const status = err?.response?.status;
         if (status === 429) {
           // Rate-limited: don't crash the app; keep current user state as-is.
-          console.warn('Rate limited (429) while fetching user; will not retry immediately.');
+          logger.warn('Rate limited (429) while fetching user; will not retry immediately.');
         } else {
-          console.error('userAuthenticator error:', err);
+          logger.error('userAuthenticator error:', err);
         }
       } finally {
         inFlightRef.current = false;

@@ -1,13 +1,11 @@
 # 🚀 Firat Yagmur (ShareUpTime) - Full Stack Social Platform
 
+**Single source of truth:** This README is the authoritative guide for backend, frontend, setup, and operations. All redundant READMEs were removed.
+
 **Repository:** [ruhaverse/firat-yagmur](https://github.com/ruhaverse/firat-yagmur)  
 **Contact:** info@shareuptime.com  
 **Production (Planned):** https://www.shareuptime.com  
 **Development:** Backend: http://localhost:4001 | Frontend: http://localhost:3000
-
-> 📘 **Documentation:** See [PROJECT_DOCS.md](PROJECT_DOCS.md) for comprehensive setup, API reference, and development guide!
-
-**Architecture doc:** see [ARCHITECTURE.md](ARCHITECTURE.md) for a developer-focused, team-readable repository map and contribution conventions.
 
 ---
 
@@ -69,6 +67,11 @@ cd ../backend
 cp .env.example .env
 # Edit .env with your database credentials
 
+# Frontend environment
+cd ../Shareup-frontend
+cp .env.example .env
+# Ensure REACT_APP_API_URL points to http://localhost:4001 (or your deployed API)
+
 # Run migrations
 npm run migrate
 
@@ -113,11 +116,7 @@ firat-yagmur/
 │   │   ├── app/             # Redux store
 │   │   └── css/             # Stylesheets
 │   └── package.json
-│
-└── Documentation/           # Project docs
-    ├── PROJECT_DOCS.md      # Main documentation
-    ├── ARCHITECTURE.md      # System design
-    └── DEPLOYMENT.md        # Deploy guide
+└── README.md                # Single authoritative documentation
 ```
 
 ## 📚 Backend Domains (13)
@@ -205,7 +204,6 @@ backend/                       # Node.js/Express API (Production)
 ├── package.json
 └── README.md                 # Backend documentation
 ```text
-> 📚 See [COMPONENT_CATALOG.md](COMPONENT_CATALOG.md) for complete component list
 
 ---
 
@@ -485,7 +483,7 @@ npm test          # Run tests
 **Frontend:** Static build served via nginx  
 **Domain:** www.shareuptime.com
 
-See [DEPLOYMENT.md](DEPLOYMENT.md) for complete deployment guide.
+Deployment notes are consolidated here (no external docs).
 
 **Quick Deploy:**
 
@@ -501,11 +499,7 @@ ssh username@shareuptime.com "cd ~/public_html && tar -xzf ~/build.tar.gz --stri
 
 | Document | Description |
 |----------|-------------|
-| **[HOSTINGER-DEPLOY.md](./HOSTINGER-DEPLOY.md)** | Frontend deployment guide |
-| **[BACKEND_ALIGNMENT_COMPLETE.md](./BACKEND_ALIGNMENT_COMPLETE.md)** | Backend integration report |
-| **[BACKEND_COMPARISON.md](./BACKEND_COMPARISON.md)** | API endpoint coverage |
-| **[MIGRATION-COMPLETE.md](./MIGRATION-COMPLETE.md)** | Migration summary |
-| **backend-legacy/LEGACY_README.md** | Legacy backend (archived) |
+| **README.md (this file)** | Single authoritative documentation |
 
 ---
 
@@ -575,30 +569,18 @@ See mobile app docs: <https://github.com/Shareup-dev/Shareup-Mobile-App-CLI/blob
 
 ---
 
-## 📚 Documentation
-
-- **[PROJECT_DOCS.md](PROJECT_DOCS.md)** - Comprehensive documentation (setup, API, development)
-- **[ARCHITECTURE.md](ARCHITECTURE.md)** - System architecture & design patterns
-- **[COMPONENT_CATALOG.md](COMPONENT_CATALOG.md)** - Complete component inventory
-- **[SECURITY.md](SECURITY.md)** - Security guidelines and best practices
-- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Deployment procedures
-
----
-
 **Repository:** [ruhaverse/firat-yagmur](https://github.com/ruhaverse/firat-yagmur)  
 **Contact:** info@shareuptime.com  
 **Last Updated:** January 13, 2026
 
----
 
 ## 📞 Support
 
 For issues or questions:
 
-1. Check [PROJECT_DOCS.md](PROJECT_DOCS.md) documentation
+1. Review this README (single source of truth)
 2. Search [GitHub Issues](https://github.com/ruhaverse/firat-yagmur/issues)
 3. Contact: info@shareuptime.com
-
 ---
 
 ## 🔄 Recent Updates

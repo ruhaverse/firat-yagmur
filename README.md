@@ -6,47 +6,65 @@
 
 ## 📋 Project Overview
 
-Social media platform with:
+Complete social media platform with React + Node.js + PostgreSQL stack.
 
-- 📝 Posts & Feed
-- 🎥 Reels & Stories  
-- 💬 Real-time Messaging
-- 👥 Groups & Friends
-- 🔔 Notifications
-- 🎁 SwapPoint Trading
-- 👔 Employee Management
+### ✨ Features
+- 📝 Posts & News Feed
+- 🎥 Reels & Stories (24h)
+- 💬 Real-time Messaging & Chat
+- 👥 Groups & Friend Management
+- 🔔 Push Notifications
+- 🎁 SwapPoint Trading System
 - 📍 Location Sharing
+- 👔 Employee Dashboard
 
-**Stack:**
-- **Frontend:** React 18, Redux Toolkit, 84 components
-- **Backend:** Node.js 18+, Express 5, PostgreSQL, 13 domains
-- **API:** 60+ REST endpoints, JWT authentication
+### 🛠️ Tech Stack
+- **Frontend:** React 18.2, Redux Toolkit, 121 JS/JSX files, 84 components
+- **Backend:** Node.js 18+, Express 5, PostgreSQL 15, 13 modular domains
+- **API:** 60+ REST endpoints, JWT authentication, bcrypt password hashing
+- **Storage:** DigitalOcean Spaces (images/videos)
+- **Deployment:** Docker Compose ready, production optimized
 
 ---
 
 ## 🚀 Quick Start
 
+### Docker (Recommended)
 ```bash
-# Clone and install
+# Clone repository
 git clone https://github.com/ruhaverse/firat-yagmur.git
-cd firat-yagmur
+cd firat-yagmur/backend
 
-# Backend setup
+# Start PostgreSQL + Backend
+docker-compose up -d
+
+# Backend will be at http://localhost:4001
+# Database at localhost:5432
+```
+
+### Manual Setup
+```bash
+# Backend
 cd backend
 npm install
-cp .env.example .env  # Edit: DATABASE_URL, JWT_SECRET
-npm run migrate
-npm run dev  # http://localhost:4001
+cp .env.example .env  # Configure DATABASE_URL, JWT_SECRET
+npm run migrate       # Setup database
+npm start            # http://localhost:4001
 
-# Frontend setup (new terminal)
+# Frontend (new terminal)
 cd Shareup-frontend
 npm install
-npm start    # http://localhost:3000
+npm start            # http://localhost:3000
+```
+
+### Test Accounts
+```
+Email: test@shareuptime.com | Password: Test123!
+Email: demo@shareuptime.com | Password: Demo123!
+Email: admin@shareuptime.com | Password: Admin123!
 ```
 
 ---
-
-## 🏗️ Architecture
 
 ## 🏗️ Architecture
 
@@ -128,13 +146,30 @@ NODE_ENV=development
 
 ---
 
-**Happy Coding! 🚀**
+## 🐳 Docker Commands
+
+```bash
+# Start all services
+docker-compose up -d
+
+# View logs
+docker-compose logs -f backend
+docker-compose logs -f db
+
+# Stop services
+docker-compose down
+
+# Database access
+docker-compose exec db psql -U postgres -d shareup
+```
 
 ---
 
-**Last Updated:** 16 Kasım 2025  
+**Last Updated:** January 13, 2026  
 **Version:** 1.0.0  
 **Status:** ✅ Production Ready  
-**Frontend:** <https://shareuptime.com>  
-**Backend API:** <https://www.shareuptime.com/api>
+**Frontend:** https://shareuptime.com  
+**Backend API:** https://www.shareuptime.com/api/v1
+
+**Happy Coding! 🚀**
 

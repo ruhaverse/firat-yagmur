@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import UserContext from '../../contexts/UserContext';
 import UserService from '../../services/UserService';
 import PostService from '../../services/PostService';
@@ -6,25 +6,19 @@ import EditPostComponent from './EditPostComponent'
 import CommentPostComponent from './CommentPostComponent';
 import PostComponentBoxComponent from './PostCommentBoxComponent';
 import Popup from 'reactjs-popup';
-import Dropdown from 'react-bootstrap/Dropdown'
-import DropdownButton from 'react-bootstrap/DropdownButton'
-import settings from '../../services/Settings';
 import fileStorage from '../../config/fileStorage';
 
 export default function SwapPostComponent({ post, setRefresh }) {
     const { user } = useContext(UserContext)
     const [editPostId, setEditPostId] = useState(null)
-    const [userR, setUserR] = useState([]);
+    // Removed unused secondary user state
     const [showComment, setShowComment] = useState(false)
     const [showMoreOptions, setShowMoreOptions] = useState(false)
     const [showReactions, setShowReactions] = useState(false)
    
     const [likeReaction, setLikeReaction] = useState(null)
 
-    const something=(event)=> {
-        if (event.key === "Enter") {
-        }
-    }
+    // removed unused handler
     const handleEditPost = (id) => {
         setEditPostId(id)
         setRefresh(id)

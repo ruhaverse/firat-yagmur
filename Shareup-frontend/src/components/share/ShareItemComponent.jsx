@@ -1,23 +1,22 @@
 import React, { useState, useEffect, useContext,useRef } from 'react';
-import { Redirect, useHistory } from "react-router-dom";
-import Button from 'react-bootstrap/Button';
+import { useHistory } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import UserService from '../../services/UserService';
 import UserContext from '../../contexts/UserContext';
 import PostService from '../../services/PostService';
 import AuthService from '../../services/auth.services';
-import SimpleReactLightbox from 'simple-react-lightbox'
+// SimpleReactLightbox not used
 import { testScript } from '../../js/script';
 
-import EditPostComponent from '../user/EditPostComponent'
+// EditPostComponent not used here
 
 import Layout from '../LayoutComponent';
 import GuideComponent from '../user/GuideComponent';
 import PostComponent from '../post/PostComponent';
 import PostTextBoxComponent from '../post/PostTextBoxComponent';
-import PostComponentBoxComponent from '../post/PostCommentBoxComponent';
+// PostComponentBoxComponent not used here
 import CommentPostComponent from '../post/CommentPostComponent';
-import settings from '../../services/Settings';
+// settings not used here
 import fileStorage from '../../config/fileStorage';
 
 
@@ -38,7 +37,7 @@ function ShareItemComponent({post}) {
 
   const [showComp, setShowComp] = useState("newsfeed");
   
-  const [posts, setPosts] = useState([]);
+  // removed unused posts state
   const [postsForUser, setPostsForUser] = useState([]);
   const [savedPost, setSavedPost] = useState([]);
   const [userR, setUserR] = useState([]);
@@ -48,7 +47,7 @@ function ShareItemComponent({post}) {
   const [postContent, setPostContent] = useState("");
   const [commentContent, setCommentContent] = useState("");
   const [files, setFiles] = useState({});
-  const [postImage, setPostImage] = useState({});
+  // removed unused postImage state
   const [showPostImage, setShowPostImage] = useState(false);
 
   const [uploadError, setUploadError] = useState("");
@@ -117,8 +116,8 @@ function ShareItemComponent({post}) {
   const getPost = async () => {
     try {
       const res = await PostService.getPost()
-      const data = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
-      setPosts(data)
+      // data is not used in this component; we only ensure call succeeds
+      const _ = Array.isArray(res.data) ? res.data : (res.data && Array.isArray(res.data.data) ? res.data.data : [])
     } catch (error) {
       // Avoid crashing the UI on 429 or transient network failures.
       console.warn('ShareItemComponent.getPost failed:', error)

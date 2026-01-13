@@ -7,10 +7,6 @@ import EditPostComponent from './EditPostComponent'
 import CommentPostComponent from './CommentPostComponent';
 import PostComponentBoxComponent from './PostCommentBoxComponent';
 import Popup from 'reactjs-popup';
-import Dropdown from 'react-bootstrap/Dropdown'
-import DropdownButton from 'react-bootstrap/DropdownButton'
-import ImageGallery from 'react-image-gallery';
-import storage from "../../config/fileStorage";
 import Carousel from 'react-bootstrap/Carousel'
 import fileStorage from '../../config/fileStorage';
 import ShareService from '../../services/ShareService';
@@ -28,50 +24,33 @@ import "yet-another-react-lightbox/styles.css";
 import Form from 'react-bootstrap/Form';
 import moment from 'moment'
 
-
-const my_url = `${storage.baseUrl}`
-
 export default function PostComponent({ post, setRefresh }) {
   const { user } = useContext(UserContext)
 
   const [editPostId, setEditPostId] = useState(null)
-  const [userR, setUserR] = useState([]);
+  // Removed unused secondary user state
   const [showComment, setShowComment] = useState(false)
   const [showMoreOptions, setShowMoreOptions] = useState(false)
   const [showReactions, setShowReactions] = useState(false)
 
+  // Hover UI state (kept for future use)
   const [showUserReactions, setShowUserReactions] = useState(false)
 
   const [showSwapImage, setShowSwapImage] = useState(false);
-  const [swapImage, setSwapImage] = useState({});
-  const [swapfiles, setSwapfiles] = useState([]);
+  // Image previews for swap upload
+  const [swapImage, setSwapImage] = useState([]);
 
   const [photoIndex, setPhotoindex] = useState(0);
   const [isOpen, setIsopen] = useState(false);
 
-
   const [likeReaction, setLikeReaction] = useState(null)
-  const [imgString, setimgString] = useState("");
-  const images = [
-    {
-      original: `/user-post/${post.id}/${imgString[0]}`,
-      thumbnail: `/user-post/${post.id}/${imgString[0]}`,
-    }
-
-
-  ];
 
 
   const handleRemoveImageSwap = () => {
-    // setSwapfiles({});
     setShowSwapImage(false);
   };
 
 
-  const something = (event) => {
-    if (event.key === "Enter") {
-    }
-  }
   const handleEditPost = (id) => {
     setEditPostId(id)
     setRefresh(id)
@@ -90,16 +69,7 @@ export default function PostComponent({ post, setRefresh }) {
   }
 
 
-  const getShareCounter = (shares) => {
-    let counter = 0
-    shares.map(share => {
-      counter += share.replies.length + 1
-    })
-    if (counter > 0)
-      return counter + " shares"
-    else return ""
-
-  }
+  // Removed unused getShareCounter()
 
 
 
@@ -116,7 +86,6 @@ export default function PostComponent({ post, setRefresh }) {
     }
   }
   const handleFileSwap = (event) => {
-    setSwapfiles(event.target.files);
     const filesAmount = event.target.files.length;
     if (filesAmount < 6) {
       const tempImage = [];
@@ -126,7 +95,6 @@ export default function PostComponent({ post, setRefresh }) {
       }
 
       setSwapImage(tempImage);
-
       setShowSwapImage(true);
     } else {
       alert('5 files are allowed');
@@ -222,13 +190,7 @@ export default function PostComponent({ post, setRefresh }) {
     return (<img src="/assets/images/Starwhite.svg" alt="" style={{ left: '16px', height: '15px', position: 'absolute', bottom: '16px', background: 'darksalmon' }} />)
   }
   //array fetch
-  const postImg = (str) => {
-    if (str != null) {
-      let temps = [];
-      for (let i = 0; i < str.length; i++)
-        temps = [...temps, `/user-post/${post.id}/${str[i]}`]
-    }
-  };
+  // Removed unused postImg()
   const toggleShowMoreOptions = (e) => {
     e.preventDefault();
     setShowMoreOptions(!showMoreOptions);
@@ -257,7 +219,7 @@ export default function PostComponent({ post, setRefresh }) {
 
 
 
-  const [userF, setUserF] = useState(null);
+  const [userF] = useState(null);
   const [shareContent, setShareContent] = useState('');
 
   const uploadShare = async (event) => {
@@ -429,8 +391,8 @@ export default function PostComponent({ post, setRefresh }) {
                     <div className='itemS1'>
                       {post.media.length > 0 ? (
                         <div className='postImage'>
-                          {post.media.map((postImage) => (
-                            <React.Fragment>
+                          {post.media.map((postImage, idx) => (
+                            <React.Fragment key={idx}>
                               <a
                                 href={`${fileStorage.baseUrl}${postImage.mediaPath}`}
                                 data-lightbox={`image-user-${post.user.id}`}
@@ -447,9 +409,9 @@ export default function PostComponent({ post, setRefresh }) {
                       ) :
                         post.media.length > 0 ? (
                           <div className='postImage swap-image'>
-                            {post.media.map((postImage) => {
+                            {post.media.map((postImage, idx) => {
                               return (
-                                <React.Fragment>
+                                <React.Fragment key={idx}>
                                   {/* <a
                                 href={`${fileStorage.baseUrl}${postImage.imagePath}`}
                                 data-lightbox={`image-user-${post.user.id}`}
@@ -512,7 +474,7 @@ export default function PostComponent({ post, setRefresh }) {
                         {
 
                           post.postImagePath.split(',').map((item, key) => (
-                            <Carousel.Item>
+                            <Carousel.Item key={key}>
                               <a
                                 href={`${fileStorage.baseUrl}/user-post/${post.id}/${item}`}
                                 data-lightbox={`image-user-${post.user.id}`}
@@ -521,7 +483,6 @@ export default function PostComponent({ post, setRefresh }) {
                                 <img
                                   className='d-block w-100'
                                   src={`${fileStorage.baseUrl}/user-post/${post.id}/${item}`}
-                                  key={key}
                                 />
                               </a>
                             </Carousel.Item>
@@ -684,8 +645,8 @@ export default function PostComponent({ post, setRefresh }) {
                     )}
                   </>
                   : post.allPostsType === 'post' && post.media && post.media.length == 1
-                    ? post.media.map((postImage) => (
-                      <React.Fragment>
+                    ? post.media.map((postImage, idx) => (
+                      <React.Fragment key={idx}>
                         <img
                           style={{ width: '100%', objectFit: 'cover' }}
                           src={`${fileStorage.baseUrl}${postImage.mediaPath}`}
@@ -705,8 +666,8 @@ export default function PostComponent({ post, setRefresh }) {
                         )}
                       </React.Fragment>
                     ))
-                    : post.allPostsType === 'swap' && post.media ? post.media.map((postImage) => (
-                      <div className="swappost-main-div">
+                    : post.allPostsType === 'swap' && post.media ? post.media.map((postImage, idx) => (
+                      <div className="swappost-main-div" key={idx}>
                         {/* <Popup */}
                         {/* trigger={ */}
                         <img
@@ -984,7 +945,7 @@ export default function PostComponent({ post, setRefresh }) {
 ]}
                           margin={10}>
                           {post.post.media.map((postImage, index) => (
-                            <React.Fragment>
+                            <React.Fragment key={index}>
                               <img
                                 style={{ height: '420px', width: '100%', objectFit: 'cover' }}
                                 src={`${fileStorage.baseUrl}${postImage.mediaPath}`}
@@ -1011,8 +972,8 @@ export default function PostComponent({ post, setRefresh }) {
                         )}
                       </>
                       : post.post.allPostsType === 'post' && post.post.media && post.post.media.length == 1
-                        ? post.post.media.map((postImage) => (
-                          <React.Fragment>
+                        ? post.post.media.map((postImage, idx) => (
+                          <React.Fragment key={idx}>
                             <img
                               style={{ width: '100%', objectFit: 'cover' }}
                               src={`${fileStorage.baseUrl}${postImage.mediaPath}`}
@@ -1028,8 +989,8 @@ export default function PostComponent({ post, setRefresh }) {
                             )}
                           </React.Fragment>
                         ))
-                        : post.post.allPostsType === 'swap' && post.post.media ? post.post.media.map((postImage) => (
-                          <div className="swappost-main-div">
+                        : post.post.allPostsType === 'swap' && post.post.media ? post.post.media.map((postImage, idx) => (
+                          <div className="swappost-main-div" key={idx}>
                             {/* <Popup */}
                             {/* trigger={ */}
                             <img
